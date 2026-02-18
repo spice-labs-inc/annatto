@@ -1,0 +1,125 @@
+{
+    "name": "friendsofphp/php-cs-fixer",
+    "simpleName": "php-cs-fixer",
+    "version": null,
+    "description": "A tool to automatically fix PHP code style",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "composer/semver",
+            "versionConstraint": "^3.4",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/xdebug-handler",
+            "versionConstraint": "^3.0.3",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/diff",
+            "versionConstraint": "^4.0 || ^5.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/filesystem",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/finder",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "^1.28",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php80",
+            "versionConstraint": "^1.28",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php81",
+            "versionConstraint": "^1.28",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/stopwatch",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "facile-it/paraunit",
+            "versionConstraint": "^1.3 || ^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "justinrainbow/json-schema",
+            "versionConstraint": "^5.2",
+            "scope": "dev"
+        },
+        {
+            "name": "keradus/cli-executor",
+            "versionConstraint": "^2.1",
+            "scope": "dev"
+        },
+        {
+            "name": "mikey179/vfsstream",
+            "versionConstraint": "^1.6.11",
+            "scope": "dev"
+        },
+        {
+            "name": "php-coveralls/php-coveralls",
+            "versionConstraint": "^2.7",
+            "scope": "dev"
+        },
+        {
+            "name": "php-cs-fixer/accessible-object",
+            "versionConstraint": "^1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "php-cs-fixer/phpunit-constraint-isidenticalstring",
+            "versionConstraint": "^1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "php-cs-fixer/phpunit-constraint-xmlmatchesxsd",
+            "versionConstraint": "^1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^9.6 || ^10.5.5",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/yaml",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "dev"
+        }
+    ]
+}

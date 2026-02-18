@@ -1,0 +1,60 @@
+{
+    "name": "symfony/http-foundation",
+    "simpleName": "http-foundation",
+    "version": null,
+    "description": "Defines an object-oriented layer for the HTTP specification",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "~1.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php83",
+            "versionConstraint": "^1.27",
+            "scope": "runtime"
+        },
+        {
+            "name": "doctrine/dbal",
+            "versionConstraint": "^3.6|^4",
+            "scope": "dev"
+        },
+        {
+            "name": "predis/predis",
+            "versionConstraint": "^1.1|^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/cache",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/dependency-injection",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/mime",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/expression-language",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/rate-limiter",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        }
+    ]
+}

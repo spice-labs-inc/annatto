@@ -171,8 +171,7 @@ public final class AnnattoProcessFilter implements RodeoProcessFilter {
         if (filename.contains("@v")) {
             return Optional.of(EcosystemId.GO);
         }
-        // TODO: Add Packagist detection when implemented
-        return Optional.empty();
+        return Optional.of(EcosystemId.PACKAGIST);
     }
 
     private @NotNull RodeoProcessItems createProcessItems(@NotNull RodeoArtifact artifact,

@@ -1,0 +1,9 @@
+{
+    "name": "psr/http-message",
+    "simpleName": "http-message",
+    "version": null,
+    "description": "Common interface for HTTP messages",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": []
+}

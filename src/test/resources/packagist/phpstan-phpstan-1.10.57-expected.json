@@ -1,0 +1,9 @@
+{
+    "name": "phpstan/phpstan",
+    "simpleName": "phpstan",
+    "version": null,
+    "description": "PHPStan - PHP Static Analysis Tool",
+    "license": "MIT",
+    "publisher": null,
+    "dependencies": []
+}

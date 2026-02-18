@@ -1,0 +1,15 @@
+{
+    "name": "psr/http-client",
+    "simpleName": "http-client",
+    "version": null,
+    "description": "Common interface for HTTP clients",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": [
+        {
+            "name": "psr/http-message",
+            "versionConstraint": "^1.0 || ^2.0",
+            "scope": "runtime"
+        }
+    ]
+}

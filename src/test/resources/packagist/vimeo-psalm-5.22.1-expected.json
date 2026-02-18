@@ -1,0 +1,145 @@
+{
+    "name": "vimeo/psalm",
+    "simpleName": "psalm",
+    "version": null,
+    "description": "A static analysis tool for finding errors in PHP applications",
+    "license": "MIT",
+    "publisher": "Matthew Brown",
+    "dependencies": [
+        {
+            "name": "amphp/amp",
+            "versionConstraint": "^2.4.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "amphp/byte-stream",
+            "versionConstraint": "^1.5",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/semver",
+            "versionConstraint": "^1.4 || ^2.0 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/xdebug-handler",
+            "versionConstraint": "^2.0 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "dnoegel/php-xdg-base-dir",
+            "versionConstraint": "^0.1.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "felixfbecker/advanced-json-rpc",
+            "versionConstraint": "^3.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "felixfbecker/language-server-protocol",
+            "versionConstraint": "^1.5.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "fidry/cpu-core-counter",
+            "versionConstraint": "^0.4.1 || ^0.5.1 || ^1.0.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "netresearch/jsonmapper",
+            "versionConstraint": "^1.0 || ^2.0 || ^3.0 || ^4.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "nikic/php-parser",
+            "versionConstraint": "^4.16",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/diff",
+            "versionConstraint": "^4.0 || ^5.0 || ^6.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "spatie/array-to-xml",
+            "versionConstraint": "^2.17.0 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^4.1.6 || ^5.0 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/filesystem",
+            "versionConstraint": "^5.4 || ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "amphp/phpunit-util",
+            "versionConstraint": "^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "bamarni/composer-bin-plugin",
+            "versionConstraint": "^1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "brianium/paratest",
+            "versionConstraint": "^6.9",
+            "scope": "dev"
+        },
+        {
+            "name": "mockery/mockery",
+            "versionConstraint": "^1.5",
+            "scope": "dev"
+        },
+        {
+            "name": "nunomaduro/mock-final-classes",
+            "versionConstraint": "^1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "php-parallel-lint/php-parallel-lint",
+            "versionConstraint": "^1.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpdoc-parser",
+            "versionConstraint": "^1.6",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^9.6",
+            "scope": "dev"
+        },
+        {
+            "name": "psalm/plugin-mockery",
+            "versionConstraint": "^1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "psalm/plugin-phpunit",
+            "versionConstraint": "^0.18",
+            "scope": "dev"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "versionConstraint": "^8.4",
+            "scope": "dev"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "versionConstraint": "^3.6",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^4.4 || ^5.0 || ^6.0 || ^7.0",
+            "scope": "dev"
+        }
+    ]
+}

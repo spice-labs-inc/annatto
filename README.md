@@ -13,7 +13,7 @@ Annatto extracts and normalizes package metadata from 11 ecosystems, integrating
 | Go Modules | `.zip` (go.mod) | `pkg:golang` | **Implemented** |
 | Crates.io | `.crate` (Cargo.toml) | `pkg:cargo` | **Implemented** |
 | RubyGems | `.gem` (metadata.gz YAML) | `pkg:gem` | **Implemented** |
-| Packagist | `.zip` (composer.json) | `pkg:composer` | Skeleton |
+| Packagist | `.zip` (composer.json) | `pkg:composer` | **Implemented** |
 | Conda | `.tar.bz2` / `.conda` | `pkg:conda` | Skeleton |
 | CocoaPods | `.podspec` / `.podspec.json` | `pkg:cocoapods` | Skeleton |
 | CPAN | `.tar.gz` (META.json) | `pkg:cpan` | Skeleton |

@@ -18,28 +18,58 @@ package io.spicelabs.annatto.packagist;
 /**
  * Documents ecosystem-specific quirks for Packagist (Composer/PHP) artifacts.
  *
- * <h2>Known Quirks</h2>
+ * <h2>Q1: Version Absence</h2>
+ * <p>The {@code version} field is almost always absent from {@code composer.json} because
+ * Composer derives it from the git tag at release time. When version is absent, no PURL
+ * can be generated — this is a legitimate limitation, not an error.</p>
  * <ul>
- *   <li><b>Version often NOT in composer.json</b> &mdash; Many Composer packages omit the
- *       {@code version} field from {@code composer.json} entirely. The canonical version is
- *       derived from the git tag at release time. Extractors must be prepared to resolve the
- *       version from external context (e.g. the archive filename or registry metadata) when
- *       it is absent from the manifest.</li>
- *   <li><b>Vendor/package naming</b> &mdash; Packagist package names always follow the
- *       {@code vendor/package} convention (e.g. {@code monolog/monolog}). Both segments are
- *       required and case-insensitive. The PURL type {@code composer} mirrors this structure.</li>
- *   <li><b>require-dev vs require</b> &mdash; {@code composer.json} distinguishes between
- *       production dependencies ({@code require}) and development-only dependencies
- *       ({@code require-dev}). Only {@code require} entries should typically appear in SBOM
- *       output.</li>
- *   <li><b>replace/provide virtual packages</b> &mdash; The {@code replace} and {@code provide}
- *       fields allow a package to declare that it substitutes or satisfies another package.
- *       These create virtual package relationships that can complicate dependency resolution
- *       and SBOM generation.</li>
- *   <li><b>Packagist doesn't host archives directly</b> &mdash; Unlike most registries,
- *       Packagist is a metadata-only registry. The actual source archives are fetched from
- *       the VCS repository (typically GitHub). Distribution archives may come from
- *       {@code dist} URLs pointing to GitHub's zip download endpoints.</li>
+ *   <li>Tests: {@code extractVersion_matchesSourceOfTruth} (all 50 SoT packages),
+ *       {@code getPurls_noVersion_returnsEmptyList},
+ *       {@code buildMetadataResult_neverThrowsForValidJson}</li>
+ * </ul>
+ *
+ * <h2>Q2: Vendor/Package Naming</h2>
+ * <p>Packagist names always follow {@code vendor/package} format (e.g., {@code monolog/monolog}).
+ * {@code simpleName} is the part after {@code /}. PURL namespace = vendor, name = package.</p>
+ * <ul>
+ *   <li>Tests: {@code extractSimpleName_vendorSlashName}, {@code extractSimpleName_noSlash},
+ *       all 50 SoT name+simpleName tests,
+ *       {@code extractSimpleName_alwaysNonEmpty} (property)</li>
+ * </ul>
+ *
+ * <h2>Q3: require vs require-dev + Platform Filtering</h2>
+ * <p>{@code require} maps to scope "runtime", {@code require-dev} maps to scope "dev".
+ * Platform dependencies ({@code php}, {@code ext-*}, {@code lib-*}, {@code composer-plugin-api},
+ * {@code composer-runtime-api}, {@code composer}) are excluded — they are not real packages.</p>
+ * <ul>
+ *   <li>Tests: {@code extractDependencies_requireIsRuntime},
+ *       {@code extractDependencies_requireDevIsDev},
+ *       {@code isPlatformDependency_php}, {@code isPlatformDependency_ext},
+ *       {@code package_symfony_console_platformDepsFiltered},
+ *       {@code extractDependencies_neverIncludesPlatformDeps} (property)</li>
+ * </ul>
+ *
+ * <h2>Q4: replace/provide Ignored</h2>
+ * <p>The {@code replace} and {@code provide} fields define virtual package relationships,
+ * not actual dependencies. These are intentionally ignored.</p>
+ * <ul>
+ *   <li>Tests: implicit in all 50 SoT tests (no replace/provide deps appear in expected output)</li>
+ * </ul>
+ *
+ * <h2>Q5: Metadata-Only Registry</h2>
+ * <p>Packagist doesn't host archives directly — dist URLs point to VCS (typically GitHub
+ * zipballs). The test corpus was downloaded from actual Packagist dist URLs.</p>
+ * <ul>
+ *   <li>Tests: implicit — test corpus downloaded from real dist URLs</li>
+ * </ul>
+ *
+ * <h2>Q6: License Formats</h2>
+ * <p>The license field can be a string ({@code "MIT"}) or an array ({@code ["MIT", "GPL-3.0"]}).
+ * Arrays are joined with {@code " OR "}. Absent or empty license produces null.</p>
+ * <ul>
+ *   <li>Tests: {@code extractLicense_string}, {@code extractLicense_array},
+ *       {@code extractLicense_null},
+ *       {@code extractLicense_neverReturnsEmptyString} (property)</li>
  * </ul>
  */
 public record PackagistQuirks() {

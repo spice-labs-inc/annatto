@@ -1,0 +1,15 @@
+{
+    "name": "webmozart/assert",
+    "simpleName": "assert",
+    "version": null,
+    "description": "Assertions to validate method input/output with nice error messages.",
+    "license": "MIT",
+    "publisher": "Bernhard Schussek",
+    "dependencies": [
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.5.13",
+            "scope": "dev"
+        }
+    ]
+}

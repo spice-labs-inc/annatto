@@ -1,0 +1,45 @@
+{
+    "name": "illuminate/support",
+    "simpleName": "support",
+    "version": null,
+    "description": "The Illuminate Support package.",
+    "license": "MIT",
+    "publisher": "Taylor Otwell",
+    "dependencies": [
+        {
+            "name": "doctrine/inflector",
+            "versionConstraint": "^2.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "illuminate/collections",
+            "versionConstraint": "^11.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "illuminate/conditionable",
+            "versionConstraint": "^11.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "illuminate/contracts",
+            "versionConstraint": "^11.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "illuminate/macroable",
+            "versionConstraint": "^11.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "nesbot/carbon",
+            "versionConstraint": "^2.72.6|^3.8.4",
+            "scope": "runtime"
+        },
+        {
+            "name": "voku/portable-ascii",
+            "versionConstraint": "^2.0.2",
+            "scope": "runtime"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "name": "symfony/string",
+    "simpleName": "string",
+    "version": null,
+    "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
+    "license": "MIT",
+    "publisher": "Nicolas Grekas",
+    "dependencies": [
+        {
+            "name": "symfony/polyfill-ctype",
+            "versionConstraint": "~1.8",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-intl-grapheme",
+            "versionConstraint": "~1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-intl-normalizer",
+            "versionConstraint": "~1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "~1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/error-handler",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/intl",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-client",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/translation-contracts",
+            "versionConstraint": "^2.5|^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/var-exporter",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        }
+    ]
+}

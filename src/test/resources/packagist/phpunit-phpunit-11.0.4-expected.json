@@ -1,0 +1,100 @@
+{
+    "name": "phpunit/phpunit",
+    "simpleName": "phpunit",
+    "version": null,
+    "description": "The PHP Unit Testing framework.",
+    "license": "BSD-3-Clause",
+    "publisher": "Sebastian Bergmann",
+    "dependencies": [
+        {
+            "name": "myclabs/deep-copy",
+            "versionConstraint": "^1.10.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "phar-io/manifest",
+            "versionConstraint": "^2.0.3",
+            "scope": "runtime"
+        },
+        {
+            "name": "phar-io/version",
+            "versionConstraint": "^3.0.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/php-code-coverage",
+            "versionConstraint": "^11.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/php-file-iterator",
+            "versionConstraint": "^5.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/php-invoker",
+            "versionConstraint": "^5.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/php-text-template",
+            "versionConstraint": "^4.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/php-timer",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/cli-parser",
+            "versionConstraint": "^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/code-unit",
+            "versionConstraint": "^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/comparator",
+            "versionConstraint": "^6.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/diff",
+            "versionConstraint": "^6.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/environment",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/exporter",
+            "versionConstraint": "^6.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/global-state",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/object-enumerator",
+            "versionConstraint": "^6.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/type",
+            "versionConstraint": "^5.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "sebastian/version",
+            "versionConstraint": "^5.0",
+            "scope": "runtime"
+        }
+    ]
+}

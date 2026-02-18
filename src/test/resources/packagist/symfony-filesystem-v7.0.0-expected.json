@@ -1,0 +1,20 @@
+{
+    "name": "symfony/filesystem",
+    "simpleName": "filesystem",
+    "version": null,
+    "description": "Provides basic utilities for the filesystem",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/polyfill-ctype",
+            "versionConstraint": "~1.8",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "~1.8",
+            "scope": "runtime"
+        }
+    ]
+}

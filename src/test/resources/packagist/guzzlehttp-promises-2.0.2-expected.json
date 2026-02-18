@@ -1,0 +1,20 @@
+{
+    "name": "guzzlehttp/promises",
+    "simpleName": "promises",
+    "version": null,
+    "description": "Guzzle promises library",
+    "license": "MIT",
+    "publisher": "Graham Campbell",
+    "dependencies": [
+        {
+            "name": "bamarni/composer-bin-plugin",
+            "versionConstraint": "^1.8.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.5.36 || ^9.6.15",
+            "scope": "dev"
+        }
+    ]
+}

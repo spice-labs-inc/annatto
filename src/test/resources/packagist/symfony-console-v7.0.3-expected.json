@@ -1,0 +1,80 @@
+{
+    "name": "symfony/console",
+    "simpleName": "console",
+    "version": null,
+    "description": "Eases the creation of beautiful and testable command line interfaces",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "~1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/service-contracts",
+            "versionConstraint": "^2.5|^3",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/string",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/config",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/dependency-injection",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/lock",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/messenger",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/stopwatch",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1|^2|^3",
+            "scope": "dev"
+        }
+    ]
+}

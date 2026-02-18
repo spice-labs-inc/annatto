@@ -1,0 +1,20 @@
+{
+    "name": "sebastian/diff",
+    "simpleName": "diff",
+    "version": null,
+    "description": "Diff implementation",
+    "license": "BSD-3-Clause",
+    "publisher": "Sebastian Bergmann",
+    "dependencies": [
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^11.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^4.2 || ^5",
+            "scope": "dev"
+        }
+    ]
+}

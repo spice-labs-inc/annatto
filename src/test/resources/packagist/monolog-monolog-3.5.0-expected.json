@@ -1,0 +1,95 @@
+{
+    "name": "monolog/monolog",
+    "simpleName": "monolog",
+    "version": null,
+    "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+    "license": "MIT",
+    "publisher": "Jordi Boggiano",
+    "dependencies": [
+        {
+            "name": "psr/log",
+            "versionConstraint": "^2.0 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "aws/aws-sdk-php",
+            "versionConstraint": "^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "doctrine/couchdb",
+            "versionConstraint": "~1.0@dev",
+            "scope": "dev"
+        },
+        {
+            "name": "elasticsearch/elasticsearch",
+            "versionConstraint": "^7 || ^8",
+            "scope": "dev"
+        },
+        {
+            "name": "graylog2/gelf-php",
+            "versionConstraint": "^1.4.2 || ^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "versionConstraint": "^7.4.5",
+            "scope": "dev"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "versionConstraint": "^2.2",
+            "scope": "dev"
+        },
+        {
+            "name": "mongodb/mongodb",
+            "versionConstraint": "^1.8",
+            "scope": "dev"
+        },
+        {
+            "name": "php-amqplib/php-amqplib",
+            "versionConstraint": "~2.4 || ^3",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.9",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "versionConstraint": "^1.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-strict-rules",
+            "versionConstraint": "^1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^10.1",
+            "scope": "dev"
+        },
+        {
+            "name": "predis/predis",
+            "versionConstraint": "^1.1 || ^2",
+            "scope": "dev"
+        },
+        {
+            "name": "ruflin/elastica",
+            "versionConstraint": "^7",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/mailer",
+            "versionConstraint": "^5.4 || ^6",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/mime",
+            "versionConstraint": "^5.4 || ^6",
+            "scope": "dev"
+        }
+    ]
+}

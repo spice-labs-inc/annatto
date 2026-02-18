@@ -1,0 +1,20 @@
+{
+    "name": "symfony/yaml",
+    "simpleName": "yaml",
+    "version": null,
+    "description": "Loads and dumps YAML files",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/polyfill-ctype",
+            "versionConstraint": "^1.8",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        }
+    ]
+}

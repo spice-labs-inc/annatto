@@ -1,0 +1,45 @@
+{
+    "name": "symfony/routing",
+    "simpleName": "routing",
+    "version": null,
+    "description": "Maps an HTTP request to a set of configuration variables",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/deprecation-contracts",
+            "versionConstraint": "^2.5|^3",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/config",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/yaml",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/expression-language",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/dependency-injection",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1|^2|^3",
+            "scope": "dev"
+        }
+    ]
+}

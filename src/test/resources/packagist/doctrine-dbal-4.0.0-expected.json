@@ -1,0 +1,90 @@
+{
+    "name": "doctrine/dbal",
+    "simpleName": "dbal",
+    "version": null,
+    "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+    "license": "MIT",
+    "publisher": "Guilherme Blanco",
+    "dependencies": [
+        {
+            "name": "doctrine/deprecations",
+            "versionConstraint": "^0.5.3|^1",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/cache",
+            "versionConstraint": "^1|^2|^3",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1|^2|^3",
+            "scope": "runtime"
+        },
+        {
+            "name": "doctrine/coding-standard",
+            "versionConstraint": "12.0.0",
+            "scope": "dev"
+        },
+        {
+            "name": "fig/log-test",
+            "versionConstraint": "^1",
+            "scope": "dev"
+        },
+        {
+            "name": "jetbrains/phpstorm-stubs",
+            "versionConstraint": "2023.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "1.10.57",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-phpunit",
+            "versionConstraint": "1.3.15",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-strict-rules",
+            "versionConstraint": "^1.5",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "10.5.9",
+            "scope": "dev"
+        },
+        {
+            "name": "psalm/plugin-phpunit",
+            "versionConstraint": "0.18.4",
+            "scope": "dev"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "versionConstraint": "8.13.1",
+            "scope": "dev"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "versionConstraint": "3.8.1",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/cache",
+            "versionConstraint": "^6.3.8|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^5.4|^6.3|^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "vimeo/psalm",
+            "versionConstraint": "5.16.0",
+            "scope": "dev"
+        }
+    ]
+}

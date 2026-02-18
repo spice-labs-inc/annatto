@@ -1,0 +1,55 @@
+{
+    "name": "guzzlehttp/guzzle",
+    "simpleName": "guzzle",
+    "version": null,
+    "description": "Guzzle is a PHP HTTP client library",
+    "license": "MIT",
+    "publisher": "Graham Campbell",
+    "dependencies": [
+        {
+            "name": "guzzlehttp/promises",
+            "versionConstraint": "^1.5.3 || ^2.0.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "guzzlehttp/psr7",
+            "versionConstraint": "^1.9.1 || ^2.5.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/http-client",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/deprecation-contracts",
+            "versionConstraint": "^2.2 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "bamarni/composer-bin-plugin",
+            "versionConstraint": "^1.8.2",
+            "scope": "dev"
+        },
+        {
+            "name": "php-http/client-integration-tests",
+            "versionConstraint": "dev-master#2c025848417c1135031fdf9c728ee53d0a7ceaee as 3.0.999",
+            "scope": "dev"
+        },
+        {
+            "name": "php-http/message-factory",
+            "versionConstraint": "^1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.5.36 || ^9.6.15",
+            "scope": "dev"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1.1 || ^2.0 || ^3.0",
+            "scope": "dev"
+        }
+    ]
+}

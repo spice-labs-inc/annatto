@@ -1,0 +1,25 @@
+{
+    "name": "brick/math",
+    "simpleName": "math",
+    "version": null,
+    "description": "Arbitrary-precision arithmetic library",
+    "license": "MIT",
+    "publisher": null,
+    "dependencies": [
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^10.1",
+            "scope": "dev"
+        },
+        {
+            "name": "php-coveralls/php-coveralls",
+            "versionConstraint": "^2.2",
+            "scope": "dev"
+        },
+        {
+            "name": "vimeo/psalm",
+            "versionConstraint": "5.16.0",
+            "scope": "dev"
+        }
+    ]
+}

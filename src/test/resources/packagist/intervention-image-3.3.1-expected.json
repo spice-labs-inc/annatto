@@ -1,0 +1,35 @@
+{
+    "name": "intervention/image",
+    "simpleName": "image",
+    "version": null,
+    "description": "PHP image manipulation",
+    "license": "MIT",
+    "publisher": "Oliver Vogel",
+    "dependencies": [
+        {
+            "name": "intervention/gif",
+            "versionConstraint": "^4",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^9",
+            "scope": "dev"
+        },
+        {
+            "name": "mockery/mockery",
+            "versionConstraint": "^1.6",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1",
+            "scope": "dev"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "versionConstraint": "^3.8",
+            "scope": "dev"
+        }
+    ]
+}

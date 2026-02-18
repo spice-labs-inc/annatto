@@ -1,0 +1,75 @@
+{
+    "name": "league/flysystem",
+    "simpleName": "flysystem",
+    "version": null,
+    "description": "File storage abstraction for PHP",
+    "license": "MIT",
+    "publisher": "Frank de Jonge",
+    "dependencies": [
+        {
+            "name": "league/flysystem-local",
+            "versionConstraint": "^3.0.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "league/mime-type-detection",
+            "versionConstraint": "^1.0.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "microsoft/azure-storage-blob",
+            "versionConstraint": "^1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^9.5.11|^10.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.10",
+            "scope": "dev"
+        },
+        {
+            "name": "phpseclib/phpseclib",
+            "versionConstraint": "^3.0.34",
+            "scope": "dev"
+        },
+        {
+            "name": "aws/aws-sdk-php",
+            "versionConstraint": "^3.295.10",
+            "scope": "dev"
+        },
+        {
+            "name": "composer/semver",
+            "versionConstraint": "^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "friendsofphp/php-cs-fixer",
+            "versionConstraint": "^3.5",
+            "scope": "dev"
+        },
+        {
+            "name": "google/cloud-storage",
+            "versionConstraint": "^1.23",
+            "scope": "dev"
+        },
+        {
+            "name": "async-aws/s3",
+            "versionConstraint": "^1.5 || ^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "async-aws/simple-s3",
+            "versionConstraint": "^1.1 || ^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "sabre/dav",
+            "versionConstraint": "^4.6.0",
+            "scope": "dev"
+        }
+    ]
+}

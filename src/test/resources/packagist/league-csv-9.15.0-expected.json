@@ -1,0 +1,55 @@
+{
+    "name": "league/csv",
+    "simpleName": "csv",
+    "version": null,
+    "description": "CSV data manipulation made easy in PHP",
+    "license": "MIT",
+    "publisher": "Ignace Nyamagana Butera",
+    "dependencies": [
+        {
+            "name": "doctrine/collections",
+            "versionConstraint": "^2.1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "friendsofphp/php-cs-fixer",
+            "versionConstraint": "^v3.22.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpbench/phpbench",
+            "versionConstraint": "^1.2.15",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.10.57",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "versionConstraint": "^1.1.4",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-phpunit",
+            "versionConstraint": "^1.3.15",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-strict-rules",
+            "versionConstraint": "^1.5.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^10.5.9",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "versionConstraint": "^6.4.2",
+            "scope": "dev"
+        }
+    ]
+}

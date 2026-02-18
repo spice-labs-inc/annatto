@@ -1,0 +1,9 @@
+{
+    "name": "psr/clock",
+    "simpleName": "clock",
+    "version": null,
+    "description": "Common interface for reading the clock.",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": []
+}

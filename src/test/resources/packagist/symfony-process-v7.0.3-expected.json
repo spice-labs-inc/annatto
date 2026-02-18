@@ -1,0 +1,9 @@
+{
+    "name": "symfony/process",
+    "simpleName": "process",
+    "version": null,
+    "description": "Executes commands in sub-processes",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": []
+}

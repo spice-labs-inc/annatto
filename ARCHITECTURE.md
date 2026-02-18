@@ -192,6 +192,30 @@ During corpus preparation (not during normal test runs):
 
 **Test corpus**: 50 real gems downloaded from rubygems.org, source-of-truth metadata extracted via Ruby's `Gem::Package` in Docker (`docker/rubygems/`).
 
+## Packagist Ecosystem Details
+
+**Format**: `.zip` archives (GitHub zipballs) containing `composer.json` at root or one directory level deep
+
+**Extraction pipeline** (`PackagistMetadataExtractor`):
+1. Open `ZipInputStream` (JDK `java.util.zip`)
+2. Scan zip entries for `composer.json` at root or one level deep (via `isComposerJson()`)
+3. Read entry to String (10 MB size limit, path traversal rejection)
+4. Parse JSON via Gson `JsonParser`
+5. Extract name, simpleName, version, description, license, publisher, dependencies
+6. Filter platform dependencies from require/require-dev sections
+
+**Key quirks** (documented in `PackagistQuirks.java`, tested in `PackagistMetadataExtractorTest` and `PackagistHandlerTest`):
+- **Q1 Version absence**: Version almost always absent from `composer.json` (Composer derives it from git tag). No PURL generated when absent. Tests: `extractVersion_matchesSourceOfTruth` (50 packages), `getPurls_noVersion_returnsEmptyList`, `package_version_absent`, `buildMetadataResult_neverThrowsForValidJson` (property)
+- **Q2 Vendor/package naming**: Names follow `vendor/package` format; `simpleName` = part after `/`. PURL namespace = vendor, name = package. Tests: `extractSimpleName_vendorSlashName`, `extractSimpleName_noSlash`, `extractSimpleName_multipleSlashes`, all 50 SoT name+simpleName tests, `extractSimpleName_alwaysNonEmpty` (property), `extractSimpleName_idempotent` (property)
+- **Q3 require vs require-dev + platform filtering**: `require` → scope "runtime", `require-dev` → scope "dev". Platform deps (`php`, `php-64bit`, `hhvm`, `ext-*`, `lib-*`, `composer-plugin-api`, `composer-runtime-api`, `composer`) excluded. Tests: `extractDependencies_requireIsRuntime`, `extractDependencies_requireDevIsDev`, `isPlatformDependency_php`, `isPlatformDependency_ext`, `isPlatformDependency_lib`, `isPlatformDependency_composerPluginApi`, `package_symfony_console_platformDepsFiltered`, `package_ramsey_uuid_platformAndRealDeps`, `extractDependencies_neverIncludesPlatformDeps` (property), `extractDependencies_scopeAlwaysValid` (property)
+- **Q4 replace/provide ignored**: Virtual package relationships, not actual dependencies. Tests: implicit in all 50 SoT tests (no replace/provide deps appear in expected output)
+- **Q5 Metadata-only registry**: Packagist doesn't host archives; dist URLs point to VCS (typically GitHub zipballs). Tests: implicit — test corpus downloaded from actual Packagist dist URLs
+- **Q6 License formats**: String (`"MIT"`) or array (`["MIT", "GPL-3.0"]`), array joined with `" OR "`. Absent or empty → null. Tests: `extractLicense_string`, `extractLicense_arraySingle`, `extractLicense_arrayMultiple`, `extractLicense_absent`, `package_league_flysystem_licenseString`, `extractLicense_neverReturnsEmptyString` (property)
+
+**PURL**: `pkg:composer/vendor/name@version` (empty when version absent)
+
+**Test corpus**: 50 real Composer packages downloaded from Packagist dist URLs, source-of-truth metadata extracted via PHP in Docker (`docker/packagist/`).
+
 ## Exception Hierarchy
 
 - `AnnattoException` (base)

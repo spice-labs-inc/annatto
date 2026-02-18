@@ -1,0 +1,9 @@
+{
+    "name": "psr/log",
+    "simpleName": "log",
+    "version": null,
+    "description": "Common interface for logging libraries",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": []
+}

@@ -1,0 +1,15 @@
+{
+    "name": "symfony/finder",
+    "simpleName": "finder",
+    "version": null,
+    "description": "Finds files and directories via an intuitive fluent interface",
+    "license": "MIT",
+    "publisher": "Fabien Potencier",
+    "dependencies": [
+        {
+            "name": "symfony/filesystem",
+            "versionConstraint": "^6.4|^7.0",
+            "scope": "dev"
+        }
+    ]
+}

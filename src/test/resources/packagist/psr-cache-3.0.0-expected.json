@@ -1,0 +1,9 @@
+{
+    "name": "psr/cache",
+    "simpleName": "cache",
+    "version": null,
+    "description": "Common interface for caching libraries",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": []
+}

@@ -1,0 +1,20 @@
+{
+    "name": "graham-campbell/result-type",
+    "simpleName": "result-type",
+    "version": null,
+    "description": "An Implementation Of The Result Type",
+    "license": "MIT",
+    "publisher": "Graham Campbell",
+    "dependencies": [
+        {
+            "name": "phpoption/phpoption",
+            "versionConstraint": "^1.9.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.5.34 || ^9.6.13 || ^10.4.2",
+            "scope": "dev"
+        }
+    ]
+}

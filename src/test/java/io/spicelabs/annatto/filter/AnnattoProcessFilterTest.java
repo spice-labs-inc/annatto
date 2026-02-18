@@ -150,12 +150,14 @@ class AnnattoProcessFilterTest {
     }
 
     /**
-     * Goal: Verify .zip files without @v are not detected as Go Modules.
-     * Rationale: Non-Go zip files (e.g., Packagist) do not contain @v in the filename.
+     * Goal: Verify .zip files without @v are detected as Packagist.
+     * Rationale: Non-Go zip files are routed to Packagist; if no composer.json found, handler
+     * returns empty memento gracefully.
      */
     @Test
-    void detectEcosystem_zipWithoutAtV_isEmpty() {
-        assertThat(filter.detectEcosystem("some-package-1.0.0.zip")).isEmpty();
+    void detectEcosystem_zipWithoutAtV_isPackagist() {
+        assertThat(filter.detectEcosystem("some-package-1.0.0.zip"))
+                .isEqualTo(Optional.of(EcosystemId.PACKAGIST));
     }
 
     /**

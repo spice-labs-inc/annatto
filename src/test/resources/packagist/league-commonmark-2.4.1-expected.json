@@ -1,0 +1,110 @@
+{
+    "name": "league/commonmark",
+    "simpleName": "commonmark",
+    "version": null,
+    "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and GitHub-Flavored Markdown (GFM)",
+    "license": "BSD-3-Clause",
+    "publisher": "Colin O'Dell",
+    "dependencies": [
+        {
+            "name": "league/config",
+            "versionConstraint": "^1.1.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/event-dispatcher",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/deprecation-contracts",
+            "versionConstraint": "^2.1 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php80",
+            "versionConstraint": "^1.16",
+            "scope": "runtime"
+        },
+        {
+            "name": "cebe/markdown",
+            "versionConstraint": "^1.0",
+            "scope": "dev"
+        },
+        {
+            "name": "commonmark/cmark",
+            "versionConstraint": "0.30.0",
+            "scope": "dev"
+        },
+        {
+            "name": "commonmark/commonmark.js",
+            "versionConstraint": "0.30.0",
+            "scope": "dev"
+        },
+        {
+            "name": "composer/package-versions-deprecated",
+            "versionConstraint": "^1.8",
+            "scope": "dev"
+        },
+        {
+            "name": "embed/embed",
+            "versionConstraint": "^4.4",
+            "scope": "dev"
+        },
+        {
+            "name": "erusev/parsedown",
+            "versionConstraint": "^1.0",
+            "scope": "dev"
+        },
+        {
+            "name": "github/gfm",
+            "versionConstraint": "0.29.0",
+            "scope": "dev"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "versionConstraint": "^1.4 || ^2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "nyholm/psr7",
+            "versionConstraint": "^1.5",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.8.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^9.5.21",
+            "scope": "dev"
+        },
+        {
+            "name": "scrutinizer/ocular",
+            "versionConstraint": "^1.8.1",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/finder",
+            "versionConstraint": "^5.3 | ^6.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/yaml",
+            "versionConstraint": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0",
+            "scope": "dev"
+        },
+        {
+            "name": "unleashedtech/php-coding-standard",
+            "versionConstraint": "^3.1.1",
+            "scope": "dev"
+        },
+        {
+            "name": "vimeo/psalm",
+            "versionConstraint": "^4.24.0 || ^5.0.0",
+            "scope": "dev"
+        }
+    ]
+}

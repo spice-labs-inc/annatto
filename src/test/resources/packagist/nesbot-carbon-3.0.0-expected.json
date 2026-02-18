@@ -1,0 +1,85 @@
+{
+    "name": "nesbot/carbon",
+    "simpleName": "carbon",
+    "version": null,
+    "description": "An API extension for DateTime that supports 281 different languages.",
+    "license": "MIT",
+    "publisher": "Brian Nesbitt",
+    "dependencies": [
+        {
+            "name": "carbonphp/carbon-doctrine-types",
+            "versionConstraint": "*",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/clock",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/clock",
+            "versionConstraint": "^6.3 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/translation",
+            "versionConstraint": "^4.4.18 || ^5.2.1|| ^6.0 || ^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "doctrine/dbal",
+            "versionConstraint": "^3.6.3 || ^4.0",
+            "scope": "dev"
+        },
+        {
+            "name": "doctrine/orm",
+            "versionConstraint": "^2.15.2 || ^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "friendsofphp/php-cs-fixer",
+            "versionConstraint": "^3.18.0",
+            "scope": "dev"
+        },
+        {
+            "name": "kylekatarnls/multi-tester",
+            "versionConstraint": "^2.2.0",
+            "scope": "dev"
+        },
+        {
+            "name": "ondrejmirtes/better-reflection",
+            "versionConstraint": "^6.11.0.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpmd/phpmd",
+            "versionConstraint": "^2.13.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/extension-installer",
+            "versionConstraint": "^1.3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.10.20",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^10.2.2",
+            "scope": "dev"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "versionConstraint": "^3.7.2",
+            "scope": "dev"
+        }
+    ]
+}

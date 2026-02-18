@@ -1,0 +1,9 @@
+{
+    "name": "psr/container",
+    "simpleName": "container",
+    "version": null,
+    "description": "Common Container Interface (PHP FIG PSR-11)",
+    "license": "MIT",
+    "publisher": "PHP-FIG",
+    "dependencies": []
+}

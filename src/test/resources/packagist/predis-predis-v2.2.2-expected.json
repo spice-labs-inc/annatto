@@ -1,0 +1,25 @@
+{
+    "name": "predis/predis",
+    "simpleName": "predis",
+    "version": null,
+    "description": "A flexible and feature-complete Redis client for PHP.",
+    "license": "MIT",
+    "publisher": "Till Kr\u00fcss",
+    "dependencies": [
+        {
+            "name": "friendsofphp/php-cs-fixer",
+            "versionConstraint": "^3.3",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.9",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.0 || ~9.4.4",
+            "scope": "dev"
+        }
+    ]
+}

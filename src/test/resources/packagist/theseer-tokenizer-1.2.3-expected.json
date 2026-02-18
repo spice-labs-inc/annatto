@@ -1,0 +1,9 @@
+{
+    "name": "theseer/tokenizer",
+    "simpleName": "tokenizer",
+    "version": null,
+    "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+    "license": "BSD-3-Clause",
+    "publisher": "Arne Blankerts",
+    "dependencies": []
+}

@@ -1,0 +1,270 @@
+{
+    "name": "laravel/framework",
+    "simpleName": "framework",
+    "version": null,
+    "description": "The Laravel Framework.",
+    "license": "MIT",
+    "publisher": "Taylor Otwell",
+    "dependencies": [
+        {
+            "name": "brick/math",
+            "versionConstraint": "^0.9.3|^0.10.2|^0.11|^0.12",
+            "scope": "runtime"
+        },
+        {
+            "name": "doctrine/inflector",
+            "versionConstraint": "^2.0.5",
+            "scope": "runtime"
+        },
+        {
+            "name": "dragonmantank/cron-expression",
+            "versionConstraint": "^3.3.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "egulias/email-validator",
+            "versionConstraint": "^3.2.1|^4.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "fruitcake/php-cors",
+            "versionConstraint": "^1.3",
+            "scope": "runtime"
+        },
+        {
+            "name": "guzzlehttp/guzzle",
+            "versionConstraint": "^7.8",
+            "scope": "runtime"
+        },
+        {
+            "name": "guzzlehttp/uri-template",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "laravel/prompts",
+            "versionConstraint": "^0.1.15",
+            "scope": "runtime"
+        },
+        {
+            "name": "laravel/serializable-closure",
+            "versionConstraint": "^1.3",
+            "scope": "runtime"
+        },
+        {
+            "name": "league/commonmark",
+            "versionConstraint": "^2.2.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "league/flysystem",
+            "versionConstraint": "^3.8.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "monolog/monolog",
+            "versionConstraint": "^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "nesbot/carbon",
+            "versionConstraint": "^2.72.2|^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "nunomaduro/termwind",
+            "versionConstraint": "^2.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/container",
+            "versionConstraint": "^1.1.1|^2.0.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1.0|^2.0|^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/simple-cache",
+            "versionConstraint": "^1.0|^2.0|^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "ramsey/uuid",
+            "versionConstraint": "^4.7",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/error-handler",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/finder",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/mailer",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/mime",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php83",
+            "versionConstraint": "^1.28",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/routing",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/uid",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/var-dumper",
+            "versionConstraint": "^7.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "tijsverkoyen/css-to-inline-styles",
+            "versionConstraint": "^2.2.5",
+            "scope": "runtime"
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "versionConstraint": "^5.4.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "voku/portable-ascii",
+            "versionConstraint": "^2.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "ably/ably-php",
+            "versionConstraint": "^1.0",
+            "scope": "dev"
+        },
+        {
+            "name": "aws/aws-sdk-php",
+            "versionConstraint": "^3.235.5",
+            "scope": "dev"
+        },
+        {
+            "name": "fakerphp/faker",
+            "versionConstraint": "^1.23",
+            "scope": "dev"
+        },
+        {
+            "name": "league/flysystem-aws-s3-v3",
+            "versionConstraint": "^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "league/flysystem-ftp",
+            "versionConstraint": "^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "league/flysystem-path-prefixing",
+            "versionConstraint": "^3.3",
+            "scope": "dev"
+        },
+        {
+            "name": "league/flysystem-read-only",
+            "versionConstraint": "^3.3",
+            "scope": "dev"
+        },
+        {
+            "name": "league/flysystem-sftp-v3",
+            "versionConstraint": "^3.0",
+            "scope": "dev"
+        },
+        {
+            "name": "mockery/mockery",
+            "versionConstraint": "^1.6",
+            "scope": "dev"
+        },
+        {
+            "name": "nyholm/psr7",
+            "versionConstraint": "^1.2",
+            "scope": "dev"
+        },
+        {
+            "name": "orchestra/testbench-core",
+            "versionConstraint": "^9.0",
+            "scope": "dev"
+        },
+        {
+            "name": "pda/pheanstalk",
+            "versionConstraint": "^5.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.4.7",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^10.5|^11.0",
+            "scope": "dev"
+        },
+        {
+            "name": "predis/predis",
+            "versionConstraint": "^2.0.2",
+            "scope": "dev"
+        },
+        {
+            "name": "resend/resend-php",
+            "versionConstraint": "^0.10.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/cache",
+            "versionConstraint": "^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/http-client",
+            "versionConstraint": "^7.0",
+            "scope": "dev"
+        },
+        {
+            "name": "symfony/psr-http-message-bridge",
+            "versionConstraint": "^7.0",
+            "scope": "dev"
+        }
+    ]
+}

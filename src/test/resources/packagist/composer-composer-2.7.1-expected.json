@@ -1,0 +1,140 @@
+{
+    "name": "composer/composer",
+    "simpleName": "composer",
+    "version": null,
+    "description": "Composer helps you declare, manage and install dependencies of PHP projects. It ensures you have the right stack everywhere.",
+    "license": "MIT",
+    "publisher": "Nils Adermann",
+    "dependencies": [
+        {
+            "name": "composer/ca-bundle",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/class-map-generator",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/metadata-minifier",
+            "versionConstraint": "^1.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/semver",
+            "versionConstraint": "^3.2.5",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/spdx-licenses",
+            "versionConstraint": "^1.5.7",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/xdebug-handler",
+            "versionConstraint": "^2.0.2 || ^3.0.3",
+            "scope": "runtime"
+        },
+        {
+            "name": "justinrainbow/json-schema",
+            "versionConstraint": "^5.2.11",
+            "scope": "runtime"
+        },
+        {
+            "name": "psr/log",
+            "versionConstraint": "^1.0 || ^2.0 || ^3.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "seld/jsonlint",
+            "versionConstraint": "^1.4",
+            "scope": "runtime"
+        },
+        {
+            "name": "seld/phar-utils",
+            "versionConstraint": "^1.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/console",
+            "versionConstraint": "^5.4.11 || ^6.0.11 || ^7",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/filesystem",
+            "versionConstraint": "^5.4 || ^6.0 || ^7",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/finder",
+            "versionConstraint": "^5.4 || ^6.0 || ^7",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/process",
+            "versionConstraint": "^5.4 || ^6.0 || ^7",
+            "scope": "runtime"
+        },
+        {
+            "name": "react/promise",
+            "versionConstraint": "^2.8 || ^3",
+            "scope": "runtime"
+        },
+        {
+            "name": "composer/pcre",
+            "versionConstraint": "^2.1 || ^3.1",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php73",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php80",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php81",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "seld/signal-handler",
+            "versionConstraint": "^2.0",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/phpunit-bridge",
+            "versionConstraint": "^6.4.1 || ^7.0.1",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "versionConstraint": "^1.9.3",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-phpunit",
+            "versionConstraint": "^1.0",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "versionConstraint": "^1",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-strict-rules",
+            "versionConstraint": "^1",
+            "scope": "dev"
+        },
+        {
+            "name": "phpstan/phpstan-symfony",
+            "versionConstraint": "^1.2.10",
+            "scope": "dev"
+        }
+    ]
+}

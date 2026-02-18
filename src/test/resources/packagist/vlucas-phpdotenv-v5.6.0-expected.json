@@ -1,0 +1,45 @@
+{
+    "name": "vlucas/phpdotenv",
+    "simpleName": "phpdotenv",
+    "version": null,
+    "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+    "license": "BSD-3-Clause",
+    "publisher": "Graham Campbell",
+    "dependencies": [
+        {
+            "name": "graham-campbell/result-type",
+            "versionConstraint": "^1.1.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "phpoption/phpoption",
+            "versionConstraint": "^1.9.2",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "symfony/polyfill-php80",
+            "versionConstraint": "^1.24",
+            "scope": "runtime"
+        },
+        {
+            "name": "bamarni/composer-bin-plugin",
+            "versionConstraint": "^1.8.2",
+            "scope": "dev"
+        },
+        {
+            "name": "phpunit/phpunit",
+            "versionConstraint": "^8.5.34 || ^9.6.13 || ^10.4.2",
+            "scope": "dev"
+        }
+    ]
+}
