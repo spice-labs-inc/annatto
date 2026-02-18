@@ -18,15 +18,28 @@
  * RubyGems ecosystem support for Annatto.
  *
  * <h2>Artifact Format</h2>
- * <p>A {@code .gem} file is a tar archive containing:</p>
+ * <p>A {@code .gem} file is a plain tar archive (NOT gzip-wrapped) containing:</p>
  * <ul>
  *   <li>{@code metadata.gz} &mdash; gzip-compressed YAML gemspec with package metadata</li>
  *   <li>{@code data.tar.gz} &mdash; gzip-compressed tar of the actual library source files</li>
+ *   <li>{@code checksums.yaml.gz} &mdash; gzip-compressed checksums</li>
  * </ul>
+ *
+ * <h2>Extraction Pipeline</h2>
+ * <ol>
+ *   <li>Open {@code .gem} as plain tar (no GZIPInputStream)</li>
+ *   <li>Locate and decompress {@code metadata.gz} entry</li>
+ *   <li>Strip Ruby YAML tags ({@code !ruby/\S+}) from raw YAML</li>
+ *   <li>Parse with SnakeYAML {@code SafeConstructor}</li>
+ *   <li>Map fields to normalized {@link io.spicelabs.annatto.common.MetadataResult}</li>
+ * </ol>
  *
  * <h2>PURL</h2>
  * <p>{@code pkg:gem/name@version}</p>
  *
+ * @see RubygemsMetadataExtractor
+ * @see RubygemsHandler
+ * @see RubygemsQuirks
  * @see <a href="https://guides.rubygems.org/specification-reference/">RubyGems Specification Reference</a>
  */
 package io.spicelabs.annatto.rubygems;

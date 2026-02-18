@@ -1,0 +1,60 @@
+{
+  "name": "toml",
+  "simpleName": "toml",
+  "version": "0.8.9",
+  "description": "A native Rust encoder and decoder of TOML-formatted files and streams. Provides\nimplementations of the standard Serialize/Deserialize traits for TOML data to\nfacilitate deserializing and serializing Rust structures.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Alex Crichton",
+  "dependencies": [
+    {
+      "name": "indexmap",
+      "versionConstraint": "^2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.145",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_spanned",
+      "versionConstraint": "^0.6.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "toml_datetime",
+      "versionConstraint": "^0.6.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "toml_edit",
+      "versionConstraint": "^0.21.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.160",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0.96",
+      "scope": "dev"
+    },
+    {
+      "name": "snapbox",
+      "versionConstraint": "^0.4.11",
+      "scope": "dev"
+    },
+    {
+      "name": "toml-test-data",
+      "versionConstraint": "^1.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "toml-test-harness",
+      "versionConstraint": "^0.4.8",
+      "scope": "dev"
+    }
+  ]
+}

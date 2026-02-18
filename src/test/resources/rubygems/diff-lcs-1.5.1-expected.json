@@ -1,0 +1,50 @@
+{
+  "name": "diff-lcs",
+  "simpleName": "diff-lcs",
+  "version": "1.5.1",
+  "description": "Diff::LCS computes the difference between two Enumerable sequences using the McIlroy-Hunt longest common subsequence (LCS) algorithm",
+  "license": "MIT OR Artistic-2.0 OR GPL-2.0-or-later",
+  "publisher": "Austin Ziegler",
+  "dependencies": [
+    {
+      "name": "hoe",
+      "versionConstraint": ">= 3.0, < 5",
+      "scope": "dev"
+    },
+    {
+      "name": "hoe-doofus",
+      "versionConstraint": "~> 1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "hoe-gemspec2",
+      "versionConstraint": "~> 1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "hoe-git2",
+      "versionConstraint": "~> 1.7",
+      "scope": "dev"
+    },
+    {
+      "name": "hoe-rubygems",
+      "versionConstraint": "~> 1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rspec",
+      "versionConstraint": ">= 2.0, < 4",
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": ">= 10.0, < 14",
+      "scope": "dev"
+    },
+    {
+      "name": "rdoc",
+      "versionConstraint": ">= 6.3.1, < 7",
+      "scope": "dev"
+    }
+  ]
+}

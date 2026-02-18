@@ -1,0 +1,130 @@
+{
+  "name": "hyper",
+  "simpleName": "hyper",
+  "version": "1.1.0",
+  "description": "A fast and correct HTTP library.",
+  "license": "MIT",
+  "publisher": "Sean McArthur",
+  "dependencies": [
+    {
+      "name": "bytes",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-channel",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-util",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "h2",
+      "versionConstraint": "^0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "http",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "http-body",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "http-body-util",
+      "versionConstraint": "^0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "httparse",
+      "versionConstraint": "^1.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "httpdate",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "itoa",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pin-project-lite",
+      "versionConstraint": "^0.2.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "tracing",
+      "versionConstraint": "^0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "want",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "form_urlencoded",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "http-body-util",
+      "versionConstraint": "^0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "pretty_env_logger",
+      "versionConstraint": "^0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "spmc",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio-test",
+      "versionConstraint": "^0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio-util",
+      "versionConstraint": "^0.7.10",
+      "scope": "dev"
+    }
+  ]
+}

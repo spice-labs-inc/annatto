@@ -1,7 +1,7 @@
 FROM rust:1.77-slim
-RUN useradd -m extractor && apt-get update && apt-get install -y jq && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y jq curl && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /work/out && chmod 777 /work /work/out
 WORKDIR /work
 COPY extract.sh /usr/local/bin/extract.sh
-RUN chmod +x /usr/local/bin/extract.sh
-USER extractor
-ENTRYPOINT ["extract.sh"]
+COPY download.sh /usr/local/bin/download.sh
+RUN chmod +x /usr/local/bin/extract.sh /usr/local/bin/download.sh

@@ -1,0 +1,30 @@
+{
+  "name": "rails-dom-testing",
+  "simpleName": "rails-dom-testing",
+  "version": "2.2.0",
+  "description": "Dom and Selector assertions for Rails applications",
+  "license": "MIT",
+  "publisher": "Rafael Mendonça França",
+  "dependencies": [
+    {
+      "name": "activesupport",
+      "versionConstraint": ">= 5.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "minitest",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "nokogiri",
+      "versionConstraint": ">= 1.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

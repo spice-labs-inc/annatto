@@ -1,0 +1,20 @@
+{
+  "name": "erubi",
+  "simpleName": "erubi",
+  "version": "1.12.0",
+  "description": "Small ERB Implementation",
+  "license": "MIT",
+  "publisher": "Jeremy Evans",
+  "dependencies": [
+    {
+      "name": "minitest",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "minitest-global_expectations",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "rspec",
+  "simpleName": "rspec",
+  "version": "3.13.0",
+  "description": "rspec-3.13.0",
+  "license": "MIT",
+  "publisher": "Steven Baker",
+  "dependencies": [
+    {
+      "name": "rspec-core",
+      "versionConstraint": "~> 3.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rspec-expectations",
+      "versionConstraint": "~> 3.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rspec-mocks",
+      "versionConstraint": "~> 3.13.0",
+      "scope": "runtime"
+    }
+  ]
+}

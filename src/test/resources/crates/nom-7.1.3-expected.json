@@ -1,0 +1,30 @@
+{
+  "name": "nom",
+  "simpleName": "nom",
+  "version": "7.1.3",
+  "description": "A byte-oriented, zero-copy, parser combinators library",
+  "license": "MIT",
+  "publisher": "contact@geoffroycouprie.com",
+  "dependencies": [
+    {
+      "name": "memchr",
+      "versionConstraint": "^2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "minimal-lexical",
+      "versionConstraint": "^0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "doc-comment",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "proptest",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    }
+  ]
+}

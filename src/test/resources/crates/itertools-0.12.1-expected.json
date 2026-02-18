@@ -1,0 +1,40 @@
+{
+  "name": "itertools",
+  "simpleName": "itertools",
+  "version": "0.12.1",
+  "description": "Extra iterator adaptors, iterator methods, free functions, and macros.",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "bluss",
+  "dependencies": [
+    {
+      "name": "either",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "criterion",
+      "versionConstraint": "^0.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "paste",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "permutohedron",
+      "versionConstraint": "^0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "quickcheck",
+      "versionConstraint": "^0.9",
+      "scope": "dev"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.7",
+      "scope": "dev"
+    }
+  ]
+}

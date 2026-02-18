@@ -1,0 +1,70 @@
+{
+  "name": "futures",
+  "simpleName": "futures",
+  "version": "0.3.30",
+  "description": "An implementation of futures and streams featuring zero allocations,\ncomposability, and iterator-like interfaces.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "futures-channel",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-core",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-executor",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-io",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-sink",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-task",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-util",
+      "versionConstraint": "^0.3.30",
+      "scope": "runtime"
+    },
+    {
+      "name": "assert_matches",
+      "versionConstraint": "^1.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "pin-project",
+      "versionConstraint": "^1.0.11",
+      "scope": "dev"
+    },
+    {
+      "name": "pin-utils",
+      "versionConstraint": "^0.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "static_assertions",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^0.1.11",
+      "scope": "dev"
+    }
+  ]
+}

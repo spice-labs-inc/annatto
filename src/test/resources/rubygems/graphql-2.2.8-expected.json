@@ -1,0 +1,85 @@
+{
+  "name": "graphql",
+  "simpleName": "graphql",
+  "version": "2.2.8",
+  "description": "A GraphQL language and runtime for Ruby",
+  "license": "MIT",
+  "publisher": "Robert Mosolgo",
+  "dependencies": [
+    {
+      "name": "benchmark-ips",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "concurrent-ruby",
+      "versionConstraint": "~> 1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "memory_profiler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "minitest",
+      "versionConstraint": "~> 5.9.0",
+      "scope": "dev"
+    },
+    {
+      "name": "minitest-focus",
+      "versionConstraint": "~> 1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "minitest-reporters",
+      "versionConstraint": "~> 1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake-compiler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rubocop",
+      "versionConstraint": "= 1.12",
+      "scope": "dev"
+    },
+    {
+      "name": "jekyll",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "yard",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "jekyll-algolia",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "jekyll-redirect-from",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "m",
+      "versionConstraint": "~> 1.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "webrick",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

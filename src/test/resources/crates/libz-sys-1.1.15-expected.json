@@ -1,0 +1,35 @@
+{
+  "name": "libz-sys",
+  "simpleName": "libz-sys",
+  "version": "1.1.15",
+  "description": "Low-level bindings to the system libz library (also known as zlib).",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Alex Crichton",
+  "dependencies": [
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.43",
+      "scope": "runtime"
+    },
+    {
+      "name": "cc",
+      "versionConstraint": "^1.0.18",
+      "scope": "build"
+    },
+    {
+      "name": "cmake",
+      "versionConstraint": "^0.1.44",
+      "scope": "build"
+    },
+    {
+      "name": "pkg-config",
+      "versionConstraint": "^0.3.9",
+      "scope": "build"
+    },
+    {
+      "name": "vcpkg",
+      "versionConstraint": "^0.2",
+      "scope": "build"
+    }
+  ]
+}

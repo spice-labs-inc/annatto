@@ -1,0 +1,11 @@
+{
+  "name": "strscan",
+  "simpleName": "strscan",
+  "version": "3.1.0",
+  "description": "Provides lexical scanning operations on a String.",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "Minero Aoki",
+  "dependencies": [
+
+  ]
+}

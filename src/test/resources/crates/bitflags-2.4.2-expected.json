@@ -1,0 +1,75 @@
+{
+  "name": "bitflags",
+  "simpleName": "bitflags",
+  "version": "2.4.2",
+  "description": "A macro to generate structures which behave like bitflags.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rust Project Developers",
+  "dependencies": [
+    {
+      "name": "arbitrary",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "bytemuck",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "compiler_builtins",
+      "versionConstraint": "^0.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustc-std-workspace-core",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "arbitrary",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "bytemuck",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_derive",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_test",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "zerocopy",
+      "versionConstraint": "^0.6",
+      "scope": "dev"
+    }
+  ]
+}

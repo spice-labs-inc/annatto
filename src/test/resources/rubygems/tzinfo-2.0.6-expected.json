@@ -1,0 +1,15 @@
+{
+  "name": "tzinfo",
+  "simpleName": "tzinfo",
+  "version": "2.0.6",
+  "description": "Time Zone Library",
+  "license": "MIT",
+  "publisher": "Philip Ross",
+  "dependencies": [
+    {
+      "name": "concurrent-ruby",
+      "versionConstraint": "~> 1.0",
+      "scope": "runtime"
+    }
+  ]
+}

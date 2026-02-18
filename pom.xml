@@ -73,6 +73,7 @@
         <!-- Testing -->
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <assertj.version>3.25.3</assertj.version>
+        <jqwik.version>1.8.2</jqwik.version>
         <jacoco.version>0.8.11</jacoco.version>
     </properties>
 
@@ -180,6 +181,14 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- jqwik property-based testing -->
+        <dependency>
+            <groupId>net.jqwik</groupId>
+            <artifactId>jqwik</artifactId>
+            <version>${jqwik.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

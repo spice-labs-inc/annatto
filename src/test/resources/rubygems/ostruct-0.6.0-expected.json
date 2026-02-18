@@ -1,0 +1,11 @@
+{
+  "name": "ostruct",
+  "simpleName": "ostruct",
+  "version": "0.6.0",
+  "description": "Class to build custom data structures, similar to a Hash.",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "Marc-Andre Lafortune",
+  "dependencies": [
+
+  ]
+}

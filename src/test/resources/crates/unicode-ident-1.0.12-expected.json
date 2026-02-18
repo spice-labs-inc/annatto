@@ -1,0 +1,40 @@
+{
+  "name": "unicode-ident",
+  "simpleName": "unicode-ident",
+  "version": "1.0.12",
+  "description": "Determine whether characters have the XID_Start or XID_Continue properties according to Unicode Standard Annex #31",
+  "license": "(MIT OR Apache-2.0) AND Unicode-DFS-2016",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "criterion",
+      "versionConstraint": "^0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "fst",
+      "versionConstraint": "^0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.8",
+      "scope": "dev"
+    },
+    {
+      "name": "roaring",
+      "versionConstraint": "^0.10",
+      "scope": "dev"
+    },
+    {
+      "name": "ucd-trie",
+      "versionConstraint": "^0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "unicode-xid",
+      "versionConstraint": "^0.2.4",
+      "scope": "dev"
+    }
+  ]
+}

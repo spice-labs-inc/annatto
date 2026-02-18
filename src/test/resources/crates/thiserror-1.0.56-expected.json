@@ -1,0 +1,35 @@
+{
+  "name": "thiserror",
+  "simpleName": "thiserror",
+  "version": "1.0.56",
+  "description": "derive(Error)",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "thiserror-impl",
+      "versionConstraint": "=1.0.56",
+      "scope": "runtime"
+    },
+    {
+      "name": "anyhow",
+      "versionConstraint": "^1.0.73",
+      "scope": "dev"
+    },
+    {
+      "name": "ref-cast",
+      "versionConstraint": "^1.0.18",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0.13",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.81",
+      "scope": "dev"
+    }
+  ]
+}

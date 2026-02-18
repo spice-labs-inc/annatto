@@ -1,0 +1,25 @@
+{
+  "name": "connection_pool",
+  "simpleName": "connection_pool",
+  "version": "2.4.1",
+  "description": "Generic connection pool for Ruby",
+  "license": "MIT",
+  "publisher": "Mike Perham",
+  "dependencies": [
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "minitest",
+      "versionConstraint": ">= 5.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

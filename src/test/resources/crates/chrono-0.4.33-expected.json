@@ -1,0 +1,90 @@
+{
+  "name": "chrono",
+  "simpleName": "chrono",
+  "version": "0.4.33",
+  "description": "Date and time library for Rust",
+  "license": "MIT OR Apache-2.0",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "arbitrary",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "num-traits",
+      "versionConstraint": "^0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pure-rust-locales",
+      "versionConstraint": "^0.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "rkyv",
+      "versionConstraint": "^0.7.43",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustc-serialize",
+      "versionConstraint": "^0.3.20",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.99",
+      "scope": "runtime"
+    },
+    {
+      "name": "bincode",
+      "versionConstraint": "^1.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_derive",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "js-sys",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen",
+      "versionConstraint": "^0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen-test",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "android-tzdata",
+      "versionConstraint": "^0.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "iana-time-zone",
+      "versionConstraint": "^0.1.45",
+      "scope": "runtime"
+    },
+    {
+      "name": "windows-targets",
+      "versionConstraint": "^0.52",
+      "scope": "runtime"
+    },
+    {
+      "name": "windows-bindgen",
+      "versionConstraint": "^0.52",
+      "scope": "dev"
+    }
+  ]
+}

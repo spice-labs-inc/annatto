@@ -1,0 +1,30 @@
+{
+  "name": "kramdown",
+  "simpleName": "kramdown",
+  "version": "2.4.0",
+  "description": "kramdown is a fast, pure-Ruby Markdown-superset converter.",
+  "license": "MIT",
+  "publisher": "Thomas Leitner",
+  "dependencies": [
+    {
+      "name": "rexml",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "minitest",
+      "versionConstraint": "~> 5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rouge",
+      "versionConstraint": "~> 3.0, >= 3.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "stringex",
+      "versionConstraint": "~> 1.5.1",
+      "scope": "dev"
+    }
+  ]
+}

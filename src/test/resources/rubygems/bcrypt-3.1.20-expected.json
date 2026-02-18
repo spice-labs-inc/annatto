@@ -1,0 +1,20 @@
+{
+  "name": "bcrypt",
+  "simpleName": "bcrypt",
+  "version": "3.1.20",
+  "description": "OpenBSD's bcrypt() password hashing algorithm.",
+  "license": "MIT",
+  "publisher": "Coda Hale",
+  "dependencies": [
+    {
+      "name": "rake-compiler",
+      "versionConstraint": "~> 1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rspec",
+      "versionConstraint": ">= 3",
+      "scope": "dev"
+    }
+  ]
+}

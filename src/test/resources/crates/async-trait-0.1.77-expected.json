@@ -1,0 +1,50 @@
+{
+  "name": "async-trait",
+  "simpleName": "async-trait",
+  "version": "0.1.77",
+  "description": "Type erasure for async trait methods",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.74",
+      "scope": "runtime"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1.0.35",
+      "scope": "runtime"
+    },
+    {
+      "name": "syn",
+      "versionConstraint": "^2.0.46",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures",
+      "versionConstraint": "^0.3.30",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0.13",
+      "scope": "dev"
+    },
+    {
+      "name": "tracing",
+      "versionConstraint": "^0.1.40",
+      "scope": "dev"
+    },
+    {
+      "name": "tracing-attributes",
+      "versionConstraint": "^0.1.27",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.81",
+      "scope": "dev"
+    }
+  ]
+}

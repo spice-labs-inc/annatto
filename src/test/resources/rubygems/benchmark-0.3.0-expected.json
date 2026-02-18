@@ -1,0 +1,11 @@
+{
+  "name": "benchmark",
+  "simpleName": "benchmark",
+  "version": "0.3.0",
+  "description": "a performance benchmarking library",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "Yukihiro Matsumoto",
+  "dependencies": [
+
+  ]
+}

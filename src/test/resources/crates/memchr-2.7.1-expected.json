@@ -1,0 +1,30 @@
+{
+  "name": "memchr",
+  "simpleName": "memchr",
+  "version": "2.7.1",
+  "description": "Provides extremely fast (uses SIMD on x86_64, aarch64 and wasm32) routines for\n1, 2 or 3 byte search and single substring search.\n",
+  "license": "Unlicense OR MIT",
+  "publisher": "Andrew Gallant",
+  "dependencies": [
+    {
+      "name": "compiler_builtins",
+      "versionConstraint": "^0.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustc-std-workspace-core",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "log",
+      "versionConstraint": "^0.4.20",
+      "scope": "runtime"
+    },
+    {
+      "name": "quickcheck",
+      "versionConstraint": "^1.0.3",
+      "scope": "dev"
+    }
+  ]
+}

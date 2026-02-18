@@ -1,0 +1,35 @@
+{
+  "name": "devise",
+  "simpleName": "devise",
+  "version": "4.9.3",
+  "description": "Flexible authentication solution for Rails with Warden",
+  "license": "MIT",
+  "publisher": "José Valim",
+  "dependencies": [
+    {
+      "name": "warden",
+      "versionConstraint": "~> 1.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "orm_adapter",
+      "versionConstraint": "~> 0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "bcrypt",
+      "versionConstraint": "~> 3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "railties",
+      "versionConstraint": ">= 4.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "responders",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

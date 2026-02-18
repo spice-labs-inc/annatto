@@ -1,0 +1,140 @@
+{
+  "name": "tokio",
+  "simpleName": "tokio",
+  "version": "1.35.1",
+  "description": "An event-driven, non-blocking I/O platform for writing asynchronous I/O\nbacked applications.\n",
+  "license": "MIT",
+  "publisher": "Tokio Contributors",
+  "dependencies": [
+    {
+      "name": "bytes",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "mio",
+      "versionConstraint": "^0.8.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "num_cpus",
+      "versionConstraint": "^1.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "parking_lot",
+      "versionConstraint": "^0.12.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pin-project-lite",
+      "versionConstraint": "^0.2.11",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio-macros",
+      "versionConstraint": "~2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "async-stream",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "futures",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mockall",
+      "versionConstraint": "^0.11.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio-stream",
+      "versionConstraint": "^0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio-test",
+      "versionConstraint": "^0.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "wasm-bindgen-test",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "loom",
+      "versionConstraint": "^0.7",
+      "scope": "dev"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "socket2",
+      "versionConstraint": "^0.5.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "socket2",
+      "versionConstraint": "^0.5.5",
+      "scope": "dev"
+    },
+    {
+      "name": "tempfile",
+      "versionConstraint": "^3.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mio-aio",
+      "versionConstraint": "^0.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "backtrace",
+      "versionConstraint": "^0.3.58",
+      "scope": "runtime"
+    },
+    {
+      "name": "tracing",
+      "versionConstraint": "^0.1.25",
+      "scope": "runtime"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.149",
+      "scope": "runtime"
+    },
+    {
+      "name": "signal-hook-registry",
+      "versionConstraint": "^1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.149",
+      "scope": "dev"
+    },
+    {
+      "name": "nix",
+      "versionConstraint": "^0.27.1",
+      "scope": "dev"
+    },
+    {
+      "name": "windows-sys",
+      "versionConstraint": "^0.48",
+      "scope": "runtime"
+    },
+    {
+      "name": "windows-sys",
+      "versionConstraint": "^0.48",
+      "scope": "dev"
+    }
+  ]
+}

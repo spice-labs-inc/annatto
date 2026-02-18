@@ -1,0 +1,45 @@
+{
+  "name": "base64",
+  "simpleName": "base64",
+  "version": "0.22.0",
+  "description": "encodes and decodes base64 as bytes or utf8",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Alice Maz",
+  "dependencies": [
+    {
+      "name": "clap",
+      "versionConstraint": "^3.2.25",
+      "scope": "dev"
+    },
+    {
+      "name": "criterion",
+      "versionConstraint": "^0.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "once_cell",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.8.5",
+      "scope": "dev"
+    },
+    {
+      "name": "rstest",
+      "versionConstraint": "^0.13.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rstest_reuse",
+      "versionConstraint": "^0.6.0",
+      "scope": "dev"
+    },
+    {
+      "name": "strum",
+      "versionConstraint": "^0.25",
+      "scope": "dev"
+    }
+  ]
+}

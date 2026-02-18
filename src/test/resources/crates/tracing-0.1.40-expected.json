@@ -1,0 +1,50 @@
+{
+  "name": "tracing",
+  "simpleName": "tracing",
+  "version": "0.1.40",
+  "description": "Application-level tracing for Rust.\n",
+  "license": "MIT",
+  "publisher": "Eliza Weisman",
+  "dependencies": [
+    {
+      "name": "log",
+      "versionConstraint": "^0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "pin-project-lite",
+      "versionConstraint": "^0.2.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "tracing-attributes",
+      "versionConstraint": "^0.1.27",
+      "scope": "runtime"
+    },
+    {
+      "name": "tracing-core",
+      "versionConstraint": "^0.1.32",
+      "scope": "runtime"
+    },
+    {
+      "name": "criterion",
+      "versionConstraint": "^0.3.6",
+      "scope": "dev"
+    },
+    {
+      "name": "futures",
+      "versionConstraint": "^0.3.21",
+      "scope": "dev"
+    },
+    {
+      "name": "log",
+      "versionConstraint": "^0.4.17",
+      "scope": "dev"
+    },
+    {
+      "name": "wasm-bindgen-test",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    }
+  ]
+}

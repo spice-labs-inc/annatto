@@ -1,0 +1,11 @@
+{
+  "name": "mysql2",
+  "simpleName": "mysql2",
+  "version": "0.5.6",
+  "description": "A simple, fast Mysql library for Ruby, binding to libmysql",
+  "license": "MIT",
+  "publisher": "Brian Lopez",
+  "dependencies": [
+
+  ]
+}

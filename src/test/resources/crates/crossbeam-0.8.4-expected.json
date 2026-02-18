@@ -1,0 +1,40 @@
+{
+  "name": "crossbeam",
+  "simpleName": "crossbeam",
+  "version": "0.8.4",
+  "description": "Tools for concurrent programming",
+  "license": "MIT OR Apache-2.0",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "crossbeam-channel",
+      "versionConstraint": "^0.5.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "crossbeam-deque",
+      "versionConstraint": "^0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "crossbeam-epoch",
+      "versionConstraint": "^0.9.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "crossbeam-queue",
+      "versionConstraint": "^0.3.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "crossbeam-utils",
+      "versionConstraint": "^0.8.18",
+      "scope": "runtime"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.8",
+      "scope": "dev"
+    }
+  ]
+}

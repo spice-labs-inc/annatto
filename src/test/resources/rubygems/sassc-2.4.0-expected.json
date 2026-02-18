@@ -1,0 +1,55 @@
+{
+  "name": "sassc",
+  "simpleName": "sassc",
+  "version": "2.4.0",
+  "description": "Use libsass with Ruby!",
+  "license": "MIT",
+  "publisher": "Ryan Boland",
+  "dependencies": [
+    {
+      "name": "minitest",
+      "versionConstraint": "~> 5.5.1",
+      "scope": "dev"
+    },
+    {
+      "name": "minitest-around",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "test_construct",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "pry",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake-compiler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake-compiler-dock",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "ffi",
+      "versionConstraint": "~> 1.9",
+      "scope": "runtime"
+    }
+  ]
+}

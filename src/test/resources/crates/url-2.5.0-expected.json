@@ -1,0 +1,45 @@
+{
+  "name": "url",
+  "simpleName": "url",
+  "version": "2.5.0",
+  "description": "URL library for Rust, based on the WHATWG URL Standard",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The rust-url developers",
+  "dependencies": [
+    {
+      "name": "form_urlencoded",
+      "versionConstraint": "^1.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "idna",
+      "versionConstraint": "^0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "percent-encoding",
+      "versionConstraint": "^2.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "bencher",
+      "versionConstraint": "^0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    }
+  ]
+}

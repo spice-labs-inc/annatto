@@ -1,0 +1,20 @@
+{
+  "name": "httparty",
+  "simpleName": "httparty",
+  "version": "0.21.0",
+  "description": "Makes http fun! Also, makes consuming restful web services dead easy.",
+  "license": "MIT",
+  "publisher": "John Nunemaker",
+  "dependencies": [
+    {
+      "name": "multi_xml",
+      "versionConstraint": ">= 0.5.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "mini_mime",
+      "versionConstraint": ">= 1.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

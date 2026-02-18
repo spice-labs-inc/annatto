@@ -1,0 +1,9 @@
+{
+  "name": "opaque-debug",
+  "simpleName": "opaque-debug",
+  "version": "0.3.1",
+  "description": "Macro for opaque Debug trait implementation",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "RustCrypto Developers",
+  "dependencies": []
+}

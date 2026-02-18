@@ -1,0 +1,75 @@
+{
+  "name": "serde_json",
+  "simpleName": "serde_json",
+  "version": "1.0.113",
+  "description": "A JSON serialization file format",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Erick Tryzelaar",
+  "dependencies": [
+    {
+      "name": "indexmap",
+      "versionConstraint": "^2.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "itoa",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ryu",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.194",
+      "scope": "runtime"
+    },
+    {
+      "name": "automod",
+      "versionConstraint": "^1.0.11",
+      "scope": "dev"
+    },
+    {
+      "name": "indoc",
+      "versionConstraint": "^2.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "ref-cast",
+      "versionConstraint": "^1.0.18",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0.13",
+      "scope": "dev"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.194",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_bytes",
+      "versionConstraint": "^0.11.10",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_derive",
+      "versionConstraint": "^1.0.166",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_stacker",
+      "versionConstraint": "^0.1.8",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.81",
+      "scope": "dev"
+    }
+  ]
+}

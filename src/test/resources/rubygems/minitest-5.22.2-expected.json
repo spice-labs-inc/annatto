@@ -1,0 +1,20 @@
+{
+  "name": "minitest",
+  "simpleName": "minitest",
+  "version": "5.22.2",
+  "description": "minitest provides a complete suite of testing facilities supporting TDD, BDD, mocking, and benchmarking",
+  "license": "MIT",
+  "publisher": "Ryan Davis",
+  "dependencies": [
+    {
+      "name": "rdoc",
+      "versionConstraint": ">= 4.0, < 7",
+      "scope": "dev"
+    },
+    {
+      "name": "hoe",
+      "versionConstraint": "~> 4.2",
+      "scope": "dev"
+    }
+  ]
+}

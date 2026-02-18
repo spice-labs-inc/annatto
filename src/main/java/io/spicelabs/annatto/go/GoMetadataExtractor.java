@@ -21,6 +21,7 @@ import io.spicelabs.annatto.common.EcosystemId;
 import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.ParsedDependency;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,6 +64,21 @@ public final class GoMetadataExtractor {
     public static @NotNull MetadataResult extract(@NotNull InputStream inputStream, @NotNull String filename)
             throws MetadataExtractionException, MalformedPackageException {
         GoModData goModData = extractGoModFromZip(inputStream, filename);
+        return buildMetadataResult(goModData);
+    }
+
+    /**
+     * Builds a {@link MetadataResult} from extracted go.mod data.
+     * Parses the go.mod text and maps fields to the normalized metadata model.
+     *
+     * <p>This is the second step of the two-step extraction pattern (analogous to
+     * {@code PypiMetadataExtractor.parseMetadataText}). Step one is
+     * {@link #extractGoModFromZip}.</p>
+     *
+     * @param goModData the raw data extracted from the zip archive
+     * @return the normalized metadata result
+     */
+    static @NotNull MetadataResult buildMetadataResult(@NotNull GoModData goModData) {
         ParsedGoMod parsed = parseGoMod(goModData.goModText());
 
         String modulePath = parsed.modulePath() != null ? parsed.modulePath() : goModData.modulePath();
@@ -70,9 +86,9 @@ public final class GoMetadataExtractor {
 
         return new MetadataResult(
                 EcosystemId.GO,
-                Optional.ofNullable(modulePath),
+                Optional.ofNullable(modulePath).filter(s -> !s.isEmpty()),
                 Optional.ofNullable(modulePath != null ? extractSimpleName(modulePath) : null),
-                Optional.ofNullable(version),
+                Optional.ofNullable(version).filter(s -> !s.isEmpty()),
                 Optional.empty(), // go.mod has no description
                 Optional.empty(), // go.mod has no license field
                 Optional.empty(), // go.mod has no author field
@@ -200,7 +216,8 @@ public final class GoMetadataExtractor {
             }
 
             // Require block opener
-            if (line.equals("require (") || line.startsWith("require (")) {
+            if (line.equals("require (") || line.startsWith("require (")
+                    || line.equals("require(") || line.startsWith("require(")) {
                 inRequireBlock = true;
                 // Check if there's content after "require (" on the same line
                 String afterParen = line.substring(line.indexOf('(') + 1).trim();
@@ -356,6 +373,7 @@ public final class GoMetadataExtractor {
     /**
      * Holds the parsed structure of a go.mod file.
      */
-    record ParsedGoMod(String modulePath, String goVersion, @NotNull List<ParsedDependency> requires) {
+    record ParsedGoMod(@Nullable String modulePath, @Nullable String goVersion,
+                       @NotNull List<ParsedDependency> requires) {
     }
 }

@@ -1,0 +1,30 @@
+{
+  "name": "capistrano",
+  "simpleName": "capistrano",
+  "version": "3.18.1",
+  "description": "Capistrano - Welcome to easy deployment with Ruby over SSH",
+  "license": "MIT",
+  "publisher": "Tom Clements",
+  "dependencies": [
+    {
+      "name": "airbrussh",
+      "versionConstraint": ">= 1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "i18n",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": ">= 10.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "sshkit",
+      "versionConstraint": ">= 1.9.0",
+      "scope": "runtime"
+    }
+  ]
+}

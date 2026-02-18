@@ -1,0 +1,50 @@
+{
+  "name": "ring",
+  "simpleName": "ring",
+  "version": "0.17.7",
+  "description": "Safe, fast, small crypto using Rust.",
+  "license": null,
+  "publisher": "Brian Smith",
+  "dependencies": [
+    {
+      "name": "getrandom",
+      "versionConstraint": "^0.2.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "untrusted",
+      "versionConstraint": "^0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "cc",
+      "versionConstraint": "^1.0.83",
+      "scope": "build"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.148",
+      "scope": "runtime"
+    },
+    {
+      "name": "windows-sys",
+      "versionConstraint": "^0.48",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen-test",
+      "versionConstraint": "^0.3.37",
+      "scope": "dev"
+    },
+    {
+      "name": "spin",
+      "versionConstraint": "^0.9.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.148",
+      "scope": "dev"
+    }
+  ]
+}

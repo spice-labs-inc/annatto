@@ -1,0 +1,25 @@
+{
+  "name": "serde",
+  "simpleName": "serde",
+  "version": "1.0.195",
+  "description": "A generic serialization/deserialization framework",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Erick Tryzelaar",
+  "dependencies": [
+    {
+      "name": "serde_derive",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_derive",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_derive",
+      "versionConstraint": "=1.0.195",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "rake",
+  "simpleName": "rake",
+  "version": "13.1.0",
+  "description": "Rake is a Make-like program implemented in Ruby",
+  "license": "MIT",
+  "publisher": "Hiroshi SHIBATA",
+  "dependencies": [
+
+  ]
+}

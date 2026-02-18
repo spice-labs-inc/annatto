@@ -1,0 +1,45 @@
+{
+  "name": "openssl-sys",
+  "simpleName": "openssl-sys",
+  "version": "0.9.99",
+  "description": "FFI bindings to OpenSSL",
+  "license": "MIT",
+  "publisher": "Alex Crichton",
+  "dependencies": [
+    {
+      "name": "bssl-sys",
+      "versionConstraint": "^0.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "bindgen",
+      "versionConstraint": "^0.65.0",
+      "scope": "build"
+    },
+    {
+      "name": "cc",
+      "versionConstraint": "^1.0.61",
+      "scope": "build"
+    },
+    {
+      "name": "openssl-src",
+      "versionConstraint": "^300.1.2",
+      "scope": "build"
+    },
+    {
+      "name": "pkg-config",
+      "versionConstraint": "^0.3.9",
+      "scope": "build"
+    },
+    {
+      "name": "vcpkg",
+      "versionConstraint": "^0.2.8",
+      "scope": "build"
+    }
+  ]
+}

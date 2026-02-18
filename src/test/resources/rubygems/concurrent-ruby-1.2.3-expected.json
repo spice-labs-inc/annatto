@@ -1,0 +1,11 @@
+{
+  "name": "concurrent-ruby",
+  "simpleName": "concurrent-ruby",
+  "version": "1.2.3",
+  "description": "Modern concurrency tools for Ruby. Inspired by Erlang, Clojure, Scala, Haskell, F#, C#, Java, and classic concurrency patterns.",
+  "license": "MIT",
+  "publisher": "Jerry D'Antonio",
+  "dependencies": [
+
+  ]
+}

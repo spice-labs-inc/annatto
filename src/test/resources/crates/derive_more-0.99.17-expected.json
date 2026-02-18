@@ -1,0 +1,40 @@
+{
+  "name": "derive_more",
+  "simpleName": "derive_more",
+  "version": "0.99.17",
+  "description": "Adds #[derive(x)] macros for more traits",
+  "license": "MIT",
+  "publisher": "Jelte Fennema",
+  "dependencies": [
+    {
+      "name": "convert_case",
+      "versionConstraint": "^0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "syn",
+      "versionConstraint": "^1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "peg",
+      "versionConstraint": "^0.5",
+      "scope": "build"
+    },
+    {
+      "name": "rustc_version",
+      "versionConstraint": "^0.4",
+      "scope": "build"
+    }
+  ]
+}

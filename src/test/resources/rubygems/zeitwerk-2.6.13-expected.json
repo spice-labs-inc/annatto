@@ -1,0 +1,11 @@
+{
+  "name": "zeitwerk",
+  "simpleName": "zeitwerk",
+  "version": "2.6.13",
+  "description": "Efficient and thread-safe constant autoloader",
+  "license": "MIT",
+  "publisher": "Xavier Noria",
+  "dependencies": [
+
+  ]
+}

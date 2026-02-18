@@ -1,0 +1,310 @@
+{
+  "name": "reqwest",
+  "simpleName": "reqwest",
+  "version": "0.11.24",
+  "description": "higher level HTTP client library",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Sean McArthur",
+  "dependencies": [
+    {
+      "name": "base64",
+      "versionConstraint": "^0.21",
+      "scope": "runtime"
+    },
+    {
+      "name": "bytes",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-core",
+      "versionConstraint": "^0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-util",
+      "versionConstraint": "^0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "http",
+      "versionConstraint": "^0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "mime_guess",
+      "versionConstraint": "^2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_urlencoded",
+      "versionConstraint": "^0.7.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "sync_wrapper",
+      "versionConstraint": "^0.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "tower-service",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "url",
+      "versionConstraint": "^2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "async-compression",
+      "versionConstraint": "^0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cookie",
+      "versionConstraint": "^0.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cookie_store",
+      "versionConstraint": "^0.20.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "encoding_rs",
+      "versionConstraint": "^0.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures-channel",
+      "versionConstraint": "^0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "h2",
+      "versionConstraint": "^0.3.14",
+      "scope": "runtime"
+    },
+    {
+      "name": "h3",
+      "versionConstraint": "^0.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "h3-quinn",
+      "versionConstraint": "^0.0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "http-body",
+      "versionConstraint": "^0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "hyper",
+      "versionConstraint": "^0.14.21",
+      "scope": "runtime"
+    },
+    {
+      "name": "hyper-rustls",
+      "versionConstraint": "^0.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "hyper-tls",
+      "versionConstraint": "^0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "ipnet",
+      "versionConstraint": "^2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "log",
+      "versionConstraint": "^0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "mime",
+      "versionConstraint": "^0.3.16",
+      "scope": "runtime"
+    },
+    {
+      "name": "native-tls",
+      "versionConstraint": "^0.2.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "once_cell",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "percent-encoding",
+      "versionConstraint": "^2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pin-project-lite",
+      "versionConstraint": "^0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "quinn",
+      "versionConstraint": "^0.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustls",
+      "versionConstraint": "^0.21.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustls-native-certs",
+      "versionConstraint": "^0.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustls-pemfile",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio-native-tls",
+      "versionConstraint": "^0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio-rustls",
+      "versionConstraint": "^0.24",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio-socks",
+      "versionConstraint": "^0.5.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio-util",
+      "versionConstraint": "^0.7.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "trust-dns-resolver",
+      "versionConstraint": "^0.23",
+      "scope": "runtime"
+    },
+    {
+      "name": "webpki-roots",
+      "versionConstraint": "^0.25",
+      "scope": "runtime"
+    },
+    {
+      "name": "brotli",
+      "versionConstraint": "^3.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "doc-comment",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "env_logger",
+      "versionConstraint": "^0.10",
+      "scope": "dev"
+    },
+    {
+      "name": "futures-util",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "hyper",
+      "versionConstraint": "^0.14",
+      "scope": "dev"
+    },
+    {
+      "name": "libflate",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "js-sys",
+      "versionConstraint": "^0.3.45",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen",
+      "versionConstraint": "^0.2.68",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen-futures",
+      "versionConstraint": "^0.4.18",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-streams",
+      "versionConstraint": "^0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "web-sys",
+      "versionConstraint": "^0.3.25",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm-bindgen",
+      "versionConstraint": "^0.2.68",
+      "scope": "dev"
+    },
+    {
+      "name": "wasm-bindgen-test",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "system-configuration",
+      "versionConstraint": "^0.5.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "winreg",
+      "versionConstraint": "^0.50.0",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "log",
+  "simpleName": "log",
+  "version": "0.4.20",
+  "description": "A lightweight logging facade for Rust\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rust Project Developers",
+  "dependencies": [
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "sval",
+      "versionConstraint": "^2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "sval_ref",
+      "versionConstraint": "^2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "value-bag",
+      "versionConstraint": "^1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.63",
+      "scope": "dev"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "serde_test",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "sval",
+      "versionConstraint": "^2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "sval_derive",
+      "versionConstraint": "^2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "value-bag",
+      "versionConstraint": "^1.4",
+      "scope": "dev"
+    }
+  ]
+}

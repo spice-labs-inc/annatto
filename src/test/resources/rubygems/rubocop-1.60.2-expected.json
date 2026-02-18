@@ -1,0 +1,60 @@
+{
+  "name": "rubocop",
+  "simpleName": "rubocop",
+  "version": "1.60.2",
+  "description": "Automatic Ruby code style checking tool.",
+  "license": "MIT",
+  "publisher": "Bozhidar Batsov",
+  "dependencies": [
+    {
+      "name": "json",
+      "versionConstraint": "~> 2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "language_server-protocol",
+      "versionConstraint": ">= 3.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "parallel",
+      "versionConstraint": "~> 1.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "parser",
+      "versionConstraint": ">= 3.3.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "rainbow",
+      "versionConstraint": ">= 2.2.2, < 4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "regexp_parser",
+      "versionConstraint": ">= 1.8, < 3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rexml",
+      "versionConstraint": ">= 3.2.5, < 4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rubocop-ast",
+      "versionConstraint": ">= 1.30.0, < 2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ruby-progressbar",
+      "versionConstraint": "~> 1.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "unicode-display_width",
+      "versionConstraint": ">= 2.4.0, < 3.0",
+      "scope": "runtime"
+    }
+  ]
+}

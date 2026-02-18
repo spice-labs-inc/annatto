@@ -1,0 +1,30 @@
+{
+  "name": "rack",
+  "simpleName": "rack",
+  "version": "3.0.9",
+  "description": "A modular Ruby webserver interface.",
+  "license": "MIT",
+  "publisher": "Leah Neukirchen",
+  "dependencies": [
+    {
+      "name": "minitest",
+      "versionConstraint": "~> 5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "minitest-global_expectations",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "clap",
+  "simpleName": "clap",
+  "version": "4.4.18",
+  "description": "A simple to use, efficient, and full-featured Command Line Argument Parser",
+  "license": "MIT OR Apache-2.0",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "clap_builder",
+      "versionConstraint": "=4.4.18",
+      "scope": "runtime"
+    },
+    {
+      "name": "clap_derive",
+      "versionConstraint": "=4.4.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "humantime",
+      "versionConstraint": "^2.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0.14",
+      "scope": "dev"
+    },
+    {
+      "name": "shlex",
+      "versionConstraint": "^1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "snapbox",
+      "versionConstraint": "^0.4.15",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.86",
+      "scope": "dev"
+    },
+    {
+      "name": "trycmd",
+      "versionConstraint": "^0.14.19",
+      "scope": "dev"
+    }
+  ]
+}

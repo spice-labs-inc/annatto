@@ -1,0 +1,60 @@
+{
+  "name": "dry-types",
+  "simpleName": "dry-types",
+  "version": "1.7.2",
+  "description": "Type system for Ruby supporting coercions, constraints and complex types like structs, value objects, enums etc",
+  "license": "MIT",
+  "publisher": "Piotr Solnica",
+  "dependencies": [
+    {
+      "name": "bigdecimal",
+      "versionConstraint": "~> 3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "concurrent-ruby",
+      "versionConstraint": "~> 1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "dry-core",
+      "versionConstraint": "~> 1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "dry-inflector",
+      "versionConstraint": "~> 1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "dry-logic",
+      "versionConstraint": "~> 1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "zeitwerk",
+      "versionConstraint": "~> 2.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rspec",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "yard",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

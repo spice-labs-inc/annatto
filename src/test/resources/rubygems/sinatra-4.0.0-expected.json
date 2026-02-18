@@ -1,0 +1,35 @@
+{
+  "name": "sinatra",
+  "simpleName": "sinatra",
+  "version": "4.0.0",
+  "description": "Classy web-development dressed in a DSL",
+  "license": "MIT",
+  "publisher": "Blake Mizerany",
+  "dependencies": [
+    {
+      "name": "mustermann",
+      "versionConstraint": "~> 3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rack",
+      "versionConstraint": ">= 3.0.0, < 4",
+      "scope": "runtime"
+    },
+    {
+      "name": "rack-session",
+      "versionConstraint": ">= 2.0.0, < 3",
+      "scope": "runtime"
+    },
+    {
+      "name": "rack-protection",
+      "versionConstraint": "= 4.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tilt",
+      "versionConstraint": "~> 2.0",
+      "scope": "runtime"
+    }
+  ]
+}

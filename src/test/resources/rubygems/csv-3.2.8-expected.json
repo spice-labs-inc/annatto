@@ -1,0 +1,30 @@
+{
+  "name": "csv",
+  "simpleName": "csv",
+  "version": "3.2.8",
+  "description": "CSV Reading and Writing",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "James Edward Gray II",
+  "dependencies": [
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "rake",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "benchmark_driver",
+      "versionConstraint": null,
+      "scope": "dev"
+    },
+    {
+      "name": "test-unit",
+      "versionConstraint": ">= 3.4.8",
+      "scope": "dev"
+    }
+  ]
+}

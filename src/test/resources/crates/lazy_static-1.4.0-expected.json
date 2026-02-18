@@ -1,0 +1,20 @@
+{
+  "name": "lazy_static",
+  "simpleName": "lazy_static",
+  "version": "1.4.0",
+  "description": "A macro for declaring lazily evaluated statics in Rust.",
+  "license": "MIT/Apache-2.0",
+  "publisher": "Marvin Löbel",
+  "dependencies": [
+    {
+      "name": "spin",
+      "versionConstraint": "^0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "doc-comment",
+      "versionConstraint": "^0.3.1",
+      "scope": "dev"
+    }
+  ]
+}

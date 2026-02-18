@@ -697,6 +697,82 @@ class GoMetadataExtractorTest {
         assertThat(indirect.scope()).hasValue("indirect");
     }
 
+    /**
+     * Goal: Verify exclude blocks are ignored.
+     * Rationale: Q4 - multi-line exclude blocks should not contribute to dependencies.
+     */
+    @Test
+    void parseGoMod_ignoresExcludeBlock() {
+        String goMod = """
+                module example.com/mod
+
+                go 1.20
+
+                require github.com/foo/bar v1.0.0
+
+                exclude (
+                \tgithub.com/foo/bar v0.9.0
+                \tgithub.com/foo/bar v0.8.0
+                )
+                """;
+        GoMetadataExtractor.ParsedGoMod parsed = GoMetadataExtractor.parseGoMod(goMod);
+
+        assertThat(parsed.requires()).hasSize(1);
+        assertThat(parsed.requires().get(0).name()).isEqualTo("github.com/foo/bar");
+    }
+
+    /**
+     * Goal: Verify require( without space before paren is handled.
+     * Rationale: While uncommon, go.mod files may omit the space between require and (.
+     */
+    @Test
+    void parseGoMod_requireWithoutSpace() {
+        String goMod = """
+                module example.com/mod
+
+                go 1.20
+
+                require(
+                \tgithub.com/foo/bar v1.0.0
+                \tgithub.com/baz/qux v2.0.0 // indirect
+                )
+                """;
+        GoMetadataExtractor.ParsedGoMod parsed = GoMetadataExtractor.parseGoMod(goMod);
+
+        assertThat(parsed.requires()).hasSize(2);
+        assertThat(parsed.requires().get(0).name()).isEqualTo("github.com/foo/bar");
+        assertThat(parsed.requires().get(0).scope()).hasValue("runtime");
+        assertThat(parsed.requires().get(1).name()).isEqualTo("github.com/baz/qux");
+        assertThat(parsed.requires().get(1).scope()).hasValue("indirect");
+    }
+
+    /**
+     * Goal: Verify +incompatible version suffix is preserved in dependencies.
+     * Rationale: Q2 - modules at major version 2+ without go.mod use +incompatible suffix.
+     */
+    @Test
+    void parseGoMod_incompatibleVersionPreserved() {
+        String goMod = """
+                module example.com/mod
+
+                go 1.20
+
+                require (
+                \tgithub.com/some/lib v3.0.0+incompatible
+                \tgithub.com/other/pkg v2.1.0+incompatible // indirect
+                )
+                """;
+        GoMetadataExtractor.ParsedGoMod parsed = GoMetadataExtractor.parseGoMod(goMod);
+
+        assertThat(parsed.requires()).hasSize(2);
+        assertThat(parsed.requires().get(0).name()).isEqualTo("github.com/some/lib");
+        assertThat(parsed.requires().get(0).versionConstraint()).hasValue("v3.0.0+incompatible");
+        assertThat(parsed.requires().get(0).scope()).hasValue("runtime");
+        assertThat(parsed.requires().get(1).name()).isEqualTo("github.com/other/pkg");
+        assertThat(parsed.requires().get(1).versionConstraint()).hasValue("v2.1.0+incompatible");
+        assertThat(parsed.requires().get(1).scope()).hasValue("indirect");
+    }
+
     // --- Helper methods ---
 
     private MetadataResult extractFromPackage(Path pkgPath) throws Exception {

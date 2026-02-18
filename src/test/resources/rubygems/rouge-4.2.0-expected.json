@@ -1,0 +1,11 @@
+{
+  "name": "rouge",
+  "simpleName": "rouge",
+  "version": "4.2.0",
+  "description": "A pure-ruby colorizer based on pygments",
+  "license": "MIT OR BSD-2-Clause",
+  "publisher": "Jeanine Adkisson",
+  "dependencies": [
+
+  ]
+}

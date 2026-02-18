@@ -1,0 +1,9 @@
+{
+  "name": "void",
+  "simpleName": "void",
+  "version": "1.0.2",
+  "description": "The uninhabited void type for use in statically impossible cases.",
+  "license": "MIT",
+  "publisher": "Jonathan Reem",
+  "dependencies": []
+}

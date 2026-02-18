@@ -1,0 +1,30 @@
+{
+  "name": "tokio-macros",
+  "simpleName": "tokio-macros",
+  "version": "2.2.0",
+  "description": "Tokio's proc macros.\n",
+  "license": "MIT",
+  "publisher": "Tokio Contributors",
+  "dependencies": [
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.60",
+      "scope": "runtime"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "syn",
+      "versionConstraint": "^2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tokio",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    }
+  ]
+}

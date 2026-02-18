@@ -17,8 +17,20 @@
 /**
  * Crates.io ecosystem support for Annatto.
  *
- * <p>Handles extraction of metadata from Crates.io artifacts including
- * {@code .crate} (gzip tar) archives containing {@code Cargo.toml}.
- * Produces PURLs of the form {@code pkg:cargo/name@version}.
+ * <p>Handles extraction of metadata from Crates.io artifacts ({@code .crate}
+ * gzip tar archives containing {@code Cargo.toml}). Uses a two-step extraction
+ * pattern:</p>
+ * <ol>
+ *   <li>{@link io.spicelabs.annatto.crates.CratesMetadataExtractor#extractCargoTomlFromCrate
+ *       extractCargoTomlFromCrate} — extracts raw Cargo.toml text from the archive</li>
+ *   <li>{@link io.spicelabs.annatto.crates.CratesMetadataExtractor#buildMetadataResult
+ *       buildMetadataResult} — parses TOML and maps to normalized MetadataResult</li>
+ * </ol>
+ *
+ * <p>Produces PURLs of the form {@code pkg:cargo/name@version}.</p>
+ *
+ * @see io.spicelabs.annatto.crates.CratesHandler
+ * @see io.spicelabs.annatto.crates.CratesMetadataExtractor
+ * @see io.spicelabs.annatto.crates.CratesQuirks
  */
 package io.spicelabs.annatto.crates;

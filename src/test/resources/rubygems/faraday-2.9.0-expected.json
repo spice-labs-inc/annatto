@@ -1,0 +1,15 @@
+{
+  "name": "faraday",
+  "simpleName": "faraday",
+  "version": "2.9.0",
+  "description": "HTTP/REST API client library.",
+  "license": "MIT",
+  "publisher": "@technoweenie",
+  "dependencies": [
+    {
+      "name": "faraday-net_http",
+      "versionConstraint": ">= 2.0, < 3.2",
+      "scope": "runtime"
+    }
+  ]
+}

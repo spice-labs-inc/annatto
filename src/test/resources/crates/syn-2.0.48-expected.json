@@ -1,0 +1,85 @@
+{
+  "name": "syn",
+  "simpleName": "syn",
+  "version": "2.0.48",
+  "description": "Parser for Rust source code",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.75",
+      "scope": "runtime"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1.0.35",
+      "scope": "runtime"
+    },
+    {
+      "name": "unicode-ident",
+      "versionConstraint": "^1",
+      "scope": "runtime"
+    },
+    {
+      "name": "anyhow",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "automod",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "flate2",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "insta",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "rayon",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "ref-cast",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "reqwest",
+      "versionConstraint": "^0.11",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "syn-test-suite",
+      "versionConstraint": "^0",
+      "scope": "dev"
+    },
+    {
+      "name": "tar",
+      "versionConstraint": "^0.4.16",
+      "scope": "dev"
+    },
+    {
+      "name": "termcolor",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "walkdir",
+      "versionConstraint": "^2.3.2",
+      "scope": "dev"
+    }
+  ]
+}

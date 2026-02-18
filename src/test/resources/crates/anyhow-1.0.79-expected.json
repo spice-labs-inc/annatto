@@ -1,0 +1,40 @@
+{
+  "name": "anyhow",
+  "simpleName": "anyhow",
+  "version": "1.0.79",
+  "description": "Flexible concrete Error type built on std::error::Error",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "backtrace",
+      "versionConstraint": "^0.3.51",
+      "scope": "runtime"
+    },
+    {
+      "name": "futures",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0.6",
+      "scope": "dev"
+    },
+    {
+      "name": "syn",
+      "versionConstraint": "^2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "thiserror",
+      "versionConstraint": "^1.0.45",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.66",
+      "scope": "dev"
+    }
+  ]
+}

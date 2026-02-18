@@ -1,0 +1,30 @@
+{
+  "name": "ffi",
+  "simpleName": "ffi",
+  "version": "1.16.3",
+  "description": "Ruby FFI",
+  "license": "BSD-3-Clause",
+  "publisher": "Wayne Meissner",
+  "dependencies": [
+    {
+      "name": "rake",
+      "versionConstraint": "~> 13.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rake-compiler",
+      "versionConstraint": "~> 1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rake-compiler-dock",
+      "versionConstraint": "~> 1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rspec",
+      "versionConstraint": "~> 2.14.1",
+      "scope": "dev"
+    }
+  ]
+}

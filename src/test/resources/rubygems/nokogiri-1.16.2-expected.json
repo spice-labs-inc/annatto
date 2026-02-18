@@ -1,0 +1,20 @@
+{
+  "name": "nokogiri",
+  "simpleName": "nokogiri",
+  "version": "1.16.2",
+  "description": "Nokogiri (鋸) makes it easy and painless to work with XML and HTML from Ruby.",
+  "license": "MIT",
+  "publisher": "Mike Dalessio",
+  "dependencies": [
+    {
+      "name": "mini_portile2",
+      "versionConstraint": "~> 2.8.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "racc",
+      "versionConstraint": "~> 1.4",
+      "scope": "runtime"
+    }
+  ]
+}

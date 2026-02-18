@@ -1,0 +1,35 @@
+{
+  "name": "rayon",
+  "simpleName": "rayon",
+  "version": "1.8.1",
+  "description": "Simple work-stealing parallelism for Rust",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Niko Matsakis",
+  "dependencies": [
+    {
+      "name": "either",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rayon-core",
+      "versionConstraint": "^1.12.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "wasm_sync",
+      "versionConstraint": "^0.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rand",
+      "versionConstraint": "^0.8",
+      "scope": "dev"
+    },
+    {
+      "name": "rand_xorshift",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    }
+  ]
+}

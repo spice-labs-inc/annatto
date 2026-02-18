@@ -1,0 +1,15 @@
+{
+  "name": "puma",
+  "simpleName": "puma",
+  "version": "6.4.2",
+  "description": "Puma is a simple, fast, threaded, and highly parallel HTTP 1.1 server for Ruby/Rack applications",
+  "license": "BSD-3-Clause",
+  "publisher": "Evan Phoenix",
+  "dependencies": [
+    {
+      "name": "nio4r",
+      "versionConstraint": "~> 2.0",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -132,15 +132,65 @@ During corpus preparation (not during normal test runs):
 
 **Key quirks** (documented in `GoQuirks.java`, tested in `GoMetadataExtractorTest` and `GoHandlerTest`):
 - **Q1 URL-like module paths**: Module paths resemble URLs (e.g., `github.com/user/repo`); used as package name. Tests: `extractName_matchesSourceOfTruth` (50 packages), `extractSimpleName_standardModule`, `extractSimpleName_golangOrgX`, `extractSimpleName_gopkgIn`
-- **Q2 +incompatible suffix**: Modules at major version 2+ lacking go.mod may use `+incompatible` version suffix. Tests: parameterized source-of-truth tests on packages with +incompatible dependency versions
-- **Q3 Pseudo-versions**: Non-tagged commits use `v0.0.0-yyyymmddhhmmss-hash` format. Tests: `goModule_genproto_pseudoVersion`, `extractVersionFromEntryName_pseudoVersion`, parameterized tests on `google.golang.org_genproto`
-- **Q4 replace/exclude directives**: `go.mod` may contain `replace` and `exclude` directives; extractor ignores these and reads only `require`. Tests: `parseGoMod_ignoresReplace`, `parseGoMod_ignoresReplaceBlock`, `parseGoMod_ignoresExclude`
+- **Q2 +incompatible suffix**: Modules at major version 2+ lacking go.mod may use `+incompatible` version suffix. Tests: `parseGoMod_incompatibleVersionPreserved`, parameterized source-of-truth `extractDependencies_matchSourceOfTruth` (50 packages)
+- **Q3 Pseudo-versions**: Non-tagged commits use `v0.0.0-yyyymmddhhmmss-hash` format. Tests: `goModule_genproto_pseudoVersion`, `extractVersionFromEntryName_pseudoVersion`, parameterized `extractVersion_matchesSourceOfTruth` on `google.golang.org_genproto`
+- **Q4 replace/exclude directives**: `go.mod` may contain `replace` and `exclude` directives; extractor ignores these and reads only `require`. Tests: `parseGoMod_ignoresReplace`, `parseGoMod_ignoresReplaceBlock`, `parseGoMod_ignoresExclude`, `parseGoMod_ignoresExcludeBlock`
 - **Q5 Major version suffixes /vN**: Modules at v2+ include major version in path (e.g., `example.com/mod/v2`); simple name is `v2`. Tests: `extractSimpleName_majorVersionModule`, `goModule_chiV5_majorVersion`, `getPurls_majorVersionModule`
 - **Q6 Retracted versions**: `go.mod` can declare `retract` directives; extractor ignores them. Tests: `parseGoMod_ignoresRetract`, `parseGoMod_ignoresRetractBlock`
 
 **PURL**: `pkg:golang/namespace/name@version` (module path split at last `/`)
 
 **Test corpus**: 50 real Go modules downloaded from proxy.golang.org, source-of-truth metadata extracted via Go and jq in Docker (`docker/go/`).
+
+## Crates.io Ecosystem Details
+
+**Format**: `.crate` (gzip-compressed tar) containing `<name>-<version>/Cargo.toml`
+
+**Extraction pipeline** (`CratesMetadataExtractor`):
+1. Open `GZIPInputStream` -> `TarArchiveInputStream` (commons-compress)
+2. Scan tar entries for root-level `Cargo.toml` (matching `<dir>/Cargo.toml` at depth 2 via `isCargoToml()`)
+3. Read entry to String (10 MB size limit for security)
+4. Parse TOML via `org.tomlj.Toml.parse()`
+5. Extract name, version, description, license, publisher from `[package]` section
+6. Parse dependencies from `[dependencies]`, `[dev-dependencies]`, `[build-dependencies]`, and `[target.*.dependencies]` sections
+7. Normalize version constraints (bare `"1.0"` -> `"^1.0"` to match cargo semantics)
+
+**Key quirks** (documented in `CratesQuirks.java`, tested in `CratesMetadataExtractorTest` and `CratesHandlerTest`):
+- **Q1 TOML format**: `Cargo.toml` uses TOML; published crates use normalized format with dotted table headers (`[dependencies.serde]`). Tests: all 50 parameterized source-of-truth tests, `parseDependencies_simpleVersionString`, `parseDependencies_dottedTableHeaders`
+- **Q2 Feature flags / optional deps**: Dependencies may be gated behind features via `optional = true`; scope remains `"runtime"`. Tests: `crate_serde_optionalDependency`, `parseDependencies_optionalScopeIsRuntime`
+- **Q3 Build-dependencies**: `[build-dependencies]` section → scope `"build"`. Tests: `crate_openssl_sys_buildDeps`, `parseDependencies_buildDeps`
+- **Q4 Renamed dependencies**: `package = "real-name"` in dep table → name uses real package name, not alias key. Tests: `crate_reqwest_renamedDependencies`, `parseDependencies_renamedPackage`, property test `parseDependencies_renamedUsesPackageField`
+- **Q5 Edition field**: Rust edition affects language semantics but not dependency resolution; ignored. Tests: implicit in all 50 source-of-truth tests
+- **Q6 No Cargo.lock**: Published library crates omit `Cargo.lock`; only direct deps from Cargo.toml extracted. Tests: implicit in all 50 source-of-truth tests
+
+**PURL**: `pkg:cargo/name@version`
+
+**Test corpus**: 50 real crates downloaded from crates.io, source-of-truth metadata extracted via `cargo read-manifest` and jq in Docker (`docker/crates/`).
+
+## RubyGems Ecosystem Details
+
+**Format**: `.gem` (plain tar archive, NOT gzip-wrapped) containing `metadata.gz` (gzip-compressed YAML gemspec)
+
+**Extraction pipeline** (`RubygemsMetadataExtractor`):
+1. Open `TarArchiveInputStream` directly (no GZIPInputStream — `.gem` is plain tar)
+2. Scan tar entries for root-level `metadata.gz` (exact match via `isMetadataGz()`)
+3. Decompress entry through `GZIPInputStream` to get raw YAML string (10 MB size limit)
+4. Strip Ruby-specific YAML tags (`!ruby/\S+`) via regex
+5. Parse with SnakeYAML `SafeConstructor`
+6. Navigate parsed `Map<String, Object>`: extract name, version, description, license, publisher, dependencies
+7. Reconstruct version constraints from YAML requirement arrays; map `">= 0"` to null
+
+**Key quirks** (documented in `RubygemsQuirks.java`, tested in `RubygemsMetadataExtractorTest` and `RubygemsHandlerTest`):
+- **Q1 Ruby YAML tags**: `metadata.gz` contains YAML with `!ruby/object:Gem::*` tags that must be stripped before SnakeYAML parsing. Tests: `stripRubyYamlTags_removesAllGemTags`, `stripRubyYamlTags_idempotent`, `stripRubyYamlTags_handlesMultipleTagTypes`, all 50 parameterized source-of-truth tests, property tests `stripRubyYamlTags_neverLeavesPartialTags`, `stripRubyYamlTags_isIdempotent`
+- **Q2 Description fallback**: Prefers `summary` (short), falls back to `description` if summary nil/empty. Tests: `extractDescription_prefersSummary`, `extractDescription_fallsBackToDescription`, `extractDescription_bothAbsent_returnsNull`, `extractDescription_emptySummary_fallsBack`, `gem_zeitwerk_summaryAsDescription`, property test `extractDescription_summaryAlwaysPreferred`
+- **Q3 Runtime vs dev deps**: `:runtime` → "runtime", `:development` → "dev". Both included. Tests: `mapDependencyType_runtime`, `mapDependencyType_development`, `mapDependencyType_nullDefaultsToRuntime`, `gem_rspec_core_mixedDependencyScopes`, `gem_devise_runtimeAndDevDeps`, property test `mapDependencyType_alwaysReturnsValidScope`
+- **Q4 Version constraints**: Requirements stored as `[operator, {version: "x.y"}]` pairs; reconstructed into `"~> 3.13.0"` or `">= 2.0, < 3.2"`. Default `">= 0"` maps to null. Tests: `reconstructVersionConstraint_tildeArrow`, `reconstructVersionConstraint_compound`, `reconstructVersionConstraint_defaultIsNull`, `reconstructVersionConstraint_exact`, `gem_faraday_compoundConstraints`, `gem_rails_exactVersionPinning`, property tests `reconstructVersionConstraint_neverReturnsDefault`, `reconstructVersionConstraint_wellFormedOutput`
+- **Q5 Platform field**: Gems may specify `platform` (e.g., `ruby`, `java`); ignored in metadata. Tests: implicit in all 50 source-of-truth tests (platform not in schema)
+- **Q6 License join**: `licenses` array joined with `" OR "` (SPDX-like); null if empty. Tests: `joinLicenses_single`, `joinLicenses_multiple`, `joinLicenses_empty_returnsNull`, `joinLicenses_null_returnsNull`, property tests `joinLicenses_singleHasNoSeparator`, `joinLicenses_multipleHasSeparator`
+
+**PURL**: `pkg:gem/name@version`
+
+**Test corpus**: 50 real gems downloaded from rubygems.org, source-of-truth metadata extracted via Ruby's `Gem::Package` in Docker (`docker/rubygems/`).
 
 ## Exception Hierarchy
 

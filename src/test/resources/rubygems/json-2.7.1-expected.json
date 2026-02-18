@@ -1,0 +1,11 @@
+{
+  "name": "json",
+  "simpleName": "json",
+  "version": "2.7.1",
+  "description": "JSON Implementation for Ruby",
+  "license": "Ruby",
+  "publisher": "Florian Frank",
+  "dependencies": [
+
+  ]
+}

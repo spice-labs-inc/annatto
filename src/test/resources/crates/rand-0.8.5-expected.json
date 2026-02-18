@@ -1,0 +1,50 @@
+{
+  "name": "rand",
+  "simpleName": "rand",
+  "version": "0.8.5",
+  "description": "Random number generators and other randomness functionality.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rand Project Developers",
+  "dependencies": [
+    {
+      "name": "log",
+      "versionConstraint": "^0.4.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "packed_simd_2",
+      "versionConstraint": "^0.3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "rand_chacha",
+      "versionConstraint": "^0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rand_core",
+      "versionConstraint": "^0.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.103",
+      "scope": "runtime"
+    },
+    {
+      "name": "bincode",
+      "versionConstraint": "^1.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rand_pcg",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.22",
+      "scope": "runtime"
+    }
+  ]
+}

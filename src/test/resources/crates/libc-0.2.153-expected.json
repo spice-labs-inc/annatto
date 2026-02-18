@@ -1,0 +1,15 @@
+{
+  "name": "libc",
+  "simpleName": "libc",
+  "version": "0.2.153",
+  "description": "Raw FFI bindings to platform libraries like libc.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rust Project Developers",
+  "dependencies": [
+    {
+      "name": "rustc-std-workspace-core",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

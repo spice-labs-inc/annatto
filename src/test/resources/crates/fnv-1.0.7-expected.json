@@ -1,0 +1,9 @@
+{
+  "name": "fnv",
+  "simpleName": "fnv",
+  "version": "1.0.7",
+  "description": "Fowler–Noll–Vo hash function",
+  "license": "Apache-2.0 / MIT",
+  "publisher": "Alex Crichton",
+  "dependencies": []
+}

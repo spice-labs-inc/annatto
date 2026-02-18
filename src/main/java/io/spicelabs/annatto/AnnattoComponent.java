@@ -16,10 +16,12 @@ package io.spicelabs.annatto;
 
 import io.spicelabs.annatto.common.EcosystemId;
 import io.spicelabs.annatto.filter.AnnattoProcessFilter;
+import io.spicelabs.annatto.crates.CratesHandler;
 import io.spicelabs.annatto.go.GoHandler;
 import io.spicelabs.annatto.handler.BaseArtifactHandler;
 import io.spicelabs.annatto.npm.NpmHandler;
 import io.spicelabs.annatto.pypi.PypiHandler;
+import io.spicelabs.annatto.rubygems.RubygemsHandler;
 import io.spicelabs.rodeocomponents.APIFactoryReceiver;
 import io.spicelabs.rodeocomponents.APIFactorySource;
 import io.spicelabs.rodeocomponents.APIS.artifacts.ArtifactConstants;
@@ -110,7 +112,9 @@ public final class AnnattoComponent implements RodeoComponent {
         Map<EcosystemId, BaseArtifactHandler> handlers = Map.of(
                 EcosystemId.NPM, new NpmHandler(),
                 EcosystemId.PYPI, new PypiHandler(),
-                EcosystemId.GO, new GoHandler()
+                EcosystemId.GO, new GoHandler(),
+                EcosystemId.CRATES, new CratesHandler(),
+                EcosystemId.RUBYGEMS, new RubygemsHandler()
         );
 
         AnnattoProcessFilter filter = new AnnattoProcessFilter(handlers);

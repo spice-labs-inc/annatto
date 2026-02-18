@@ -1,0 +1,60 @@
+{
+  "name": "actionpack",
+  "simpleName": "actionpack",
+  "version": "7.1.3",
+  "description": "Web-flow and rendering framework putting the VC in MVC (part of Rails).",
+  "license": "MIT",
+  "publisher": "David Heinemeier Hansson",
+  "dependencies": [
+    {
+      "name": "activesupport",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "nokogiri",
+      "versionConstraint": ">= 1.8.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "racc",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "rack",
+      "versionConstraint": ">= 2.2.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "rack-session",
+      "versionConstraint": ">= 1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "rack-test",
+      "versionConstraint": ">= 0.6.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "rails-html-sanitizer",
+      "versionConstraint": "~> 1.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "rails-dom-testing",
+      "versionConstraint": "~> 2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "actionview",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "activemodel",
+      "versionConstraint": "= 7.1.3",
+      "scope": "dev"
+    }
+  ]
+}

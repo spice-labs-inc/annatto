@@ -1,0 +1,55 @@
+{
+  "name": "activesupport",
+  "simpleName": "activesupport",
+  "version": "7.1.3",
+  "description": "A toolkit of support libraries and Ruby core extensions extracted from the Rails framework.",
+  "license": "MIT",
+  "publisher": "David Heinemeier Hansson",
+  "dependencies": [
+    {
+      "name": "i18n",
+      "versionConstraint": ">= 1.6, < 2",
+      "scope": "runtime"
+    },
+    {
+      "name": "tzinfo",
+      "versionConstraint": "~> 2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "concurrent-ruby",
+      "versionConstraint": "~> 1.0, >= 1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "connection_pool",
+      "versionConstraint": ">= 2.2.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "minitest",
+      "versionConstraint": ">= 5.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "base64",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "drb",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "mutex_m",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "bigdecimal",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

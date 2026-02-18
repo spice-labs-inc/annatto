@@ -1,0 +1,11 @@
+{
+  "name": "uri",
+  "simpleName": "uri",
+  "version": "0.13.0",
+  "description": "URI is a module providing classes to handle Uniform Resource Identifiers",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "Akira Yamada",
+  "dependencies": [
+
+  ]
+}

@@ -29,18 +29,23 @@ package io.spicelabs.annatto.go;
  *       {@code go.mod} file may use the {@code +incompatible} version suffix
  *       (e.g., {@code v3.0.0+incompatible}). The extractor preserves this suffix
  *       in version constraints.
- *       Tests: parameterized source-of-truth tests on packages with +incompatible deps</li>
+ *       Tests: {@code GoMetadataExtractorTest#parseGoMod_incompatibleVersionPreserved},
+ *       parameterized {@code extractDependencies_matchSourceOfTruth} (50 packages)</li>
  *
  *   <li><b>Q3: Pseudo-versions</b> — non-tagged commits use pseudo-versions of the form
  *       {@code v0.0.0-yyyymmddhhmmss-abcdefabcdef}. The extractor preserves these
  *       as-is in version constraints.
- *       Tests: parameterized source-of-truth tests on deps with pseudo-versions</li>
+ *       Tests: {@code GoMetadataExtractorTest#goModule_genproto_pseudoVersion},
+ *       {@code GoMetadataExtractorTest#extractVersionFromEntryName_pseudoVersion},
+ *       parameterized {@code extractVersion_matchesSourceOfTruth} on genproto</li>
  *
  *   <li><b>Q4: replace/exclude directives</b> — {@code go.mod} may contain
  *       {@code replace} and {@code exclude} directives that alter dependency resolution.
  *       The extractor ignores these and reads only {@code require} directives.
  *       Tests: {@code GoMetadataExtractorTest#parseGoMod_ignoresReplace},
- *       {@code GoMetadataExtractorTest#parseGoMod_ignoresExclude}</li>
+ *       {@code GoMetadataExtractorTest#parseGoMod_ignoresReplaceBlock},
+ *       {@code GoMetadataExtractorTest#parseGoMod_ignoresExclude},
+ *       {@code GoMetadataExtractorTest#parseGoMod_ignoresExcludeBlock}</li>
  *
  *   <li><b>Q5: Major version suffixes /vN</b> — modules at major version 2 or higher must
  *       include the major version as a path suffix (e.g., {@code example.com/mod/v2}).

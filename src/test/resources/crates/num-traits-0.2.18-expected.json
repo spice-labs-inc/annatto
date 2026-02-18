@@ -1,0 +1,20 @@
+{
+  "name": "num-traits",
+  "simpleName": "num-traits",
+  "version": "0.2.18",
+  "description": "Numeric traits for generic mathematics",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rust Project Developers",
+  "dependencies": [
+    {
+      "name": "libm",
+      "versionConstraint": "^0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "autocfg",
+      "versionConstraint": "^1",
+      "scope": "build"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "regex",
+  "simpleName": "regex",
+  "version": "1.10.3",
+  "description": "An implementation of regular expressions for Rust. This implementation uses\nfinite automata and guarantees linear time matching on all inputs.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "The Rust Project Developers",
+  "dependencies": [
+    {
+      "name": "aho-corasick",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "memchr",
+      "versionConstraint": "^2.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "regex-automata",
+      "versionConstraint": "^0.4.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "regex-syntax",
+      "versionConstraint": "^0.8.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "anyhow",
+      "versionConstraint": "^1.0.69",
+      "scope": "dev"
+    },
+    {
+      "name": "doc-comment",
+      "versionConstraint": "^0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "env_logger",
+      "versionConstraint": "^0.9.3",
+      "scope": "dev"
+    },
+    {
+      "name": "once_cell",
+      "versionConstraint": "^1.17.1",
+      "scope": "dev"
+    },
+    {
+      "name": "quickcheck",
+      "versionConstraint": "^1.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "regex-test",
+      "versionConstraint": "^0.1.0",
+      "scope": "dev"
+    }
+  ]
+}

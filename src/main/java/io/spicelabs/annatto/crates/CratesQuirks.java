@@ -19,19 +19,39 @@ package io.spicelabs.annatto.crates;
  * Documents known quirks of the Crates.io ecosystem.
  *
  * <ul>
- *   <li>TOML format: {@code Cargo.toml} uses TOML as its configuration format, which
- *       requires a TOML parser for metadata extraction.</li>
- *   <li>Feature flags enabling conditional dependencies: dependencies may be gated behind
- *       feature flags, making them optional unless the feature is explicitly enabled.</li>
- *   <li>Build-dependencies: the {@code [build-dependencies]} section declares dependencies
- *       needed only at build time, separate from runtime dependencies.</li>
- *   <li>Renamed dependencies ({@code package = "actual-name"}): a dependency may be listed
- *       under an alias with the real crate name specified via the {@code package} key.</li>
- *   <li>{@code edition} field: the Rust edition (e.g., {@code 2018}, {@code 2021}) affects
- *       language semantics but does not directly affect dependency resolution.</li>
- *   <li>No {@code Cargo.lock} in published crates: library crates published to crates.io
- *       do not include a {@code Cargo.lock} file, so exact transitive dependency versions
- *       are not recorded in the artifact.</li>
+ *   <li><b>Q1: TOML format</b> — {@code Cargo.toml} uses TOML as its configuration format,
+ *       requiring a TOML parser (tomlj) for metadata extraction. Published crates use a
+ *       "normalized" Cargo.toml with dotted table headers (e.g., {@code [dependencies.serde]}).
+ *       Tests: all 50 parameterized source-of-truth tests in
+ *       {@code CratesMetadataExtractorTest#extractName_matchesSourceOfTruth},
+ *       {@code CratesMetadataExtractorTest#parseDependencies_simpleVersionString}</li>
+ *
+ *   <li><b>Q2: Feature flags / optional dependencies</b> — dependencies may be gated behind
+ *       feature flags via {@code optional = true}. Optional dependencies retain scope
+ *       {@code "runtime"} in the extracted metadata.
+ *       Tests: {@code CratesMetadataExtractorTest#crate_serde_optionalDependency},
+ *       {@code CratesMetadataExtractorTest#parseDependencies_optionalScopeIsRuntime}</li>
+ *
+ *   <li><b>Q3: Build-dependencies</b> — the {@code [build-dependencies]} section declares
+ *       dependencies needed only at build time, extracted with scope {@code "build"}.
+ *       Tests: {@code CratesMetadataExtractorTest#crate_openssl_sys_buildDeps},
+ *       {@code CratesMetadataExtractorTest#parseDependencies_buildDeps}</li>
+ *
+ *   <li><b>Q4: Renamed dependencies</b> — a dependency may use
+ *       {@code package = "actual-name"} to specify the real crate name when the TOML
+ *       key is an alias. The extractor uses the {@code package} value as the name.
+ *       Tests: {@code CratesMetadataExtractorTest#crate_reqwest_renamedDependencies},
+ *       {@code CratesMetadataExtractorTest#parseDependencies_renamedPackage}</li>
+ *
+ *   <li><b>Q5: Edition field</b> — the Rust edition (e.g., {@code 2018}, {@code 2021})
+ *       affects language semantics but does not affect dependency resolution. It is
+ *       not included in the extracted metadata.
+ *       Tests: implicit in all 50 source-of-truth tests (edition is ignored correctly)</li>
+ *
+ *   <li><b>Q6: No Cargo.lock</b> — library crates published to crates.io do not include
+ *       a {@code Cargo.lock} file, so exact transitive dependency versions are not
+ *       recorded in the artifact. Only direct dependencies from Cargo.toml are extracted.
+ *       Tests: implicit in all 50 source-of-truth tests (no lock-file dependencies appear)</li>
  * </ul>
  */
 public record CratesQuirks() {

@@ -1,0 +1,25 @@
+{
+  "name": "bytes",
+  "simpleName": "bytes",
+  "version": "1.5.0",
+  "description": "Types and traits for working with bytes",
+  "license": "MIT",
+  "publisher": "Carl Lerche",
+  "dependencies": [
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0.60",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_test",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "loom",
+      "versionConstraint": "^0.5",
+      "scope": "dev"
+    }
+  ]
+}

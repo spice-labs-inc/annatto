@@ -154,9 +154,10 @@ public final class AnnattoProcessFilter implements RodeoProcessFilter {
     }
 
     /**
-     * Heuristic detection for .tar.gz files which could be PyPI sdist, Go module, CPAN, or Hex.
+     * Heuristic detection for .tar.gz files which could be PyPI sdist, CPAN, or Hex.
      * Currently returns PyPI as the only implemented .tar.gz ecosystem.
-     * // TODO: Add disambiguation when Go/CPAN/Hex phases are added.
+     * Go modules use .zip format, not .tar.gz.
+     * // TODO: Add disambiguation when CPAN/Hex phases are added.
      */
     private @NotNull Optional<EcosystemId> detectTarGzEcosystem(@NotNull String filename) {
         return Optional.of(EcosystemId.PYPI);

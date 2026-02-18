@@ -1,0 +1,30 @@
+{
+  "name": "serde_derive",
+  "simpleName": "serde_derive",
+  "version": "1.0.195",
+  "description": "Macros 1.1 implementation of #[derive(Serialize, Deserialize)]",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Erick Tryzelaar",
+  "dependencies": [
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.74",
+      "scope": "runtime"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1.0.35",
+      "scope": "runtime"
+    },
+    {
+      "name": "syn",
+      "versionConstraint": "^2.0.46",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    }
+  ]
+}

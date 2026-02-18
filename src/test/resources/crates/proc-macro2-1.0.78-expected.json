@@ -1,0 +1,40 @@
+{
+  "name": "proc-macro2",
+  "simpleName": "proc-macro2",
+  "version": "1.0.78",
+  "description": "A substitute implementation of the compiler's `proc_macro` API to decouple token-based libraries from the procedural macro use case.",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "unicode-ident",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "flate2",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "quote",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rayon",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1",
+      "scope": "dev"
+    },
+    {
+      "name": "tar",
+      "versionConstraint": "^0.4",
+      "scope": "dev"
+    }
+  ]
+}

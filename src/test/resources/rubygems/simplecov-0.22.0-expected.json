@@ -1,0 +1,25 @@
+{
+  "name": "simplecov",
+  "simpleName": "simplecov",
+  "version": "0.22.0",
+  "description": "Code coverage for Ruby",
+  "license": "MIT",
+  "publisher": "Christoph Olszowka",
+  "dependencies": [
+    {
+      "name": "docile",
+      "versionConstraint": "~> 1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "simplecov-html",
+      "versionConstraint": "~> 0.11",
+      "scope": "runtime"
+    },
+    {
+      "name": "simplecov_json_formatter",
+      "versionConstraint": "~> 0.1",
+      "scope": "runtime"
+    }
+  ]
+}

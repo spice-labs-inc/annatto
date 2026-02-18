@@ -1,0 +1,25 @@
+{
+  "name": "quote",
+  "simpleName": "quote",
+  "version": "1.0.35",
+  "description": "Quasi-quoting macro quote!(...)",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "David Tolnay",
+  "dependencies": [
+    {
+      "name": "proc-macro2",
+      "versionConstraint": "^1.0.74",
+      "scope": "runtime"
+    },
+    {
+      "name": "rustversion",
+      "versionConstraint": "^1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "trybuild",
+      "versionConstraint": "^1.0.66",
+      "scope": "dev"
+    }
+  ]
+}

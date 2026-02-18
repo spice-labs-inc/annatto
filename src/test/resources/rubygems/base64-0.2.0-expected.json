@@ -1,0 +1,11 @@
+{
+  "name": "base64",
+  "simpleName": "base64",
+  "version": "0.2.0",
+  "description": "Support for encoding and decoding binary data using a Base64 representation.",
+  "license": "Ruby OR BSD-2-Clause",
+  "publisher": "Yusuke Endoh",
+  "dependencies": [
+
+  ]
+}

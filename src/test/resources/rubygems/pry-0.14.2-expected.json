@@ -1,0 +1,20 @@
+{
+  "name": "pry",
+  "simpleName": "pry",
+  "version": "0.14.2",
+  "description": "A runtime developer console and IRB alternative with powerful introspection capabilities.",
+  "license": "MIT",
+  "publisher": "John Mair (banisterfiend)",
+  "dependencies": [
+    {
+      "name": "coderay",
+      "versionConstraint": "~> 1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "method_source",
+      "versionConstraint": "~> 1.0",
+      "scope": "runtime"
+    }
+  ]
+}

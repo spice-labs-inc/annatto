@@ -65,23 +65,7 @@ public final class GoHandler extends BaseArtifactHandler {
         try {
             GoMetadataExtractor.GoModData goModData =
                     GoMetadataExtractor.extractGoModFromZip(stream, filename);
-            GoMetadataExtractor.ParsedGoMod parsed =
-                    GoMetadataExtractor.parseGoMod(goModData.goModText());
-
-            String modulePath = parsed.modulePath() != null ? parsed.modulePath() : goModData.modulePath();
-
-            MetadataResult result = new MetadataResult(
-                    EcosystemId.GO,
-                    java.util.Optional.ofNullable(modulePath),
-                    java.util.Optional.ofNullable(modulePath != null
-                            ? GoMetadataExtractor.extractSimpleName(modulePath) : null),
-                    java.util.Optional.ofNullable(goModData.version()),
-                    java.util.Optional.empty(),
-                    java.util.Optional.empty(),
-                    java.util.Optional.empty(),
-                    java.util.Optional.empty(),
-                    parsed.requires()
-            );
+            MetadataResult result = GoMetadataExtractor.buildMetadataResult(goModData);
 
             GoMemento memento = new GoMemento(filename, goModData.goModText());
             memento.setMetadataResult(result);

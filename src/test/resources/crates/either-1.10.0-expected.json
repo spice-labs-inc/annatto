@@ -1,0 +1,20 @@
+{
+  "name": "either",
+  "simpleName": "either",
+  "version": "1.10.0",
+  "description": "The enum `Either` with variants `Left` and `Right` is a general purpose sum type with two cases.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "bluss",
+  "dependencies": [
+    {
+      "name": "serde",
+      "versionConstraint": "^1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serde_json",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    }
+  ]
+}

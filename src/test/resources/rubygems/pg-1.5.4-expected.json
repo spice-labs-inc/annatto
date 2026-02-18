@@ -1,0 +1,11 @@
+{
+  "name": "pg",
+  "simpleName": "pg",
+  "version": "1.5.4",
+  "description": "Pg is the Ruby interface to the PostgreSQL RDBMS",
+  "license": "BSD-2-Clause",
+  "publisher": "Michael Granger",
+  "dependencies": [
+
+  ]
+}

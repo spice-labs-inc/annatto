@@ -1,0 +1,25 @@
+{
+  "name": "cc",
+  "simpleName": "cc",
+  "version": "1.0.83",
+  "description": "A build-time dependency for Cargo build scripts to assist in invoking the native\nC compiler to compile native C code into a static archive to be linked into Rust\ncode.\n",
+  "license": "MIT OR Apache-2.0",
+  "publisher": "Alex Crichton",
+  "dependencies": [
+    {
+      "name": "jobserver",
+      "versionConstraint": "^0.1.16",
+      "scope": "runtime"
+    },
+    {
+      "name": "tempfile",
+      "versionConstraint": "^3",
+      "scope": "dev"
+    },
+    {
+      "name": "libc",
+      "versionConstraint": "^0.2.62",
+      "scope": "runtime"
+    }
+  ]
+}

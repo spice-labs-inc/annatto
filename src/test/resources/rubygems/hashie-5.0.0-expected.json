@@ -1,0 +1,15 @@
+{
+  "name": "hashie",
+  "simpleName": "hashie",
+  "version": "5.0.0",
+  "description": "Your friendly neighborhood hash library.",
+  "license": "MIT",
+  "publisher": "Michael Bleigh",
+  "dependencies": [
+    {
+      "name": "bundler",
+      "versionConstraint": null,
+      "scope": "dev"
+    }
+  ]
+}

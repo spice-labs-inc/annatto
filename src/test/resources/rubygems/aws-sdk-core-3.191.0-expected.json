@@ -1,0 +1,30 @@
+{
+  "name": "aws-sdk-core",
+  "simpleName": "aws-sdk-core",
+  "version": "3.191.0",
+  "description": "AWS SDK for Ruby - Core",
+  "license": "Apache-2.0",
+  "publisher": "Amazon Web Services",
+  "dependencies": [
+    {
+      "name": "jmespath",
+      "versionConstraint": "~> 1, >= 1.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "aws-partitions",
+      "versionConstraint": "~> 1, >= 1.651.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "aws-sigv4",
+      "versionConstraint": "~> 1.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "aws-eventstream",
+      "versionConstraint": "~> 1, >= 1.3.0",
+      "scope": "runtime"
+    }
+  ]
+}

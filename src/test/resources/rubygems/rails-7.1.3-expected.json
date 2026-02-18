@@ -1,0 +1,75 @@
+{
+  "name": "rails",
+  "simpleName": "rails",
+  "version": "7.1.3",
+  "description": "Full-stack web application framework.",
+  "license": "MIT",
+  "publisher": "David Heinemeier Hansson",
+  "dependencies": [
+    {
+      "name": "activesupport",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actionpack",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actionview",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "activemodel",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "activerecord",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actionmailer",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "activejob",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actioncable",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "activestorage",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actionmailbox",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "actiontext",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "railties",
+      "versionConstraint": "= 7.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "bundler",
+      "versionConstraint": ">= 1.15.0",
+      "scope": "runtime"
+    }
+  ]
+}
