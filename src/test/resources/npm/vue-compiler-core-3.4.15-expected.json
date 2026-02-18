@@ -1,0 +1,40 @@
+{
+  "name": "@vue/compiler-core",
+  "simpleName": "compiler-core",
+  "version": "3.4.15",
+  "description": "@vue/compiler-core",
+  "license": "MIT",
+  "publisher": "Evan You",
+  "dependencies": [
+    {
+      "name": "@babel/parser",
+      "versionConstraint": "^7.23.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "entities",
+      "versionConstraint": "^4.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "estree-walker",
+      "versionConstraint": "^2.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "source-map-js",
+      "versionConstraint": "^1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "@vue/shared",
+      "versionConstraint": "3.4.15",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/types",
+      "versionConstraint": "^7.23.6",
+      "scope": "dev"
+    }
+  ]
+}

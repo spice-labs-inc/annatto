@@ -1,0 +1,690 @@
+{
+  "name": "github.com/containerd/containerd",
+  "simpleName": "containerd",
+  "version": "v1.7.11",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/AdaLogics/go-fuzz-headers",
+      "versionConstraint": "v0.0.0-20230811130428-ced1acdcaa24",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/AdamKorcz/go-118-fuzz-build",
+      "versionConstraint": "v0.0.0-20230306123547-8075edf89bb0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/Microsoft/go-winio",
+      "versionConstraint": "v0.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/Microsoft/hcsshim",
+      "versionConstraint": "v0.11.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/container-orchestrated-devices/container-device-interface",
+      "versionConstraint": "v0.5.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/aufs",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/btrfs/v2",
+      "versionConstraint": "v2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/cgroups/v3",
+      "versionConstraint": "v3.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/console",
+      "versionConstraint": "v1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/continuity",
+      "versionConstraint": "v0.4.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/fifo",
+      "versionConstraint": "v1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/go-cni",
+      "versionConstraint": "v1.1.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/go-runc",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/imgcrypt",
+      "versionConstraint": "v1.1.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/log",
+      "versionConstraint": "v0.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/nri",
+      "versionConstraint": "v0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/ttrpc",
+      "versionConstraint": "v1.2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/typeurl/v2",
+      "versionConstraint": "v2.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containerd/zfs",
+      "versionConstraint": "v1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containernetworking/cni",
+      "versionConstraint": "v1.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/containernetworking/plugins",
+      "versionConstraint": "v1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/coreos/go-systemd/v22",
+      "versionConstraint": "v22.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/docker/go-events",
+      "versionConstraint": "v0.0.0-20190806004212-e31b211e4f1c",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/docker/go-metrics",
+      "versionConstraint": "v0.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/docker/go-units",
+      "versionConstraint": "v0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/emicklei/go-restful/v3",
+      "versionConstraint": "v3.10.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/fsnotify/fsnotify",
+      "versionConstraint": "v1.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/uuid",
+      "versionConstraint": "v1.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/grpc-ecosystem/go-grpc-middleware",
+      "versionConstraint": "v1.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/grpc-ecosystem/go-grpc-prometheus",
+      "versionConstraint": "v1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-multierror",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/imdario/mergo",
+      "versionConstraint": "v0.3.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/intel/goresctrl",
+      "versionConstraint": "v0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "versionConstraint": "v1.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/minio/sha256-simd",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/moby/locker",
+      "versionConstraint": "v1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/moby/sys/mountinfo",
+      "versionConstraint": "v0.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/moby/sys/sequential",
+      "versionConstraint": "v0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/moby/sys/signal",
+      "versionConstraint": "v0.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/moby/sys/symlink",
+      "versionConstraint": "v0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/go-digest",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/image-spec",
+      "versionConstraint": "v1.1.0-rc2.0.20221005185240-3a7f492d3f1b",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/runc",
+      "versionConstraint": "v1.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/runtime-spec",
+      "versionConstraint": "v1.1.0-rc.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/runtime-tools",
+      "versionConstraint": "v0.9.1-0.20221107090550-2e043c6bd626",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/opencontainers/selinux",
+      "versionConstraint": "v1.11.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/pelletier/go-toml",
+      "versionConstraint": "v1.9.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/prometheus/client_golang",
+      "versionConstraint": "v1.14.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/sirupsen/logrus",
+      "versionConstraint": "v1.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/tchap/go-patricia/v2",
+      "versionConstraint": "v2.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/urfave/cli",
+      "versionConstraint": "v1.22.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/vishvananda/netlink",
+      "versionConstraint": "v1.2.1-beta.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.etcd.io/bbolt",
+      "versionConstraint": "v1.3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc",
+      "versionConstraint": "v0.45.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp",
+      "versionConstraint": "v0.45.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/sdk",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/trace",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sync",
+      "versionConstraint": "v0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto",
+      "versionConstraint": "v0.0.0-20230711160842-782d3b101e98",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "versionConstraint": "v0.0.0-20230711160842-782d3b101e98",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "versionConstraint": "v1.58.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.31.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/api",
+      "versionConstraint": "v0.26.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/apimachinery",
+      "versionConstraint": "v0.26.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/apiserver",
+      "versionConstraint": "v0.26.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/client-go",
+      "versionConstraint": "v0.26.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/component-base",
+      "versionConstraint": "v0.26.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/cri-api",
+      "versionConstraint": "v0.27.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/klog/v2",
+      "versionConstraint": "v2.90.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "k8s.io/utils",
+      "versionConstraint": "v0.0.0-20230220204549-a5ecb0141aa5",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/beorn7/perks",
+      "versionConstraint": "v1.0.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/blang/semver/v4",
+      "versionConstraint": "v4.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/cenkalti/backoff/v4",
+      "versionConstraint": "v4.2.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "versionConstraint": "v2.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/cilium/ebpf",
+      "versionConstraint": "v0.9.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/containerd/cgroups",
+      "versionConstraint": "v1.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/containerd/typeurl",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/containers/ocicrypt",
+      "versionConstraint": "v1.1.6",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/cpuguy83/go-md2man/v2",
+      "versionConstraint": "v2.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/felixge/httpsnoop",
+      "versionConstraint": "v1.0.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/go-logr/logr",
+      "versionConstraint": "v1.2.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/go-logr/stdr",
+      "versionConstraint": "v1.2.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/godbus/dbus/v5",
+      "versionConstraint": "v5.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/gogo/protobuf",
+      "versionConstraint": "v1.3.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/golang/groupcache",
+      "versionConstraint": "v0.0.0-20210331224755-41bb18bfe9da",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/google/gofuzz",
+      "versionConstraint": "v1.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/grpc-ecosystem/grpc-gateway/v2",
+      "versionConstraint": "v2.16.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/errwrap",
+      "versionConstraint": "v1.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "versionConstraint": "v1.1.12",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/klauspost/cpuid/v2",
+      "versionConstraint": "v2.0.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/matttproud/golang_protobuf_extensions",
+      "versionConstraint": "v1.0.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/miekg/pkcs11",
+      "versionConstraint": "v1.1.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mistifyio/go-zfs/v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/moby/spdystream",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "versionConstraint": "v0.0.0-20180306012644-bacd9c7ef1dd",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "versionConstraint": "v0.9.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "versionConstraint": "v1.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/prometheus/client_model",
+      "versionConstraint": "v0.3.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/prometheus/common",
+      "versionConstraint": "v0.37.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/prometheus/procfs",
+      "versionConstraint": "v0.8.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/russross/blackfriday/v2",
+      "versionConstraint": "v2.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/spf13/pflag",
+      "versionConstraint": "v1.0.5",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/stefanberger/go-pkcs11uri",
+      "versionConstraint": "v0.0.0-20201008174630-78d3cae3a980",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/syndtr/gocapability",
+      "versionConstraint": "v0.0.0-20200815063812-42c35b437635",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/vishvananda/netns",
+      "versionConstraint": "v0.0.0-20210104183010-2eb08e3e575f",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.mozilla.org/pkcs7",
+      "versionConstraint": "v0.0.0-20200128120323-432b2356ecb1",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.opencensus.io",
+      "versionConstraint": "v0.24.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.opentelemetry.io/otel/metric",
+      "versionConstraint": "v1.19.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.opentelemetry.io/proto/otlp",
+      "versionConstraint": "v1.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "versionConstraint": "v0.14.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/mod",
+      "versionConstraint": "v0.11.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "versionConstraint": "v0.10.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/term",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/time",
+      "versionConstraint": "v0.0.0-20220210224613-90d013bbcef8",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/tools",
+      "versionConstraint": "v0.10.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/appengine",
+      "versionConstraint": "v1.6.7",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "versionConstraint": "v0.0.0-20230711160842-782d3b101e98",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/inf.v0",
+      "versionConstraint": "v0.9.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/square/go-jose.v2",
+      "versionConstraint": "v2.5.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v2",
+      "versionConstraint": "v2.4.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "sigs.k8s.io/json",
+      "versionConstraint": "v0.0.0-20220713155537-f223a00ba0e2",
+      "scope": "indirect"
+    },
+    {
+      "name": "sigs.k8s.io/structured-merge-diff/v4",
+      "versionConstraint": "v4.2.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "sigs.k8s.io/yaml",
+      "versionConstraint": "v1.3.0",
+      "scope": "indirect"
+    }
+  ]
+}

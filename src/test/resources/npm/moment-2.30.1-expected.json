@@ -1,0 +1,180 @@
+{
+  "name": "moment",
+  "simpleName": "moment",
+  "version": "2.30.1",
+  "description": "Parse, validate, manipulate, and display dates",
+  "license": "MIT",
+  "publisher": "Iskren Ivov Chernev",
+  "dependencies": [
+    {
+      "name": "benchmark",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "coveralls",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "cross-env",
+      "versionConstraint": "^6.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "es6-promise",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-benchmark",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-cli",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-contrib-clean",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-contrib-concat",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-contrib-copy",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-contrib-uglify",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-contrib-watch",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-env",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-exec",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-karma",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-nuget",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "grunt-string-replace",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "karma",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-chrome-launcher",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-firefox-launcher",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-qunit",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-sauce-launcher",
+      "versionConstraint": "4.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "load-grunt-tasks",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "lodash",
+      "versionConstraint": ">=4.17.19",
+      "scope": "dev"
+    },
+    {
+      "name": "node-qunit",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "qunit",
+      "versionConstraint": "^2.10.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "2.17.1",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^1.8.10",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript3",
+      "versionConstraint": "npm:typescript@^3.1.6",
+      "scope": "dev"
+    },
+    {
+      "name": "uglify-js",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "17.0.21",
+      "scope": "dev"
+    }
+  ]
+}

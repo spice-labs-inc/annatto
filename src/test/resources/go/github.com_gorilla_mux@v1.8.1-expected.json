@@ -1,0 +1,9 @@
+{
+  "name": "github.com/gorilla/mux",
+  "simpleName": "mux",
+  "version": "v1.8.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": []
+}

@@ -1,0 +1,9 @@
+{
+  "name": "golang.org/x/sync",
+  "simpleName": "sync",
+  "version": "v0.6.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": []
+}

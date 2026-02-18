@@ -1,0 +1,510 @@
+{
+  "name": "eslint",
+  "simpleName": "eslint",
+  "version": "8.56.0",
+  "description": "An AST-based pattern checker for JavaScript.",
+  "license": "MIT",
+  "publisher": "Nicholas C. Zakas",
+  "dependencies": [
+    {
+      "name": "@eslint-community/eslint-utils",
+      "versionConstraint": "^4.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@eslint-community/regexpp",
+      "versionConstraint": "^4.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "versionConstraint": "^2.1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "@eslint/js",
+      "versionConstraint": "8.56.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@humanwhocodes/config-array",
+      "versionConstraint": "^0.11.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "@humanwhocodes/module-importer",
+      "versionConstraint": "^1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "@nodelib/fs.walk",
+      "versionConstraint": "^1.2.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "@ungap/structured-clone",
+      "versionConstraint": "^1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ajv",
+      "versionConstraint": "^6.12.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "chalk",
+      "versionConstraint": "^4.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cross-spawn",
+      "versionConstraint": "^7.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "debug",
+      "versionConstraint": "^4.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "doctrine",
+      "versionConstraint": "^3.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "escape-string-regexp",
+      "versionConstraint": "^4.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "eslint-scope",
+      "versionConstraint": "^7.2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "eslint-visitor-keys",
+      "versionConstraint": "^3.4.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "espree",
+      "versionConstraint": "^9.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "esquery",
+      "versionConstraint": "^1.4.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "esutils",
+      "versionConstraint": "^2.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "fast-deep-equal",
+      "versionConstraint": "^3.1.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "file-entry-cache",
+      "versionConstraint": "^6.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "find-up",
+      "versionConstraint": "^5.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "glob-parent",
+      "versionConstraint": "^6.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "globals",
+      "versionConstraint": "^13.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "graphemer",
+      "versionConstraint": "^1.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ignore",
+      "versionConstraint": "^5.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "imurmurhash",
+      "versionConstraint": "^0.1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "is-glob",
+      "versionConstraint": "^4.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "is-path-inside",
+      "versionConstraint": "^3.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "js-yaml",
+      "versionConstraint": "^4.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "json-stable-stringify-without-jsonify",
+      "versionConstraint": "^1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "levn",
+      "versionConstraint": "^0.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "lodash.merge",
+      "versionConstraint": "^4.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "minimatch",
+      "versionConstraint": "^3.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "natural-compare",
+      "versionConstraint": "^1.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "optionator",
+      "versionConstraint": "^0.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "strip-ansi",
+      "versionConstraint": "^6.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "text-table",
+      "versionConstraint": "^0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/core",
+      "versionConstraint": "^7.4.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-env",
+      "versionConstraint": "^7.4.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@wdio/browser-runner",
+      "versionConstraint": "^8.14.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@wdio/cli",
+      "versionConstraint": "^8.14.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@wdio/concise-reporter",
+      "versionConstraint": "^8.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@wdio/globals",
+      "versionConstraint": "^8.14.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@wdio/mocha-framework",
+      "versionConstraint": "^8.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-loader",
+      "versionConstraint": "^8.0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "c8",
+      "versionConstraint": "^7.12.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chai",
+      "versionConstraint": "^4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "cheerio",
+      "versionConstraint": "^0.22.0",
+      "scope": "dev"
+    },
+    {
+      "name": "common-tags",
+      "versionConstraint": "^1.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "core-js",
+      "versionConstraint": "^3.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "ejs",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "file:.",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-eslint",
+      "versionConstraint": "file:packages/eslint-config-eslint",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-eslint-comments",
+      "versionConstraint": "^3.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-eslint-plugin",
+      "versionConstraint": "^5.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-internal-rules",
+      "versionConstraint": "file:tools/internal-rules",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-jsdoc",
+      "versionConstraint": "^46.2.5",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-n",
+      "versionConstraint": "^16.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-unicorn",
+      "versionConstraint": "^49.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-release",
+      "versionConstraint": "^3.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslump",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "esprima",
+      "versionConstraint": "^4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "fast-glob",
+      "versionConstraint": "^3.2.11",
+      "scope": "dev"
+    },
+    {
+      "name": "fs-teardown",
+      "versionConstraint": "^0.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "glob",
+      "versionConstraint": "^7.1.6",
+      "scope": "dev"
+    },
+    {
+      "name": "got",
+      "versionConstraint": "^11.8.3",
+      "scope": "dev"
+    },
+    {
+      "name": "gray-matter",
+      "versionConstraint": "^4.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "lint-staged",
+      "versionConstraint": "^11.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "load-perf",
+      "versionConstraint": "^0.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "markdown-it",
+      "versionConstraint": "^12.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "markdown-it-container",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "markdownlint",
+      "versionConstraint": "^0.32.0",
+      "scope": "dev"
+    },
+    {
+      "name": "markdownlint-cli",
+      "versionConstraint": "^0.37.0",
+      "scope": "dev"
+    },
+    {
+      "name": "marked",
+      "versionConstraint": "^4.0.8",
+      "scope": "dev"
+    },
+    {
+      "name": "memfs",
+      "versionConstraint": "^3.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper",
+      "versionConstraint": "^5.25.7",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper-description",
+      "versionConstraint": "^5.25.7",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper-image",
+      "versionConstraint": "^5.29.3",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper-logo",
+      "versionConstraint": "^5.25.7",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper-logo-favicon",
+      "versionConstraint": "^5.25.7",
+      "scope": "dev"
+    },
+    {
+      "name": "metascraper-title",
+      "versionConstraint": "^5.25.7",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^8.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha-junit-reporter",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "node-polyfill-webpack-plugin",
+      "versionConstraint": "^1.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "npm-license",
+      "versionConstraint": "^0.3.3",
+      "scope": "dev"
+    },
+    {
+      "name": "pirates",
+      "versionConstraint": "^4.0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "progress",
+      "versionConstraint": "^2.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "proxyquire",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "recast",
+      "versionConstraint": "^0.23.0",
+      "scope": "dev"
+    },
+    {
+      "name": "regenerator-runtime",
+      "versionConstraint": "^0.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-node-polyfills",
+      "versionConstraint": "^0.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "semver",
+      "versionConstraint": "^7.5.3",
+      "scope": "dev"
+    },
+    {
+      "name": "shelljs",
+      "versionConstraint": "^0.8.2",
+      "scope": "dev"
+    },
+    {
+      "name": "sinon",
+      "versionConstraint": "^11.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "vite-plugin-commonjs",
+      "versionConstraint": "^0.10.0",
+      "scope": "dev"
+    },
+    {
+      "name": "webdriverio",
+      "versionConstraint": "^8.14.6",
+      "scope": "dev"
+    },
+    {
+      "name": "webpack",
+      "versionConstraint": "^5.23.0",
+      "scope": "dev"
+    },
+    {
+      "name": "webpack-cli",
+      "versionConstraint": "^4.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "yorkie",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    }
+  ]
+}

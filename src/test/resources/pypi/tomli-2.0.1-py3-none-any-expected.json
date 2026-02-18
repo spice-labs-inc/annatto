@@ -1,0 +1,9 @@
+{
+  "name": "tomli",
+  "simpleName": "tomli",
+  "version": "2.0.1",
+  "description": "A lil' TOML parser",
+  "license": "MIT License",
+  "publisher": "Taneli Hukkinen",
+  "dependencies": []
+}

@@ -1,0 +1,30 @@
+{
+  "name": "rich",
+  "simpleName": "rich",
+  "version": "13.7.0",
+  "description": "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal",
+  "license": "MIT",
+  "publisher": "Will McGugan",
+  "dependencies": [
+    {
+      "name": "ipywidgets",
+      "versionConstraint": ">=7.5.1,<9",
+      "scope": "runtime"
+    },
+    {
+      "name": "markdown-it-py",
+      "versionConstraint": ">=2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pygments",
+      "versionConstraint": ">=2.13.0,<3.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "typing-extensions",
+      "versionConstraint": ">=4.0.0,<5.0",
+      "scope": "runtime"
+    }
+  ]
+}

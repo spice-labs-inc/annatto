@@ -1,0 +1,9 @@
+{
+  "name": "MarkupSafe",
+  "simpleName": "MarkupSafe",
+  "version": "2.1.4",
+  "description": "Safely add untrusted strings to HTML/XML markup.",
+  "license": "BSD-3-Clause",
+  "publisher": "Pallets",
+  "dependencies": []
+}

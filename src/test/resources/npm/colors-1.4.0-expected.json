@@ -1,0 +1,20 @@
+{
+  "name": "colors",
+  "simpleName": "colors",
+  "version": "1.4.0",
+  "description": "get colors in your node.js console",
+  "license": "MIT",
+  "publisher": "Marak Squires",
+  "dependencies": [
+    {
+      "name": "eslint",
+      "versionConstraint": "^5.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-google",
+      "versionConstraint": "^0.11.0",
+      "scope": "dev"
+    }
+  ]
+}

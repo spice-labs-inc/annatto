@@ -1,0 +1,15 @@
+{
+  "name": "grpcio",
+  "simpleName": "grpcio",
+  "version": "1.60.0",
+  "description": "HTTP/2-based RPC framework",
+  "license": "Apache License 2.0",
+  "publisher": "The gRPC Authors",
+  "dependencies": [
+    {
+      "name": "grpcio-tools",
+      "versionConstraint": ">=1.60.0",
+      "scope": "runtime"
+    }
+  ]
+}

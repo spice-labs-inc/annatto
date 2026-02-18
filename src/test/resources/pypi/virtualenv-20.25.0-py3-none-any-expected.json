@@ -1,0 +1,125 @@
+{
+  "name": "virtualenv",
+  "simpleName": "virtualenv",
+  "version": "20.25.0",
+  "description": "Virtual Python Environment builder",
+  "license": "MIT",
+  "publisher": "Bernat Gabor",
+  "dependencies": [
+    {
+      "name": "distlib",
+      "versionConstraint": "<1,>=0.3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "filelock",
+      "versionConstraint": "<4,>=3.12.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": ">=6.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "platformdirs",
+      "versionConstraint": "<5,>=3.9.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "furo",
+      "versionConstraint": ">=2023.7.26",
+      "scope": "runtime"
+    },
+    {
+      "name": "proselint",
+      "versionConstraint": ">=0.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-argparse",
+      "versionConstraint": ">=0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": ">=7.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinxcontrib-towncrier",
+      "versionConstraint": ">=0.2.1a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "towncrier",
+      "versionConstraint": ">=23.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "covdefaults",
+      "versionConstraint": ">=2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "coverage-enable-subprocess",
+      "versionConstraint": ">=1",
+      "scope": "runtime"
+    },
+    {
+      "name": "coverage",
+      "versionConstraint": ">=7.2.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "flaky",
+      "versionConstraint": ">=3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "packaging",
+      "versionConstraint": ">=23.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-env",
+      "versionConstraint": ">=0.8.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-freezer",
+      "versionConstraint": ">=0.4.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-mock",
+      "versionConstraint": ">=3.11.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-randomly",
+      "versionConstraint": ">=3.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-timeout",
+      "versionConstraint": ">=2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "setuptools",
+      "versionConstraint": ">=68",
+      "scope": "runtime"
+    },
+    {
+      "name": "time-machine",
+      "versionConstraint": ">=2.10",
+      "scope": "runtime"
+    }
+  ]
+}

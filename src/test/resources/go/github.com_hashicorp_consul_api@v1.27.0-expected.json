@@ -1,0 +1,185 @@
+{
+  "name": "github.com/hashicorp/consul/api",
+  "simpleName": "api",
+  "version": "v1.27.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/consul/sdk",
+      "versionConstraint": "v0.15.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-cleanhttp",
+      "versionConstraint": "v0.5.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-hclog",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-multierror",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-rootcerts",
+      "versionConstraint": "v1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/go-uuid",
+      "versionConstraint": "v1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/serf",
+      "versionConstraint": "v0.10.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mitchellh/mapstructure",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.8.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/exp",
+      "versionConstraint": "v0.0.0-20230817173708-d852ddb80c63",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/armon/go-metrics",
+      "versionConstraint": "v0.4.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.2-0.20180830191138-d8f796af33cc",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/fatih/color",
+      "versionConstraint": "v1.14.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/google/btree",
+      "versionConstraint": "v1.0.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/errwrap",
+      "versionConstraint": "v1.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-immutable-radix",
+      "versionConstraint": "v1.3.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-msgpack",
+      "versionConstraint": "v0.5.5",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-sockaddr",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-version",
+      "versionConstraint": "v1.2.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/golang-lru",
+      "versionConstraint": "v0.5.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/memberlist",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/text",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "versionConstraint": "v0.1.13",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "versionConstraint": "v0.0.17",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/miekg/dns",
+      "versionConstraint": "v1.1.41",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mitchellh/go-homedir",
+      "versionConstraint": "v1.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "versionConstraint": "v0.9.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "versionConstraint": "v1.0.1-0.20181226105442-5d4384ee4fb2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/sean-/seed",
+      "versionConstraint": "v0.0.0-20170313163322-e2103e2c3529",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/stretchr/objx",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sync",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.15.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "indirect"
+    }
+  ]
+}

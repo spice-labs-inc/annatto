@@ -1,0 +1,30 @@
+{
+  "name": "github.com/stretchr/testify",
+  "simpleName": "testify",
+  "version": "v1.8.4",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/objx",
+      "versionConstraint": "v0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "runtime"
+    }
+  ]
+}

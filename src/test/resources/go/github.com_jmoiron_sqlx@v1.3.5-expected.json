@@ -1,0 +1,25 @@
+{
+  "name": "github.com/jmoiron/sqlx",
+  "simpleName": "sqlx",
+  "version": "v1.3.5",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/go-sql-driver/mysql",
+      "versionConstraint": "v1.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/lib/pq",
+      "versionConstraint": "v1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-sqlite3",
+      "versionConstraint": "v1.14.6",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "packaging",
+  "simpleName": "packaging",
+  "version": "23.2",
+  "description": "Core utilities for Python packages",
+  "license": "Apache Software License OR BSD License",
+  "publisher": "Donald Stufft",
+  "dependencies": []
+}

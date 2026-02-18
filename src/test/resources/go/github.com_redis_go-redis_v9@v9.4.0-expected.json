@@ -1,0 +1,30 @@
+{
+  "name": "github.com/redis/go-redis/v9",
+  "simpleName": "v9",
+  "version": "v9.4.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/bsm/ginkgo/v2",
+      "versionConstraint": "v2.12.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/bsm/gomega",
+      "versionConstraint": "v1.27.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "versionConstraint": "v2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/dgryski/go-rendezvous",
+      "versionConstraint": "v0.0.0-20200823014737-9f7001d12a5f",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "supports-color",
+  "simpleName": "supports-color",
+  "version": "9.4.0",
+  "description": "Detect whether a terminal supports color",
+  "license": "MIT",
+  "publisher": "Sindre Sorhus",
+  "dependencies": [
+    {
+      "name": "@types/node",
+      "versionConstraint": "^20.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "ava",
+      "versionConstraint": "^5.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "import-fresh",
+      "versionConstraint": "^3.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.18.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.54.2",
+      "scope": "dev"
+    }
+  ]
+}

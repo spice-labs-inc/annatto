@@ -1,0 +1,130 @@
+{
+  "name": "github.com/cockroachdb/errors",
+  "simpleName": "errors",
+  "version": "v1.11.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/cockroachdb/datadriven",
+      "versionConstraint": "v1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cockroachdb/logtags",
+      "versionConstraint": "v0.0.0-20230118201751-21c54148d20b",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cockroachdb/redact",
+      "versionConstraint": "v1.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/getsentry/sentry-go",
+      "versionConstraint": "v0.18.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/gogo/googleapis",
+      "versionConstraint": "v1.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/gogo/protobuf",
+      "versionConstraint": "v1.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/gogo/status",
+      "versionConstraint": "v1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hydrogen18/memlistener",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/kr/pretty",
+      "versionConstraint": "v0.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "versionConstraint": "v0.9.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "versionConstraint": "v1.53.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.28.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/text",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "versionConstraint": "v1.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/rogpeppe/go-internal",
+      "versionConstraint": "v1.9.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.7.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.7.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto",
+      "versionConstraint": "v0.0.0-20230227214838-9b19f0bdc514",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/check.v1",
+      "versionConstraint": "v1.0.0-20201130134442-10cb98267c6c",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "indirect"
+    }
+  ]
+}

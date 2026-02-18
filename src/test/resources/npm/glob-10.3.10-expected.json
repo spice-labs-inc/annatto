@@ -1,0 +1,85 @@
+{
+  "name": "glob",
+  "simpleName": "glob",
+  "version": "10.3.10",
+  "description": "the most correct and second fastest glob implementation in JavaScript",
+  "license": "ISC",
+  "publisher": "Isaac Z. Schlueter",
+  "dependencies": [
+    {
+      "name": "foreground-child",
+      "versionConstraint": "^3.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "jackspeak",
+      "versionConstraint": "^2.3.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "minimatch",
+      "versionConstraint": "^9.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "minipass",
+      "versionConstraint": "^5.0.0 || ^6.0.2 || ^7.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "path-scurry",
+      "versionConstraint": "^1.10.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "^20.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "memfs",
+      "versionConstraint": "^3.4.13",
+      "scope": "dev"
+    },
+    {
+      "name": "mkdirp",
+      "versionConstraint": "^3.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "^2.8.3",
+      "scope": "dev"
+    },
+    {
+      "name": "rimraf",
+      "versionConstraint": "^5.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "sync-content",
+      "versionConstraint": "^1.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "tap",
+      "versionConstraint": "^18.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "tshy",
+      "versionConstraint": "^1.2.2",
+      "scope": "dev"
+    },
+    {
+      "name": "typedoc",
+      "versionConstraint": "^0.25.1",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^5.2.2",
+      "scope": "dev"
+    }
+  ]
+}

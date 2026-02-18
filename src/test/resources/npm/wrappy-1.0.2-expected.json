@@ -1,0 +1,15 @@
+{
+  "name": "wrappy",
+  "simpleName": "wrappy",
+  "version": "1.0.2",
+  "description": "Callback wrapping utility",
+  "license": "ISC",
+  "publisher": "Isaac Z. Schlueter",
+  "dependencies": [
+    {
+      "name": "tap",
+      "versionConstraint": "^2.3.1",
+      "scope": "dev"
+    }
+  ]
+}

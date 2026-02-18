@@ -1,0 +1,35 @@
+{
+  "name": "github.com/spf13/cast",
+  "simpleName": "cast",
+  "version": "v1.6.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/frankban/quicktest",
+      "versionConstraint": "v1.14.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.9",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/pretty",
+      "versionConstraint": "v0.3.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/text",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/rogpeppe/go-internal",
+      "versionConstraint": "v1.9.0",
+      "scope": "indirect"
+    }
+  ]
+}

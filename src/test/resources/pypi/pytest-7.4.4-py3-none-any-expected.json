@@ -1,0 +1,90 @@
+{
+  "name": "pytest",
+  "simpleName": "pytest",
+  "version": "7.4.4",
+  "description": "pytest: simple powerful testing with Python",
+  "license": "MIT",
+  "publisher": "Holger Krekel, Bruno Oliveira, Ronny Pfannschmidt, Floris Bruynooghe, Brianna Laugher, Florian Bruhin and others",
+  "dependencies": [
+    {
+      "name": "iniconfig",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "packaging",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pluggy",
+      "versionConstraint": "<2.0,>=0.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "exceptiongroup",
+      "versionConstraint": ">=1.0.0rc8",
+      "scope": "runtime"
+    },
+    {
+      "name": "tomli",
+      "versionConstraint": ">=1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": ">=0.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "colorama",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "argcomplete",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "attrs",
+      "versionConstraint": ">=19.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "hypothesis",
+      "versionConstraint": ">=3.56",
+      "scope": "runtime"
+    },
+    {
+      "name": "mock",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "nose",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pygments",
+      "versionConstraint": ">=2.7.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "requests",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "setuptools",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "xmlschema",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

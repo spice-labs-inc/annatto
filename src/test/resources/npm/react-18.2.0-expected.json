@@ -1,0 +1,15 @@
+{
+  "name": "react",
+  "simpleName": "react",
+  "version": "18.2.0",
+  "description": "React is a JavaScript library for building user interfaces.",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "loose-envify",
+      "versionConstraint": "^1.1.0",
+      "scope": "runtime"
+    }
+  ]
+}

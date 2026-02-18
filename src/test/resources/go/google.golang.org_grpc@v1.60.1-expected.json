@@ -1,0 +1,120 @@
+{
+  "name": "google.golang.org/grpc",
+  "simpleName": "grpc",
+  "version": "v1.60.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "versionConstraint": "v2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cncf/udpa/go",
+      "versionConstraint": "v0.0.0-20220112060539-c52dc94e7fbe",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cncf/xds/go",
+      "versionConstraint": "v0.0.0-20230607035331-e9ce68804cb4",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/envoyproxy/go-control-plane",
+      "versionConstraint": "v0.11.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/glog",
+      "versionConstraint": "v1.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/uuid",
+      "versionConstraint": "v1.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "versionConstraint": "v0.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sync",
+      "versionConstraint": "v0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "versionConstraint": "v0.0.0-20231002182017-d307bd883b97",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.31.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/compute",
+      "versionConstraint": "v1.23.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "cloud.google.com/go/compute/metadata",
+      "versionConstraint": "v0.2.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/census-instrumentation/opencensus-proto",
+      "versionConstraint": "v0.4.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/envoyproxy/protoc-gen-validate",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/appengine",
+      "versionConstraint": "v1.6.8",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto",
+      "versionConstraint": "v0.0.0-20231002182017-d307bd883b97",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "versionConstraint": "v0.0.0-20231002182017-d307bd883b97",
+      "scope": "indirect"
+    }
+  ]
+}

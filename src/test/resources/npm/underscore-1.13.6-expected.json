@@ -1,0 +1,95 @@
+{
+  "name": "underscore",
+  "simpleName": "underscore",
+  "version": "1.13.6",
+  "description": "JavaScript's functional programming helper library.",
+  "license": "MIT",
+  "publisher": "Jeremy Ashkenas",
+  "dependencies": [
+    {
+      "name": "coveralls",
+      "versionConstraint": "^3.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "cpy-cli",
+      "versionConstraint": "^3.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "docco",
+      "versionConstraint": "^0.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^6.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "versionConstraint": "^2.20.1",
+      "scope": "dev"
+    },
+    {
+      "name": "glob",
+      "versionConstraint": "^7.1.6",
+      "scope": "dev"
+    },
+    {
+      "name": "gzip-size-cli",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "^4.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "karma",
+      "versionConstraint": "^4.4.1",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-qunit",
+      "versionConstraint": "^4.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-sauce-launcher",
+      "versionConstraint": "^4.3.6",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "^15.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "patch-package",
+      "versionConstraint": "^6.4.7",
+      "scope": "dev"
+    },
+    {
+      "name": "pretty-bytes-cli",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "qunit",
+      "versionConstraint": "2.10.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "^2.40.0",
+      "scope": "dev"
+    },
+    {
+      "name": "terser",
+      "versionConstraint": "^4.6.13",
+      "scope": "dev"
+    }
+  ]
+}

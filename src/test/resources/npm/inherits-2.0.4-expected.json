@@ -1,0 +1,15 @@
+{
+  "name": "inherits",
+  "simpleName": "inherits",
+  "version": "2.0.4",
+  "description": "Browser-friendly inheritance fully compatible with standard node.js inherits()",
+  "license": "ISC",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "tap",
+      "versionConstraint": "^14.2.4",
+      "scope": "dev"
+    }
+  ]
+}

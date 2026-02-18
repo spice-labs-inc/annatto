@@ -1,0 +1,15 @@
+{
+  "name": "isarray",
+  "simpleName": "isarray",
+  "version": "1.0.0",
+  "description": "Array#isArray for older browsers",
+  "license": "MIT",
+  "publisher": "Julian Gruber",
+  "dependencies": [
+    {
+      "name": "tape",
+      "versionConstraint": "~2.13.4",
+      "scope": "dev"
+    }
+  ]
+}

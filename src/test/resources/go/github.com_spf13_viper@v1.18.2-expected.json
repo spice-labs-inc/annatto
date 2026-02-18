@@ -1,0 +1,385 @@
+{
+  "name": "github.com/spf13/viper",
+  "simpleName": "viper",
+  "version": "v1.18.2",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/fsnotify/fsnotify",
+      "versionConstraint": "v1.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/hashicorp/hcl",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/magiconair/properties",
+      "versionConstraint": "v1.8.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mitchellh/mapstructure",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/pelletier/go-toml/v2",
+      "versionConstraint": "v2.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/sagikazarmark/crypt",
+      "versionConstraint": "v0.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/sagikazarmark/locafero",
+      "versionConstraint": "v0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/sagikazarmark/slog-shim",
+      "versionConstraint": "v0.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/spf13/afero",
+      "versionConstraint": "v1.11.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/spf13/cast",
+      "versionConstraint": "v1.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/spf13/pflag",
+      "versionConstraint": "v1.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/subosito/gotenv",
+      "versionConstraint": "v1.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gopkg.in/ini.v1",
+      "versionConstraint": "v1.67.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go",
+      "versionConstraint": "v0.110.10",
+      "scope": "indirect"
+    },
+    {
+      "name": "cloud.google.com/go/compute",
+      "versionConstraint": "v1.23.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "cloud.google.com/go/compute/metadata",
+      "versionConstraint": "v0.2.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "cloud.google.com/go/firestore",
+      "versionConstraint": "v1.14.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "cloud.google.com/go/longrunning",
+      "versionConstraint": "v0.5.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/armon/go-metrics",
+      "versionConstraint": "v0.4.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/coreos/go-semver",
+      "versionConstraint": "v0.3.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/coreos/go-systemd/v22",
+      "versionConstraint": "v22.3.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.2-0.20180830191138-d8f796af33cc",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/fatih/color",
+      "versionConstraint": "v1.14.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/gogo/protobuf",
+      "versionConstraint": "v1.3.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/golang/groupcache",
+      "versionConstraint": "v0.0.0-20210331224755-41bb18bfe9da",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/google/s2a-go",
+      "versionConstraint": "v0.1.7",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/googleapis/enterprise-certificate-proxy",
+      "versionConstraint": "v0.3.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/googleapis/gax-go/v2",
+      "versionConstraint": "v2.12.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/consul/api",
+      "versionConstraint": "v1.25.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-cleanhttp",
+      "versionConstraint": "v0.5.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-hclog",
+      "versionConstraint": "v1.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-immutable-radix",
+      "versionConstraint": "v1.3.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/go-rootcerts",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/golang-lru",
+      "versionConstraint": "v0.5.4",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/hashicorp/serf",
+      "versionConstraint": "v0.10.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "versionConstraint": "v1.1.12",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "versionConstraint": "v1.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "versionConstraint": "v0.1.13",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "versionConstraint": "v0.0.17",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mitchellh/go-homedir",
+      "versionConstraint": "v1.1.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "versionConstraint": "v0.0.0-20180306012644-bacd9c7ef1dd",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/nats-io/nats.go",
+      "versionConstraint": "v1.31.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/nats-io/nkeys",
+      "versionConstraint": "v0.4.6",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/nats-io/nuid",
+      "versionConstraint": "v1.0.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "versionConstraint": "v0.9.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pmezard/go-difflib",
+      "versionConstraint": "v1.0.1-0.20181226105442-5d4384ee4fb2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/sourcegraph/conc",
+      "versionConstraint": "v0.3.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.etcd.io/etcd/api/v3",
+      "versionConstraint": "v3.5.10",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.etcd.io/etcd/client/pkg/v3",
+      "versionConstraint": "v3.5.10",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.etcd.io/etcd/client/v2",
+      "versionConstraint": "v2.305.10",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.etcd.io/etcd/client/v3",
+      "versionConstraint": "v3.5.10",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.opencensus.io",
+      "versionConstraint": "v0.24.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.uber.org/atomic",
+      "versionConstraint": "v1.9.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.uber.org/multierr",
+      "versionConstraint": "v1.9.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "go.uber.org/zap",
+      "versionConstraint": "v1.21.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "versionConstraint": "v0.16.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/exp",
+      "versionConstraint": "v0.0.0-20230905200255-921286631fa9",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.19.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "versionConstraint": "v0.15.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sync",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.15.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.14.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/time",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/xerrors",
+      "versionConstraint": "v0.0.0-20220907171357-04be3eba64a2",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/api",
+      "versionConstraint": "v0.153.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/appengine",
+      "versionConstraint": "v1.6.7",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto",
+      "versionConstraint": "v0.0.0-20231106174013-bbf56f31fb17",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "versionConstraint": "v0.0.0-20231106174013-bbf56f31fb17",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "versionConstraint": "v0.0.0-20231120223509-83a465c0220f",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "versionConstraint": "v1.59.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.31.0",
+      "scope": "indirect"
+    }
+  ]
+}

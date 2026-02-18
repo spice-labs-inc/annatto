@@ -1,0 +1,70 @@
+{
+  "name": "debug",
+  "simpleName": "debug",
+  "version": "4.3.4",
+  "description": "Lightweight debugging utility for Node.js and the browser",
+  "license": "MIT",
+  "publisher": "Josh Junon",
+  "dependencies": [
+    {
+      "name": "ms",
+      "versionConstraint": "2.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "brfs",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "browserify",
+      "versionConstraint": "^16.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "coveralls",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "istanbul",
+      "versionConstraint": "^0.4.5",
+      "scope": "dev"
+    },
+    {
+      "name": "karma",
+      "versionConstraint": "^3.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-browserify",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-chrome-launcher",
+      "versionConstraint": "^2.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-mocha",
+      "versionConstraint": "^1.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^5.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha-lcov-reporter",
+      "versionConstraint": "^1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.23.0",
+      "scope": "dev"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "wcwidth",
+  "simpleName": "wcwidth",
+  "version": "0.2.13",
+  "description": "Measures the displayed width of unicode strings in a terminal",
+  "license": "MIT",
+  "publisher": "Jeff Quast",
+  "dependencies": [
+    {
+      "name": "backports.functools-lru-cache",
+      "versionConstraint": ">=1.2.1",
+      "scope": "runtime"
+    }
+  ]
+}

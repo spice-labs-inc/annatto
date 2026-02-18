@@ -1,0 +1,250 @@
+{
+  "name": "express",
+  "simpleName": "express",
+  "version": "4.18.2",
+  "description": "Fast, unopinionated, minimalist web framework",
+  "license": "MIT",
+  "publisher": "TJ Holowaychuk",
+  "dependencies": [
+    {
+      "name": "accepts",
+      "versionConstraint": "~1.3.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "array-flatten",
+      "versionConstraint": "1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "body-parser",
+      "versionConstraint": "1.20.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "content-disposition",
+      "versionConstraint": "0.5.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "content-type",
+      "versionConstraint": "~1.0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cookie",
+      "versionConstraint": "0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cookie-signature",
+      "versionConstraint": "1.0.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "debug",
+      "versionConstraint": "2.6.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "depd",
+      "versionConstraint": "2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "encodeurl",
+      "versionConstraint": "~1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "escape-html",
+      "versionConstraint": "~1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "etag",
+      "versionConstraint": "~1.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "finalhandler",
+      "versionConstraint": "1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "fresh",
+      "versionConstraint": "0.5.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "http-errors",
+      "versionConstraint": "2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "merge-descriptors",
+      "versionConstraint": "1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "methods",
+      "versionConstraint": "~1.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "on-finished",
+      "versionConstraint": "2.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "parseurl",
+      "versionConstraint": "~1.3.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "path-to-regexp",
+      "versionConstraint": "0.1.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "proxy-addr",
+      "versionConstraint": "~2.0.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "qs",
+      "versionConstraint": "6.11.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "range-parser",
+      "versionConstraint": "~1.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "safe-buffer",
+      "versionConstraint": "5.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "send",
+      "versionConstraint": "0.18.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "serve-static",
+      "versionConstraint": "1.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "setprototypeof",
+      "versionConstraint": "1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "statuses",
+      "versionConstraint": "2.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "type-is",
+      "versionConstraint": "~1.6.18",
+      "scope": "runtime"
+    },
+    {
+      "name": "utils-merge",
+      "versionConstraint": "1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "vary",
+      "versionConstraint": "~1.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "after",
+      "versionConstraint": "0.8.2",
+      "scope": "dev"
+    },
+    {
+      "name": "connect-redis",
+      "versionConstraint": "3.4.2",
+      "scope": "dev"
+    },
+    {
+      "name": "cookie-parser",
+      "versionConstraint": "1.4.6",
+      "scope": "dev"
+    },
+    {
+      "name": "cookie-session",
+      "versionConstraint": "2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "ejs",
+      "versionConstraint": "3.1.8",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "8.24.0",
+      "scope": "dev"
+    },
+    {
+      "name": "express-session",
+      "versionConstraint": "1.17.2",
+      "scope": "dev"
+    },
+    {
+      "name": "hbs",
+      "versionConstraint": "4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "marked",
+      "versionConstraint": "0.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "method-override",
+      "versionConstraint": "3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "10.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "morgan",
+      "versionConstraint": "1.10.0",
+      "scope": "dev"
+    },
+    {
+      "name": "multiparty",
+      "versionConstraint": "4.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "15.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "pbkdf2-password",
+      "versionConstraint": "1.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "supertest",
+      "versionConstraint": "6.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "vhost",
+      "versionConstraint": "~3.0.2",
+      "scope": "dev"
+    }
+  ]
+}

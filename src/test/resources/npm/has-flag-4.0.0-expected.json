@@ -1,0 +1,25 @@
+{
+  "name": "has-flag",
+  "simpleName": "has-flag",
+  "version": "4.0.0",
+  "description": "Check if argv has a specific flag",
+  "license": "MIT",
+  "publisher": "Sindre Sorhus",
+  "dependencies": [
+    {
+      "name": "ava",
+      "versionConstraint": "^1.4.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.7.2",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.24.0",
+      "scope": "dev"
+    }
+  ]
+}

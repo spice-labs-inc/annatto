@@ -1,0 +1,95 @@
+{
+  "name": "github.com/grpc-ecosystem/grpc-gateway/v2",
+  "simpleName": "v2",
+  "version": "v2.19.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/antihax/optional",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/rogpeppe/fastuuid",
+      "versionConstraint": "v1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "versionConstraint": "v0.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.14.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "versionConstraint": "v0.0.0-20240102182953-50ed04b92917",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "versionConstraint": "v0.0.0-20240102182953-50ed04b92917",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "versionConstraint": "v1.60.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.32.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/pretty",
+      "versionConstraint": "v0.3.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.19.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.15.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/appengine",
+      "versionConstraint": "v1.6.8",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/genproto",
+      "versionConstraint": "v0.0.0-20231212172506-995d672761c0",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/check.v1",
+      "versionConstraint": "v1.0.0-20201130134442-10cb98267c6c",
+      "scope": "indirect"
+    }
+  ]
+}

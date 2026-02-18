@@ -1,0 +1,15 @@
+{
+  "name": "gopkg.in/yaml.v2",
+  "simpleName": "yaml.v2",
+  "version": "v2.4.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "gopkg.in/check.v1",
+      "versionConstraint": "v0.0.0-20161208181325-20d25e280405",
+      "scope": "runtime"
+    }
+  ]
+}

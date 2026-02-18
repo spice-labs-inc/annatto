@@ -1,0 +1,235 @@
+{
+  "name": "setuptools",
+  "simpleName": "setuptools",
+  "version": "69.0.3",
+  "description": "Easily download, build, install, upgrade, and uninstall Python packages",
+  "license": "MIT License",
+  "publisher": "Python Packaging Authority",
+  "dependencies": [
+    {
+      "name": "sphinx",
+      "versionConstraint": ">=3.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": "<7.2.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.packaging",
+      "versionConstraint": ">=9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "rst.linker",
+      "versionConstraint": ">=1.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "furo",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-lint",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.tidelift",
+      "versionConstraint": ">=1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "pygments-github-lexers",
+      "versionConstraint": "==0.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-favicon",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-inline-tabs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-reredirects",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinxcontrib-towncrier",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-notfound-page",
+      "versionConstraint": "<2,>=1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=6",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-checkdocs",
+      "versionConstraint": ">=2.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-enabler",
+      "versionConstraint": ">=2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "flake8-2020",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "virtualenv",
+      "versionConstraint": ">=13.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "wheel",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pip",
+      "versionConstraint": ">=19.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.envs",
+      "versionConstraint": ">=2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.path",
+      "versionConstraint": ">=3.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "build",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "filelock",
+      "versionConstraint": ">=3.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ini2toml",
+      "versionConstraint": ">=0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "tomli-w",
+      "versionConstraint": ">=1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-timeout",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-enabler",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "virtualenv",
+      "versionConstraint": ">=13.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tomli",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "wheel",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.path",
+      "versionConstraint": ">=3.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.envs",
+      "versionConstraint": ">=2.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "build",
+      "versionConstraint": ">=1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "filelock",
+      "versionConstraint": ">=3.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "packaging",
+      "versionConstraint": ">=23.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-black",
+      "versionConstraint": ">=0.3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-cov",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-mypy",
+      "versionConstraint": ">=0.9.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "jaraco.develop",
+      "versionConstraint": ">=7.21",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-ruff",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-perf",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

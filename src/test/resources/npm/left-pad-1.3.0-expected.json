@@ -1,0 +1,25 @@
+{
+  "name": "left-pad",
+  "simpleName": "left-pad",
+  "version": "1.3.0",
+  "description": "String left pad",
+  "license": "WTFPL",
+  "publisher": "azer",
+  "dependencies": [
+    {
+      "name": "benchmark",
+      "versionConstraint": "^2.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "fast-check",
+      "versionConstraint": "0.0.8",
+      "scope": "dev"
+    },
+    {
+      "name": "tape",
+      "versionConstraint": "*",
+      "scope": "dev"
+    }
+  ]
+}

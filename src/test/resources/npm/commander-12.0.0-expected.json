@@ -1,0 +1,85 @@
+{
+  "name": "commander",
+  "simpleName": "commander",
+  "version": "12.0.0",
+  "description": "the complete solution for node.js command-line programs",
+  "license": "MIT",
+  "publisher": "TJ Holowaychuk",
+  "dependencies": [
+    {
+      "name": "@types/jest",
+      "versionConstraint": "^29.2.4",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "^20.2.5",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "versionConstraint": "^6.7.5",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "versionConstraint": "^6.7.5",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^8.30.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-standard",
+      "versionConstraint": "^17.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-standard-with-typescript",
+      "versionConstraint": "^40.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "versionConstraint": "^2.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-jest",
+      "versionConstraint": "^27.1.7",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-n",
+      "versionConstraint": "^16.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-promise",
+      "versionConstraint": "^6.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "jest",
+      "versionConstraint": "^29.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "ts-jest",
+      "versionConstraint": "^29.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.30.4",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^5.0.4",
+      "scope": "dev"
+    }
+  ]
+}

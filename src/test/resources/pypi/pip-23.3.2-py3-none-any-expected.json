@@ -1,0 +1,9 @@
+{
+  "name": "pip",
+  "simpleName": "pip",
+  "version": "23.3.2",
+  "description": "The PyPA recommended tool for installing Python packages.",
+  "license": "MIT",
+  "publisher": "The pip developers",
+  "dependencies": []
+}

@@ -1,0 +1,20 @@
+{
+  "name": "balanced-match",
+  "simpleName": "balanced-match",
+  "version": "1.0.2",
+  "description": "Match balanced character pairs, like \"{\" and \"}\"",
+  "license": "MIT",
+  "publisher": "Julian Gruber",
+  "dependencies": [
+    {
+      "name": "matcha",
+      "versionConstraint": "^0.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tape",
+      "versionConstraint": "^4.6.0",
+      "scope": "dev"
+    }
+  ]
+}

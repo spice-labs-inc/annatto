@@ -1,0 +1,9 @@
+{
+  "name": "charset-normalizer",
+  "simpleName": "charset-normalizer",
+  "version": "3.3.2",
+  "description": "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.",
+  "license": "MIT",
+  "publisher": "Ahmed TAHRI",
+  "dependencies": []
+}

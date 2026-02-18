@@ -1,0 +1,9 @@
+{
+  "name": "pytz",
+  "simpleName": "pytz",
+  "version": "2023.3.post1",
+  "description": "World timezone definitions, modern and historical",
+  "license": "MIT",
+  "publisher": "Stuart Bishop",
+  "dependencies": []
+}

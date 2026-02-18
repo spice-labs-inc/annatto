@@ -1,0 +1,55 @@
+{
+  "name": "aiohttp",
+  "simpleName": "aiohttp",
+  "version": "3.9.1",
+  "description": "Async http client/server framework (asyncio)",
+  "license": "Apache 2",
+  "publisher": "aiohttp team <team@aiohttp.org>",
+  "dependencies": [
+    {
+      "name": "attrs",
+      "versionConstraint": ">=17.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "multidict",
+      "versionConstraint": "<7.0,>=4.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "yarl",
+      "versionConstraint": "<2.0,>=1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "frozenlist",
+      "versionConstraint": ">=1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "aiosignal",
+      "versionConstraint": ">=1.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "async-timeout",
+      "versionConstraint": "<5.0,>=4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "brotlicffi",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "Brotli",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "aiodns",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

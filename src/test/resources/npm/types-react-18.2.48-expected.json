@@ -1,0 +1,25 @@
+{
+  "name": "@types/react",
+  "simpleName": "react",
+  "version": "18.2.48",
+  "description": "TypeScript definitions for react",
+  "license": "MIT",
+  "publisher": "Asana",
+  "dependencies": [
+    {
+      "name": "@types/prop-types",
+      "versionConstraint": "*",
+      "scope": "runtime"
+    },
+    {
+      "name": "@types/scheduler",
+      "versionConstraint": "*",
+      "scope": "runtime"
+    },
+    {
+      "name": "csstype",
+      "versionConstraint": "^3.0.2",
+      "scope": "runtime"
+    }
+  ]
+}

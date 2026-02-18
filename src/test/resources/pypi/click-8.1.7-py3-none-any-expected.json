@@ -1,0 +1,20 @@
+{
+  "name": "click",
+  "simpleName": "click",
+  "version": "8.1.7",
+  "description": "Composable command line interface toolkit",
+  "license": "BSD-3-Clause",
+  "publisher": "Pallets",
+  "dependencies": [
+    {
+      "name": "colorama",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

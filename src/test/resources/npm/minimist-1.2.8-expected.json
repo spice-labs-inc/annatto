@@ -1,0 +1,55 @@
+{
+  "name": "minimist",
+  "simpleName": "minimist",
+  "version": "1.2.8",
+  "description": "parse argument options",
+  "license": "MIT",
+  "publisher": "James Halliday",
+  "dependencies": [
+    {
+      "name": "@ljharb/eslint-config",
+      "versionConstraint": "^21.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "aud",
+      "versionConstraint": "^2.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "auto-changelog",
+      "versionConstraint": "^2.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "=8.8.0",
+      "scope": "dev"
+    },
+    {
+      "name": "in-publish",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "npmignore",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "^10.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "safe-publish-latest",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tape",
+      "versionConstraint": "^5.6.3",
+      "scope": "dev"
+    }
+  ]
+}

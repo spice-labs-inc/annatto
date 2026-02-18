@@ -1,0 +1,35 @@
+{
+  "name": "pydantic",
+  "simpleName": "pydantic",
+  "version": "2.5.3",
+  "description": "Data validation using Python type hints",
+  "license": "MIT",
+  "publisher": "Samuel Colvin",
+  "dependencies": [
+    {
+      "name": "annotated-types",
+      "versionConstraint": ">=0.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pydantic-core",
+      "versionConstraint": "==2.14.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "typing-extensions",
+      "versionConstraint": ">=4.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "email-validator",
+      "versionConstraint": ">=2.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

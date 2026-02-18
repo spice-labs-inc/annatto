@@ -1,0 +1,40 @@
+{
+  "name": "github.com/rs/zerolog",
+  "simpleName": "zerolog",
+  "version": "v1.31.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/coreos/go-systemd/v22",
+      "versionConstraint": "v22.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "versionConstraint": "v0.1.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "versionConstraint": "v0.0.19",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "versionConstraint": "v0.9.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/rs/xid",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.12.0",
+      "scope": "indirect"
+    }
+  ]
+}

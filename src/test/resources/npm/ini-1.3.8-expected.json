@@ -1,0 +1,40 @@
+{
+  "name": "ini",
+  "simpleName": "ini",
+  "version": "1.3.8",
+  "description": "An ini encoder/decoder for node",
+  "license": "ISC",
+  "publisher": "Isaac Z. Schlueter",
+  "dependencies": [
+    {
+      "name": "eslint",
+      "versionConstraint": "^7.9.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "versionConstraint": "^2.22.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-node",
+      "versionConstraint": "^11.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-promise",
+      "versionConstraint": "^4.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-standard",
+      "versionConstraint": "^4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tap",
+      "versionConstraint": "14",
+      "scope": "dev"
+    }
+  ]
+}

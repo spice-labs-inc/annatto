@@ -1,0 +1,35 @@
+{
+  "name": "kind-of",
+  "simpleName": "kind-of",
+  "version": "6.0.3",
+  "description": "Get the native type of a value.",
+  "license": "MIT",
+  "publisher": "Jon Schlinkert",
+  "dependencies": [
+    {
+      "name": "benchmarked",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "browserify",
+      "versionConstraint": "^14.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "gulp-format-md",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "write",
+      "versionConstraint": "^1.0.3",
+      "scope": "dev"
+    }
+  ]
+}

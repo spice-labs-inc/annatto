@@ -1,0 +1,60 @@
+{
+  "name": "chalk",
+  "simpleName": "chalk",
+  "version": "5.3.0",
+  "description": "Terminal string styling done right",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "@types/node",
+      "versionConstraint": "^16.11.10",
+      "scope": "dev"
+    },
+    {
+      "name": "ava",
+      "versionConstraint": "^3.15.0",
+      "scope": "dev"
+    },
+    {
+      "name": "c8",
+      "versionConstraint": "^7.10.0",
+      "scope": "dev"
+    },
+    {
+      "name": "color-convert",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "execa",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "log-update",
+      "versionConstraint": "^5.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "matcha",
+      "versionConstraint": "^0.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.19.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.53.0",
+      "scope": "dev"
+    },
+    {
+      "name": "yoctodelay",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    }
+  ]
+}

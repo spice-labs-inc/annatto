@@ -1,0 +1,30 @@
+{
+  "name": "semver",
+  "simpleName": "semver",
+  "version": "7.6.0",
+  "description": "The semantic version parser used by npm.",
+  "license": "ISC",
+  "publisher": "GitHub Inc.",
+  "dependencies": [
+    {
+      "name": "lru-cache",
+      "versionConstraint": "^6.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@npmcli/eslint-config",
+      "versionConstraint": "^4.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@npmcli/template-oss",
+      "versionConstraint": "4.21.3",
+      "scope": "dev"
+    },
+    {
+      "name": "tap",
+      "versionConstraint": "^16.0.0",
+      "scope": "dev"
+    }
+  ]
+}

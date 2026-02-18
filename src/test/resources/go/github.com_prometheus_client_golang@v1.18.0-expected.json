@@ -1,0 +1,115 @@
+{
+  "name": "github.com/prometheus/client_golang",
+  "simpleName": "client_golang",
+  "version": "v1.18.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/beorn7/perks",
+      "versionConstraint": "v1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "versionConstraint": "v2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "versionConstraint": "v1.1.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/prometheus/client_model",
+      "versionConstraint": "v0.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/prometheus/common",
+      "versionConstraint": "v0.45.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/prometheus/procfs",
+      "versionConstraint": "v0.12.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.31.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/jpillora/backoff",
+      "versionConstraint": "v1.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/kr/pretty",
+      "versionConstraint": "v0.3.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/matttproud/golang_protobuf_extensions/v2",
+      "versionConstraint": "v2.0.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "versionConstraint": "v0.0.0-20180306012644-bacd9c7ef1dd",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "versionConstraint": "v1.0.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/mwitkow/go-conntrack",
+      "versionConstraint": "v0.0.0-20190716064945-2f068394615f",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "versionConstraint": "v0.12.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/appengine",
+      "versionConstraint": "v1.6.7",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v2",
+      "versionConstraint": "v2.4.0",
+      "scope": "indirect"
+    }
+  ]
+}

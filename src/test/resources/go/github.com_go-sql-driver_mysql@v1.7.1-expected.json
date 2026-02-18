@@ -1,0 +1,9 @@
+{
+  "name": "github.com/go-sql-driver/mysql",
+  "simpleName": "mysql",
+  "version": "v1.7.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": []
+}

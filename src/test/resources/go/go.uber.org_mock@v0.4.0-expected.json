@@ -1,0 +1,30 @@
+{
+  "name": "go.uber.org/mock",
+  "simpleName": "mock",
+  "version": "v0.4.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "golang.org/x/mod",
+      "versionConstraint": "v0.11.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/tools",
+      "versionConstraint": "v0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/yuin/goldmark",
+      "versionConstraint": "v1.4.13",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.1.0",
+      "scope": "indirect"
+    }
+  ]
+}

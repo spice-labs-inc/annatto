@@ -1,0 +1,35 @@
+{
+  "name": "github.com/json-iterator/go",
+  "simpleName": "go",
+  "version": "v1.1.12",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/gofuzz",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "versionConstraint": "v0.0.0-20180228061459-e0a39a4cb421",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "versionConstraint": "v1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.3.0",
+      "scope": "runtime"
+    }
+  ]
+}

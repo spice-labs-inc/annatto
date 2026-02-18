@@ -1,0 +1,495 @@
+{
+  "name": "webpack",
+  "simpleName": "webpack",
+  "version": "5.90.1",
+  "description": "Packs ECMAScript/CommonJs/AMD modules for the browser. Allows you to split your codebase into multiple bundles, which can be loaded on demand. Supports loaders to preprocess files, i.e. json, jsx, es7, css, less, ... and your custom stuff.",
+  "license": "MIT",
+  "publisher": "Tobias Koppers @sokra",
+  "dependencies": [
+    {
+      "name": "@types/eslint-scope",
+      "versionConstraint": "^3.7.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "@types/estree",
+      "versionConstraint": "^1.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "@webassemblyjs/ast",
+      "versionConstraint": "^1.11.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "@webassemblyjs/wasm-edit",
+      "versionConstraint": "^1.11.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "@webassemblyjs/wasm-parser",
+      "versionConstraint": "^1.11.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "acorn",
+      "versionConstraint": "^8.7.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "acorn-import-assertions",
+      "versionConstraint": "^1.9.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "browserslist",
+      "versionConstraint": "^4.21.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "chrome-trace-event",
+      "versionConstraint": "^1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "enhanced-resolve",
+      "versionConstraint": "^5.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "es-module-lexer",
+      "versionConstraint": "^1.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "eslint-scope",
+      "versionConstraint": "5.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "events",
+      "versionConstraint": "^3.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "glob-to-regexp",
+      "versionConstraint": "^0.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "graceful-fs",
+      "versionConstraint": "^4.2.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "json-parse-even-better-errors",
+      "versionConstraint": "^2.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "loader-runner",
+      "versionConstraint": "^4.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "mime-types",
+      "versionConstraint": "^2.1.27",
+      "scope": "runtime"
+    },
+    {
+      "name": "neo-async",
+      "versionConstraint": "^2.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "schema-utils",
+      "versionConstraint": "^3.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tapable",
+      "versionConstraint": "^2.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "terser-webpack-plugin",
+      "versionConstraint": "^5.3.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "watchpack",
+      "versionConstraint": "^2.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "webpack-sources",
+      "versionConstraint": "^3.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/core",
+      "versionConstraint": "^7.23.7",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-react",
+      "versionConstraint": "^7.23.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/jest",
+      "versionConstraint": "^29.5.11",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/mime-types",
+      "versionConstraint": "^2.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "^20.1.7",
+      "scope": "dev"
+    },
+    {
+      "name": "assemblyscript",
+      "versionConstraint": "^0.27.22",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-loader",
+      "versionConstraint": "^8.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "benchmark",
+      "versionConstraint": "^2.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "bundle-loader",
+      "versionConstraint": "^0.5.6",
+      "scope": "dev"
+    },
+    {
+      "name": "coffee-loader",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "coffeescript",
+      "versionConstraint": "^2.5.1",
+      "scope": "dev"
+    },
+    {
+      "name": "core-js",
+      "versionConstraint": "^3.6.5",
+      "scope": "dev"
+    },
+    {
+      "name": "coveralls",
+      "versionConstraint": "^3.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "cspell",
+      "versionConstraint": "^6.31.1",
+      "scope": "dev"
+    },
+    {
+      "name": "css-loader",
+      "versionConstraint": "^5.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "date-fns",
+      "versionConstraint": "^3.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "es5-ext",
+      "versionConstraint": "^0.10.53",
+      "scope": "dev"
+    },
+    {
+      "name": "es6-promise-polyfill",
+      "versionConstraint": "^1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^8.48.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-prettier",
+      "versionConstraint": "^9.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-jest",
+      "versionConstraint": "^27.6.3",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-jsdoc",
+      "versionConstraint": "^43.0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-n",
+      "versionConstraint": "^16.6.2",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "versionConstraint": "^5.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "file-loader",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "fork-ts-checker-webpack-plugin",
+      "versionConstraint": "^8.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "hash-wasm",
+      "versionConstraint": "^4.9.0",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "^8.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "is-ci",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "istanbul",
+      "versionConstraint": "^0.4.5",
+      "scope": "dev"
+    },
+    {
+      "name": "jest",
+      "versionConstraint": "^29.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "jest-circus",
+      "versionConstraint": "^29.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "jest-cli",
+      "versionConstraint": "^29.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "jest-diff",
+      "versionConstraint": "^29.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "jest-environment-node",
+      "versionConstraint": "^29.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "jest-junit",
+      "versionConstraint": "^16.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "json-loader",
+      "versionConstraint": "^0.5.7",
+      "scope": "dev"
+    },
+    {
+      "name": "json5",
+      "versionConstraint": "^2.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "less",
+      "versionConstraint": "^4.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "less-loader",
+      "versionConstraint": "^8.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "lint-staged",
+      "versionConstraint": "^13.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "lodash",
+      "versionConstraint": "^4.17.19",
+      "scope": "dev"
+    },
+    {
+      "name": "lodash-es",
+      "versionConstraint": "^4.17.15",
+      "scope": "dev"
+    },
+    {
+      "name": "memfs",
+      "versionConstraint": "^3.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mini-css-extract-plugin",
+      "versionConstraint": "^1.6.1",
+      "scope": "dev"
+    },
+    {
+      "name": "mini-svg-data-uri",
+      "versionConstraint": "^1.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "^15.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "open-cli",
+      "versionConstraint": "^7.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier-2",
+      "versionConstraint": "npm:prettier@^2",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "^3.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "pretty-format",
+      "versionConstraint": "^29.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "pug",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "pug-loader",
+      "versionConstraint": "^2.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "raw-loader",
+      "versionConstraint": "^4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "react",
+      "versionConstraint": "^18.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "react-dom",
+      "versionConstraint": "^18.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rimraf",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "script-loader",
+      "versionConstraint": "^0.7.2",
+      "scope": "dev"
+    },
+    {
+      "name": "simple-git",
+      "versionConstraint": "^3.17.0",
+      "scope": "dev"
+    },
+    {
+      "name": "strip-ansi",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "style-loader",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "terser",
+      "versionConstraint": "^5.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "toml",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tooling",
+      "versionConstraint": "webpack/tooling#v1.23.1",
+      "scope": "dev"
+    },
+    {
+      "name": "ts-loader",
+      "versionConstraint": "^9.4.2",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^5.0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "url-loader",
+      "versionConstraint": "^4.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "wast-loader",
+      "versionConstraint": "^1.11.5",
+      "scope": "dev"
+    },
+    {
+      "name": "webassembly-feature",
+      "versionConstraint": "1.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "webpack-cli",
+      "versionConstraint": "^5.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "xxhashjs",
+      "versionConstraint": "^0.2.2",
+      "scope": "dev"
+    },
+    {
+      "name": "yamljs",
+      "versionConstraint": "^0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "yarn-deduplicate",
+      "versionConstraint": "^6.0.1",
+      "scope": "dev"
+    }
+  ]
+}

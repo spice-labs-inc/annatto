@@ -1,0 +1,125 @@
+{
+  "name": "uuid",
+  "simpleName": "uuid",
+  "version": "9.0.0",
+  "description": "RFC4122 (v1, v4, and v5) UUIDs",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "@babel/cli",
+      "versionConstraint": "7.18.10",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/core",
+      "versionConstraint": "7.18.10",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/eslint-parser",
+      "versionConstraint": "7.18.9",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-env",
+      "versionConstraint": "7.18.10",
+      "scope": "dev"
+    },
+    {
+      "name": "@commitlint/cli",
+      "versionConstraint": "17.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@commitlint/config-conventional",
+      "versionConstraint": "17.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "bundlewatch",
+      "versionConstraint": "0.3.3",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "8.21.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-prettier",
+      "versionConstraint": "8.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-config-standard",
+      "versionConstraint": "17.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-import",
+      "versionConstraint": "2.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-node",
+      "versionConstraint": "11.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-prettier",
+      "versionConstraint": "4.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-promise",
+      "versionConstraint": "6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "8.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "jest",
+      "versionConstraint": "28.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "lint-staged",
+      "versionConstraint": "13.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "npm-run-all",
+      "versionConstraint": "4.1.5",
+      "scope": "dev"
+    },
+    {
+      "name": "optional-dev-dependency",
+      "versionConstraint": "2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "2.7.1",
+      "scope": "dev"
+    },
+    {
+      "name": "random-seed",
+      "versionConstraint": "0.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "runmd",
+      "versionConstraint": "1.3.6",
+      "scope": "dev"
+    },
+    {
+      "name": "standard-version",
+      "versionConstraint": "9.5.0",
+      "scope": "dev"
+    }
+  ]
+}

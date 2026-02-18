@@ -1,0 +1,30 @@
+{
+  "name": "graceful-fs",
+  "simpleName": "graceful-fs",
+  "version": "4.2.11",
+  "description": "A drop-in replacement for fs, making various improvements.",
+  "license": "ISC",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "import-fresh",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mkdirp",
+      "versionConstraint": "^0.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rimraf",
+      "versionConstraint": "^2.2.8",
+      "scope": "dev"
+    },
+    {
+      "name": "tap",
+      "versionConstraint": "^16.3.4",
+      "scope": "dev"
+    }
+  ]
+}

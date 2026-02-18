@@ -1,0 +1,30 @@
+{
+  "name": "strip-ansi",
+  "simpleName": "strip-ansi",
+  "version": "7.1.0",
+  "description": "Strip ANSI escape codes from a string",
+  "license": "MIT",
+  "publisher": "Sindre Sorhus",
+  "dependencies": [
+    {
+      "name": "ansi-regex",
+      "versionConstraint": "^6.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "ava",
+      "versionConstraint": "^3.15.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.17.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.44.0",
+      "scope": "dev"
+    }
+  ]
+}

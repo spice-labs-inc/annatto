@@ -1,0 +1,320 @@
+{
+  "name": "rxjs",
+  "simpleName": "rxjs",
+  "version": "7.8.1",
+  "description": "Reactive Extensions for modern JavaScript",
+  "license": "Apache-2.0",
+  "publisher": "Ben Lesh",
+  "dependencies": [
+    {
+      "name": "tslib",
+      "versionConstraint": "^2.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@angular-devkit/build-optimizer",
+      "versionConstraint": "0.4.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@angular-devkit/schematics",
+      "versionConstraint": "^11.0.7",
+      "scope": "dev"
+    },
+    {
+      "name": "@swc/core",
+      "versionConstraint": "^1.2.128",
+      "scope": "dev"
+    },
+    {
+      "name": "@swc/helpers",
+      "versionConstraint": "^0.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/chai",
+      "versionConstraint": "^4.2.11",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/lodash",
+      "versionConstraint": "4.14.102",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/mocha",
+      "versionConstraint": "^7.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "^14.14.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/shelljs",
+      "versionConstraint": "^0.8.8",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/sinon",
+      "versionConstraint": "4.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/sinon-chai",
+      "versionConstraint": "2.7.29",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/source-map",
+      "versionConstraint": "^0.5.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "versionConstraint": "^4.29.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "versionConstraint": "^4.29.1",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-polyfill",
+      "versionConstraint": "6.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chai",
+      "versionConstraint": "^4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "check-side-effects",
+      "versionConstraint": "0.0.23",
+      "scope": "dev"
+    },
+    {
+      "name": "color",
+      "versionConstraint": "3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "colors",
+      "versionConstraint": "1.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "cross-env",
+      "versionConstraint": "5.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "cz-conventional-changelog",
+      "versionConstraint": "1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "dependency-cruiser",
+      "versionConstraint": "^9.12.0",
+      "scope": "dev"
+    },
+    {
+      "name": "escape-string-regexp",
+      "versionConstraint": "1.0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^7.8.1",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-jasmine",
+      "versionConstraint": "^2.10.1",
+      "scope": "dev"
+    },
+    {
+      "name": "form-data",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "fs-extra",
+      "versionConstraint": "^8.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "glob",
+      "versionConstraint": "7.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "google-closure-compiler-js",
+      "versionConstraint": "20170218.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "^4.2.5",
+      "scope": "dev"
+    },
+    {
+      "name": "klaw-sync",
+      "versionConstraint": "3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "lint-staged",
+      "versionConstraint": "^10.2.11",
+      "scope": "dev"
+    },
+    {
+      "name": "lodash",
+      "versionConstraint": "^4.17.15",
+      "scope": "dev"
+    },
+    {
+      "name": "minimist",
+      "versionConstraint": "^1.2.5",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^8.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "nodemon",
+      "versionConstraint": "^1.9.2",
+      "scope": "dev"
+    },
+    {
+      "name": "npm-run-all",
+      "versionConstraint": "4.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "opn-cli",
+      "versionConstraint": "3.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "platform",
+      "versionConstraint": "1.3.5",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "^2.5.1",
+      "scope": "dev"
+    },
+    {
+      "name": "promise",
+      "versionConstraint": "8.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "0.66.6",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-alias",
+      "versionConstraint": "1.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-inject",
+      "versionConstraint": "2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-node-resolve",
+      "versionConstraint": "2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "shelljs",
+      "versionConstraint": "^0.8.4",
+      "scope": "dev"
+    },
+    {
+      "name": "shx",
+      "versionConstraint": "^0.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "sinon",
+      "versionConstraint": "4.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "sinon-chai",
+      "versionConstraint": "2.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "source-map-support",
+      "versionConstraint": "0.5.3",
+      "scope": "dev"
+    },
+    {
+      "name": "systemjs",
+      "versionConstraint": "^0.21.0",
+      "scope": "dev"
+    },
+    {
+      "name": "ts-node",
+      "versionConstraint": "^9.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tslint",
+      "versionConstraint": "^5.20.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tslint-config-prettier",
+      "versionConstraint": "^1.18.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tslint-etc",
+      "versionConstraint": "1.13.10",
+      "scope": "dev"
+    },
+    {
+      "name": "tslint-no-toplevel-property-access",
+      "versionConstraint": "0.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "tslint-no-unused-expression-chai",
+      "versionConstraint": "0.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "~4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "validate-commit-msg",
+      "versionConstraint": "2.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "web-streams-polyfill",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "webpack",
+      "versionConstraint": "^4.31.0",
+      "scope": "dev"
+    }
+  ]
+}

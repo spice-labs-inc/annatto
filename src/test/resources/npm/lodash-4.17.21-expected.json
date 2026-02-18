@@ -1,0 +1,9 @@
+{
+  "name": "lodash",
+  "simpleName": "lodash",
+  "version": "4.17.21",
+  "description": "Lodash modular utilities.",
+  "license": "MIT",
+  "publisher": "John-David Dalton",
+  "dependencies": []
+}

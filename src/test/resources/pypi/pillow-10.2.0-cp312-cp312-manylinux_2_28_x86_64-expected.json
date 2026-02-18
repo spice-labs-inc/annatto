@@ -1,0 +1,115 @@
+{
+  "name": "pillow",
+  "simpleName": "pillow",
+  "version": "10.2.0",
+  "description": "Python Imaging Library (Fork)",
+  "license": "HPND",
+  "publisher": "Jeffrey A. Clark (Alex)",
+  "dependencies": [
+    {
+      "name": "furo",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "olefile",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": ">=2.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-copybutton",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-inline-tabs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-removed-in",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinxext-opengraph",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "olefile",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "olefile",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "check-manifest",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "coverage",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "defusedxml",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "markdown2",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "olefile",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "packaging",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pyroma",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-cov",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-timeout",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "typing-extensions",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "defusedxml",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

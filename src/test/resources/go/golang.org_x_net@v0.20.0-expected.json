@@ -1,0 +1,30 @@
+{
+  "name": "golang.org/x/net",
+  "simpleName": "net",
+  "version": "v0.20.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "golang.org/x/crypto",
+      "versionConstraint": "v0.18.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/term",
+      "versionConstraint": "v0.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.14.0",
+      "scope": "runtime"
+    }
+  ]
+}

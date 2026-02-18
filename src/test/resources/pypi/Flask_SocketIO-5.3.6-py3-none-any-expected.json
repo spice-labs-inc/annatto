@@ -1,0 +1,25 @@
+{
+  "name": "Flask-SocketIO",
+  "simpleName": "Flask-SocketIO",
+  "version": "5.3.6",
+  "description": "Socket.IO integration for Flask applications",
+  "license": "MIT License",
+  "publisher": "Miguel Grinberg",
+  "dependencies": [
+    {
+      "name": "Flask",
+      "versionConstraint": ">=0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-socketio",
+      "versionConstraint": ">=5.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "name": "SQLAlchemy",
+  "simpleName": "SQLAlchemy",
+  "version": "2.0.25",
+  "description": "Database Abstraction Library",
+  "license": "MIT",
+  "publisher": "Mike Bayer",
+  "dependencies": [
+    {
+      "name": "typing-extensions",
+      "versionConstraint": ">=4.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "aiomysql",
+      "versionConstraint": ">=0.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "aioodbc",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "aiosqlite",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "typing-extensions",
+      "versionConstraint": "!=3.10.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "asyncmy",
+      "versionConstraint": "!=0.2.4,!=0.2.6,>=0.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "mariadb",
+      "versionConstraint": "!=1.1.2,!=1.1.5,>=1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyodbc",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pymssql",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pyodbc",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "mypy",
+      "versionConstraint": ">=0.910",
+      "scope": "runtime"
+    },
+    {
+      "name": "mysqlclient",
+      "versionConstraint": ">=1.4.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "mysql-connector-python",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "cx-oracle",
+      "versionConstraint": ">=8",
+      "scope": "runtime"
+    },
+    {
+      "name": "oracledb",
+      "versionConstraint": ">=1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg2",
+      "versionConstraint": ">=2.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "greenlet",
+      "versionConstraint": "!=0.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "asyncpg",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pg8000",
+      "versionConstraint": ">=1.29.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg",
+      "versionConstraint": ">=3.0.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg2-binary",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg2cffi",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg",
+      "versionConstraint": ">=3.0.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "pymysql",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sqlcipher3-binary",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

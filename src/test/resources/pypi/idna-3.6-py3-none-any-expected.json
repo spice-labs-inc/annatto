@@ -1,0 +1,9 @@
+{
+  "name": "idna",
+  "simpleName": "idna",
+  "version": "3.6",
+  "description": "Internationalized Domain Names in Applications (IDNA)",
+  "license": "BSD License",
+  "publisher": "Kim Davies",
+  "dependencies": []
+}

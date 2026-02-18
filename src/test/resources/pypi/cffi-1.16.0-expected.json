@@ -1,0 +1,15 @@
+{
+  "name": "cffi",
+  "simpleName": "cffi",
+  "version": "1.16.0",
+  "description": "Foreign Function Interface for Python calling C code.",
+  "license": "MIT",
+  "publisher": "Armin Rigo, Maciej Fijalkowski",
+  "dependencies": [
+    {
+      "name": "pycparser",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

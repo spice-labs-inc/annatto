@@ -1,0 +1,30 @@
+{
+  "name": "lxml",
+  "simpleName": "lxml",
+  "version": "5.1.0",
+  "description": "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API.",
+  "license": "BSD-3-Clause",
+  "publisher": "lxml dev team",
+  "dependencies": [
+    {
+      "name": "cssselect",
+      "versionConstraint": ">=0.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "html5lib",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "BeautifulSoup4",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "Cython",
+      "versionConstraint": ">=3.0.7",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "wheel",
+  "simpleName": "wheel",
+  "version": "0.42.0",
+  "description": "A built-package format for Python",
+  "license": "MIT License",
+  "publisher": "Daniel Holth",
+  "dependencies": [
+    {
+      "name": "pytest",
+      "versionConstraint": ">= 6.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "setuptools",
+      "versionConstraint": ">= 65",
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "github.com/fatih/color",
+  "simpleName": "color",
+  "version": "v1.16.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/mattn/go-colorable",
+      "versionConstraint": "v0.1.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "versionConstraint": "v0.0.20",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.14.0",
+      "scope": "runtime"
+    }
+  ]
+}

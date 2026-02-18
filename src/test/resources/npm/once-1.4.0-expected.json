@@ -1,0 +1,20 @@
+{
+  "name": "once",
+  "simpleName": "once",
+  "version": "1.4.0",
+  "description": "Run a function exactly one time",
+  "license": "ISC",
+  "publisher": "Isaac Z. Schlueter",
+  "dependencies": [
+    {
+      "name": "wrappy",
+      "versionConstraint": "1",
+      "scope": "runtime"
+    },
+    {
+      "name": "tap",
+      "versionConstraint": "^7.0.1",
+      "scope": "dev"
+    }
+  ]
+}

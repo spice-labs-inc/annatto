@@ -1,0 +1,70 @@
+{
+  "name": "github.com/onsi/ginkgo/v2",
+  "simpleName": "v2",
+  "version": "v2.13.2",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/go-logr/logr",
+      "versionConstraint": "v1.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/go-task/slim-sprig",
+      "versionConstraint": "v0.0.0-20230315185526-52ccab3ef572",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/pprof",
+      "versionConstraint": "v0.0.0-20210407192527-94a9f03dee38",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/onsi/gomega",
+      "versionConstraint": "v1.29.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.14.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/tools",
+      "versionConstraint": "v0.14.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.6.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.28.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "indirect"
+    }
+  ]
+}

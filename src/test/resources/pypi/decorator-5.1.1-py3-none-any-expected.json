@@ -1,0 +1,9 @@
+{
+  "name": "decorator",
+  "simpleName": "decorator",
+  "version": "5.1.1",
+  "description": "Decorators for Humans",
+  "license": "new BSD License",
+  "publisher": "Michele Simionato",
+  "dependencies": []
+}

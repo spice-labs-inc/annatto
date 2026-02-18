@@ -1,0 +1,25 @@
+{
+  "name": "google.golang.org/protobuf",
+  "simpleName": "protobuf",
+  "version": "v1.32.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/xerrors",
+      "versionConstraint": "v0.0.0-20191204190536-9bdfabe68543",
+      "scope": "indirect"
+    }
+  ]
+}

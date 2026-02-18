@@ -1,0 +1,15 @@
+{
+  "name": "gopkg.in/check.v1",
+  "simpleName": "check.v1",
+  "version": "v1.0.0-20201130134442-10cb98267c6c",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/kr/pretty",
+      "versionConstraint": "v0.2.1",
+      "scope": "runtime"
+    }
+  ]
+}

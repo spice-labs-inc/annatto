@@ -1,0 +1,15 @@
+{
+  "name": "github.com/hashicorp/go-multierror",
+  "simpleName": "go-multierror",
+  "version": "v1.1.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/hashicorp/errwrap",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

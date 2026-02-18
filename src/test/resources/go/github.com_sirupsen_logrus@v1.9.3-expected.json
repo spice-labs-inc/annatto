@@ -1,0 +1,25 @@
+{
+  "name": "github.com/sirupsen/logrus",
+  "simpleName": "logrus",
+  "version": "v1.9.3",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/davecgh/go-spew",
+      "versionConstraint": "v1.1.1",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.0.0-20220715151400-c0bba94af5f8",
+      "scope": "runtime"
+    }
+  ]
+}

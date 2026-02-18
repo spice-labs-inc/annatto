@@ -1,0 +1,9 @@
+{
+  "name": "wrapt",
+  "simpleName": "wrapt",
+  "version": "1.16.0",
+  "description": "Module for decorators, wrappers and monkey patching.",
+  "license": "BSD",
+  "publisher": "Graham Dumpleton",
+  "dependencies": []
+}

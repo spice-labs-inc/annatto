@@ -1,0 +1,9 @@
+{
+  "name": "chardet",
+  "simpleName": "chardet",
+  "version": "5.2.0",
+  "description": "Universal encoding detector for Python 3",
+  "license": "LGPL",
+  "publisher": "Mark Pilgrim",
+  "dependencies": []
+}

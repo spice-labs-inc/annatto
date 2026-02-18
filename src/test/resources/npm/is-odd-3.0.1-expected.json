@@ -1,0 +1,25 @@
+{
+  "name": "is-odd",
+  "simpleName": "is-odd",
+  "version": "3.0.1",
+  "description": "Returns true if the given number is odd, and is an integer that does not exceed the JavaScript MAXIMUM_SAFE_INTEGER.",
+  "license": "MIT",
+  "publisher": "Jon Schlinkert",
+  "dependencies": [
+    {
+      "name": "is-number",
+      "versionConstraint": "^6.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gulp-format-md",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^3.5.3",
+      "scope": "dev"
+    }
+  ]
+}

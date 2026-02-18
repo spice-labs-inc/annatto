@@ -1,0 +1,9 @@
+{
+  "name": "golang.org/x/sys",
+  "simpleName": "sys",
+  "version": "v0.16.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": []
+}

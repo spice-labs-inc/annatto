@@ -1,0 +1,15 @@
+{
+  "name": "@types/node",
+  "simpleName": "node",
+  "version": "20.11.16",
+  "description": "TypeScript definitions for node",
+  "license": "MIT",
+  "publisher": "Microsoft TypeScript",
+  "dependencies": [
+    {
+      "name": "undici-types",
+      "versionConstraint": "~5.26.4",
+      "scope": "runtime"
+    }
+  ]
+}

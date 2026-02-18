@@ -1,0 +1,25 @@
+{
+  "name": "golang.org/x/text",
+  "simpleName": "text",
+  "version": "v0.14.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "golang.org/x/tools",
+      "versionConstraint": "v0.6.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/mod",
+      "versionConstraint": "v0.8.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.5.0",
+      "scope": "indirect"
+    }
+  ]
+}

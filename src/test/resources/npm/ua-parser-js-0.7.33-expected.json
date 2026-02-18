@@ -1,0 +1,50 @@
+{
+  "name": "ua-parser-js",
+  "simpleName": "ua-parser-js",
+  "version": "0.7.33",
+  "description": "Detect Browser, Engine, OS, CPU, and Device type/model from User-Agent data. Supports browser & node.js environment",
+  "license": "MIT",
+  "publisher": "Faisal Salman",
+  "dependencies": [
+    {
+      "name": "@babel/parser",
+      "versionConstraint": "7.15.8",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/traverse",
+      "versionConstraint": "7.15.4",
+      "scope": "dev"
+    },
+    {
+      "name": "jshint",
+      "versionConstraint": "~2.12.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "~8.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "requirejs",
+      "versionConstraint": "^2.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "safe-regex",
+      "versionConstraint": "^2.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "uglify-js",
+      "versionConstraint": "~3.12.0",
+      "scope": "dev"
+    },
+    {
+      "name": "verup",
+      "versionConstraint": "^1.3.x",
+      "scope": "dev"
+    }
+  ]
+}

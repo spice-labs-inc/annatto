@@ -1,0 +1,30 @@
+{
+  "name": "urllib3",
+  "simpleName": "urllib3",
+  "version": "2.1.0",
+  "description": "HTTP library with thread-safe connection pooling, file post, and more.",
+  "license": "MIT License",
+  "publisher": "Andrey Petrov",
+  "dependencies": [
+    {
+      "name": "brotli",
+      "versionConstraint": ">=1.0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "brotlicffi",
+      "versionConstraint": ">=0.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pysocks",
+      "versionConstraint": "!=1.5.7,<2.0,>=1.5.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "zstandard",
+      "versionConstraint": ">=0.18.0",
+      "scope": "runtime"
+    }
+  ]
+}

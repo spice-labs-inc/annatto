@@ -1,0 +1,70 @@
+{
+  "name": "event-stream",
+  "simpleName": "event-stream",
+  "version": "3.3.4",
+  "description": "construct pipes of streams of events",
+  "license": "MIT",
+  "publisher": "Dominic Tarr",
+  "dependencies": [
+    {
+      "name": "through",
+      "versionConstraint": "~2.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "duplexer",
+      "versionConstraint": "~0.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "from",
+      "versionConstraint": "~0",
+      "scope": "runtime"
+    },
+    {
+      "name": "map-stream",
+      "versionConstraint": "~0.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pause-stream",
+      "versionConstraint": "0.0.11",
+      "scope": "runtime"
+    },
+    {
+      "name": "split",
+      "versionConstraint": "0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "stream-combiner",
+      "versionConstraint": "~0.0.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "asynct",
+      "versionConstraint": "*",
+      "scope": "dev"
+    },
+    {
+      "name": "it-is",
+      "versionConstraint": "1",
+      "scope": "dev"
+    },
+    {
+      "name": "ubelt",
+      "versionConstraint": "~3.2.2",
+      "scope": "dev"
+    },
+    {
+      "name": "stream-spec",
+      "versionConstraint": "~0.3.5",
+      "scope": "dev"
+    },
+    {
+      "name": "tape",
+      "versionConstraint": "~2.3.0",
+      "scope": "dev"
+    }
+  ]
+}

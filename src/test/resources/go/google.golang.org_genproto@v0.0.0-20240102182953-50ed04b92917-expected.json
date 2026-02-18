@@ -1,0 +1,630 @@
+{
+  "name": "google.golang.org/genproto",
+  "simpleName": "genproto",
+  "version": "v0.0.0-20240102182953-50ed04b92917",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "cloud.google.com/go",
+      "versionConstraint": "v0.111.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/accessapproval",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/accesscontextmanager",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/aiplatform",
+      "versionConstraint": "v1.58.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/analytics",
+      "versionConstraint": "v0.21.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/apigateway",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/apigeeconnect",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/apigeeregistry",
+      "versionConstraint": "v0.8.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/appengine",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/area120",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/artifactregistry",
+      "versionConstraint": "v1.14.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/asset",
+      "versionConstraint": "v1.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/assuredworkloads",
+      "versionConstraint": "v1.11.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/automl",
+      "versionConstraint": "v1.13.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/baremetalsolution",
+      "versionConstraint": "v1.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/batch",
+      "versionConstraint": "v1.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/beyondcorp",
+      "versionConstraint": "v1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/bigquery",
+      "versionConstraint": "v1.57.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/billing",
+      "versionConstraint": "v1.18.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/binaryauthorization",
+      "versionConstraint": "v1.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/certificatemanager",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/channel",
+      "versionConstraint": "v1.17.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/cloudbuild",
+      "versionConstraint": "v1.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/clouddms",
+      "versionConstraint": "v1.7.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/cloudtasks",
+      "versionConstraint": "v1.12.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/compute",
+      "versionConstraint": "v1.23.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/contactcenterinsights",
+      "versionConstraint": "v1.12.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/container",
+      "versionConstraint": "v1.29.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/containeranalysis",
+      "versionConstraint": "v0.11.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/datacatalog",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dataflow",
+      "versionConstraint": "v0.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dataform",
+      "versionConstraint": "v0.9.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/datafusion",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/datalabeling",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dataplex",
+      "versionConstraint": "v1.13.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dataproc/v2",
+      "versionConstraint": "v2.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dataqna",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/datastore",
+      "versionConstraint": "v1.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/datastream",
+      "versionConstraint": "v1.10.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/deploy",
+      "versionConstraint": "v1.16.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dialogflow",
+      "versionConstraint": "v1.47.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/dlp",
+      "versionConstraint": "v1.11.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/documentai",
+      "versionConstraint": "v1.23.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/domains",
+      "versionConstraint": "v0.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/edgecontainer",
+      "versionConstraint": "v1.1.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/errorreporting",
+      "versionConstraint": "v0.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/essentialcontacts",
+      "versionConstraint": "v1.6.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/eventarc",
+      "versionConstraint": "v1.13.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/filestore",
+      "versionConstraint": "v1.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/firestore",
+      "versionConstraint": "v1.14.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/functions",
+      "versionConstraint": "v1.15.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/gkebackup",
+      "versionConstraint": "v1.3.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/gkeconnect",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/gkehub",
+      "versionConstraint": "v0.14.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/gkemulticloud",
+      "versionConstraint": "v1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/gsuiteaddons",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/iam",
+      "versionConstraint": "v1.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/iap",
+      "versionConstraint": "v1.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/ids",
+      "versionConstraint": "v1.4.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/iot",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/kms",
+      "versionConstraint": "v1.15.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/language",
+      "versionConstraint": "v1.12.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/lifesciences",
+      "versionConstraint": "v0.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/logging",
+      "versionConstraint": "v1.9.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/longrunning",
+      "versionConstraint": "v0.5.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/managedidentities",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/maps",
+      "versionConstraint": "v1.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/mediatranslation",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/memcache",
+      "versionConstraint": "v1.10.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/metastore",
+      "versionConstraint": "v1.13.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/monitoring",
+      "versionConstraint": "v1.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/networkconnectivity",
+      "versionConstraint": "v1.14.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/networkmanagement",
+      "versionConstraint": "v1.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/networksecurity",
+      "versionConstraint": "v0.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/notebooks",
+      "versionConstraint": "v1.11.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/optimization",
+      "versionConstraint": "v1.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/orchestration",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/orgpolicy",
+      "versionConstraint": "v1.11.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/osconfig",
+      "versionConstraint": "v1.12.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/oslogin",
+      "versionConstraint": "v1.12.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/phishingprotection",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/policytroubleshooter",
+      "versionConstraint": "v1.10.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/privatecatalog",
+      "versionConstraint": "v0.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/pubsub",
+      "versionConstraint": "v1.33.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/pubsublite",
+      "versionConstraint": "v1.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/recaptchaenterprise/v2",
+      "versionConstraint": "v2.9.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/recommendationengine",
+      "versionConstraint": "v0.8.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/recommender",
+      "versionConstraint": "v1.12.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/redis",
+      "versionConstraint": "v1.14.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/resourcemanager",
+      "versionConstraint": "v1.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/resourcesettings",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/retail",
+      "versionConstraint": "v1.14.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/run",
+      "versionConstraint": "v1.3.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/scheduler",
+      "versionConstraint": "v1.10.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/secretmanager",
+      "versionConstraint": "v1.11.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/security",
+      "versionConstraint": "v1.15.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/securitycenter",
+      "versionConstraint": "v1.24.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/servicedirectory",
+      "versionConstraint": "v1.11.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/shell",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/spanner",
+      "versionConstraint": "v1.54.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/speech",
+      "versionConstraint": "v1.21.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/storagetransfer",
+      "versionConstraint": "v1.10.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/talent",
+      "versionConstraint": "v1.6.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/texttospeech",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/tpu",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/trace",
+      "versionConstraint": "v1.10.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/translate",
+      "versionConstraint": "v1.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/video",
+      "versionConstraint": "v1.20.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/videointelligence",
+      "versionConstraint": "v1.11.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/vision/v2",
+      "versionConstraint": "v2.7.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/vmmigration",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/vmwareengine",
+      "versionConstraint": "v1.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/vpcaccess",
+      "versionConstraint": "v1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/webrisk",
+      "versionConstraint": "v1.9.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/websecurityscanner",
+      "versionConstraint": "v1.6.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "cloud.google.com/go/workflows",
+      "versionConstraint": "v1.12.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "versionConstraint": "v1.5.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/api",
+      "versionConstraint": "v0.0.0-20231212172506-995d672761c0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/genproto/googleapis/rpc",
+      "versionConstraint": "v0.0.0-20231212172506-995d672761c0",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/grpc",
+      "versionConstraint": "v1.60.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "versionConstraint": "v1.32.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.13.0",
+      "scope": "indirect"
+    }
+  ]
+}

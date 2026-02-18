@@ -1,0 +1,25 @@
+{
+  "name": "github.com/aws/aws-sdk-go-v2",
+  "simpleName": "aws-sdk-go-v2",
+  "version": "v1.24.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/aws/smithy-go",
+      "versionConstraint": "v1.19.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "versionConstraint": "v0.5.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/jmespath/go-jmespath",
+      "versionConstraint": "v0.4.0",
+      "scope": "runtime"
+    }
+  ]
+}

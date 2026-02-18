@@ -1,0 +1,15 @@
+{
+  "name": "github.com/pelletier/go-toml/v2",
+  "simpleName": "v2",
+  "version": "v2.1.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/stretchr/testify",
+      "versionConstraint": "v1.8.4",
+      "scope": "runtime"
+    }
+  ]
+}

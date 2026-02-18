@@ -1,0 +1,9 @@
+{
+  "name": "typing_extensions",
+  "simpleName": "typing_extensions",
+  "version": "4.9.0",
+  "description": "Backported and Experimental Type Hints for Python 3.8+",
+  "license": "Python Software Foundation License",
+  "publisher": "Guido van Rossum, Jukka Lehtosalo, \u0141ukasz Langa, Michael Lee",
+  "dependencies": []
+}

@@ -1,0 +1,9 @@
+{
+  "name": "six",
+  "simpleName": "six",
+  "version": "1.16.0",
+  "description": "Python 2 and 3 compatibility utilities",
+  "license": "MIT",
+  "publisher": "Benjamin Peterson",
+  "dependencies": []
+}

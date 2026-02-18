@@ -1,0 +1,75 @@
+{
+  "name": "github.com/gofiber/fiber/v2",
+  "simpleName": "v2",
+  "version": "v2.52.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/google/uuid",
+      "versionConstraint": "v1.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-colorable",
+      "versionConstraint": "v0.1.13",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-isatty",
+      "versionConstraint": "v0.0.20",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/mattn/go-runewidth",
+      "versionConstraint": "v0.0.15",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/tinylib/msgp",
+      "versionConstraint": "v1.1.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/valyala/bytebufferpool",
+      "versionConstraint": "v1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/valyala/fasthttp",
+      "versionConstraint": "v1.51.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.15.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/andybalholm/brotli",
+      "versionConstraint": "v1.0.5",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "versionConstraint": "v1.17.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/philhofer/fwd",
+      "versionConstraint": "v1.1.2",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/rivo/uniseg",
+      "versionConstraint": "v0.2.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "github.com/valyala/tcplisten",
+      "versionConstraint": "v1.0.0",
+      "scope": "indirect"
+    }
+  ]
+}

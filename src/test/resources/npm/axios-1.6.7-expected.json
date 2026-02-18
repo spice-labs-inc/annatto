@@ -1,0 +1,305 @@
+{
+  "name": "axios",
+  "simpleName": "axios",
+  "version": "1.6.7",
+  "description": "Promise based HTTP client for the browser and node.js",
+  "license": "MIT",
+  "publisher": "Matt Zabriskie",
+  "dependencies": [
+    {
+      "name": "follow-redirects",
+      "versionConstraint": "^1.15.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "form-data",
+      "versionConstraint": "^4.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "proxy-from-env",
+      "versionConstraint": "^1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/core",
+      "versionConstraint": "^7.18.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-env",
+      "versionConstraint": "^7.18.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@commitlint/cli",
+      "versionConstraint": "^17.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@commitlint/config-conventional",
+      "versionConstraint": "^17.3.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@release-it/conventional-changelog",
+      "versionConstraint": "^5.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@rollup/plugin-babel",
+      "versionConstraint": "^5.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@rollup/plugin-commonjs",
+      "versionConstraint": "^15.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@rollup/plugin-json",
+      "versionConstraint": "^4.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@rollup/plugin-multi-entry",
+      "versionConstraint": "^4.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@rollup/plugin-node-resolve",
+      "versionConstraint": "^9.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "abortcontroller-polyfill",
+      "versionConstraint": "^1.7.3",
+      "scope": "dev"
+    },
+    {
+      "name": "auto-changelog",
+      "versionConstraint": "^2.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "body-parser",
+      "versionConstraint": "^1.20.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chalk",
+      "versionConstraint": "^5.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "coveralls",
+      "versionConstraint": "^3.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "cross-env",
+      "versionConstraint": "^7.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "dev-null",
+      "versionConstraint": "^0.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "dtslint",
+      "versionConstraint": "^4.2.1",
+      "scope": "dev"
+    },
+    {
+      "name": "es6-promise",
+      "versionConstraint": "^4.2.8",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^8.17.0",
+      "scope": "dev"
+    },
+    {
+      "name": "express",
+      "versionConstraint": "^4.18.1",
+      "scope": "dev"
+    },
+    {
+      "name": "formdata-node",
+      "versionConstraint": "^5.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "formidable",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "fs-extra",
+      "versionConstraint": "^10.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "get-stream",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "gulp",
+      "versionConstraint": "^4.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "gzip-size",
+      "versionConstraint": "^7.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "handlebars",
+      "versionConstraint": "^4.7.7",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "^8.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "istanbul-instrumenter-loader",
+      "versionConstraint": "^3.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "jasmine-core",
+      "versionConstraint": "^2.4.1",
+      "scope": "dev"
+    },
+    {
+      "name": "karma",
+      "versionConstraint": "^6.3.17",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-chrome-launcher",
+      "versionConstraint": "^3.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-firefox-launcher",
+      "versionConstraint": "^2.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-jasmine",
+      "versionConstraint": "^1.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-jasmine-ajax",
+      "versionConstraint": "^0.1.13",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-rollup-preprocessor",
+      "versionConstraint": "^7.0.8",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-safari-launcher",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-sauce-launcher",
+      "versionConstraint": "^4.3.6",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-sinon",
+      "versionConstraint": "^1.0.5",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-sourcemap-loader",
+      "versionConstraint": "^0.3.8",
+      "scope": "dev"
+    },
+    {
+      "name": "memoizee",
+      "versionConstraint": "^0.4.15",
+      "scope": "dev"
+    },
+    {
+      "name": "minimist",
+      "versionConstraint": "^1.2.7",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^10.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "multer",
+      "versionConstraint": "^1.4.4",
+      "scope": "dev"
+    },
+    {
+      "name": "pretty-bytes",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "release-it",
+      "versionConstraint": "^15.5.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "^2.67.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-auto-external",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-bundle-size",
+      "versionConstraint": "^1.0.3",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-terser",
+      "versionConstraint": "^7.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "sinon",
+      "versionConstraint": "^4.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "stream-throttle",
+      "versionConstraint": "^0.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "string-replace-async",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "terser-webpack-plugin",
+      "versionConstraint": "^4.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^4.8.4",
+      "scope": "dev"
+    }
+  ]
+}

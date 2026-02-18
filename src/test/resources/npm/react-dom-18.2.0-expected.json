@@ -1,0 +1,25 @@
+{
+  "name": "react-dom",
+  "simpleName": "react-dom",
+  "version": "18.2.0",
+  "description": "React package for working with the DOM.",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "loose-envify",
+      "versionConstraint": "^1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "scheduler",
+      "versionConstraint": "^0.23.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "react",
+      "versionConstraint": "^18.2.0",
+      "scope": "peer"
+    }
+  ]
+}

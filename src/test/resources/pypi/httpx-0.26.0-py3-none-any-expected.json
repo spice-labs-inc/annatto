@@ -1,0 +1,70 @@
+{
+  "name": "httpx",
+  "simpleName": "httpx",
+  "version": "0.26.0",
+  "description": "The next generation HTTP client.",
+  "license": "BSD-3-Clause",
+  "publisher": "Tom Christie",
+  "dependencies": [
+    {
+      "name": "anyio",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "certifi",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "httpcore",
+      "versionConstraint": "==1.*",
+      "scope": "runtime"
+    },
+    {
+      "name": "idna",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sniffio",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "brotli",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "brotlicffi",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "click",
+      "versionConstraint": "==8.*",
+      "scope": "runtime"
+    },
+    {
+      "name": "pygments",
+      "versionConstraint": "==2.*",
+      "scope": "runtime"
+    },
+    {
+      "name": "rich",
+      "versionConstraint": "<14,>=10",
+      "scope": "runtime"
+    },
+    {
+      "name": "h2",
+      "versionConstraint": "<5,>=3",
+      "scope": "runtime"
+    },
+    {
+      "name": "socksio",
+      "versionConstraint": "==1.*",
+      "scope": "runtime"
+    }
+  ]
+}

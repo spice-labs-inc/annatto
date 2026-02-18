@@ -1,0 +1,50 @@
+{
+  "name": "p-limit",
+  "simpleName": "p-limit",
+  "version": "5.0.0",
+  "description": "Run multiple promise-returning & async functions with limited concurrency",
+  "license": "MIT",
+  "publisher": "Sindre Sorhus",
+  "dependencies": [
+    {
+      "name": "yocto-queue",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ava",
+      "versionConstraint": "^5.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "delay",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "in-range",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "random-int",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "time-span",
+      "versionConstraint": "^5.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.29.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.56.0",
+      "scope": "dev"
+    }
+  ]
+}

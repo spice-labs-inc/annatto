@@ -1,0 +1,9 @@
+{
+  "name": "colorama",
+  "simpleName": "colorama",
+  "version": "0.4.6",
+  "description": "Cross-platform colored terminal text.",
+  "license": "BSD License",
+  "publisher": "Jonathan Hartley",
+  "dependencies": []
+}

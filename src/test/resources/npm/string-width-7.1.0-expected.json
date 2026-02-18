@@ -1,0 +1,40 @@
+{
+  "name": "string-width",
+  "simpleName": "string-width",
+  "version": "7.1.0",
+  "description": "Get the visual width of a string - the number of columns required to display it",
+  "license": "MIT",
+  "publisher": "Sindre Sorhus",
+  "dependencies": [
+    {
+      "name": "emoji-regex",
+      "versionConstraint": "^10.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "get-east-asian-width",
+      "versionConstraint": "^1.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "strip-ansi",
+      "versionConstraint": "^7.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ava",
+      "versionConstraint": "^5.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "tsd",
+      "versionConstraint": "^0.29.0",
+      "scope": "dev"
+    },
+    {
+      "name": "xo",
+      "versionConstraint": "^0.56.0",
+      "scope": "dev"
+    }
+  ]
+}

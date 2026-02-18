@@ -1,0 +1,120 @@
+{
+  "name": "attrs",
+  "simpleName": "attrs",
+  "version": "23.2.0",
+  "description": "Classes Without Boilerplate",
+  "license": "MIT",
+  "publisher": "Hynek Schlawack",
+  "dependencies": [
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "attrs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "coverage",
+      "versionConstraint": ">=5.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "attrs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pre-commit",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "furo",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "myst-parser",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-notfound-page",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinxcontrib-towncrier",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "towncrier",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "zope-interface",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "attrs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "zope-interface",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "mypy",
+      "versionConstraint": ">=1.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-mypy-plugins",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "attrs",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "cloudpickle",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "hypothesis",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pympler",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=4.3.0",
+      "scope": "runtime"
+    }
+  ]
+}

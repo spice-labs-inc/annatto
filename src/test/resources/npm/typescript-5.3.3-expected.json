@@ -1,0 +1,215 @@
+{
+  "name": "typescript",
+  "simpleName": "typescript",
+  "version": "5.3.3",
+  "description": "TypeScript is a language for application scale JavaScript development",
+  "license": "Apache-2.0",
+  "publisher": "Microsoft Corp.",
+  "dependencies": [
+    {
+      "name": "@esfx/canceltoken",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@octokit/rest",
+      "versionConstraint": "^19.0.13",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/chai",
+      "versionConstraint": "^4.3.4",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/glob",
+      "versionConstraint": "^8.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/microsoft__typescript-etw",
+      "versionConstraint": "^0.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/minimist",
+      "versionConstraint": "^1.2.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/mocha",
+      "versionConstraint": "^10.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/ms",
+      "versionConstraint": "^0.7.31",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "latest",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/source-map-support",
+      "versionConstraint": "^0.5.6",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/which",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/eslint-plugin",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/parser",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@typescript-eslint/utils",
+      "versionConstraint": "^6.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "azure-devops-node-api",
+      "versionConstraint": "^12.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "c8",
+      "versionConstraint": "^7.14.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chai",
+      "versionConstraint": "^4.3.7",
+      "scope": "dev"
+    },
+    {
+      "name": "chalk",
+      "versionConstraint": "^4.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "chokidar",
+      "versionConstraint": "^3.5.3",
+      "scope": "dev"
+    },
+    {
+      "name": "diff",
+      "versionConstraint": "^5.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "dprint",
+      "versionConstraint": "^0.42.3",
+      "scope": "dev"
+    },
+    {
+      "name": "esbuild",
+      "versionConstraint": "^0.19.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^8.22.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-formatter-autolinkable-stylish",
+      "versionConstraint": "^1.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-local",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-no-null",
+      "versionConstraint": "^1.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-simple-import-sort",
+      "versionConstraint": "^10.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "fast-xml-parser",
+      "versionConstraint": "^4.0.11",
+      "scope": "dev"
+    },
+    {
+      "name": "glob",
+      "versionConstraint": "^8.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "hereby",
+      "versionConstraint": "^1.6.4",
+      "scope": "dev"
+    },
+    {
+      "name": "jsonc-parser",
+      "versionConstraint": "^3.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "minimist",
+      "versionConstraint": "^1.2.8",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^10.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha-fivemat-progress-reporter",
+      "versionConstraint": "^0.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "ms",
+      "versionConstraint": "^2.1.3",
+      "scope": "dev"
+    },
+    {
+      "name": "node-fetch",
+      "versionConstraint": "^3.2.10",
+      "scope": "dev"
+    },
+    {
+      "name": "playwright",
+      "versionConstraint": "^1.38.0",
+      "scope": "dev"
+    },
+    {
+      "name": "source-map-support",
+      "versionConstraint": "^0.5.21",
+      "scope": "dev"
+    },
+    {
+      "name": "tslib",
+      "versionConstraint": "^2.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^5.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "which",
+      "versionConstraint": "^2.0.2",
+      "scope": "dev"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "@nestjs/core",
+  "simpleName": "core",
+  "version": "10.3.1",
+  "description": "Nest - modern, fast, powerful node.js web framework (@core)",
+  "license": "MIT",
+  "publisher": "Kamil Mysliwiec",
+  "dependencies": [
+    {
+      "name": "@nuxtjs/opencollective",
+      "versionConstraint": "0.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "fast-safe-stringify",
+      "versionConstraint": "2.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "iterare",
+      "versionConstraint": "1.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "path-to-regexp",
+      "versionConstraint": "3.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tslib",
+      "versionConstraint": "2.6.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "uid",
+      "versionConstraint": "2.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "@nestjs/common",
+      "versionConstraint": "10.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "@nestjs/common",
+      "versionConstraint": "^10.0.0",
+      "scope": "peer"
+    },
+    {
+      "name": "@nestjs/microservices",
+      "versionConstraint": "^10.0.0",
+      "scope": "peer"
+    },
+    {
+      "name": "@nestjs/platform-express",
+      "versionConstraint": "^10.0.0",
+      "scope": "peer"
+    },
+    {
+      "name": "@nestjs/websockets",
+      "versionConstraint": "^10.0.0",
+      "scope": "peer"
+    },
+    {
+      "name": "reflect-metadata",
+      "versionConstraint": "^0.1.12",
+      "scope": "peer"
+    },
+    {
+      "name": "rxjs",
+      "versionConstraint": "^7.1.0",
+      "scope": "peer"
+    }
+  ]
+}

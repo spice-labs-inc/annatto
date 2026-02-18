@@ -1,0 +1,25 @@
+{
+  "name": "@angular/core",
+  "simpleName": "core",
+  "version": "17.2.0",
+  "description": "Angular - the core framework",
+  "license": "MIT",
+  "publisher": "angular",
+  "dependencies": [
+    {
+      "name": "tslib",
+      "versionConstraint": "^2.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "rxjs",
+      "versionConstraint": "^6.5.3 || ^7.4.0",
+      "scope": "peer"
+    },
+    {
+      "name": "zone.js",
+      "versionConstraint": "~0.14.0",
+      "scope": "peer"
+    }
+  ]
+}

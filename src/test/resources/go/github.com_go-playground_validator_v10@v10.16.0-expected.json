@@ -1,0 +1,55 @@
+{
+  "name": "github.com/go-playground/validator/v10",
+  "simpleName": "v10",
+  "version": "v10.16.0",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/gabriel-vasile/mimetype",
+      "versionConstraint": "v1.4.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/go-playground/assert/v2",
+      "versionConstraint": "v2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/go-playground/locales",
+      "versionConstraint": "v0.14.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/go-playground/universal-translator",
+      "versionConstraint": "v0.18.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/leodido/go-urn",
+      "versionConstraint": "v1.2.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "versionConstraint": "v0.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/text",
+      "versionConstraint": "v0.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "golang.org/x/net",
+      "versionConstraint": "v0.8.0",
+      "scope": "indirect"
+    },
+    {
+      "name": "golang.org/x/sys",
+      "versionConstraint": "v0.6.0",
+      "scope": "indirect"
+    }
+  ]
+}

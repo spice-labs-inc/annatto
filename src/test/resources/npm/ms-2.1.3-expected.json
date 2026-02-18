@@ -1,0 +1,40 @@
+{
+  "name": "ms",
+  "simpleName": "ms",
+  "version": "2.1.3",
+  "description": "Tiny millisecond conversion utility",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "eslint",
+      "versionConstraint": "4.18.2",
+      "scope": "dev"
+    },
+    {
+      "name": "expect.js",
+      "versionConstraint": "0.3.1",
+      "scope": "dev"
+    },
+    {
+      "name": "husky",
+      "versionConstraint": "0.14.3",
+      "scope": "dev"
+    },
+    {
+      "name": "lint-staged",
+      "versionConstraint": "5.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "4.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "prettier",
+      "versionConstraint": "2.0.5",
+      "scope": "dev"
+    }
+  ]
+}

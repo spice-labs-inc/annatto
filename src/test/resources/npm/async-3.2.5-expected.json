@@ -1,0 +1,190 @@
+{
+  "name": "async",
+  "simpleName": "async",
+  "version": "3.2.5",
+  "description": "Higher-order functions and common patterns for asynchronous code",
+  "license": "MIT",
+  "publisher": "Caolan McMahon",
+  "dependencies": [
+    {
+      "name": "@babel/eslint-parser",
+      "versionConstraint": "^7.16.5",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/core",
+      "versionConstraint": "7.23.2",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-minify",
+      "versionConstraint": "^0.5.0",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-plugin-add-module-exports",
+      "versionConstraint": "^1.0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-plugin-istanbul",
+      "versionConstraint": "^6.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-plugin-syntax-async-generators",
+      "versionConstraint": "^6.13.0",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-plugin-transform-es2015-modules-commonjs",
+      "versionConstraint": "^6.26.2",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-preset-es2015",
+      "versionConstraint": "^6.3.13",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-preset-es2017",
+      "versionConstraint": "^6.22.0",
+      "scope": "dev"
+    },
+    {
+      "name": "babel-register",
+      "versionConstraint": "^6.26.0",
+      "scope": "dev"
+    },
+    {
+      "name": "babelify",
+      "versionConstraint": "^10.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "benchmark",
+      "versionConstraint": "^2.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "bluebird",
+      "versionConstraint": "^3.4.6",
+      "scope": "dev"
+    },
+    {
+      "name": "browserify",
+      "versionConstraint": "^17.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chai",
+      "versionConstraint": "^4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "cheerio",
+      "versionConstraint": "^0.22.0",
+      "scope": "dev"
+    },
+    {
+      "name": "es6-promise",
+      "versionConstraint": "^4.2.8",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^8.6.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint-plugin-prefer-arrow",
+      "versionConstraint": "^1.2.3",
+      "scope": "dev"
+    },
+    {
+      "name": "fs-extra",
+      "versionConstraint": "^11.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "jsdoc",
+      "versionConstraint": "^3.6.2",
+      "scope": "dev"
+    },
+    {
+      "name": "karma",
+      "versionConstraint": "^6.3.12",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-browserify",
+      "versionConstraint": "^8.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-firefox-launcher",
+      "versionConstraint": "^2.1.2",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-mocha",
+      "versionConstraint": "^2.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-mocha-reporter",
+      "versionConstraint": "^2.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "karma-safari-launcher",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^6.1.4",
+      "scope": "dev"
+    },
+    {
+      "name": "native-promise-only",
+      "versionConstraint": "^0.8.0-a",
+      "scope": "dev"
+    },
+    {
+      "name": "nyc",
+      "versionConstraint": "^15.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "^4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-node-resolve",
+      "versionConstraint": "^5.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-npm",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rsvp",
+      "versionConstraint": "^4.8.5",
+      "scope": "dev"
+    },
+    {
+      "name": "semver",
+      "versionConstraint": "^7.3.5",
+      "scope": "dev"
+    },
+    {
+      "name": "yargs",
+      "versionConstraint": "^17.3.1",
+      "scope": "dev"
+    }
+  ]
+}

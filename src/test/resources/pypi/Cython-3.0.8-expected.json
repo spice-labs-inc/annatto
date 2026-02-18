@@ -1,0 +1,9 @@
+{
+  "name": "Cython",
+  "simpleName": "Cython",
+  "version": "3.0.8",
+  "description": "The Cython compiler for writing C extensions in the Python language.",
+  "license": "Apache-2.0",
+  "publisher": "Robert Bradshaw, Stefan Behnel, Dag Seljebotn, Greg Ewing, et al.",
+  "dependencies": []
+}

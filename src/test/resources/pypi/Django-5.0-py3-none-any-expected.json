@@ -1,0 +1,35 @@
+{
+  "name": "Django",
+  "simpleName": "Django",
+  "version": "5.0",
+  "description": "A high-level Python web framework that encourages rapid development and clean, pragmatic design.",
+  "license": "BSD-3-Clause",
+  "publisher": "Django Software Foundation",
+  "dependencies": [
+    {
+      "name": "asgiref",
+      "versionConstraint": ">=3.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "sqlparse",
+      "versionConstraint": ">=0.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "tzdata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "argon2-cffi",
+      "versionConstraint": ">=19.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "bcrypt",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "name": "cryptography",
+  "simpleName": "cryptography",
+  "version": "41.0.7",
+  "description": "cryptography is a package which provides cryptographic recipes and primitives to Python developers.",
+  "license": "Apache-2.0 OR BSD-3-Clause",
+  "publisher": "The Python Cryptographic Authority and individual contributors",
+  "dependencies": [
+    {
+      "name": "cffi",
+      "versionConstraint": ">=1.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx",
+      "versionConstraint": ">=5.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinx-rtd-theme",
+      "versionConstraint": ">=1.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyenchant",
+      "versionConstraint": ">=1.6.11",
+      "scope": "runtime"
+    },
+    {
+      "name": "twine",
+      "versionConstraint": ">=1.12.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "sphinxcontrib-spelling",
+      "versionConstraint": ">=4.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "nox",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "black",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "ruff",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "mypy",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "check-sdist",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "build",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "bcrypt",
+      "versionConstraint": ">=3.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=6.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-benchmark",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-cov",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pretend",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-randomly",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ]
+}

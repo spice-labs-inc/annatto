@@ -1,0 +1,35 @@
+{
+  "name": "github.com/urfave/cli/v2",
+  "simpleName": "v2",
+  "version": "v2.27.1",
+  "description": null,
+  "license": null,
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "github.com/BurntSushi/toml",
+      "versionConstraint": "v1.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/cpuguy83/go-md2man/v2",
+      "versionConstraint": "v2.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/xrash/smetrics",
+      "versionConstraint": "v0.0.0-20201216005158-039620a65673",
+      "scope": "runtime"
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "versionConstraint": "v3.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "github.com/russross/blackfriday/v2",
+      "versionConstraint": "v2.1.0",
+      "scope": "indirect"
+    }
+  ]
+}

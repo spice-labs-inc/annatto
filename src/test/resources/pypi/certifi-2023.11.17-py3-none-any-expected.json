@@ -1,0 +1,9 @@
+{
+  "name": "certifi",
+  "simpleName": "certifi",
+  "version": "2023.11.17",
+  "description": "Python package for providing Mozilla's CA Bundle.",
+  "license": "MPL-2.0",
+  "publisher": "Kenneth Reitz",
+  "dependencies": []
+}

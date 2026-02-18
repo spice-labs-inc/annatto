@@ -1,0 +1,155 @@
+{
+  "name": "yargs",
+  "simpleName": "yargs",
+  "version": "17.7.2",
+  "description": "yargs the modern, pirate-themed, successor to optimist.",
+  "license": "MIT",
+  "publisher": "Yargs Contributors",
+  "dependencies": [
+    {
+      "name": "cliui",
+      "versionConstraint": "^8.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "escalade",
+      "versionConstraint": "^3.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "get-caller-file",
+      "versionConstraint": "^2.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "require-directory",
+      "versionConstraint": "^2.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "string-width",
+      "versionConstraint": "^4.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "y18n",
+      "versionConstraint": "^5.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "yargs-parser",
+      "versionConstraint": "^21.1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "@types/chai",
+      "versionConstraint": "^4.2.11",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/mocha",
+      "versionConstraint": "^9.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/node",
+      "versionConstraint": "^18.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "c8",
+      "versionConstraint": "^7.7.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chai",
+      "versionConstraint": "^4.2.0",
+      "scope": "dev"
+    },
+    {
+      "name": "chalk",
+      "versionConstraint": "^4.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "coveralls",
+      "versionConstraint": "^3.0.9",
+      "scope": "dev"
+    },
+    {
+      "name": "cpr",
+      "versionConstraint": "^3.0.1",
+      "scope": "dev"
+    },
+    {
+      "name": "cross-env",
+      "versionConstraint": "^7.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "cross-spawn",
+      "versionConstraint": "^7.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "eslint",
+      "versionConstraint": "^7.23.0",
+      "scope": "dev"
+    },
+    {
+      "name": "gts",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "hashish",
+      "versionConstraint": "0.0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^9.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rimraf",
+      "versionConstraint": "^3.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup",
+      "versionConstraint": "^2.23.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-cleanup",
+      "versionConstraint": "^3.1.1",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-terser",
+      "versionConstraint": "^7.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "rollup-plugin-ts",
+      "versionConstraint": "^2.0.4",
+      "scope": "dev"
+    },
+    {
+      "name": "typescript",
+      "versionConstraint": "^4.0.2",
+      "scope": "dev"
+    },
+    {
+      "name": "which",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "yargs-test-extends",
+      "versionConstraint": "^1.0.1",
+      "scope": "dev"
+    }
+  ]
+}

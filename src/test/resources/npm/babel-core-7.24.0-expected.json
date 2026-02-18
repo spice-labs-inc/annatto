@@ -1,0 +1,155 @@
+{
+  "name": "@babel/core",
+  "simpleName": "core",
+  "version": "7.24.0",
+  "description": "Babel compiler core.",
+  "license": "MIT",
+  "publisher": "The Babel Team",
+  "dependencies": [
+    {
+      "name": "@ampproject/remapping",
+      "versionConstraint": "^2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/code-frame",
+      "versionConstraint": "^7.23.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/generator",
+      "versionConstraint": "^7.23.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/helper-compilation-targets",
+      "versionConstraint": "^7.23.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/helper-module-transforms",
+      "versionConstraint": "^7.23.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/helpers",
+      "versionConstraint": "^7.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/parser",
+      "versionConstraint": "^7.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/template",
+      "versionConstraint": "^7.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/traverse",
+      "versionConstraint": "^7.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/types",
+      "versionConstraint": "^7.24.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "convert-source-map",
+      "versionConstraint": "^2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "debug",
+      "versionConstraint": "^4.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gensync",
+      "versionConstraint": "^1.0.0-beta.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "json5",
+      "versionConstraint": "^2.2.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "semver",
+      "versionConstraint": "^6.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "@babel/helper-transform-fixture-test-runner",
+      "versionConstraint": "^7.24.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/plugin-syntax-flow",
+      "versionConstraint": "^7.23.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/plugin-transform-flow-strip-types",
+      "versionConstraint": "^7.23.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/plugin-transform-modules-commonjs",
+      "versionConstraint": "^7.23.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-env",
+      "versionConstraint": "^7.24.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@babel/preset-typescript",
+      "versionConstraint": "^7.23.3",
+      "scope": "dev"
+    },
+    {
+      "name": "@jridgewell/trace-mapping",
+      "versionConstraint": "^0.3.17",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/convert-source-map",
+      "versionConstraint": "^2.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/debug",
+      "versionConstraint": "^4.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/gensync",
+      "versionConstraint": "^1.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/resolve",
+      "versionConstraint": "^1.3.2",
+      "scope": "dev"
+    },
+    {
+      "name": "@types/semver",
+      "versionConstraint": "^5.4.0",
+      "scope": "dev"
+    },
+    {
+      "name": "rimraf",
+      "versionConstraint": "^3.0.0",
+      "scope": "dev"
+    },
+    {
+      "name": "ts-node",
+      "versionConstraint": "^10.9.1",
+      "scope": "dev"
+    }
+  ]
+}

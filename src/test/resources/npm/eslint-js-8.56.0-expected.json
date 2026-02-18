@@ -1,0 +1,9 @@
+{
+  "name": "@eslint/js",
+  "simpleName": "js",
+  "version": "8.56.0",
+  "description": "ESLint JavaScript language implementation",
+  "license": "MIT",
+  "publisher": null,
+  "dependencies": []
+}

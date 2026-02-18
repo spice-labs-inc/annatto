@@ -1,0 +1,25 @@
+{
+  "name": "emoji-regex",
+  "simpleName": "emoji-regex",
+  "version": "10.3.0",
+  "description": "A regular expression to match all Emoji-only symbols as per the Unicode Standard.",
+  "license": "MIT",
+  "publisher": "Mathias Bynens",
+  "dependencies": [
+    {
+      "name": "@unicode/unicode-15.1.0",
+      "versionConstraint": "^1.5.2",
+      "scope": "dev"
+    },
+    {
+      "name": "emoji-test-regex-pattern",
+      "versionConstraint": "^2.1.0",
+      "scope": "dev"
+    },
+    {
+      "name": "mocha",
+      "versionConstraint": "^10.0.0",
+      "scope": "dev"
+    }
+  ]
+}

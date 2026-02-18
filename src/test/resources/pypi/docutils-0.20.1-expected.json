@@ -1,0 +1,9 @@
+{
+  "name": "docutils",
+  "simpleName": "docutils",
+  "version": "0.20.1",
+  "description": "Docutils -- Python Documentation Utilities",
+  "license": "public domain, Python, 2-Clause BSD, GPL 3 (see COPYING.txt)",
+  "publisher": "David Goodger",
+  "dependencies": []
+}

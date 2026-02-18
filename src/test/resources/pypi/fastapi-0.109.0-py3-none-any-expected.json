@@ -1,0 +1,80 @@
+{
+  "name": "fastapi",
+  "simpleName": "fastapi",
+  "version": "0.109.0",
+  "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+  "license": "MIT",
+  "publisher": "Sebasti\u00e1n Ram\u00edrez",
+  "dependencies": [
+    {
+      "name": "pydantic",
+      "versionConstraint": "!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "starlette",
+      "versionConstraint": "<0.36.0,>=0.35.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "typing-extensions",
+      "versionConstraint": ">=4.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "email-validator",
+      "versionConstraint": ">=2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "httpx",
+      "versionConstraint": ">=0.23.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "itsdangerous",
+      "versionConstraint": ">=1.1.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "jinja2",
+      "versionConstraint": ">=2.11.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "orjson",
+      "versionConstraint": ">=3.2.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pydantic-extra-types",
+      "versionConstraint": ">=2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pydantic-settings",
+      "versionConstraint": ">=2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-multipart",
+      "versionConstraint": ">=0.0.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyyaml",
+      "versionConstraint": ">=5.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "ujson",
+      "versionConstraint": "!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0,>=4.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "uvicorn",
+      "versionConstraint": ">=0.12.0",
+      "scope": "runtime"
+    }
+  ]
+}

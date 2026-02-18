@@ -1,0 +1,395 @@
+{
+  "name": "pandas",
+  "simpleName": "pandas",
+  "version": "2.1.4",
+  "description": "Powerful data structures for data analysis, time series, and statistics",
+  "license": "BSD 3-Clause License\n        \n        Copyright (c) 2008-2011, AQR Capital Management, LLC, Lambda Foundry, Inc. and PyData Development Team\n        All rights reserved.\n        \n        Copyright (c) 2011-2023, Open source contributors.\n        \n        Redistribution and use in source and binary forms, with or without\n        modification, are permitted provided that the following conditions are met:\n        \n        * Redistributions of source code must retain the above copyright notice, this\n          list of conditions and the following disclaimer.\n        \n        * Redistributions in binary form must reproduce the above copyright notice,\n          this list of conditions and the following disclaimer in the documentation\n          and/or other materials provided with the distribution.\n        \n        * Neither the name of the copyright holder nor the names of its\n          contributors may be used to endorse or promote products derived from\n          this software without specific prior written permission.\n        \n        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\n        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+  "publisher": null,
+  "dependencies": [
+    {
+      "name": "numpy",
+      "versionConstraint": "<2,>=1.22.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": "<2,>=1.23.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": "<2,>=1.26.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-dateutil",
+      "versionConstraint": ">=2.8.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytz",
+      "versionConstraint": ">=2020.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "tzdata",
+      "versionConstraint": ">=2022.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "hypothesis",
+      "versionConstraint": ">=6.46.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=7.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": ">=2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "bottleneck",
+      "versionConstraint": ">=1.3.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "numba",
+      "versionConstraint": ">=0.55.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "numexpr",
+      "versionConstraint": ">=2.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "scipy",
+      "versionConstraint": ">=1.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "xarray",
+      "versionConstraint": ">=2022.03.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "fsspec",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "s3fs",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gcsfs",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pandas-gbq",
+      "versionConstraint": ">=0.17.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "odfpy",
+      "versionConstraint": ">=1.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "openpyxl",
+      "versionConstraint": ">=3.0.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyxlsb",
+      "versionConstraint": ">=1.0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "xlrd",
+      "versionConstraint": ">=2.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "xlsxwriter",
+      "versionConstraint": ">=3.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyarrow",
+      "versionConstraint": ">=7.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyarrow",
+      "versionConstraint": ">=7.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tables",
+      "versionConstraint": ">=3.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyreadstat",
+      "versionConstraint": ">=1.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "SQLAlchemy",
+      "versionConstraint": ">=1.4.36",
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg2",
+      "versionConstraint": ">=2.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "SQLAlchemy",
+      "versionConstraint": ">=1.4.36",
+      "scope": "runtime"
+    },
+    {
+      "name": "pymysql",
+      "versionConstraint": ">=1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "SQLAlchemy",
+      "versionConstraint": ">=1.4.36",
+      "scope": "runtime"
+    },
+    {
+      "name": "beautifulsoup4",
+      "versionConstraint": ">=4.11.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "html5lib",
+      "versionConstraint": ">=1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "lxml",
+      "versionConstraint": ">=4.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "lxml",
+      "versionConstraint": ">=4.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "matplotlib",
+      "versionConstraint": ">=3.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "jinja2",
+      "versionConstraint": ">=3.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "tabulate",
+      "versionConstraint": ">=0.8.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "PyQt5",
+      "versionConstraint": ">=5.15.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "qtpy",
+      "versionConstraint": ">=2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "zstandard",
+      "versionConstraint": ">=0.17.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "dataframe-api-compat",
+      "versionConstraint": ">=0.1.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "beautifulsoup4",
+      "versionConstraint": ">=4.11.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "bottleneck",
+      "versionConstraint": ">=1.3.4",
+      "scope": "runtime"
+    },
+    {
+      "name": "dataframe-api-compat",
+      "versionConstraint": ">=0.1.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "fastparquet",
+      "versionConstraint": ">=0.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "fsspec",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "gcsfs",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "html5lib",
+      "versionConstraint": ">=1.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "hypothesis",
+      "versionConstraint": ">=6.46.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "jinja2",
+      "versionConstraint": ">=3.1.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "lxml",
+      "versionConstraint": ">=4.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "matplotlib",
+      "versionConstraint": ">=3.6.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "numba",
+      "versionConstraint": ">=0.55.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "numexpr",
+      "versionConstraint": ">=2.8.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "odfpy",
+      "versionConstraint": ">=1.4.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "openpyxl",
+      "versionConstraint": ">=3.0.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "pandas-gbq",
+      "versionConstraint": ">=0.17.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "psycopg2",
+      "versionConstraint": ">=2.9.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyarrow",
+      "versionConstraint": ">=7.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pymysql",
+      "versionConstraint": ">=1.0.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "PyQt5",
+      "versionConstraint": ">=5.15.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyreadstat",
+      "versionConstraint": ">=1.1.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest",
+      "versionConstraint": ">=7.3.2",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytest-xdist",
+      "versionConstraint": ">=2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyxlsb",
+      "versionConstraint": ">=1.0.9",
+      "scope": "runtime"
+    },
+    {
+      "name": "qtpy",
+      "versionConstraint": ">=2.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "scipy",
+      "versionConstraint": ">=1.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "s3fs",
+      "versionConstraint": ">=2022.05.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "SQLAlchemy",
+      "versionConstraint": ">=1.4.36",
+      "scope": "runtime"
+    },
+    {
+      "name": "tables",
+      "versionConstraint": ">=3.7.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "tabulate",
+      "versionConstraint": ">=0.8.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "xarray",
+      "versionConstraint": ">=2022.03.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "xlrd",
+      "versionConstraint": ">=2.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "xlsxwriter",
+      "versionConstraint": ">=3.0.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "zstandard",
+      "versionConstraint": ">=0.17.0",
+      "scope": "runtime"
+    }
+  ]
+}
