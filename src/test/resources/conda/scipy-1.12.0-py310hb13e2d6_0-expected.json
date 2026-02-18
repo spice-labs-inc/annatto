@@ -1,0 +1,68 @@
+{
+  "name": "scipy",
+  "simpleName": "scipy",
+  "version": "1.12.0",
+  "description": "Scientific Library for Python",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2024-01-22T00:30:35+00:00",
+  "dependencies": [
+    {
+      "name": "libblas",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libcblas",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgfortran-ng",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "libgfortran5",
+      "versionConstraint": ">=12.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "liblapack",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.22.4,<1.28",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.22.4,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310hb13e2d6_0",
+  "subdir": "linux-64"
+}

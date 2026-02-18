@@ -1,0 +1,48 @@
+{
+  "name": "numpy",
+  "simpleName": "numpy",
+  "version": "1.26.4",
+  "description": "The fundamental package for scientific computing with Python.",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2024-02-06T13:25:17+00:00",
+  "dependencies": [
+    {
+      "name": "libblas",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libcblas",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "liblapack",
+      "versionConstraint": ">=3.9.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310hb13e2d6_0",
+  "subdir": "linux-64"
+}

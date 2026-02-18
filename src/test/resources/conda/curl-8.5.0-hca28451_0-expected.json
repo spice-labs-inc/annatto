@@ -1,0 +1,48 @@
+{
+  "name": "curl",
+  "simpleName": "curl",
+  "version": "8.5.0",
+  "description": "tool and library for transferring data with URL syntax",
+  "license": "curl",
+  "publisher": null,
+  "publishedAt": "2023-12-06T10:56:01+00:00",
+  "dependencies": [
+    {
+      "name": "krb5",
+      "versionConstraint": ">=1.21.2,<1.22.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libcurl",
+      "versionConstraint": "8.5.0 hca28451_0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libssh2",
+      "versionConstraint": ">=1.11.0,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libzlib",
+      "versionConstraint": ">=1.2.13,<1.3.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "openssl",
+      "versionConstraint": ">=3.2.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "zstd",
+      "versionConstraint": ">=1.5.5,<1.6.0a0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "hca28451_0",
+  "subdir": "linux-64"
+}

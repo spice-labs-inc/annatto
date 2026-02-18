@@ -1,0 +1,38 @@
+{
+  "name": "requests",
+  "simpleName": "requests",
+  "version": "2.31.0",
+  "description": "Requests is an elegant and simple HTTP library for Python, built with \u2665.",
+  "license": "Apache-2.0",
+  "publisher": null,
+  "publishedAt": "2023-05-22T16:53:28+00:00",
+  "dependencies": [
+    {
+      "name": "certifi",
+      "versionConstraint": ">=2017.4.17",
+      "scope": "runtime"
+    },
+    {
+      "name": "charset-normalizer",
+      "versionConstraint": ">=2,<4",
+      "scope": "runtime"
+    },
+    {
+      "name": "idna",
+      "versionConstraint": ">=2.5,<4",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "urllib3",
+      "versionConstraint": ">=1.21.1,<3",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

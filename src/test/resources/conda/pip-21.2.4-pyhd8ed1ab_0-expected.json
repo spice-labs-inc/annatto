@@ -1,0 +1,28 @@
+{
+  "name": "pip",
+  "simpleName": "pip",
+  "version": "21.2.4",
+  "description": "PyPA recommended tool for installing Python packages",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2021-08-12T18:28:49+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.6",
+      "scope": "runtime"
+    },
+    {
+      "name": "setuptools",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "wheel",
+      "versionConstraint": null,
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

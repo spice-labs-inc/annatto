@@ -1,0 +1,23 @@
+{
+  "name": "click",
+  "simpleName": "click",
+  "version": "8.1.7",
+  "description": "Composable command line interface toolkit",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2023-08-17T22:39:33+00:00",
+  "dependencies": [
+    {
+      "name": "__unix",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.8",
+      "scope": "runtime"
+    }
+  ],
+  "build": "unix_pyh707e725_0",
+  "subdir": "noarch"
+}

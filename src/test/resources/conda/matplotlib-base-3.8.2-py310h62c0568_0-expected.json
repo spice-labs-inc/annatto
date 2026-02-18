@@ -1,0 +1,98 @@
+{
+  "name": "matplotlib-base",
+  "simpleName": "matplotlib-base",
+  "version": "3.8.2",
+  "description": "Publication quality figures in Python",
+  "license": "PSF-2.0",
+  "publisher": null,
+  "publishedAt": "2023-11-20T19:48:58+00:00",
+  "dependencies": [
+    {
+      "name": "certifi",
+      "versionConstraint": ">=2020.06.20",
+      "scope": "runtime"
+    },
+    {
+      "name": "contourpy",
+      "versionConstraint": ">=1.0.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "cycler",
+      "versionConstraint": ">=0.10",
+      "scope": "runtime"
+    },
+    {
+      "name": "fonttools",
+      "versionConstraint": ">=4.22.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "freetype",
+      "versionConstraint": ">=2.12.1,<3.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "kiwisolver",
+      "versionConstraint": ">=1.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.21,<2",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.22.4,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "packaging",
+      "versionConstraint": ">=20.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "pillow",
+      "versionConstraint": ">=8",
+      "scope": "runtime"
+    },
+    {
+      "name": "pyparsing",
+      "versionConstraint": ">=2.3.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-dateutil",
+      "versionConstraint": ">=2.7",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    },
+    {
+      "name": "tk",
+      "versionConstraint": ">=8.6.13,<8.7.0a0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310h62c0568_0",
+  "subdir": "linux-64"
+}

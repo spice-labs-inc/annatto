@@ -1,0 +1,12 @@
+{
+  "name": "ca-certificates",
+  "simpleName": "ca-certificates",
+  "version": "2021.5.30",
+  "description": "Certificates for use with other packages.",
+  "license": "ISC",
+  "publisher": null,
+  "publishedAt": "2021-05-30T18:26:38+00:00",
+  "dependencies": [],
+  "build": "ha878542_0",
+  "subdir": "linux-64"
+}

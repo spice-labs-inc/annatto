@@ -1,0 +1,18 @@
+{
+  "name": "setuptools",
+  "simpleName": "setuptools",
+  "version": "69.0.3",
+  "description": "Download, build, install, upgrade, and uninstall Python packages",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2024-01-02T19:47:35+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.7",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

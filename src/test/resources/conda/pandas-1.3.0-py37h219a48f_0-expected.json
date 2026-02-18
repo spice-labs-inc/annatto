@@ -1,0 +1,48 @@
+{
+  "name": "pandas",
+  "simpleName": "pandas",
+  "version": "1.3.0",
+  "description": "High-performance, easy-to-use data structures and data analysis tools.",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2021-07-02T14:43:30+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=9.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=9.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.17.5,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.7,<3.8.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-dateutil",
+      "versionConstraint": ">=2.7.3",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.7.* *_cp37m",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytz",
+      "versionConstraint": ">=2017.2",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py37h219a48f_0",
+  "subdir": "linux-64"
+}

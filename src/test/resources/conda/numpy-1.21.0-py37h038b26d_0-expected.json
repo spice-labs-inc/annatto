@@ -1,0 +1,43 @@
+{
+  "name": "numpy",
+  "simpleName": "numpy",
+  "version": "1.21.0",
+  "description": "Array processing for numbers, strings, records, and objects.",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2021-06-22T22:18:08+00:00",
+  "dependencies": [
+    {
+      "name": "libblas",
+      "versionConstraint": ">=3.8.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libcblas",
+      "versionConstraint": ">=3.8.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=9.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "liblapack",
+      "versionConstraint": ">=3.8.0,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.7,<3.8.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.7.* *_cp37m",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py37h038b26d_0",
+  "subdir": "linux-64"
+}

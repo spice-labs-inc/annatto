@@ -1,0 +1,23 @@
+{
+  "name": "certifi",
+  "simpleName": "certifi",
+  "version": "2021.5.30",
+  "description": "Python package for providing Mozilla's CA Bundle.",
+  "license": "ISC",
+  "publisher": null,
+  "publishedAt": "2021-05-30T18:29:36+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.6,<3.7.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.6.* *_cp36m",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py36h5fab9bb_0",
+  "subdir": "linux-64"
+}

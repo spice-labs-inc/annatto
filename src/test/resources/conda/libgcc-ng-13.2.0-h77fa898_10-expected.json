@@ -1,0 +1,23 @@
+{
+  "name": "libgcc-ng",
+  "simpleName": "libgcc-ng",
+  "version": "13.2.0",
+  "description": "The GCC low-level runtime library",
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "publisher": null,
+  "publishedAt": "2024-06-15T20:56:50+00:00",
+  "dependencies": [
+    {
+      "name": "_libgcc_mutex",
+      "versionConstraint": "0.1 conda_forge",
+      "scope": "runtime"
+    },
+    {
+      "name": "_openmp_mutex",
+      "versionConstraint": ">=4.5",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h77fa898_10",
+  "subdir": "linux-64"
+}

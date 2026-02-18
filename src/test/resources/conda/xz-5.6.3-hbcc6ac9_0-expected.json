@@ -1,0 +1,43 @@
+{
+  "name": "xz",
+  "simpleName": "xz",
+  "version": "5.6.3",
+  "description": null,
+  "license": "0BSD AND LGPL-2.1-or-later AND GPL-2.0-or-later",
+  "publisher": null,
+  "publishedAt": "2024-12-04T14:09:12+00:00",
+  "dependencies": [
+    {
+      "name": "__glibc",
+      "versionConstraint": ">=2.17,<3.0.a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc",
+      "versionConstraint": ">=13",
+      "scope": "runtime"
+    },
+    {
+      "name": "liblzma",
+      "versionConstraint": "5.6.3 hb9d3cd8_0",
+      "scope": "runtime"
+    },
+    {
+      "name": "liblzma-devel",
+      "versionConstraint": "5.6.3 hb9d3cd8_0",
+      "scope": "runtime"
+    },
+    {
+      "name": "xz-gpl-tools",
+      "versionConstraint": "5.6.3 hbcc6ac9_0",
+      "scope": "runtime"
+    },
+    {
+      "name": "xz-tools",
+      "versionConstraint": "5.6.3 hb9d3cd8_0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "hbcc6ac9_0",
+  "subdir": "linux-64"
+}

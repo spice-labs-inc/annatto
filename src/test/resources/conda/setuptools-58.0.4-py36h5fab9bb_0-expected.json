@@ -1,0 +1,23 @@
+{
+  "name": "setuptools",
+  "simpleName": "setuptools",
+  "version": "58.0.4",
+  "description": "Download, build, install, upgrade, and uninstall Python packages",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2021-09-09T18:13:35+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.6,<3.7.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.6.* *_cp36m",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py36h5fab9bb_0",
+  "subdir": "linux-64"
+}

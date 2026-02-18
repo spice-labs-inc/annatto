@@ -1,0 +1,33 @@
+{
+  "name": "pyyaml",
+  "simpleName": "pyyaml",
+  "version": "5.4.1",
+  "description": "YAML parser and emitter for Python",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2022-06-29T11:38:41+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    },
+    {
+      "name": "yaml",
+      "versionConstraint": ">=0.2.5,<0.3.0a0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310h5764c6d_2",
+  "subdir": "linux-64"
+}

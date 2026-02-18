@@ -1,0 +1,28 @@
+{
+  "name": "click",
+  "simpleName": "click",
+  "version": "8.0.1",
+  "description": "Python composable command line interface toolkit",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2021-05-20T09:43:35+00:00",
+  "dependencies": [
+    {
+      "name": "importlib-metadata",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.6,<3.7.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.6.* *_cp36m",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py36h5fab9bb_0",
+  "subdir": "linux-64"
+}

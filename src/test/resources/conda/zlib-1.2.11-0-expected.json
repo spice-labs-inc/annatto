@@ -1,0 +1,12 @@
+{
+  "name": "zlib",
+  "simpleName": "zlib",
+  "version": "1.2.11",
+  "description": "Massively spiffy yet delicately unobtrusive compression library",
+  "license": "zlib",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [],
+  "build": "0",
+  "subdir": "linux-64"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "certifi",
+  "simpleName": "certifi",
+  "version": "2024.2.2",
+  "description": "Python package for providing Mozilla's CA Bundle.",
+  "license": "ISC",
+  "publisher": null,
+  "publishedAt": "2024-02-04T04:51:29+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.7",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

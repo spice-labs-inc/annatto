@@ -216,6 +216,32 @@ During corpus preparation (not during normal test runs):
 
 **Test corpus**: 50 real Composer packages downloaded from Packagist dist URLs, source-of-truth metadata extracted via PHP in Docker (`docker/packagist/`).
 
+## Conda Ecosystem Details
+
+**Format**: Two distinct archive formats — `.conda` (modern ZIP with zstd-compressed inner tars) and `.tar.bz2` (legacy bzip2-compressed tar). Both contain `info/index.json` (primary metadata) and optionally `info/about.json` (descriptive metadata).
+
+**Extraction pipeline** (`CondaMetadataExtractor`):
+1. Detect format by extension: `.conda` → `extractFromCondaFormat()`, `.tar.bz2` → `extractFromTarBz2Format()`
+2. For `.conda`: `ZipInputStream` → find `info-*.tar.zst` entry → `ZstdCompressorInputStream` (commons-compress) → `TarArchiveInputStream` → find `info/index.json` + `info/about.json`
+3. For `.tar.bz2`: `BZip2CompressorInputStream` → `TarArchiveInputStream` → find `info/index.json` + `info/about.json`
+4. Early exit once both files found (skips large pkg-* entries)
+5. Path traversal rejection on entries with `..`; 10 MB per-file size limit
+6. Return `CondaArchiveData(indexJson, aboutJson)` → `buildMetadataResult()` via Gson
+
+**Key quirks** (documented in `CondaQuirks.java`, tested in `CondaMetadataExtractorTest`, `CondaHandlerTest`, and `CondaMetadataExtractorPropertyTest`):
+- **Q1 Two archive formats**: `.conda` (ZIP → info-*.tar.zst → zstd → tar) vs `.tar.bz2` (bzip2 → tar). Tests: `detectFormat_conda`, `detectFormat_tarBz2`, `detectFormat_unknown_throws`, all 50 SoT tests, `begin_condaFormat_returnsMementoWithMetadata`, `begin_tarBz2Format_returnsMementoWithMetadata`, property `detectFormat_alwaysDeterminesFormatFromExtension`
+- **Q2 Channel not in package**: Channel (e.g. `conda-forge`) is external context, not in the archive. No PURL namespace. Publisher always null (no author field). Tests: `getPurls_noNamespace`, `buildMetadataResult_publisherAlwaysNull` (unit + property), `extractPublisher_matchesSourceOfTruth` (50 packages)
+- **Q3 Build string as PURL qualifier**: Build string (e.g. `py312hc5e2394_0`) disambiguates multiple builds of the same version; included as `?build=...` qualifier. Tests: `extractBuild_matchesSourceOfTruth` (50 packages), `forConda_withBuildQualifier`, `getPurls_condaFormat_includesBuildQualifier`
+- **Q4 Subdir/platform targeting**: `subdir` field (e.g. `linux-64`, `noarch`) identifies target platform; included as `?subdir=...` qualifier. Tests: `extractSubdir_matchesSourceOfTruth` (50 packages), `forConda_withSubdirQualifier`, `package_noarch_python`, `package_linux64_platformSpecific`
+- **Q5 Constrains vs depends**: `constrains` field specifies optional version restrictions on co-installed packages — NOT dependencies. Ignored entirely. Tests: `package_constrains_ignored`, implicit in all 50 SoT tests
+- **Q6 Match spec dependency format**: Dependencies in `index.json` are match spec strings: `"name version_constraint [build_string]"`. Name is first token, remainder is versionConstraint. All scope "runtime" (no dev deps in conda). Tests: `parseMatchSpec_nameOnly`, `parseMatchSpec_nameAndVersion`, `parseMatchSpec_nameVersionBuild`, `parseMatchSpec_commaConstraint`, `parseMatchSpec_equalConstraint`, `extractDependencies_matchSourceOfTruth` (50 packages), properties `parseMatchSpec_alwaysProducesNonEmptyName`, `parseMatchSpec_nameNeverContainsSpaces`, `parseMatchSpec_scopeAlwaysRuntime`, `parseMatchSpec_roundTrip`
+- **Q7 Description from about.json**: `summary` preferred, `description` fallback, null if `about.json` absent. Tests: `extractDescription_summaryPreferred`, `extractDescription_descriptionFallback`, `extractDescription_bothAbsent`, `extractDescription_summaryEmpty`, `package_noAboutJson`, `extractDescription_matchesSourceOfTruth` (50 packages), property `extractDescription_summaryAlwaysPreferred`
+- **Q8 Timestamp in milliseconds**: `index.json` `timestamp` is millis since epoch; converted to ISO 8601 (`yyyy-MM-dd'T'HH:mm:ss+00:00`). Absent in some packages. Tests: `timestampConversion_millisToIso`, `timestampConversion_absent`, `timestampConversion_zero`, `timestampConversion_negativeTimestamp`, `extractPublishedAt_matchesSourceOfTruth` (50 packages), property `timestampConversion_outputIsIso8601`, `timestampConversion_neverNegativeYear`
+
+**PURL**: `pkg:conda/name@version?build=<build>&subdir=<subdir>` (no namespace per purl-spec; build and subdir as qualifiers)
+
+**Test corpus**: 50 real conda packages (25 `.conda` + 25 `.tar.bz2`) downloaded from conda-forge, source-of-truth metadata extracted via Python in Docker (`docker/conda/`). 711 tests total: 550 parameterized SoT, 11 named, 26+ unit, 5 PURL, 112 handler, 11 property.
+
 ## Exception Hierarchy
 
 - `AnnattoException` (base)

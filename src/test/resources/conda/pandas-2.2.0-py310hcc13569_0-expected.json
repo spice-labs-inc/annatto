@@ -1,0 +1,53 @@
+{
+  "name": "pandas",
+  "simpleName": "pandas",
+  "version": "2.2.0",
+  "description": "Powerful data structures for data analysis, time series, and statistics",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2024-01-20T05:37:23+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.22.4,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-dateutil",
+      "versionConstraint": ">=2.8.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "python-tzdata",
+      "versionConstraint": ">=2022a",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    },
+    {
+      "name": "pytz",
+      "versionConstraint": ">=2020.1",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310hcc13569_0",
+  "subdir": "linux-64"
+}

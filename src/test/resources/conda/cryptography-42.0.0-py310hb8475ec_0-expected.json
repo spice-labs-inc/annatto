@@ -1,0 +1,38 @@
+{
+  "name": "cryptography",
+  "simpleName": "cryptography",
+  "version": "42.0.0",
+  "description": "cryptography is a package designed to expose cryptographic primitives and recipes to Python developers.",
+  "license": "Apache-2.0 AND BSD-3-Clause AND PSF-2.0 AND MIT",
+  "publisher": null,
+  "publishedAt": "2024-01-24T03:52:35+00:00",
+  "dependencies": [
+    {
+      "name": "cffi",
+      "versionConstraint": ">=1.12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "openssl",
+      "versionConstraint": ">=3.1.4,<4.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310hb8475ec_0",
+  "subdir": "linux-64"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "ncurses",
+  "simpleName": "ncurses",
+  "version": "6.2",
+  "description": "Library for text-based user interfaces",
+  "license": "X11 AND BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2020-11-05T13:22:12+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=7.5.0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h58526e2_3",
+  "subdir": "linux-64"
+}

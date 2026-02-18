@@ -1,0 +1,23 @@
+{
+  "name": "openssl",
+  "simpleName": "openssl",
+  "version": "1.1.1l",
+  "description": "OpenSSL is an open-source implementation of the SSL and TLS protocols",
+  "license": "OpenSSL",
+  "publisher": null,
+  "publishedAt": "2021-09-03T10:19:03+00:00",
+  "dependencies": [
+    {
+      "name": "ca-certificates",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=9.4.0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h7f98852_0",
+  "subdir": "linux-64"
+}

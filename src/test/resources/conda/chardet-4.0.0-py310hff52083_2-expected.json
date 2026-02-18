@@ -1,0 +1,23 @@
+{
+  "name": "chardet",
+  "simpleName": "chardet",
+  "version": "4.0.0",
+  "description": "Universal character encoding detector",
+  "license": "LGPL-2.1-only",
+  "publisher": null,
+  "publishedAt": "2021-11-02T01:02:18+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310hff52083_2",
+  "subdir": "linux-64"
+}

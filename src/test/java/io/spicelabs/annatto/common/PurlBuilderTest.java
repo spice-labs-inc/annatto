@@ -117,16 +117,68 @@ class PurlBuilderTest {
     }
 
     /**
-     * Goal: Verify Conda PURL includes channel as namespace.
-     * Rationale: Channel is part of Conda package identity.
+     * Goal: Verify Conda PURL with name and version only.
+     * Rationale: Basic Conda PURL has no namespace, no qualifiers.
      */
     @Test
-    void forConda_withChannel() throws MalformedPackageURLException {
-        PackageURL purl = PurlBuilder.forConda(Optional.of("conda-forge"), "numpy", "1.26.0");
+    void forConda_nameAndVersion() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forConda("numpy", "1.26.4",
+                Optional.empty(), Optional.empty());
         assertThat(purl.getType()).isEqualTo("conda");
-        assertThat(purl.getNamespace()).isEqualTo("conda-forge");
+        assertThat(purl.getNamespace()).isNull();
         assertThat(purl.getName()).isEqualTo("numpy");
-        assertThat(purl.getVersion()).isEqualTo("1.26.0");
+        assertThat(purl.getVersion()).isEqualTo("1.26.4");
+        assertThat(purl.getQualifiers()).isNull();
+    }
+
+    /**
+     * Goal: Verify Conda PURL includes build qualifier.
+     * Rationale: Q3 - Build string disambiguates multiple builds; it's a PURL qualifier.
+     */
+    @Test
+    void forConda_withBuildQualifier() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forConda("numpy", "1.26.4",
+                Optional.of("py312hc5e2394_0"), Optional.empty());
+        assertThat(purl.toString()).contains("build=py312hc5e2394_0");
+        assertThat(purl.getQualifiers()).containsEntry("build", "py312hc5e2394_0");
+    }
+
+    /**
+     * Goal: Verify Conda PURL includes subdir qualifier.
+     * Rationale: Q4 - Subdir identifies target platform; it's a PURL qualifier.
+     */
+    @Test
+    void forConda_withSubdirQualifier() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forConda("numpy", "1.26.4",
+                Optional.empty(), Optional.of("linux-64"));
+        assertThat(purl.toString()).contains("subdir=linux-64");
+        assertThat(purl.getQualifiers()).containsEntry("subdir", "linux-64");
+    }
+
+    /**
+     * Goal: Verify Conda PURL includes both build and subdir qualifiers.
+     * Rationale: Full Conda PURL has both qualifiers together.
+     */
+    @Test
+    void forConda_withBothQualifiers() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forConda("numpy", "1.26.4",
+                Optional.of("py312hc5e2394_0"), Optional.of("linux-64"));
+        assertThat(purl.getType()).isEqualTo("conda");
+        assertThat(purl.getName()).isEqualTo("numpy");
+        assertThat(purl.getVersion()).isEqualTo("1.26.4");
+        assertThat(purl.getQualifiers()).containsEntry("build", "py312hc5e2394_0");
+        assertThat(purl.getQualifiers()).containsEntry("subdir", "linux-64");
+    }
+
+    /**
+     * Goal: Verify Conda PURL has no namespace.
+     * Rationale: Q2 - Channel is external context; namespace is always null per purl-spec.
+     */
+    @Test
+    void forConda_noNamespace() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forConda("numpy", "1.26.4",
+                Optional.of("py312hc5e2394_0"), Optional.of("linux-64"));
+        assertThat(purl.getNamespace()).isNull();
     }
 
     /**

@@ -14,7 +14,7 @@ Annatto extracts and normalizes package metadata from 11 ecosystems, integrating
 | Crates.io | `.crate` (Cargo.toml) | `pkg:cargo` | **Implemented** |
 | RubyGems | `.gem` (metadata.gz YAML) | `pkg:gem` | **Implemented** |
 | Packagist | `.zip` (composer.json) | `pkg:composer` | **Implemented** |
-| Conda | `.tar.bz2` / `.conda` | `pkg:conda` | Skeleton |
+| Conda | `.tar.bz2` / `.conda` | `pkg:conda` | **Implemented** |
 | CocoaPods | `.podspec` / `.podspec.json` | `pkg:cocoapods` | Skeleton |
 | CPAN | `.tar.gz` (META.json) | `pkg:cpan` | Skeleton |
 | Hex | `.tar` (metadata.config) | `pkg:hex` | Skeleton |

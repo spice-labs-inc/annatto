@@ -126,17 +126,24 @@ public final class PurlBuilder {
     }
 
     /**
-     * Builds a PURL for a Conda package.
+     * Builds a PURL for a Conda package. Per purl-spec, Conda PURLs have no namespace
+     * (channel is not available from the package file). Build and subdir are qualifiers.
      *
-     * @param channel the Conda channel (namespace)
      * @param name    the package name
      * @param version the package version
+     * @param build   the build string qualifier (e.g., {@code py312hc5e2394_0}), if present
+     * @param subdir  the subdir/platform qualifier (e.g., {@code linux-64}), if present
      * @return the constructed PackageURL
      * @throws MalformedPackageURLException if the PURL cannot be constructed
      */
-    public static @NotNull PackageURL forConda(@NotNull Optional<String> channel, @NotNull String name,
-            @NotNull String version) throws MalformedPackageURLException {
-        return new PackageURL("conda", channel.orElse(null), name, version, null, null);
+    public static @NotNull PackageURL forConda(@NotNull String name, @NotNull String version,
+            @NotNull Optional<String> build, @NotNull Optional<String> subdir)
+            throws MalformedPackageURLException {
+        TreeMap<String, String> qualifiers = new TreeMap<>();
+        build.ifPresent(b -> qualifiers.put("build", b));
+        subdir.ifPresent(s -> qualifiers.put("subdir", s));
+        return new PackageURL("conda", null, name, version,
+                qualifiers.isEmpty() ? null : qualifiers, null);
     }
 
     /**

@@ -1,0 +1,23 @@
+{
+  "name": "libffi",
+  "simpleName": "libffi",
+  "version": "3.3",
+  "description": "A Portable Foreign Function Interface Library.",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2020-11-25T20:29:56+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=7.5.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=7.5.0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h58526e2_0",
+  "subdir": "linux-64"
+}

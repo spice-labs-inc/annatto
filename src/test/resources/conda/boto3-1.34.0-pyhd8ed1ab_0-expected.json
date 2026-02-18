@@ -1,0 +1,33 @@
+{
+  "name": "boto3",
+  "simpleName": "boto3",
+  "version": "1.34.0",
+  "description": "Amazon Web Services SDK for Python",
+  "license": "Apache-2.0",
+  "publisher": null,
+  "publishedAt": "2023-12-14T15:59:06+00:00",
+  "dependencies": [
+    {
+      "name": "botocore",
+      "versionConstraint": ">=1.34.0,<1.35.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "jmespath",
+      "versionConstraint": ">=0.7.1,<2.0.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.8",
+      "scope": "runtime"
+    },
+    {
+      "name": "s3transfer",
+      "versionConstraint": ">=0.9.0,<0.10.0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

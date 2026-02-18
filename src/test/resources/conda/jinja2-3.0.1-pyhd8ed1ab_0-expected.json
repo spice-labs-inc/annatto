@@ -1,0 +1,23 @@
+{
+  "name": "jinja2",
+  "simpleName": "jinja2",
+  "version": "3.0.1",
+  "description": "An easy to use stand-alone template engine written in pure python.",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2021-05-19T10:13:03+00:00",
+  "dependencies": [
+    {
+      "name": "markupsafe",
+      "versionConstraint": ">=2.0.0rc2",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.6",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_0",
+  "subdir": "noarch"
+}

@@ -15,6 +15,7 @@ limitations under the License. */
 package io.spicelabs.annatto;
 
 import io.spicelabs.annatto.common.EcosystemId;
+import io.spicelabs.annatto.conda.CondaHandler;
 import io.spicelabs.annatto.filter.AnnattoProcessFilter;
 import io.spicelabs.annatto.crates.CratesHandler;
 import io.spicelabs.annatto.go.GoHandler;
@@ -116,7 +117,8 @@ public final class AnnattoComponent implements RodeoComponent {
                 EcosystemId.GO, new GoHandler(),
                 EcosystemId.CRATES, new CratesHandler(),
                 EcosystemId.RUBYGEMS, new RubygemsHandler(),
-                EcosystemId.PACKAGIST, new PackagistHandler()
+                EcosystemId.PACKAGIST, new PackagistHandler(),
+                EcosystemId.CONDA, new CondaHandler()
         );
 
         AnnattoProcessFilter filter = new AnnattoProcessFilter(handlers);

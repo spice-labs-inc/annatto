@@ -1,0 +1,58 @@
+{
+  "name": "scikit-learn",
+  "simpleName": "scikit-learn",
+  "version": "1.4.0",
+  "description": "A set of python modules for machine learning and data mining",
+  "license": "BSD-3-Clause",
+  "publisher": null,
+  "publishedAt": "2024-01-19T09:50:51+00:00",
+  "dependencies": [
+    {
+      "name": "_openmp_mutex",
+      "versionConstraint": ">=4.5",
+      "scope": "runtime"
+    },
+    {
+      "name": "joblib",
+      "versionConstraint": ">=1.2.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libstdcxx-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "numpy",
+      "versionConstraint": ">=1.22.4,<2.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python",
+      "versionConstraint": ">=3.10,<3.11.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "python_abi",
+      "versionConstraint": "3.10.* *_cp310",
+      "scope": "runtime"
+    },
+    {
+      "name": "scipy",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "threadpoolctl",
+      "versionConstraint": ">=2.0.0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "py310h1fdf081_0",
+  "subdir": "linux-64"
+}

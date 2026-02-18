@@ -1,0 +1,23 @@
+{
+  "name": "readline",
+  "simpleName": "readline",
+  "version": "8.1",
+  "description": "library for editing command lines as they are typed in",
+  "license": "GPL-3.0-only",
+  "publisher": null,
+  "publishedAt": "2021-04-19T20:09:55+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=9.3.0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ncurses",
+      "versionConstraint": ">=6.2,<6.3.0a0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h46c0cb4_0",
+  "subdir": "linux-64"
+}

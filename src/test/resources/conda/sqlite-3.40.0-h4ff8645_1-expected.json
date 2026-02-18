@@ -1,0 +1,38 @@
+{
+  "name": "sqlite",
+  "simpleName": "sqlite",
+  "version": "3.40.0",
+  "description": "Implements a self-contained, zero-configuration, SQL database engine",
+  "license": "Unlicense",
+  "publisher": null,
+  "publishedAt": "2023-04-22T21:11:56+00:00",
+  "dependencies": [
+    {
+      "name": "libgcc-ng",
+      "versionConstraint": ">=12",
+      "scope": "runtime"
+    },
+    {
+      "name": "libsqlite",
+      "versionConstraint": "3.40.0 h753d276_1",
+      "scope": "runtime"
+    },
+    {
+      "name": "libzlib",
+      "versionConstraint": ">=1.2.13,<1.3.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "ncurses",
+      "versionConstraint": ">=6.3,<7.0a0",
+      "scope": "runtime"
+    },
+    {
+      "name": "readline",
+      "versionConstraint": ">=8.2,<9.0a0",
+      "scope": "runtime"
+    }
+  ],
+  "build": "h4ff8645_1",
+  "subdir": "linux-64"
+}

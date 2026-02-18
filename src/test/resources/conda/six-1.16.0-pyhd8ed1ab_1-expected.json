@@ -1,0 +1,18 @@
+{
+  "name": "six",
+  "simpleName": "six",
+  "version": "1.16.0",
+  "description": "Python 2 and 3 compatibility utilities",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": "2024-12-03T09:08:21+00:00",
+  "dependencies": [
+    {
+      "name": "python",
+      "versionConstraint": ">=3.9",
+      "scope": "runtime"
+    }
+  ],
+  "build": "pyhd8ed1ab_1",
+  "subdir": "noarch"
+}
