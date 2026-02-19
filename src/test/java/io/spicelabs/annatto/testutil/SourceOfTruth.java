@@ -83,6 +83,10 @@ public final class SourceOfTruth {
             return filename.substring(0, filename.length() - ".tar.bz2".length());
         } else if (filename.endsWith(".podspec.json")) {
             return filename.substring(0, filename.length() - ".podspec.json".length());
+        } else if (filename.endsWith(".src.rock")) {
+            return filename.substring(0, filename.length() - ".src.rock".length());
+        } else if (filename.endsWith(".all.rock")) {
+            return filename.substring(0, filename.length() - ".all.rock".length());
         } else {
             int lastDot = filename.lastIndexOf('.');
             return lastDot > 0 ? filename.substring(0, lastDot) : filename;

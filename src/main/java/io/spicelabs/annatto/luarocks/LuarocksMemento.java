@@ -18,10 +18,53 @@ package io.spicelabs.annatto.luarocks;
 import io.spicelabs.annatto.common.EcosystemId;
 import io.spicelabs.annatto.handler.BaseMemento;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
+/**
+ * Memento capturing extracted state from a LuaRocks artifact.
+ * Stores the raw rockspec text for potential re-evaluation.
+ *
+ * <p>Created during {@link LuarocksHandler#doBegin} and not shared across threads.</p>
+ */
 public final class LuarocksMemento extends BaseMemento {
 
+    private final String rawRockspec;
+
+    /**
+     * Creates a memento for a successfully extracted LuaRocks artifact.
+     *
+     * @param artifactFilename the filename of the artifact being processed
+     * @param rawRockspec      the raw rockspec Lua text
+     */
+    public LuarocksMemento(@NotNull String artifactFilename, @NotNull String rawRockspec) {
+        super(EcosystemId.LUAROCKS, artifactFilename);
+        this.rawRockspec = rawRockspec;
+    }
+
+    /**
+     * Creates an empty memento for error cases.
+     *
+     * @param artifactFilename the filename of the artifact being processed
+     */
     public LuarocksMemento(@NotNull String artifactFilename) {
         super(EcosystemId.LUAROCKS, artifactFilename);
+        this.rawRockspec = "";
+    }
+
+    /** @return the raw rockspec text */
+    public @NotNull String rawRockspec() {
+        return rawRockspec;
+    }
+
+    /** @return the package name, if present */
+    public @NotNull Optional<String> packageName() {
+        return metadataResult().flatMap(r -> r.name());
+    }
+
+    /** @return the package version, if present */
+    public @NotNull Optional<String> packageVersion() {
+        return metadataResult().flatMap(r -> r.version());
     }
 }

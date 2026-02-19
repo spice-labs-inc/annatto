@@ -1,0 +1,21 @@
+{
+  "name": "LuaSec",
+  "simpleName": "LuaSec",
+  "version": "1.3.2-1",
+  "description": "A binding for OpenSSL library to provide TLS/SSL communication over LuaSocket.",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1",
+    "scope": "runtime"
+    },
+    {
+    "name": "luasocket",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

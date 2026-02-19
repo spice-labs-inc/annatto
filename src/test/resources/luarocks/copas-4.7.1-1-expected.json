@@ -1,0 +1,36 @@
+{
+  "name": "copas",
+  "simpleName": "copas",
+  "version": "4.7.1-1",
+  "description": "Coroutine Oriented Portable Asynchronous Services",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1, < 5.5",
+    "scope": "runtime"
+    },
+    {
+    "name": "luasocket",
+    "versionConstraint": ">= 2.1, <= 3.0rc1-2",
+    "scope": "runtime"
+    },
+    {
+    "name": "coxpcall",
+    "versionConstraint": ">= 1.14",
+    "scope": "runtime"
+    },
+    {
+    "name": "binaryheap",
+    "versionConstraint": ">= 0.4",
+    "scope": "runtime"
+    },
+    {
+    "name": "timerwheel",
+    "versionConstraint": "~> 1",
+    "scope": "runtime"
+    }
+  ]
+}

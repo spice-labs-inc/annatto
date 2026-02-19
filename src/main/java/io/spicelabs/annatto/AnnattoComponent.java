@@ -18,6 +18,7 @@ import io.spicelabs.annatto.common.EcosystemId;
 import io.spicelabs.annatto.conda.CondaHandler;
 import io.spicelabs.annatto.filter.AnnattoProcessFilter;
 import io.spicelabs.annatto.crates.CratesHandler;
+import io.spicelabs.annatto.luarocks.LuarocksHandler;
 import io.spicelabs.annatto.go.GoHandler;
 import io.spicelabs.annatto.handler.BaseArtifactHandler;
 import io.spicelabs.annatto.npm.NpmHandler;
@@ -118,7 +119,8 @@ public final class AnnattoComponent implements RodeoComponent {
                 EcosystemId.CRATES, new CratesHandler(),
                 EcosystemId.RUBYGEMS, new RubygemsHandler(),
                 EcosystemId.PACKAGIST, new PackagistHandler(),
-                EcosystemId.CONDA, new CondaHandler()
+                EcosystemId.CONDA, new CondaHandler(),
+                EcosystemId.LUAROCKS, new LuarocksHandler()
         );
 
         AnnattoProcessFilter filter = new AnnattoProcessFilter(handlers);

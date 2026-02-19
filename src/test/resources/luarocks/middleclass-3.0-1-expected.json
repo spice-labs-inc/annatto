@@ -1,0 +1,16 @@
+{
+  "name": "middleclass",
+  "simpleName": "middleclass",
+  "version": "3.0-1",
+  "description": "A simple OOP library for Lua",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1",
+    "scope": "runtime"
+    }
+  ]
+}

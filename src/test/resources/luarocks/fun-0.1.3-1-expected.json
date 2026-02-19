@@ -1,0 +1,16 @@
+{
+  "name": "fun",
+  "simpleName": "fun",
+  "version": "0.1.3-1",
+  "description": "High-performance functional programming library for Lua",
+  "license": "MIT/X11",
+  "publisher": "Roman Tsisyk <roman@tarantool.org>",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

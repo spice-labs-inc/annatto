@@ -1,0 +1,16 @@
+{
+  "name": "lualogging",
+  "simpleName": "lualogging",
+  "version": "1.8.2-1",
+  "description": "A simple API to use logging features",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "luasocket",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

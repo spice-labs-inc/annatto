@@ -1,0 +1,10 @@
+{
+  "name": "lua-term",
+  "simpleName": "lua-term",
+  "version": "0.3-1",
+  "description": "Terminal functions for Lua",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

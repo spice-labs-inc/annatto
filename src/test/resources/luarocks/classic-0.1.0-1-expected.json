@@ -1,0 +1,10 @@
+{
+  "name": "classic",
+  "simpleName": "classic",
+  "version": "0.1.0-1",
+  "description": "Tiny class module for Lua.",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

@@ -18,7 +18,7 @@ Annatto extracts and normalizes package metadata from 11 ecosystems, integrating
 | CocoaPods | `.podspec` / `.podspec.json` | `pkg:cocoapods` | Skeleton |
 | CPAN | `.tar.gz` (META.json) | `pkg:cpan` | Skeleton |
 | Hex | `.tar` (metadata.config) | `pkg:hex` | Skeleton |
-| LuaRocks | `.rock` / `.rockspec` | `pkg:luarocks` | Skeleton |
+| LuaRocks | `.src.rock` / `.rockspec` | `pkg:luarocks` | **Implemented** |
 
 ## Prerequisites
 

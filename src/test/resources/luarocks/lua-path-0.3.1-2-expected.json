@@ -1,0 +1,16 @@
+{
+  "name": "lua-path",
+  "simpleName": "lua-path",
+  "version": "0.3.1-2",
+  "description": "File system path manipulation library",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1, < 5.5",
+    "scope": "runtime"
+    }
+  ]
+}

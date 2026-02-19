@@ -1,0 +1,16 @@
+{
+  "name": "cqueues",
+  "simpleName": "cqueues",
+  "version": "20200726.51-0",
+  "description": "Continuation Queues: Embeddable asynchronous networking, threading, and notification framework for Lua on Unix.",
+  "license": "MIT/X11",
+  "publisher": "Daurnimator <quae@daurnimator.com>",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": "== 5.1",
+    "scope": "runtime"
+    }
+  ]
+}

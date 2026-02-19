@@ -242,6 +242,37 @@ During corpus preparation (not during normal test runs):
 
 **Test corpus**: 50 real conda packages (25 `.conda` + 25 `.tar.bz2`) downloaded from conda-forge, source-of-truth metadata extracted via Python in Docker (`docker/conda/`). 711 tests total: 550 parameterized SoT, 11 named, 26+ unit, 5 PURL, 112 handler, 11 property.
 
+## LuaRocks Ecosystem Details
+
+**Format**: Two input types — `.src.rock` (ZIP archive containing a `.rockspec` file at the root) and standalone `.rockspec` files (plain Lua text). Rockspec files are executable Lua scripts, not static data formats.
+
+**Lua subset parser** (no external dependency): Annatto includes a purpose-built Lua subset parser in three layers:
+- `LuaTokenizer` — lexes Lua source into tokens (strings, numbers, names, symbols). Handles quoted strings with escapes, long bracket strings (`[[...]]`), line/block comments, hex numbers, and BOM stripping. Security limits: 1 MB input, 50,000 tokens.
+- `LuaTableBuilder` — evaluates Lua expressions (string/number/boolean/nil literals, table constructors, string concatenation `..`, variable references, dotted access, bracket-key syntax, method calls like `:format()`). Unsupported constructs return null. Null values in tables are filtered before `Map.copyOf`/`List.copyOf`. Security limits: depth 20, string length 1 MB, 10,000 table elements.
+- `LuaRockspecEvaluator` — executes a sequence of Lua statements (global/local assignments, multi-assignment `local a, b = x, y`, dotted assignment `description.summary = "..."`, semicolons). Skips unrecognized constructs (function definitions, control flow, return). Catches `RuntimeException` to skip failed statements while preserving already-captured metadata fields.
+
+**Extraction pipeline** (`LuarocksMetadataExtractor`):
+1. Detect format by filename extension: `.rockspec` → read directly, `.rock` → `ZipInputStream` → find root-level `.rockspec`
+2. Path traversal rejection on entries with `..`; 1 MB file size limit
+3. Evaluate rockspec Lua text via `LuaRockspecEvaluator.evaluate()` → `Map<String, Object>`
+4. Extract fields: `package` (name), `version`, `description.summary`/`description.detailed`, `description.license`, `description.maintainer`
+5. Parse dependencies from `dependencies` (runtime), `build_dependencies` (build), `test_dependencies` (test); `external_dependencies` filtered entirely
+6. Build `MetadataResult` (simpleName == name, no vendor concept; publishedAt always null)
+
+**Key quirks** (documented in `LuarocksQuirks.java`, tested in `LuarocksMetadataExtractorTest`, `LuarocksHandlerTest`, `LuaTokenizerTest`, `LuaTableBuilderTest`, `LuaRockspecEvaluatorTest`, and `LuarocksMetadataExtractorPropertyTest`):
+- **Q1 Rockspec is Lua code (not static data)**: Rockspec files are valid Lua scripts executed to produce metadata tables. Annatto uses a limited Lua subset evaluator that handles simple assignments, table constructors, string concatenation, local variables, multi-assignment (`local a, b = x, y`), method calls (`:format()`), and comments. The evaluator catches `RuntimeException` to skip failed statements (e.g., complex build tables with function calls) while preserving already-captured metadata. Tests: `luaTokenizer_*`, `luaEvaluator_*`, all 50 SoT tests, property `luaEvaluator_neverThrowsForValidRockspec`
+- **Q2 Version includes revision suffix**: LuaRocks versions follow `<upstream-version>-<revision>` (e.g., `1.8.0-1`). The revision is incremented when the rockspec changes. Tests: `extractVersion_matchesSourceOfTruth`, `forLuaRocks_versionWithRevision`, property `extractVersion_alwaysContainsHyphenRevision`
+- **Q3 external_dependencies filtered**: Rockspecs can declare `external_dependencies` referencing system-level C libraries (e.g., OpenSSL). These are not LuaRocks packages and are filtered out. Tests: `extractDependencies_externalDepsFiltered`, `package_luasec_externalDeps`, property `extractDependencies_neverContainsExternalDeps`
+- **Q4 Dependency string format**: Dependencies are strings like `"lua >= 5.1"` or `"luasocket"`. Split on first space: name = first token, versionConstraint = rest. Tests: `parseDependencyString_*`, `extractDependencies_matchSourceOfTruth`, properties `parseDependencyString_*`
+- **Q5 Description fallback**: Description extracted from `description.summary` (preferred), falling back to `description.detailed`, then null. Tests: `extractDescription_*`, property `extractDescription_summaryAlwaysPreferred`
+- **Q6 Publisher from maintainer**: Publisher extracted from `description.maintainer`, null if absent. Tests: `extractPublisher_*`, all 50 SoT publisher tests
+- **Q7 No publishedAt**: Rockspec files have no timestamp field; `publishedAt` is always null. Tests: `extractPublishedAt_matchesSourceOfTruth`, property `buildMetadataResult_publishedAtAlwaysEmpty`
+- **Q8 PURL name lowercasing**: Per purl-spec, LuaRocks PURL names are ASCII lowercased. The original case is preserved in `name` and `simpleName` metadata fields. Tests: `forLuaRocks_nameLowercased`, `getPurls_nameLowercased`, property `purlName_alwaysLowercase`
+
+**PURL**: `pkg:luarocks/name@version` (name lowercased, no namespace)
+
+**Test corpus**: 50 real LuaRocks packages downloaded from luarocks.org, source-of-truth metadata extracted via Lua in Docker (`docker/luarocks/`). 663 tests total.
+
 ## Exception Hierarchy
 
 - `AnnattoException` (base)

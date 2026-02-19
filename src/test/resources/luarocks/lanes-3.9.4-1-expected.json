@@ -1,0 +1,16 @@
+{
+  "name": "Lanes",
+  "simpleName": "Lanes",
+  "version": "3.9.4-1",
+  "description": "Multithreading support for Lua",
+  "license": "MIT/X11",
+  "publisher": "Benoit Germain <bnt.germain@gmail.com>",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1",
+    "scope": "runtime"
+    }
+  ]
+}

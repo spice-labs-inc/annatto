@@ -1,0 +1,241 @@
+/* Copyright 2026 Spice Labs, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.spicelabs.annatto.luarocks;
+
+import io.spicelabs.annatto.luarocks.LuaTokenizer.LuaParseException;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.*;
+
+/**
+ * Unit tests for {@link LuaRockspecEvaluator#evaluate(String)}.
+ *
+ * <p>Each test documents the requirement section that motivated it and the
+ * theory being verified. All source strings are inline Lua fragments that
+ * represent realistic rockspec patterns; no external files are used.
+ */
+class LuaRockspecEvaluatorTest {
+
+    // -----------------------------------------------------------------------
+    // Basic global assignment tests
+    // -----------------------------------------------------------------------
+
+    @Test
+    void evaluate_simpleRockspec() {
+        // Goal: Verify that two sequential global assignments produce a map
+        //       containing both key/value pairs.
+        // Requirement: LuaRockspecEvaluator must process every global assignment
+        //              statement and accumulate results in the returned map.
+        // Rationale: The minimal useful rockspec has at least a package name and
+        //            a version; both must appear in the result map for downstream
+        //            metadata extraction to succeed.
+        String source = "package = \"test\"\nversion = \"1.0\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("package", "test");
+        assertThat(result).containsEntry("version", "1.0");
+    }
+
+    @Test
+    void evaluate_localVariable() {
+        // Goal: Verify that a local variable assignment followed by a global
+        //       assignment that references it resolves the variable correctly.
+        // Requirement: LuaRockspecEvaluator must track local variables and make
+        //              them available as env bindings when evaluating subsequent
+        //              expressions.
+        // Rationale: Many rockspecs declare local ver = "1.0" and then set
+        //            version = ver; the extractor must resolve this binding so
+        //            the version field is not null.
+        String source = "local x = \"1.0\"\nversion = x";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("version", "1.0");
+    }
+
+    @Test
+    void evaluate_localAndConcat() {
+        // Goal: Verify that a local variable combined with a string literal via
+        //       the .. operator produces the concatenated result as a global.
+        // Requirement: LuaRockspecEvaluator must pass locals into the expression
+        //              environment so that concatenation expressions can reference
+        //              them.
+        // Rationale: Rockspecs frequently construct version strings of the form
+        //            local v = "1.0"\nversion = v .. "-1", producing "1.0-1".
+        //            Failure to resolve v would yield a null version field.
+        String source = "local v = \"1.0\"\nversion = v .. \"-1\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("version", "1.0-1");
+    }
+
+    @Test
+    void evaluate_emptyScript() {
+        // Goal: Verify that an empty source string produces an empty map without
+        //       throwing an exception.
+        // Requirement: LuaRockspecEvaluator must handle the degenerate case of
+        //              zero statements gracefully, returning an empty (not null) map.
+        // Rationale: A corrupted or stub rockspec entry may consist of zero bytes;
+        //            the extractor must not crash and must return a usable (empty)
+        //            result.
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate("");
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void evaluate_semicolons() {
+        // Goal: Verify that semicolon statement separators are accepted and do
+        //       not prevent subsequent assignments from being parsed.
+        // Requirement: LuaRockspecEvaluator must treat semicolons as no-op
+        //              separators, consistent with Lua grammar.
+        // Rationale: Some rockspecs are generated by tools that emit semicolons
+        //            between statements; rejecting them would silently drop fields.
+        String source = "package = \"test\";version = \"1.0\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("package", "test");
+        assertThat(result).containsEntry("version", "1.0");
+    }
+
+    // -----------------------------------------------------------------------
+    // Table value tests
+    // -----------------------------------------------------------------------
+
+    @Test
+    void evaluate_descriptionTable() {
+        // Goal: Verify that a hash-style table assigned to a global variable is
+        //       present in the result map as a nested Map.
+        // Requirement: LuaRockspecEvaluator must delegate table constructor
+        //              evaluation to LuaTableBuilder and store the resulting Map
+        //              under the assigned global name.
+        // Rationale: The description field of a rockspec is always a table
+        //            (e.g. {summary = "...", license = "MIT"}); the extractor
+        //            reads sub-fields from the nested map to build metadata.
+        String source = "description = {summary = \"A lib\", license = \"MIT\"}";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsKey("description");
+        Object desc = result.get("description");
+        assertThat(desc).isInstanceOf(Map.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> descMap = (Map<String, Object>) desc;
+        assertThat(descMap).containsEntry("summary", "A lib");
+        assertThat(descMap).containsEntry("license", "MIT");
+    }
+
+    @Test
+    void evaluate_dependenciesArray() {
+        // Goal: Verify that an array-style table assigned to a global variable
+        //       is present in the result map as a List.
+        // Requirement: LuaRockspecEvaluator must store array-style table values
+        //              as Java List objects so that the extractor can iterate
+        //              dependency strings.
+        // Rationale: The dependencies field in a rockspec is always an ordered
+        //            list of constraint strings; the extractor must receive a List
+        //            to iterate correctly.
+        String source = "dependencies = {\"lua >= 5.1\", \"luasocket\"}";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsKey("dependencies");
+        Object deps = result.get("dependencies");
+        assertThat(deps).isInstanceOf(List.class);
+        @SuppressWarnings("unchecked")
+        List<String> depList = (List<String>) deps;
+        assertThat(depList).containsExactly("lua >= 5.1", "luasocket");
+    }
+
+    // -----------------------------------------------------------------------
+    // Variable scoping tests
+    // -----------------------------------------------------------------------
+
+    @Test
+    void evaluate_globalOverwrite() {
+        // Goal: Verify that assigning to the same global name twice results in
+        //       the second value being present in the returned map.
+        // Requirement: LuaRockspecEvaluator must overwrite an existing global
+        //              binding when the same name is assigned again, matching
+        //              standard Lua assignment semantics.
+        // Rationale: A rockspec that reassigns a field (e.g. during conditional
+        //            platform configuration) must produce the final value, not the
+        //            first.
+        String source = "x = \"old\"\nx = \"new\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("x", "new");
+    }
+
+    @Test
+    void evaluate_localShadowsGlobal() {
+        // Goal: Verify that a local declaration with the same name as an existing
+        //       global causes subsequent references to resolve to the local value.
+        // Requirement: LuaRockspecEvaluator must give locals higher precedence than
+        //              globals in the combined evaluation environment so that local
+        //              shadowing works as Lua specifies.
+        // Rationale: Rockspecs occasionally shadow a global (e.g. a pre-defined
+        //            constant) with a local refinement; the extractor must resolve
+        //            expressions using the innermost binding.
+        String source = "x = \"global\"\nlocal x = \"local\"\ny = x";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("y", "local");
+    }
+
+    // -----------------------------------------------------------------------
+    // Unknown statement / skip tests
+    // -----------------------------------------------------------------------
+
+    @Test
+    void evaluate_unknownStatementSkipped() {
+        // Goal: Verify that an unrecognised control-flow statement (here, a bare
+        //       `if … end` block) is skipped without error and subsequent global
+        //       assignments are still processed.
+        // Requirement: LuaRockspecEvaluator must skip unrecognised statements
+        //              rather than throwing an exception, and must resume parsing
+        //              after the skipped construct.
+        // Rationale: Real rockspecs occasionally include conditional logic (if
+        //            platform == "windows" then … end); the extractor must not
+        //            abort when it encounters such constructs.
+        String source = "if true then end\npackage = \"test\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("package", "test");
+    }
+
+    @Test
+    void evaluate_functionSkipped() {
+        // Goal: Verify that a top-level function definition is skipped without
+        //       error and subsequent global assignments are still processed.
+        // Requirement: LuaRockspecEvaluator must skip function definitions
+        //              (including their bodies) and continue parsing.
+        // Rationale: Some rockspecs define helper functions (e.g. for platform
+        //            detection) before the metadata assignments; the extractor must
+        //            tolerate these and still capture the metadata fields.
+        String source = "function foo() return 1 end\npackage = \"test\"";
+        Map<String, Object> result = LuaRockspecEvaluator.evaluate(source);
+        assertThat(result).containsEntry("package", "test");
+    }
+
+    // -----------------------------------------------------------------------
+    // Guard-rail / resource limit test
+    // -----------------------------------------------------------------------
+
+    @Test
+    void evaluate_maxSizeEnforced() {
+        // Goal: Verify that a source string exceeding 1 MB causes evaluate() to
+        //       throw LuaParseException before performing any parsing work.
+        // Requirement: LuaRockspecEvaluator (via LuaTokenizer) must enforce the
+        //              1 MB input size limit and throw LuaParseException when the
+        //              limit is exceeded.
+        // Rationale: A crafted or accidentally mis-fetched package archive entry
+        //            could be many megabytes in size; the evaluator must reject
+        //            oversized inputs immediately to protect heap and CPU resources.
+        String oversized = "x".repeat(LuaTokenizer.MAX_INPUT_SIZE + 1);
+        assertThatThrownBy(() -> LuaRockspecEvaluator.evaluate(oversized))
+                .isInstanceOf(LuaParseException.class);
+    }
+}

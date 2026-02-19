@@ -229,4 +229,27 @@ class PurlBuilderTest {
         assertThat(purl.getName()).isEqualTo("luasocket");
         assertThat(purl.getVersion()).isEqualTo("3.1.0-1");
     }
+
+    /**
+     * Goal: Verify LuaRocks PURL lowercases mixed-case names (Q8).
+     * Rationale: purl-spec requires ASCII lowercased names for LuaRocks.
+     */
+    @Test
+    void forLuaRocks_nameLowercased() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forLuaRocks("LuaFileSystem", "1.8.0-1");
+        assertThat(purl.getType()).isEqualTo("luarocks");
+        assertThat(purl.getName()).isEqualTo("luafilesystem");
+        assertThat(purl.getVersion()).isEqualTo("1.8.0-1");
+        assertThat(purl.getNamespace()).isNull();
+    }
+
+    /**
+     * Goal: Verify LuaRocks PURL preserves version with revision suffix.
+     * Rationale: Q2 - LuaRocks versions include a revision suffix (e.g., 1.8.0-1).
+     */
+    @Test
+    void forLuaRocks_versionWithRevision() throws MalformedPackageURLException {
+        PackageURL purl = PurlBuilder.forLuaRocks("lpeg", "1.1.0-1");
+        assertThat(purl.getVersion()).isEqualTo("1.1.0-1");
+    }
 }

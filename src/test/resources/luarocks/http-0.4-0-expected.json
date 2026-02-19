@@ -1,0 +1,61 @@
+{
+  "name": "http",
+  "simpleName": "http",
+  "version": "0.4-0",
+  "description": "HTTP library for Lua",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1",
+    "scope": "runtime"
+    },
+    {
+    "name": "compat53",
+    "versionConstraint": ">= 0.3",
+    "scope": "runtime"
+    },
+    {
+    "name": "bit32",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "cqueues",
+    "versionConstraint": ">= 20161214",
+    "scope": "runtime"
+    },
+    {
+    "name": "luaossl",
+    "versionConstraint": ">= 20161208",
+    "scope": "runtime"
+    },
+    {
+    "name": "basexx",
+    "versionConstraint": ">= 0.2.0",
+    "scope": "runtime"
+    },
+    {
+    "name": "lpeg",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "lpeg_patterns",
+    "versionConstraint": ">= 0.5",
+    "scope": "runtime"
+    },
+    {
+    "name": "binaryheap",
+    "versionConstraint": ">= 0.3",
+    "scope": "runtime"
+    },
+    {
+    "name": "fifo",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

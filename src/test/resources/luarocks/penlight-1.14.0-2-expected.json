@@ -1,0 +1,16 @@
+{
+  "name": "penlight",
+  "simpleName": "penlight",
+  "version": "1.14.0-2",
+  "description": "Lua utility libraries loosely based on the Python standard libraries",
+  "license": "MIT/X11",
+  "publisher": "thijs@thijsschreijer.nl",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "luafilesystem",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

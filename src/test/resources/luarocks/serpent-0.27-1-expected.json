@@ -1,0 +1,16 @@
+{
+  "name": "serpent",
+  "simpleName": "serpent",
+  "version": "0.27-1",
+  "description": "Lua serializer and pretty printer",
+  "license": "MIT",
+  "publisher": "Paul Kulchenko <paul@kulchenko.com>",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1, < 5.3",
+    "scope": "runtime"
+    }
+  ]
+}

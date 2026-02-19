@@ -1,0 +1,16 @@
+{
+  "name": "LuaFileSystem",
+  "simpleName": "LuaFileSystem",
+  "version": "1.8.0-1",
+  "description": "File System Library for the Lua Programming Language",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "lua",
+    "versionConstraint": ">= 5.1",
+    "scope": "runtime"
+    }
+  ]
+}

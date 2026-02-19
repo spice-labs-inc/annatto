@@ -18,6 +18,7 @@ import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -196,6 +197,6 @@ public final class PurlBuilder {
      */
     public static @NotNull PackageURL forLuaRocks(@NotNull String name, @NotNull String version)
             throws MalformedPackageURLException {
-        return new PackageURL("luarocks", null, name, version, null, null);
+        return new PackageURL("luarocks", null, name.toLowerCase(Locale.ROOT), version, null, null);
     }
 }

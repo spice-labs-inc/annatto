@@ -15,7 +15,13 @@
  */
 package io.spicelabs.annatto.luarocks;
 
+import com.github.packageurl.MalformedPackageURLException;
+import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.AnnattoException.MalformedPackageException;
+import io.spicelabs.annatto.AnnattoException.MetadataExtractionException;
 import io.spicelabs.annatto.common.EcosystemId;
+import io.spicelabs.annatto.common.MetadataResult;
+import io.spicelabs.annatto.common.PurlBuilder;
 import io.spicelabs.annatto.handler.BaseArtifactHandler;
 import io.spicelabs.annatto.handler.BaseMemento;
 import io.spicelabs.rodeocomponents.APIS.artifacts.RodeoArtifact;
@@ -23,27 +29,106 @@ import io.spicelabs.rodeocomponents.APIS.artifacts.RodeoItemMarker;
 import io.spicelabs.rodeocomponents.APIS.artifacts.WorkItem;
 import io.spicelabs.rodeocomponents.APIS.purls.Purl;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Artifact handler for LuaRocks packages ({@code .src.rock} archives and
+ * standalone {@code .rockspec} files).
+ *
+ * <p>This handler is stateless and thread-safe. All per-artifact state is held
+ * in the {@link LuarocksMemento} created during {@link #doBegin}.</p>
+ */
 public final class LuarocksHandler extends BaseArtifactHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(LuarocksHandler.class);
 
     public LuarocksHandler() {
         super(EcosystemId.LUAROCKS);
     }
 
+    /**
+     * Extracts metadata from the LuaRocks artifact, evaluates the rockspec,
+     * and creates a {@link LuarocksMemento} populated with the extracted metadata.
+     *
+     * @param stream   the artifact input stream
+     * @param artifact the artifact being processed
+     * @param item     the work item
+     * @param marker   the processing marker
+     * @return a LuarocksMemento containing the extracted state
+     */
     @Override
-    protected @NotNull BaseMemento doBegin(
-            @NotNull InputStream stream,
+    protected @NotNull BaseMemento doBegin(@NotNull InputStream stream,
             @NotNull RodeoArtifact artifact,
             @NotNull WorkItem item,
             @NotNull RodeoItemMarker marker) {
-        throw new UnsupportedOperationException("Not yet implemented: LuarocksHandler.doBegin");
+        String filename = artifact.getFilenameWithNoPath();
+        try {
+            LuarocksMetadataExtractor.RockspecData rockspecData =
+                    LuarocksMetadataExtractor.extractRockspecText(stream, filename);
+            MetadataResult result = LuarocksMetadataExtractor.buildMetadataResult(rockspecData);
+
+            LuarocksMemento memento = new LuarocksMemento(filename, rockspecData.rawText());
+            memento.setMetadataResult(result);
+            return memento;
+        } catch (MalformedPackageException | MetadataExtractionException e) {
+            logger.warn("Failed to extract LuaRocks metadata from {}: {}", filename, e.getMessage());
+            return new LuarocksMemento(filename);
+        }
     }
 
+    /**
+     * Builds Package URLs for the LuaRocks package. Per purl-spec, the name
+     * is ASCII lowercased and there is no namespace (Q8).
+     *
+     * @param memento the base memento containing extracted metadata
+     * @return a list containing the LuaRocks PURL, or empty if name/version are absent
+     */
     @Override
     protected @NotNull List<Purl> doBuildPurls(@NotNull BaseMemento memento) {
-        throw new UnsupportedOperationException("Not yet implemented: LuarocksHandler.doBuildPurls");
+        if (!(memento instanceof LuarocksMemento luarocksMemento)) {
+            return List.of();
+        }
+
+        return luarocksMemento.metadataResult()
+                .flatMap(result -> {
+                    if (result.name().isEmpty() || result.version().isEmpty()) {
+                        return java.util.Optional.empty();
+                    }
+                    try {
+                        PackageURL purl = PurlBuilder.forLuaRocks(
+                                result.name().get(),
+                                result.version().get());
+                        return java.util.Optional.of(new LuarocksPurl(purl));
+                    } catch (MalformedPackageURLException e) {
+                        logger.warn("Failed to build LuaRocks PURL: {}", e.getMessage());
+                        return java.util.Optional.empty();
+                    }
+                })
+                .map(purl -> List.<Purl>of(purl))
+                .orElse(List.of());
+    }
+
+    /**
+     * Wraps a {@link PackageURL} to implement the rodeo-components {@link Purl} interface.
+     */
+    static final class LuarocksPurl implements Purl {
+        private final PackageURL packageURL;
+
+        LuarocksPurl(@NotNull PackageURL packageURL) {
+            this.packageURL = packageURL;
+        }
+
+        @NotNull PackageURL packageURL() {
+            return packageURL;
+        }
+
+        @Override
+        public String toString() {
+            return packageURL.canonicalize();
+        }
     }
 }
