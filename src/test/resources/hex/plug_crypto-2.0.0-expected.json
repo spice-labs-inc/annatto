@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "Crypto-related functionality for the web",
+  "license": "Apache-2.0",
+  "name": "plug_crypto",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "plug_crypto",
+  "version": "2.0.0"
+}

@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "a streaming, evented json parsing toolkit",
+  "license": "MIT",
+  "name": "jsx",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "jsx",
+  "version": "3.1.0"
+}

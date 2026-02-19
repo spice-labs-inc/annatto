@@ -1,0 +1,146 @@
+{
+   "dependencies" : [
+      {
+         "name" : "DBD::SQLite",
+         "scope" : "build",
+         "versionConstraint" : "1.29"
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "build",
+         "versionConstraint" : "0.22"
+      },
+      {
+         "name" : "Package::Stash",
+         "scope" : "build",
+         "versionConstraint" : "0.28"
+      },
+      {
+         "name" : "Test::Deep",
+         "scope" : "build",
+         "versionConstraint" : "0.101"
+      },
+      {
+         "name" : "Test::Exception",
+         "scope" : "build",
+         "versionConstraint" : "0.31"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "build",
+         "versionConstraint" : "0.94"
+      },
+      {
+         "name" : "Test::Warn",
+         "scope" : "build",
+         "versionConstraint" : "0.21"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.59"
+      },
+      {
+         "name" : "Class::Accessor::Grouped",
+         "scope" : "runtime",
+         "versionConstraint" : "0.10012"
+      },
+      {
+         "name" : "Class::C3::Componentised",
+         "scope" : "runtime",
+         "versionConstraint" : "1.0009"
+      },
+      {
+         "name" : "Class::Inspector",
+         "scope" : "runtime",
+         "versionConstraint" : "1.24"
+      },
+      {
+         "name" : "Config::Any",
+         "scope" : "runtime",
+         "versionConstraint" : "0.20"
+      },
+      {
+         "name" : "Context::Preserve",
+         "scope" : "runtime",
+         "versionConstraint" : "0.01"
+      },
+      {
+         "name" : "DBI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.57"
+      },
+      {
+         "name" : "Data::Dumper::Concise",
+         "scope" : "runtime",
+         "versionConstraint" : "2.020"
+      },
+      {
+         "name" : "Devel::GlobalDestruction",
+         "scope" : "runtime",
+         "versionConstraint" : "0.09"
+      },
+      {
+         "name" : "Hash::Merge",
+         "scope" : "runtime",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "MRO::Compat",
+         "scope" : "runtime",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Module::Find",
+         "scope" : "runtime",
+         "versionConstraint" : "0.07"
+      },
+      {
+         "name" : "Moo",
+         "scope" : "runtime",
+         "versionConstraint" : "2.000"
+      },
+      {
+         "name" : "Path::Class",
+         "scope" : "runtime",
+         "versionConstraint" : "0.18"
+      },
+      {
+         "name" : "SQL::Abstract::Classic",
+         "scope" : "runtime",
+         "versionConstraint" : "1.91"
+      },
+      {
+         "name" : "Scope::Guard",
+         "scope" : "runtime",
+         "versionConstraint" : "0.03"
+      },
+      {
+         "name" : "Sub::Name",
+         "scope" : "runtime",
+         "versionConstraint" : "0.04"
+      },
+      {
+         "name" : "Text::Balanced",
+         "scope" : "runtime",
+         "versionConstraint" : "2.00"
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "0.07"
+      },
+      {
+         "name" : "namespace::clean",
+         "scope" : "runtime",
+         "versionConstraint" : "0.24"
+      }
+   ],
+   "description" : "Extensible and flexible object <-> relational mapper.",
+   "license" : "perl_5",
+   "name" : "DBIx-Class",
+   "publishedAt" : null,
+   "publisher" : "mst: Matt S Trout <mst@shadowcat.co.uk> (project founder - original idea, architecture and implementation), castaway: Jess Robinson <castaway@desert-island.me.uk> (lions share of the reference documentation and manuals), ribasushi: Peter Rabbitson <ribasushi@leporine.io> (present day maintenance and controlled evolution)",
+   "simpleName" : "DBIx-Class",
+   "version" : "0.082843"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "leveldb-library",
+  "simpleName": "leveldb-library",
+  "version": "1.22.4",
+  "description": "A fast key-value storage library",
+  "license": "New BSD",
+  "publisher": "The LevelDB Authors",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

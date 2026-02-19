@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "A simple and fast CSV parsing and dumping library",
+  "license": "Apache-2.0",
+  "name": "nimble_csv",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "nimble_csv",
+  "version": "1.2.0"
+}

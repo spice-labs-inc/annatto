@@ -1,0 +1,76 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Errno",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Fcntl",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Functions",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "SelectSaver",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Simple",
+         "scope" : "test",
+         "versionConstraint" : "0.44"
+      }
+   ],
+   "description" : "Create or remove directory trees",
+   "license" : "unknown OR perl_5",
+   "name" : "File-Path",
+   "publishedAt" : null,
+   "publisher" : null,
+   "simpleName" : "File-Path",
+   "version" : "2.18"
+}

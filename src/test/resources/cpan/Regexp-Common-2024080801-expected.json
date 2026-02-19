@@ -1,0 +1,101 @@
+{
+   "dependencies" : [
+      {
+         "name" : "Config",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "vars",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "vars",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "vars",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "vars",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Provide commonly requested regular expressions",
+   "license" : "mit OR mit OR bsd OR artistic_1 OR artistic_2",
+   "name" : "Regexp-Common",
+   "publishedAt" : null,
+   "publisher" : "Abigail <regexp-common@abigail.freedom.nl>",
+   "simpleName" : "Regexp-Common",
+   "version" : "2024080801"
+}

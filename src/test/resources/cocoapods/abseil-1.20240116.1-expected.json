@@ -1,0 +1,12 @@
+{
+  "name": "abseil",
+  "simpleName": "abseil",
+  "version": "1.20240116.1",
+  "description": "Abseil Common Libraries (C++) from Google",
+  "license": "Apache License, Version 2.0",
+  "publisher": "Abseil Team",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

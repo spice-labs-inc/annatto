@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    {
+      "name": "cowlib",
+      "scope": "runtime",
+      "versionConstraint": "2.13.0"
+    },
+    {
+      "name": "ranch",
+      "scope": "runtime",
+      "versionConstraint": "1.8.0"
+    }
+  ],
+  "description": "Small, fast, modern HTTP server.",
+  "license": "ISC",
+  "name": "cowboy",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "cowboy",
+  "version": "2.12.0"
+}

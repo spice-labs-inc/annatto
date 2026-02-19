@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "expo",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.5.1"
+    }
+  ],
+  "description": "Internationalization and localization through gettext",
+  "license": "Apache-2.0",
+  "name": "gettext",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "gettext",
+  "version": "0.24.0"
+}

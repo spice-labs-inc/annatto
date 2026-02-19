@@ -1,0 +1,166 @@
+{
+  "name": "gRPC-Core",
+  "simpleName": "gRPC-Core",
+  "version": "1.62.1",
+  "description": "Core cross-platform gRPC library, written in C",
+  "license": "Apache License, Version 2.0",
+  "publisher": "The gRPC contributors",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "BoringSSL-GRPC",
+      "versionConstraint": "0.0.32",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/algorithm/container",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/base/base",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/base/config",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/base/core_headers",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/cleanup/cleanup",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/container/flat_hash_map",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/container/flat_hash_set",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/container/inlined_vector",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/flags/flag",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/flags/marshalling",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/functional/any_invocable",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/functional/bind_front",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/functional/function_ref",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/hash/hash",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/memory/memory",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/meta/type_traits",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/random/bit_gen_ref",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/random/distributions",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/random/random",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/status/status",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/status/statusor",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/strings/cord",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/strings/str_format",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/strings/strings",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/synchronization/synchronization",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/time/time",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/types/optional",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/types/span",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/types/variant",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "abseil/utility/utility",
+      "versionConstraint": "1.20240116.1",
+      "scope": "runtime"
+    }
+  ]
+}

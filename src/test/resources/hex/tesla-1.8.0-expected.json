@@ -1,0 +1,76 @@
+{
+  "dependencies": [
+    {
+      "name": "castore",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.1 or ~> 1.0"
+    },
+    {
+      "name": "exjsx",
+      "scope": "runtime",
+      "versionConstraint": ">= 3.0.0"
+    },
+    {
+      "name": "finch",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.13"
+    },
+    {
+      "name": "fuse",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.4"
+    },
+    {
+      "name": "gun",
+      "scope": "runtime",
+      "versionConstraint": ">= 1.0.0"
+    },
+    {
+      "name": "hackney",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.6"
+    },
+    {
+      "name": "ibrowse",
+      "scope": "runtime",
+      "versionConstraint": "4.4.2"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": ">= 1.0.0"
+    },
+    {
+      "name": "mime",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0 or ~> 2.0"
+    },
+    {
+      "name": "mint",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "msgpax",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.3"
+    },
+    {
+      "name": "poison",
+      "scope": "runtime",
+      "versionConstraint": ">= 1.0.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    }
+  ],
+  "description": "HTTP client library, with support for middleware and multiple adapters.",
+  "license": "MIT",
+  "name": "tesla",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "tesla",
+  "version": "1.8.0"
+}

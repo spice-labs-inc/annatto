@@ -1,0 +1,36 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : "2.07"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : "0.82"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.88"
+      }
+   ],
+   "description" : "Log4j implementation for Perl",
+   "license" : "perl_5",
+   "name" : "Log-Log4perl",
+   "publishedAt" : null,
+   "publisher" : "Mike Schilli <m@perlmeister.com>",
+   "simpleName" : "Log-Log4perl",
+   "version" : "1.57"
+}

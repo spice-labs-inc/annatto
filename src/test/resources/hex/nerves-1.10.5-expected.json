@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "castore",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.1 or ~> 1.0"
+    },
+    {
+      "name": "elixir_make",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.6"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.2"
+    }
+  ],
+  "description": "Craft and deploy bulletproof embedded software",
+  "license": "Apache-2.0",
+  "name": "nerves",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "nerves",
+  "version": "1.10.5"
+}

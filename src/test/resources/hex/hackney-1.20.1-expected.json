@@ -1,0 +1,46 @@
+{
+  "dependencies": [
+    {
+      "name": "certifi",
+      "scope": "runtime",
+      "versionConstraint": "~>2.12.0"
+    },
+    {
+      "name": "idna",
+      "scope": "runtime",
+      "versionConstraint": "~>6.1.0"
+    },
+    {
+      "name": "metrics",
+      "scope": "runtime",
+      "versionConstraint": "~>1.0.0"
+    },
+    {
+      "name": "mimerl",
+      "scope": "runtime",
+      "versionConstraint": "~>1.1"
+    },
+    {
+      "name": "parse_trans",
+      "scope": "runtime",
+      "versionConstraint": "3.4.1"
+    },
+    {
+      "name": "ssl_verify_fun",
+      "scope": "runtime",
+      "versionConstraint": "~>1.1.0"
+    },
+    {
+      "name": "unicode_util_compat",
+      "scope": "runtime",
+      "versionConstraint": "~>0.7.0"
+    }
+  ],
+  "description": "simple HTTP client",
+  "license": "Apache-2.0",
+  "name": "hackney",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "hackney",
+  "version": "1.20.1"
+}

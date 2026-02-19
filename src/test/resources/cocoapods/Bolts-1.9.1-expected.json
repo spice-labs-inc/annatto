@@ -1,0 +1,12 @@
+{
+  "name": "Bolts",
+  "simpleName": "Bolts",
+  "version": "1.9.1",
+  "description": "Bolts is a collection of low-level libraries designed to make developing mobile apps easier.",
+  "license": "BSD",
+  "publisher": "Nikita Lutsenko",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

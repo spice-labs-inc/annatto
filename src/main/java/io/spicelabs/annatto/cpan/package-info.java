@@ -17,9 +17,22 @@
 /**
  * CPAN ecosystem support for Annatto.
  *
- * <p>CPAN distributions contain metadata in {@code META.json} (preferred) or {@code META.yml}.
- * Very old distributions may lack both files entirely.</p>
+ * <h2>Extraction Pipeline</h2>
+ * <ol>
+ *   <li>Decompress .tar.gz (GZIPInputStream + TarArchiveInputStream)</li>
+ *   <li>Find META.json (preferred) or META.yml at top level</li>
+ *   <li>Parse with Gson (JSON) or SnakeYAML SafeConstructor (YAML)</li>
+ *   <li>Build MetadataResult with dependencies from prereqs structure</li>
+ * </ol>
  *
- * <p>PURL format: {@code pkg:cpan/distribution-name@version}</p>
+ * <h2>PURL Format</h2>
+ * <p>{@code pkg:cpan/Distribution-Name@version} — no namespace (PAUSE ID unavailable).</p>
+ *
+ * <h2>Key Classes</h2>
+ * <ul>
+ *   <li>{@link io.spicelabs.annatto.cpan.CpanMetadataExtractor} — stateless extraction</li>
+ *   <li>{@link io.spicelabs.annatto.cpan.CpanHandler} — lifecycle handler</li>
+ *   <li>{@link io.spicelabs.annatto.cpan.CpanQuirks} — ecosystem-specific documentation</li>
+ * </ul>
  */
 package io.spicelabs.annatto.cpan;

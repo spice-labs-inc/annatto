@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "base",
+         "scope" : "runtime",
+         "versionConstraint" : "1.01"
+      }
+   ],
+   "description" : null,
+   "license" : "perl_5",
+   "name" : "Class-Accessor",
+   "publishedAt" : null,
+   "publisher" : "Marty Pauley <marty+perl@martian.org>",
+   "simpleName" : "Class-Accessor",
+   "version" : "0.51"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "FBSDKCoreKit",
+  "simpleName": "FBSDKCoreKit",
+  "version": "17.0.1",
+  "description": "Official Facebook SDK for iOS to access Facebook Platform core features",
+  "license": "Facebook Platform License",
+  "publisher": "Facebook",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "FBSDKCoreKit_Basics",
+      "versionConstraint": "17.0.1",
+      "scope": "runtime"
+    }
+  ]
+}

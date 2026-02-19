@@ -1,0 +1,12 @@
+{
+  "name": "Mantle",
+  "simpleName": "Mantle",
+  "version": "2.2.0",
+  "description": "Model framework for Cocoa and Cocoa Touch.",
+  "license": "MIT",
+  "publisher": "Robert Böhnke, David Caunt, Jan Gorman",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

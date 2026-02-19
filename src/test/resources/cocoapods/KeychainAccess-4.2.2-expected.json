@@ -1,0 +1,12 @@
+{
+  "name": "KeychainAccess",
+  "simpleName": "KeychainAccess",
+  "version": "4.2.2",
+  "description": "KeychainAccess is a simple Swift wrapper for Keychain that works on iOS and OS X.",
+  "license": "MIT",
+  "publisher": "kishikawa katsumi",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

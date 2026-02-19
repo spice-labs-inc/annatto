@@ -1,0 +1,21 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "stringified perl data structures, suitable for both printing and C<eval>",
+   "license" : "perl_5",
+   "name" : "Data-Dumper",
+   "publishedAt" : null,
+   "publisher" : null,
+   "simpleName" : "Data-Dumper",
+   "version" : "2.183"
+}

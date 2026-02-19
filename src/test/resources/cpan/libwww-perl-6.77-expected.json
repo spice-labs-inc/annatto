@@ -1,0 +1,306 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Getopt::Long",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Authen::NTLM",
+         "scope" : "dev",
+         "versionConstraint" : "1.02"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Spell",
+         "scope" : "dev",
+         "versionConstraint" : "1.25"
+      },
+      {
+         "name" : "Test::EOL",
+         "scope" : "dev",
+         "versionConstraint" : "2.00"
+      },
+      {
+         "name" : "Test::LeakTrace",
+         "scope" : "dev",
+         "versionConstraint" : "0.16"
+      },
+      {
+         "name" : "Test::MinimumVersion",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.94"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.08"
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Test::Version",
+         "scope" : "dev",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Digest::MD5",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : "2.12"
+      },
+      {
+         "name" : "Encode::Locale",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Listing",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Getopt::Long",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTML::Entities",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTML::HeadParser",
+         "scope" : "runtime",
+         "versionConstraint" : "3.71"
+      },
+      {
+         "name" : "HTTP::Cookies",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "HTTP::Date",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "HTTP::Negotiate",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "HTTP::Request",
+         "scope" : "runtime",
+         "versionConstraint" : "6.18"
+      },
+      {
+         "name" : "HTTP::Request::Common",
+         "scope" : "runtime",
+         "versionConstraint" : "6.18"
+      },
+      {
+         "name" : "HTTP::Response",
+         "scope" : "runtime",
+         "versionConstraint" : "6.18"
+      },
+      {
+         "name" : "HTTP::Status",
+         "scope" : "runtime",
+         "versionConstraint" : "6.18"
+      },
+      {
+         "name" : "IO::Select",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Socket",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "LWP::MediaTypes",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "MIME::Base64",
+         "scope" : "runtime",
+         "versionConstraint" : "2.1"
+      },
+      {
+         "name" : "Module::Load",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Net::FTP",
+         "scope" : "runtime",
+         "versionConstraint" : "2.58"
+      },
+      {
+         "name" : "Net::HTTP",
+         "scope" : "runtime",
+         "versionConstraint" : "6.18"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.10"
+      },
+      {
+         "name" : "URI::Escape",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "WWW::RobotRules",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : "0.217"
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "FindBin",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::CookieJar::LWP",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Daemon",
+         "scope" : "test",
+         "versionConstraint" : "6.12"
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::Needs",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::RequiresInternet",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "The World-Wide Web library for Perl",
+   "license" : "perl_5",
+   "name" : "libwww-perl",
+   "publishedAt" : null,
+   "publisher" : "Gisle Aas <gisle@activestate.com>",
+   "simpleName" : "libwww-perl",
+   "version" : "6.77"
+}

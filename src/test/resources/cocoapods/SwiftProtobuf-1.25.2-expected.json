@@ -1,0 +1,12 @@
+{
+  "name": "SwiftProtobuf",
+  "simpleName": "SwiftProtobuf",
+  "version": "1.25.2",
+  "description": "Swift Protobuf code generator plugin and runtime library",
+  "license": "Apache 2.0",
+  "publisher": "Apple Inc.",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

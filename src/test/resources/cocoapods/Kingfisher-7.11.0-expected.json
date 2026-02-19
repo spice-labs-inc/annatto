@@ -1,0 +1,12 @@
+{
+  "name": "Kingfisher",
+  "simpleName": "Kingfisher",
+  "version": "7.11.0",
+  "description": "A lightweight and pure Swift implemented library for downloading and cacheing image from the web.",
+  "license": "MIT",
+  "publisher": "onevcat",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

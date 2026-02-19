@@ -1,0 +1,36 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.58"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : "1.22"
+      },
+      {
+         "name" : "Math::Complex",
+         "scope" : "runtime",
+         "versionConstraint" : "1.36"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.94"
+      }
+   ],
+   "description" : null,
+   "license" : "perl_5",
+   "name" : "Math-BigInt",
+   "publishedAt" : null,
+   "publisher" : "Peter John Acklam <pjacklam@gmail.com>",
+   "simpleName" : "Math-BigInt",
+   "version" : "2.003002"
+}

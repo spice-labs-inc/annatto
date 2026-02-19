@@ -1,0 +1,12 @@
+{
+  "name": "SwiftyJSON",
+  "simpleName": "SwiftyJSON",
+  "version": "5.0.2",
+  "description": "SwiftyJSON makes it easy to deal with JSON data in Swift",
+  "license": "MIT",
+  "publisher": "lingoer, tangplin",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

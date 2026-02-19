@@ -1,0 +1,12 @@
+{
+  "name": "Firebase",
+  "simpleName": "Firebase",
+  "version": "10.22.0",
+  "description": "Firebase",
+  "license": "Apache-2.0",
+  "publisher": "Google, Inc.",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

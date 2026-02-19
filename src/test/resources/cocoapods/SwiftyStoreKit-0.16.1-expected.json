@@ -1,0 +1,12 @@
+{
+  "name": "SwiftyStoreKit",
+  "simpleName": "SwiftyStoreKit",
+  "version": "0.16.1",
+  "description": "Lightweight In App Purchases Swift framework for iOS, tvOS, watchOS, macOS and Mac Catalyst.",
+  "license": "MIT",
+  "publisher": "Andrea Bizzotto",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

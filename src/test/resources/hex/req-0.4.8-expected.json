@@ -1,0 +1,46 @@
+{
+  "dependencies": [
+    {
+      "name": "brotli",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.3.1"
+    },
+    {
+      "name": "ezstd",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "finch",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.9"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "mime",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.6 or ~> 2.0"
+    },
+    {
+      "name": "nimble_csv",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    }
+  ],
+  "description": "Req is a batteries-included HTTP client for Elixir.",
+  "license": "Apache-2.0",
+  "name": "req",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "req",
+  "version": "0.4.8"
+}

@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "AST parser and generator for Markdown",
+  "license": "Apache-2.0",
+  "name": "earmark_parser",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "earmark_parser",
+  "version": "1.4.39"
+}

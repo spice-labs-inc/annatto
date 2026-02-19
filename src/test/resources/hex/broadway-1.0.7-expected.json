@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "gen_stage",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "nimble_options",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.3.7 or ~> 0.4 or ~> 1.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.3 or ~> 1.0"
+    }
+  ],
+  "description": "Build concurrent and multi-stage data ingestion and data processing pipelines",
+  "license": "Apache-2.0",
+  "name": "broadway",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "broadway",
+  "version": "1.0.7"
+}

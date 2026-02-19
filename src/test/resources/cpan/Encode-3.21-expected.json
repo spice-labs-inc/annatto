@@ -1,0 +1,41 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "Storable",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : "0.221"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.92"
+      }
+   ],
+   "description" : "character encodings in Perl",
+   "license" : "perl_5",
+   "name" : "Encode",
+   "publishedAt" : null,
+   "publisher" : "Dan Kogai <dankogai@dan.co.jp>",
+   "simpleName" : "Encode",
+   "version" : "3.21"
+}

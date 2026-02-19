@@ -1,0 +1,381 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Compress::Zlib",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy::Recursive",
+         "scope" : "dev",
+         "versionConstraint" : "0.40"
+      },
+      {
+         "name" : "MooseX::Daemonize",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Proc::ProcessTable",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Starman",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::NoTabs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::TCP",
+         "scope" : "dev",
+         "versionConstraint" : "2.00"
+      },
+      {
+         "name" : "Type::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CGI::Simple::Cookie",
+         "scope" : "runtime",
+         "versionConstraint" : "1.109"
+      },
+      {
+         "name" : "CGI::Struct",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : "1.25"
+      },
+      {
+         "name" : "Class::C3::Adopt::NEXT",
+         "scope" : "runtime",
+         "versionConstraint" : "0.07"
+      },
+      {
+         "name" : "Class::Load",
+         "scope" : "runtime",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Data::Dump",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Data::OptList",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Devel::InnerPackage",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : "2.49"
+      },
+      {
+         "name" : "HTML::Entities",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTML::HeadParser",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Body",
+         "scope" : "runtime",
+         "versionConstraint" : "1.22"
+      },
+      {
+         "name" : "HTTP::Headers",
+         "scope" : "runtime",
+         "versionConstraint" : "1.64"
+      },
+      {
+         "name" : "HTTP::Request",
+         "scope" : "runtime",
+         "versionConstraint" : "5.814"
+      },
+      {
+         "name" : "HTTP::Response",
+         "scope" : "runtime",
+         "versionConstraint" : "5.813"
+      },
+      {
+         "name" : "Hash::MultiValue",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "JSON::MaybeXS",
+         "scope" : "runtime",
+         "versionConstraint" : "1.000000"
+      },
+      {
+         "name" : "LWP",
+         "scope" : "runtime",
+         "versionConstraint" : "5.837"
+      },
+      {
+         "name" : "List::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.45"
+      },
+      {
+         "name" : "MRO::Compat",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Pluggable",
+         "scope" : "runtime",
+         "versionConstraint" : "4.7"
+      },
+      {
+         "name" : "Moose",
+         "scope" : "runtime",
+         "versionConstraint" : "2.1400"
+      },
+      {
+         "name" : "MooseX::Emulate::Class::Accessor::Fast",
+         "scope" : "runtime",
+         "versionConstraint" : "0.00903"
+      },
+      {
+         "name" : "MooseX::Getopt",
+         "scope" : "runtime",
+         "versionConstraint" : "0.48"
+      },
+      {
+         "name" : "MooseX::MethodAttributes::Role::AttrContainer::Inheritable",
+         "scope" : "runtime",
+         "versionConstraint" : "0.24"
+      },
+      {
+         "name" : "Path::Class",
+         "scope" : "runtime",
+         "versionConstraint" : "0.09"
+      },
+      {
+         "name" : "PerlIO::utf8_strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack",
+         "scope" : "runtime",
+         "versionConstraint" : "0.9991"
+      },
+      {
+         "name" : "Plack::Middleware::Conditional",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::ContentLength",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::FixMissingBodyInRedirect",
+         "scope" : "runtime",
+         "versionConstraint" : "0.09"
+      },
+      {
+         "name" : "Plack::Middleware::HTTPExceptions",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::Head",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::IIS6ScriptNameFix",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::IIS7KeepAliveFix",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::LighttpdScriptNameFix",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::MethodOverride",
+         "scope" : "runtime",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Plack::Middleware::RemoveRedundantBody",
+         "scope" : "runtime",
+         "versionConstraint" : "0.03"
+      },
+      {
+         "name" : "Plack::Middleware::ReverseProxy",
+         "scope" : "runtime",
+         "versionConstraint" : "0.04"
+      },
+      {
+         "name" : "Plack::Request::Upload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Test::ExternalServer",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Safe::Isa",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Socket",
+         "scope" : "runtime",
+         "versionConstraint" : "1.96"
+      },
+      {
+         "name" : "Stream::Buffered",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "String::RewritePrefix",
+         "scope" : "runtime",
+         "versionConstraint" : "0.004"
+      },
+      {
+         "name" : "Sub::Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Task::Weaken",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Text::Balanced",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Text::SimpleTable",
+         "scope" : "runtime",
+         "versionConstraint" : "0.03"
+      },
+      {
+         "name" : "Time::HiRes",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Tree::Simple",
+         "scope" : "runtime",
+         "versionConstraint" : "1.15"
+      },
+      {
+         "name" : "Tree::Simple::Visitor::FindByUID",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "0.17"
+      },
+      {
+         "name" : "URI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.65"
+      },
+      {
+         "name" : "URI::ws",
+         "scope" : "runtime",
+         "versionConstraint" : "0.03"
+      },
+      {
+         "name" : "namespace::clean",
+         "scope" : "runtime",
+         "versionConstraint" : "0.23"
+      },
+      {
+         "name" : "HTTP::Request::Common",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Status",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.88"
+      }
+   ],
+   "description" : "The Catalyst Framework Runtime",
+   "license" : "perl_5",
+   "name" : "Catalyst-Runtime",
+   "publishedAt" : null,
+   "publisher" : "Sebastian Riedel <sri@cpan.org>",
+   "simpleName" : "Catalyst-Runtime",
+   "version" : "5.90131"
+}

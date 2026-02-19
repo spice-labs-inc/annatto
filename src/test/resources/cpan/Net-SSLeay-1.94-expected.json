@@ -1,0 +1,121 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "English",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Functions",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Text::Wrap",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "constant",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Kwalitee",
+         "scope" : "dev",
+         "versionConstraint" : "1.00"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.00"
+      },
+      {
+         "name" : "MIME::Base64",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "English",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Functions",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "SelectSaver",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Socket",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Storable",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Builder",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.60_01"
+      },
+      {
+         "name" : "base",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Perl bindings for OpenSSL and LibreSSL",
+   "license" : "artistic_2",
+   "name" : "Net-SSLeay",
+   "publishedAt" : null,
+   "publisher" : "Sampo Kellomaki <sampo@iki.fi>, Florian Ragwitz <rafl@debian.org>, Mike McCauley <mikem@airspayce.com>, Tuure Vartiainen <vartiait@radiatorsoftware.com>, Chris Novakovic <chris@chrisn.me.uk>, Heikki Vatiainen <hvn@radiatorsoftware.com>",
+   "simpleName" : "Net-SSLeay",
+   "version" : "1.94"
+}

@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.40"
+      }
+   ],
+   "description" : "Establish an ISA relationship with base classes at compile time",
+   "license" : "perl_5",
+   "name" : "parent",
+   "publishedAt" : null,
+   "publisher" : "Max Maischein <corion@cpan.org>",
+   "simpleName" : "parent",
+   "version" : "0.241"
+}

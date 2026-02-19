@@ -1,0 +1,12 @@
+{
+  "name": "Quick",
+  "simpleName": "Quick",
+  "version": "7.4.0",
+  "description": "The Swift (and Objective-C) testing framework.",
+  "license": "Apache 2.0",
+  "publisher": "Quick Contributors",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

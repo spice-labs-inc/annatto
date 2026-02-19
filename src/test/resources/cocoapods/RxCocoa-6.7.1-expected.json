@@ -1,0 +1,21 @@
+{
+  "name": "RxCocoa",
+  "simpleName": "RxCocoa",
+  "version": "6.7.1",
+  "description": "RxSwift Cocoa extensions",
+  "license": "MIT",
+  "publisher": "Krunoslav Zaher",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "RxRelay",
+      "versionConstraint": "6.7.1",
+      "scope": "runtime"
+    },
+    {
+      "name": "RxSwift",
+      "versionConstraint": "6.7.1",
+      "scope": "runtime"
+    }
+  ]
+}

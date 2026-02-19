@@ -1,0 +1,16 @@
+{
+  "name": "Amplitude",
+  "simpleName": "Amplitude",
+  "version": "8.18.2",
+  "description": "Amplitude iOS/tvOS/macOS SDK.",
+  "license": "MIT",
+  "publisher": "Amplitude",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "AnalyticsConnector",
+      "versionConstraint": "~> 1.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

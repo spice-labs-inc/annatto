@@ -1,0 +1,12 @@
+{
+  "name": "OHHTTPStubs",
+  "simpleName": "OHHTTPStubs",
+  "version": "9.1.0",
+  "description": "Framework to stub your network requests like HTTP and help you write network unit tests with XCTest.",
+  "license": "MIT",
+  "publisher": "Olivier Halligon",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

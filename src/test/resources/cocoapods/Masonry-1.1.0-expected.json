@@ -1,0 +1,12 @@
+{
+  "name": "Masonry",
+  "simpleName": "Masonry",
+  "version": "1.1.0",
+  "description": "Harness the power of Auto Layout NSLayoutConstraints with a simplified, chainable and expressive syntax.",
+  "license": "MIT",
+  "publisher": "Jonas Budelmann",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

@@ -17,10 +17,25 @@
 /**
  * Hex ecosystem support for Annatto.
  *
- * <p>Hex packages are distributed as {@code .tar} archives containing {@code VERSION},
- * {@code metadata.config}, {@code contents.tar.gz}, and {@code CHECKSUM}. The metadata
- * is in Erlang term format.</p>
+ * <h2>Extraction Pipeline</h2>
+ * <ol>
+ *   <li>Read {@code .tar} archive (plain tar, not gzip)</li>
+ *   <li>Extract {@code metadata.config} from tar entries</li>
+ *   <li>Tokenize Erlang term format with {@link io.spicelabs.annatto.hex.ErlangTermTokenizer}</li>
+ *   <li>Parse tokens into structured map with {@link io.spicelabs.annatto.hex.ErlangTermParser}</li>
+ *   <li>Build MetadataResult, handling both mix and rebar3 requirement formats</li>
+ * </ol>
  *
- * <p>PURL format: {@code pkg:hex/name@version}</p>
+ * <h2>PURL Format</h2>
+ * <p>{@code pkg:hex/name@version} — no namespace, name lowercased (Q6).</p>
+ *
+ * <h2>Key Classes</h2>
+ * <ul>
+ *   <li>{@link io.spicelabs.annatto.hex.HexMetadataExtractor} — stateless extraction</li>
+ *   <li>{@link io.spicelabs.annatto.hex.HexHandler} — lifecycle handler</li>
+ *   <li>{@link io.spicelabs.annatto.hex.ErlangTermTokenizer} — Erlang term tokenizer</li>
+ *   <li>{@link io.spicelabs.annatto.hex.ErlangTermParser} — Erlang term parser</li>
+ *   <li>{@link io.spicelabs.annatto.hex.HexQuirks} — ecosystem-specific documentation</li>
+ * </ul>
  */
 package io.spicelabs.annatto.hex;

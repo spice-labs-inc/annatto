@@ -1,0 +1,176 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Alien::Base::Wrapper",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Alien::Libxml2",
+         "scope" : "build",
+         "versionConstraint" : "0.14"
+      },
+      {
+         "name" : "Config",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "DynaLoader",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Tie::Hash",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "XML::NamespaceSupport",
+         "scope" : "runtime",
+         "versionConstraint" : "1.07"
+      },
+      {
+         "name" : "XML::SAX",
+         "scope" : "runtime",
+         "versionConstraint" : "0.11"
+      },
+      {
+         "name" : "XML::SAX::Base",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "XML::SAX::DocumentLocator",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "XML::SAX::Exception",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "base",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "constant",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "vars",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Errno",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::File",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "POSIX",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "locale",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Interface to Gnome libxml2 xml parsing and DOM library",
+   "license" : "perl_5",
+   "name" : "XML-LibXML",
+   "publishedAt" : null,
+   "publisher" : "Petr Pajas <PAJAS@cpan.org>",
+   "simpleName" : "XML-LibXML",
+   "version" : "2.0210"
+}

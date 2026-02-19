@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    {
+      "name": "earmark_parser",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.4.39"
+    },
+    {
+      "name": "makeup_c",
+      "scope": "runtime",
+      "versionConstraint": ">= 0.1.1"
+    },
+    {
+      "name": "makeup_elixir",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.14"
+    },
+    {
+      "name": "makeup_erlang",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.1"
+    }
+  ],
+  "description": "ExDoc is a documentation generation tool for Elixir",
+  "license": "Apache-2.0",
+  "name": "ex_doc",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ex_doc",
+  "version": "0.31.1"
+}

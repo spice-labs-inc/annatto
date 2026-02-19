@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.5"
+    }
+  ],
+  "description": "Phoenix view functions for working with HTML templates",
+  "license": "MIT",
+  "name": "phoenix_html",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "phoenix_html",
+  "version": "3.3.3"
+}

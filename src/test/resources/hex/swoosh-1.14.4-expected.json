@@ -1,0 +1,71 @@
+{
+  "dependencies": [
+    {
+      "name": "cowboy",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1 or ~> 2.4"
+    },
+    {
+      "name": "ex_aws",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.1"
+    },
+    {
+      "name": "finch",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.6"
+    },
+    {
+      "name": "gen_smtp",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.13 or ~> 1.0"
+    },
+    {
+      "name": "hackney",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.9"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "mail",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.2"
+    },
+    {
+      "name": "mime",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1 or ~> 2.0"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.9"
+    },
+    {
+      "name": "plug_cowboy",
+      "scope": "runtime",
+      "versionConstraint": ">= 1.0.0"
+    },
+    {
+      "name": "req",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.2 or ~> 1.0"
+    }
+  ],
+  "description": "Compose, deliver and test your emails easily in Elixir. Supports SMTP,\nSendgrid, Mandrill, Postmark, Mailgun and many more out of the box.\nPreview your emails in the browser. Test your email sending code.",
+  "license": "MIT",
+  "name": "swoosh",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "swoosh",
+  "version": "1.14.4"
+}

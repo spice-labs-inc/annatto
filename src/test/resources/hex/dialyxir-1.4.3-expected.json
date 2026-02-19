@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "erlex",
+      "scope": "runtime",
+      "versionConstraint": ">= 0.2.6"
+    }
+  ],
+  "description": "Mix tasks to simplify use of Dialyzer in Elixir projects.",
+  "license": "Apache-2.0",
+  "name": "dialyxir",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "dialyxir",
+  "version": "1.4.3"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "PhoneNumberKit",
+  "simpleName": "PhoneNumberKit",
+  "version": "3.7.11",
+  "description": "Swift framework for working with phone numbers",
+  "license": "MIT",
+  "publisher": "Roy Marmelstein",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "Mocks and explicit contracts for Elixir",
+  "license": "Apache-2.0",
+  "name": "mox",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "mox",
+  "version": "1.1.0"
+}

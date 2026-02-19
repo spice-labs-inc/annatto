@@ -1,0 +1,16 @@
+{
+  "name": "GoogleUtilities",
+  "simpleName": "GoogleUtilities",
+  "version": "7.13.0",
+  "description": "Google Utilities for Apple platform SDKs",
+  "license": "Apache-2.0",
+  "publisher": "Google, Inc.",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "PromisesObjC",
+      "versionConstraint": ">= 1.2, < 3.0",
+      "scope": "runtime"
+    }
+  ]
+}

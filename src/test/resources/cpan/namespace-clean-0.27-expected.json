@@ -1,0 +1,31 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "B::Hooks::EndOfScope",
+         "scope" : "runtime",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Package::Stash",
+         "scope" : "runtime",
+         "versionConstraint" : "0.23"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.47"
+      }
+   ],
+   "description" : "Keep imports and functions out of your namespace",
+   "license" : "perl_5",
+   "name" : "namespace-clean",
+   "publishedAt" : null,
+   "publisher" : "Robert 'phaylon' Sedlacek <rs@474.at>, Florian Ragwitz <rafl@debian.org>, Jesse Luehrs <doy@tozt.net>, Peter Rabbitson <ribasushi@cpan.org>, Father Chrysostomos <sprout@cpan.org>",
+   "simpleName" : "namespace-clean",
+   "version" : "0.27"
+}

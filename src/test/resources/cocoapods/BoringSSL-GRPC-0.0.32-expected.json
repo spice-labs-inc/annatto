@@ -1,0 +1,12 @@
+{
+  "name": "BoringSSL-GRPC",
+  "simpleName": "BoringSSL-GRPC",
+  "version": "0.0.32",
+  "description": "BoringSSL is a fork of OpenSSL that is designed to meet Google's needs.",
+  "license": "Mixed",
+  "publisher": "Adam Langley, David Benjamin, Matt Braithwaite",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

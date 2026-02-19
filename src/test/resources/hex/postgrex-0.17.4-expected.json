@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    {
+      "name": "db_connection",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.1"
+    },
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.5 or ~> 2.0"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "table",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.1.0"
+    }
+  ],
+  "description": "PostgreSQL driver for Elixir",
+  "license": "Apache-2.0",
+  "name": "postgrex",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "postgrex",
+  "version": "0.17.4"
+}

@@ -1,0 +1,86 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Class::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : "1.001"
+      },
+      {
+         "name" : "Moose",
+         "scope" : "dev",
+         "versionConstraint" : "1.15"
+      },
+      {
+         "name" : "Mouse",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Type::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : "0.004"
+      },
+      {
+         "name" : "namespace::autoclean",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "namespace::clean",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Class::Method::Modifiers",
+         "scope" : "runtime",
+         "versionConstraint" : "1.10"
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Role::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "2.002003"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.00"
+      },
+      {
+         "name" : "Sub::Defer",
+         "scope" : "runtime",
+         "versionConstraint" : "2.006006"
+      },
+      {
+         "name" : "Sub::Quote",
+         "scope" : "runtime",
+         "versionConstraint" : "2.006006"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.94"
+      }
+   ],
+   "description" : "Minimalist Object Orientation (with Moose compatibility)",
+   "license" : "perl_5",
+   "name" : "Moo",
+   "publishedAt" : null,
+   "publisher" : "mst - Matt S. Trout (cpan:MSTROUT) <mst@shadowcat.co.uk>",
+   "simpleName" : "Moo",
+   "version" : "2.005005"
+}

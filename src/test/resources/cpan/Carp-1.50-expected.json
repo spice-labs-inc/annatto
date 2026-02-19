@@ -1,0 +1,61 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "runtime",
+         "versionConstraint" : "1.0103"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "runtime",
+         "versionConstraint" : "0.47"
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "alternative warn and die for modules",
+   "license" : "perl_5",
+   "name" : "Carp",
+   "publishedAt" : null,
+   "publisher" : null,
+   "simpleName" : "Carp",
+   "version" : "1.50"
+}

@@ -130,12 +130,52 @@ class AnnattoProcessFilterTest {
     }
 
     /**
-     * Goal: Verify .tar.gz files are detected as PyPI sdist.
-     * Rationale: PyPI sdist archives use .tar.gz format. Currently the only implemented .tar.gz ecosystem.
+     * Goal: Verify lowercase .tar.gz files are detected as PyPI sdist.
+     * Rationale: PyPI packages typically use all-lowercase names.
      */
     @Test
-    void detectEcosystem_tarGz_isPypi() {
+    void detectEcosystem_tarGz_lowercaseIsPypi() {
         assertThat(filter.detectEcosystem("requests-2.31.0.tar.gz"))
+                .isEqualTo(Optional.of(EcosystemId.PYPI));
+    }
+
+    /**
+     * Goal: Verify uppercase .tar.gz files are detected as CPAN.
+     * Rationale: Q8 — CPAN distributions use CamelCase names (e.g., Moose-2.2207.tar.gz).
+     */
+    @Test
+    void detectTarGzEcosystem_cpanUppercase() {
+        assertThat(filter.detectEcosystem("Moose-2.2207.tar.gz"))
+                .isEqualTo(Optional.of(EcosystemId.CPAN));
+    }
+
+    /**
+     * Goal: Verify lowercase CPAN name routes to PyPI (known limitation).
+     * Rationale: Q8 — All-lowercase CPAN names (namespace-clean) cannot be distinguished from PyPI.
+     */
+    @Test
+    void detectTarGzEcosystem_lowercaseCpanRoutesToPypi() {
+        assertThat(filter.detectEcosystem("namespace-clean-0.27.tar.gz"))
+                .isEqualTo(Optional.of(EcosystemId.PYPI));
+    }
+
+    /**
+     * Goal: Verify hyphenated CPAN names with capitals route to CPAN.
+     * Rationale: Q8 — Distribution names like Try-Tiny contain uppercase.
+     */
+    @Test
+    void detectTarGzEcosystem_cpanHyphenatedUppercase() {
+        assertThat(filter.detectEcosystem("Try-Tiny-0.31.tar.gz"))
+                .isEqualTo(Optional.of(EcosystemId.CPAN));
+    }
+
+    /**
+     * Goal: Verify constant (lowercase CPAN) routes to PyPI.
+     * Rationale: Q8 — Known limitation for all-lowercase CPAN names.
+     */
+    @Test
+    void detectTarGzEcosystem_constantRoutesToPypi() {
+        assertThat(filter.detectEcosystem("constant-1.33.tar.gz"))
                 .isEqualTo(Optional.of(EcosystemId.PYPI));
     }
 
@@ -158,6 +198,26 @@ class AnnattoProcessFilterTest {
     void detectEcosystem_zipWithoutAtV_isPackagist() {
         assertThat(filter.detectEcosystem("some-package-1.0.0.zip"))
                 .isEqualTo(Optional.of(EcosystemId.PACKAGIST));
+    }
+
+    /**
+     * Goal: Verify plain .tar files are detected as Hex.
+     * Rationale: Q1 — Hex packages are plain .tar archives.
+     */
+    @Test
+    void detectEcosystem_tar_isHex() {
+        assertThat(filter.detectEcosystem("jason-1.4.1.tar"))
+                .isEqualTo(Optional.of(EcosystemId.HEX));
+    }
+
+    /**
+     * Goal: Verify .tar detection doesn't interfere with .tar.gz.
+     * Rationale: .tar.gz must still route to PyPI/CPAN, not Hex.
+     */
+    @Test
+    void detectEcosystem_tarGz_notHex() {
+        assertThat(filter.detectEcosystem("requests-2.31.0.tar.gz"))
+                .isNotEqualTo(Optional.of(EcosystemId.HEX));
     }
 
     /**

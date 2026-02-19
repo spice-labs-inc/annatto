@@ -1,0 +1,12 @@
+{
+  "name": "Starscream",
+  "simpleName": "Starscream",
+  "version": "4.0.6",
+  "description": "A conforming WebSocket RFC 6455 client library in Swift.",
+  "license": "Apache License, Version 2.0",
+  "publisher": "Dalton Cherry, Austin Cherry",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

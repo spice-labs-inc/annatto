@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.0"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    }
+  ],
+  "description": "A toolkit for data mapping and language integrated query for Elixir",
+  "license": "Apache-2.0",
+  "name": "ecto",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ecto",
+  "version": "3.11.1"
+}

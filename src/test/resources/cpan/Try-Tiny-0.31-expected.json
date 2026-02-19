@@ -1,0 +1,171 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Capture::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Encode",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Wordlist",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Sub::Name",
+         "scope" : "dev",
+         "versionConstraint" : "0.08"
+      },
+      {
+         "name" : "Sub::Util",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Changes",
+         "scope" : "dev",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "Test::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::EOL",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Kwalitee",
+         "scope" : "dev",
+         "versionConstraint" : "1.21"
+      },
+      {
+         "name" : "Test::MinimumVersion",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::NoTabs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.08"
+      },
+      {
+         "name" : "Test::Pod::No404s",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "constant",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "if",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Minimal try/catch with proper preservation of $@",
+   "license" : "mit",
+   "name" : "Try-Tiny",
+   "publishedAt" : null,
+   "publisher" : "יובל קוג'מן (Yuval Kogman) <nothingmuch@woobling.org>, Jesse Luehrs <doy@tozt.net>",
+   "simpleName" : "Try-Tiny",
+   "version" : "0.31"
+}

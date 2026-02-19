@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "bunt",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.2.1 or ~> 1.0"
+    },
+    {
+      "name": "file_system",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.2 or ~> 1.0"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    }
+  ],
+  "description": "A static code analysis tool with a focus on code consistency and teaching.",
+  "license": "MIT",
+  "name": "credo",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "credo",
+  "version": "1.7.3"
+}

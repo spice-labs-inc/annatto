@@ -1,0 +1,21 @@
+{
+  "name": "Texture",
+  "simpleName": "Texture",
+  "version": "3.2.0",
+  "description": "Smooth asynchronous user interfaces for iOS apps.",
+  "license": "Apache 2",
+  "publisher": "Huy Nguyen, Garrett Moon, Scott Goodson, Michael Schneider, Adlai Holler",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "PINRemoteImage/PINCache",
+      "versionConstraint": null,
+      "scope": "runtime"
+    },
+    {
+      "name": "PINRemoteImage/iOS",
+      "versionConstraint": "~> 3.0.0",
+      "scope": "runtime"
+    }
+  ]
+}

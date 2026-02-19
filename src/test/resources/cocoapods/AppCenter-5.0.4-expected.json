@@ -1,0 +1,12 @@
+{
+  "name": "AppCenter",
+  "simpleName": "AppCenter",
+  "version": "5.0.4",
+  "description": "Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.",
+  "license": "MIT",
+  "publisher": "Microsoft",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

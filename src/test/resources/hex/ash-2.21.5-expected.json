@@ -1,0 +1,71 @@
+{
+  "dependencies": [
+    {
+      "name": "comparable",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.0"
+    },
+    {
+      "name": "earmark",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.4"
+    },
+    {
+      "name": "ecto",
+      "scope": "runtime",
+      "versionConstraint": "~> 3.7"
+    },
+    {
+      "name": "ets",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.8"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": ">= 1.0.0"
+    },
+    {
+      "name": "picosat_elixir",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.2"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": ">= 0.0.0"
+    },
+    {
+      "name": "reactor",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.6"
+    },
+    {
+      "name": "spark",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1 and >= 1.1.55"
+    },
+    {
+      "name": "stream_data",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.6"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1"
+    }
+  ],
+  "description": "A resource declaration and interaction library. Built with pluggable data layers, and\ndesigned to be used by multiple front ends.",
+  "license": "MIT",
+  "name": "ash",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ash",
+  "version": "2.21.5"
+}

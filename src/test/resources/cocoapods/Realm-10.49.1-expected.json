@@ -1,0 +1,12 @@
+{
+  "name": "Realm",
+  "simpleName": "Realm",
+  "version": "10.49.1",
+  "description": "Realm is a modern data framework & database for iOS, macOS, tvOS & watchOS.",
+  "license": "Apache 2.0",
+  "publisher": "Realm",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

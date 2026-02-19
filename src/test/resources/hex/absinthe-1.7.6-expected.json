@@ -1,0 +1,36 @@
+{
+  "dependencies": [
+    {
+      "name": "dataloader",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0.0 or ~> 2.0"
+    },
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0 or ~> 2.0"
+    },
+    {
+      "name": "nimble_parsec",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.2.2 or ~> 1.3"
+    },
+    {
+      "name": "opentelemetry_process_propagator",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.2.1"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0 or ~> 0.4"
+    }
+  ],
+  "description": "GraphQL for Elixir",
+  "license": "MIT",
+  "name": "absinthe",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "absinthe",
+  "version": "1.7.6"
+}

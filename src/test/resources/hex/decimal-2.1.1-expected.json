@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "Arbitrary precision decimal arithmetic.",
+  "license": "Apache-2.0",
+  "name": "decimal",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "decimal",
+  "version": "2.1.1"
+}

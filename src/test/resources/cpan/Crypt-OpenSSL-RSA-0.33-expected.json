@@ -1,0 +1,41 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Crypt::OpenSSL::Guess",
+         "scope" : "build",
+         "versionConstraint" : "0.11"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Crypt::OpenSSL::Random",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "RSA encoding and decoding, using the openSSL libraries",
+   "license" : "perl_5",
+   "name" : "Crypt-OpenSSL-RSA",
+   "publishedAt" : null,
+   "publisher" : "Ian Robertson <iroberts@cpan.org>",
+   "simpleName" : "Crypt-OpenSSL-RSA",
+   "version" : "0.33"
+}

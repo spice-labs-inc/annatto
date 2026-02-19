@@ -1,0 +1,12 @@
+{
+  "name": "RxSwift",
+  "simpleName": "RxSwift",
+  "version": "6.7.1",
+  "description": "RxSwift is a Swift implementation of Reactive Extensions",
+  "license": "MIT",
+  "publisher": "Krunoslav Zaher",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

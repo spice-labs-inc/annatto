@@ -1,0 +1,12 @@
+{
+  "name": "SDWebImage",
+  "simpleName": "SDWebImage",
+  "version": "5.19.1",
+  "description": "Asynchronous image downloader with cache support with an UIImageView category.",
+  "license": "MIT",
+  "publisher": "Olivier Poitrey",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

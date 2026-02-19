@@ -1,0 +1,41 @@
+{
+  "dependencies": [
+    {
+      "name": "db_connection",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.5 or ~> 2.4.1"
+    },
+    {
+      "name": "ecto",
+      "scope": "runtime",
+      "versionConstraint": "~> 3.11.0"
+    },
+    {
+      "name": "myxql",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.6.0"
+    },
+    {
+      "name": "postgrex",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.16.0 or ~> 0.17.0 or ~> 1.0"
+    },
+    {
+      "name": "tds",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.1.1 or ~> 2.2"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.0 or ~> 1.0"
+    }
+  ],
+  "description": "SQL-based adapters for Ecto and database migrations",
+  "license": "Apache-2.0",
+  "name": "ecto_sql",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ecto_sql",
+  "version": "3.11.1"
+}

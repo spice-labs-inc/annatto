@@ -17,9 +17,22 @@
 /**
  * CocoaPods ecosystem support for Annatto.
  *
- * <p>CocoaPods packages are described by a {@code .podspec} file (Ruby DSL) or its JSON
- * equivalent {@code .podspec.json}. The JSON variant is preferred for reliable parsing.</p>
+ * <h2>Extraction Pipeline</h2>
+ * <ol>
+ *   <li>Read {@code .podspec.json} as plain JSON (Q1: only JSON supported)</li>
+ *   <li>Parse with Gson</li>
+ *   <li>Handle license/author/dependency polymorphism (Q2, Q3, Q4, Q5)</li>
+ *   <li>Build MetadataResult with subspec dependency aggregation</li>
+ * </ol>
  *
- * <p>PURL format: {@code pkg:cocoapods/name@version}</p>
+ * <h2>PURL Format</h2>
+ * <p>{@code pkg:cocoapods/Name@version} — no namespace, case-sensitive name (Q7).</p>
+ *
+ * <h2>Key Classes</h2>
+ * <ul>
+ *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsMetadataExtractor} — stateless extraction</li>
+ *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsHandler} — lifecycle handler</li>
+ *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsQuirks} — ecosystem-specific documentation</li>
+ * </ul>
  */
 package io.spicelabs.annatto.cocoapods;

@@ -1,0 +1,12 @@
+{
+  "name": "Alamofire",
+  "simpleName": "Alamofire",
+  "version": "5.8.1",
+  "description": "Elegant HTTP Networking in Swift",
+  "license": "MIT",
+  "publisher": "Alamofire Software Foundation",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

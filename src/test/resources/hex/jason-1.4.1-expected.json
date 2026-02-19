@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0 or ~> 2.0"
+    }
+  ],
+  "description": "A blazing fast JSON parser and generator in pure Elixir.",
+  "license": "Apache-2.0",
+  "name": "jason",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "jason",
+  "version": "1.4.1"
+}

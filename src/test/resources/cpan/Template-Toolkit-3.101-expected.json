@@ -1,0 +1,10 @@
+{
+   "dependencies" : [],
+   "description" : "comprehensive template processing system",
+   "license" : "perl_5",
+   "name" : "Template-Toolkit",
+   "publishedAt" : null,
+   "publisher" : "Andy Wardley <abw@wardley.org>",
+   "simpleName" : "Template-Toolkit",
+   "version" : "3.101"
+}

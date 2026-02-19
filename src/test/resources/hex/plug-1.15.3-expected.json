@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "mime",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0 or ~> 2.0"
+    },
+    {
+      "name": "plug_crypto",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1.1 or ~> 1.2 or ~> 2.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.3 or ~> 1.0"
+    }
+  ],
+  "description": "Compose web applications with functions",
+  "license": "Apache-2.0",
+  "name": "plug",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "plug",
+  "version": "1.15.3"
+}

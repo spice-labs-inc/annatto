@@ -1,0 +1,131 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::ShareDir::Install",
+         "scope" : "build",
+         "versionConstraint" : "0.06"
+      },
+      {
+         "name" : "Dist::Milla",
+         "scope" : "dev",
+         "versionConstraint" : "v1.0.22"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Apache::LogFormat::Compiler",
+         "scope" : "runtime",
+         "versionConstraint" : "0.33"
+      },
+      {
+         "name" : "Cookie::Baker",
+         "scope" : "runtime",
+         "versionConstraint" : "0.07"
+      },
+      {
+         "name" : "Devel::StackTrace",
+         "scope" : "runtime",
+         "versionConstraint" : "1.23"
+      },
+      {
+         "name" : "Devel::StackTrace::AsHTML",
+         "scope" : "runtime",
+         "versionConstraint" : "0.11"
+      },
+      {
+         "name" : "File::ShareDir",
+         "scope" : "runtime",
+         "versionConstraint" : "1.00"
+      },
+      {
+         "name" : "Filesys::Notify::Simple",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Entity::Parser",
+         "scope" : "runtime",
+         "versionConstraint" : "0.25"
+      },
+      {
+         "name" : "HTTP::Headers::Fast",
+         "scope" : "runtime",
+         "versionConstraint" : "0.18"
+      },
+      {
+         "name" : "HTTP::Message",
+         "scope" : "runtime",
+         "versionConstraint" : "5.814"
+      },
+      {
+         "name" : "HTTP::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "0.034"
+      },
+      {
+         "name" : "Hash::MultiValue",
+         "scope" : "runtime",
+         "versionConstraint" : "0.05"
+      },
+      {
+         "name" : "Pod::Usage",
+         "scope" : "runtime",
+         "versionConstraint" : "1.36"
+      },
+      {
+         "name" : "Stream::Buffered",
+         "scope" : "runtime",
+         "versionConstraint" : "0.02"
+      },
+      {
+         "name" : "Test::TCP",
+         "scope" : "runtime",
+         "versionConstraint" : "2.15"
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.59"
+      },
+      {
+         "name" : "WWW::Form::UrlEncoded",
+         "scope" : "runtime",
+         "versionConstraint" : "0.23"
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.88"
+      },
+      {
+         "name" : "Test::Requires",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)",
+   "license" : "perl_5",
+   "name" : "Plack",
+   "publishedAt" : null,
+   "publisher" : "Tatsuhiko Miyagawa",
+   "simpleName" : "Plack",
+   "version" : "1.0051"
+}

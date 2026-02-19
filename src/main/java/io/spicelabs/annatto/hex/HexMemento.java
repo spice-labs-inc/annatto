@@ -16,12 +16,59 @@
 package io.spicelabs.annatto.hex;
 
 import io.spicelabs.annatto.common.EcosystemId;
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.handler.BaseMemento;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
+/**
+ * Memento for Hex package metadata extraction.
+ *
+ * <p>Holds the raw metadata.config text and parsed MetadataResult.</p>
+ */
 public final class HexMemento extends BaseMemento {
 
-    public HexMemento(@NotNull String artifactFilename) {
+    private final @Nullable String rawMetadataConfig;
+
+    /**
+     * Creates a memento for a successfully parsed Hex package.
+     */
+    HexMemento(@NotNull String artifactFilename,
+               @NotNull String rawMetadataConfig,
+               @NotNull MetadataResult result) {
         super(EcosystemId.HEX, artifactFilename);
+        this.rawMetadataConfig = rawMetadataConfig;
+        setMetadataResult(result);
+    }
+
+    /**
+     * Creates a memento for a failed extraction (no metadata).
+     */
+    HexMemento(@NotNull String artifactFilename) {
+        super(EcosystemId.HEX, artifactFilename);
+        this.rawMetadataConfig = null;
+    }
+
+    /**
+     * Returns the raw metadata.config text, if available.
+     */
+    @NotNull Optional<String> rawMetadataConfig() {
+        return Optional.ofNullable(rawMetadataConfig);
+    }
+
+    /**
+     * Returns the package name from the metadata result.
+     */
+    @NotNull Optional<String> packageName() {
+        return metadataResult().flatMap(MetadataResult::name);
+    }
+
+    /**
+     * Returns the package version from the metadata result.
+     */
+    @NotNull Optional<String> packageVersion() {
+        return metadataResult().flatMap(MetadataResult::version);
     }
 }

@@ -1,0 +1,211 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::DependentModules",
+         "scope" : "dev",
+         "versionConstraint" : "0.27"
+      },
+      {
+         "name" : "Test::MinimumVersion",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.94"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.08"
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Test::Version",
+         "scope" : "dev",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Data::Dumper",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "MIME::Base32",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MIME::Base64",
+         "scope" : "runtime",
+         "versionConstraint" : "2"
+      },
+      {
+         "name" : "Net::Domain",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "constant",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "integer",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Functions",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::Needs",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Warnings",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Uniform Resource Identifiers (absolute and relative)",
+   "license" : "perl_5",
+   "name" : "URI",
+   "publishedAt" : null,
+   "publisher" : "Gisle Aas <gisle@activestate.com>",
+   "simpleName" : "URI",
+   "version" : "5.30"
+}

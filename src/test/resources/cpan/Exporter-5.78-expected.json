@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : "1.05"
+      }
+   ],
+   "description" : "Implements default import method for modules",
+   "license" : "perl_5",
+   "name" : "Exporter",
+   "publishedAt" : null,
+   "publisher" : null,
+   "simpleName" : "Exporter",
+   "version" : "5.78"
+}

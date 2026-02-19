@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Common Scalar and List utility subroutines",
+   "license" : "perl_5",
+   "name" : "Scalar-List-Utils",
+   "publishedAt" : null,
+   "publisher" : "Graham Barr <gbarr@cpan.org>",
+   "simpleName" : "Scalar-List-Utils",
+   "version" : "1.63"
+}

@@ -1,0 +1,351 @@
+{
+   "dependencies" : [
+      {
+         "name" : "Dist::CheckConflicts",
+         "scope" : "build",
+         "versionConstraint" : "0.02"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Capture::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Devel::PPPort",
+         "scope" : "dev",
+         "versionConstraint" : "3.23"
+      },
+      {
+         "name" : "Encode",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "FindBin",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Perl::Critic",
+         "scope" : "dev",
+         "versionConstraint" : "1.138"
+      },
+      {
+         "name" : "Perl::Critic::Moose",
+         "scope" : "dev",
+         "versionConstraint" : "1.05"
+      },
+      {
+         "name" : "Perl::Tidy",
+         "scope" : "dev",
+         "versionConstraint" : "20210111"
+      },
+      {
+         "name" : "Pod::Checker",
+         "scope" : "dev",
+         "versionConstraint" : "1.74"
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Tidy",
+         "scope" : "dev",
+         "versionConstraint" : "0.10"
+      },
+      {
+         "name" : "Pod::Wordlist",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Storable",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Changes",
+         "scope" : "dev",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "Test::CPAN::Meta::JSON",
+         "scope" : "dev",
+         "versionConstraint" : "0.16"
+      },
+      {
+         "name" : "Test::CleanNamespaces",
+         "scope" : "dev",
+         "versionConstraint" : "0.15"
+      },
+      {
+         "name" : "Test::DependentModules",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::EOL",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::NoTabs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.08"
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Test::Version",
+         "scope" : "dev",
+         "versionConstraint" : "2.05"
+      },
+      {
+         "name" : "Test::Warnings",
+         "scope" : "dev",
+         "versionConstraint" : "0.005"
+      },
+      {
+         "name" : "Test::Without::Module",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "autodie",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "DateTime::Locale",
+         "scope" : "runtime",
+         "versionConstraint" : "1.06"
+      },
+      {
+         "name" : "DateTime::TimeZone",
+         "scope" : "runtime",
+         "versionConstraint" : "2.44"
+      },
+      {
+         "name" : "Dist::CheckConflicts",
+         "scope" : "runtime",
+         "versionConstraint" : "0.02"
+      },
+      {
+         "name" : "POSIX",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Params::ValidationCompiler",
+         "scope" : "runtime",
+         "versionConstraint" : "0.26"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio",
+         "scope" : "runtime",
+         "versionConstraint" : "0.18"
+      },
+      {
+         "name" : "Specio::Declare",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio::Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio::Library::Builtins",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio::Library::Numeric",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio::Library::String",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Specio::Subs",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "XSLoader",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "integer",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "namespace::autoclean",
+         "scope" : "runtime",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings::register",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Check",
+         "scope" : "test",
+         "versionConstraint" : "0.011"
+      },
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Storable",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::Warnings",
+         "scope" : "test",
+         "versionConstraint" : "0.005"
+      },
+      {
+         "name" : "Test::Without::Module",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "A date and time object for Perl",
+   "license" : "artistic_2",
+   "name" : "DateTime",
+   "publishedAt" : null,
+   "publisher" : "Dave Rolsky <autarch@urth.org>",
+   "simpleName" : "DateTime",
+   "version" : "1.65"
+}

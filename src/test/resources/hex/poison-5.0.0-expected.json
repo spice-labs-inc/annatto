@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "decimal",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.0"
+    }
+  ],
+  "description": "An incredibly fast, pure Elixir JSON library",
+  "license": "0BSD",
+  "name": "poison",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "poison",
+  "version": "5.0.0"
+}

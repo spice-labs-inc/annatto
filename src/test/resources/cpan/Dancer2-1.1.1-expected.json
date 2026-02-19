@@ -1,0 +1,396 @@
+{
+   "dependencies" : [
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "build",
+         "versionConstraint" : "2.120620"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::ShareDir::Install",
+         "scope" : "build",
+         "versionConstraint" : "0.06"
+      },
+      {
+         "name" : "Module::Metadata",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "AnyEvent",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CBOR::XS",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Class::Method::Modifiers",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::Test::UnusedVars",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Perl::Tidy",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Memory::Cycle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::MockTime",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.88"
+      },
+      {
+         "name" : "Test::NoTabs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Perl::Critic",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Whitespaces",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "YAML::XS",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Attribute::Handlers",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CLI::Osprey",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Clone",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::Any",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Digest::SHA",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "Exporter::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Share",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Which",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Date",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Headers::Fast",
+         "scope" : "runtime",
+         "versionConstraint" : "0.21"
+      },
+      {
+         "name" : "HTTP::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Hash::Merge::Simple",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Hash::MultiValue",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Import::Into",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "JSON::MaybeXS",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "List::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.29"
+      },
+      {
+         "name" : "MIME::Base64",
+         "scope" : "runtime",
+         "versionConstraint" : "3.13"
+      },
+      {
+         "name" : "Module::Runtime",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Moo",
+         "scope" : "runtime",
+         "versionConstraint" : "2.000000"
+      },
+      {
+         "name" : "Moo::Role",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "POSIX",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Path::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack",
+         "scope" : "runtime",
+         "versionConstraint" : "1.0040"
+      },
+      {
+         "name" : "Plack::Middleware::FixMissingBodyInRedirect",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Plack::Middleware::RemoveRedundantBody",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Ref::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Role::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "2.000000"
+      },
+      {
+         "name" : "Safe::Isa",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Sub::Quote",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Template",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Template::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Builder",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "runtime",
+         "versionConstraint" : "0.92"
+      },
+      {
+         "name" : "Type::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "1.000006"
+      },
+      {
+         "name" : "Types::Standard",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI::Escape",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "YAML",
+         "scope" : "runtime",
+         "versionConstraint" : "0.86"
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Capture::Tiny",
+         "scope" : "test",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Cookies",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Headers",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Simple::SimpleTree",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Template",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Builder",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::EOL",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.92"
+      }
+   ],
+   "description" : "Lightweight yet powerful web application framework",
+   "license" : "perl_5",
+   "name" : "Dancer2",
+   "publishedAt" : null,
+   "publisher" : "Dancer Core Developers",
+   "simpleName" : "Dancer2",
+   "version" : "1.1.1"
+}

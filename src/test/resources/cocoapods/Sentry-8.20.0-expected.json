@@ -1,0 +1,16 @@
+{
+  "name": "Sentry",
+  "simpleName": "Sentry",
+  "version": "8.20.0",
+  "description": "Sentry client for cocoa",
+  "license": "mit",
+  "publisher": "Sentry",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "SentryPrivate",
+      "versionConstraint": "8.20.0",
+      "scope": "runtime"
+    }
+  ]
+}

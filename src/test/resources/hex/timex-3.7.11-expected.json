@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    {
+      "name": "combine",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.10"
+    },
+    {
+      "name": "gettext",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.20"
+    },
+    {
+      "name": "tzdata",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.1"
+    }
+  ],
+  "description": "Timex is a rich, comprehensive Date/Time library for Elixir projects, with full timezone support via the :tzdata package.\nIf you need to manipulate dates, times, datetimes, timestamps, etc., then Timex is for you!",
+  "license": "MIT",
+  "name": "timex",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "timex",
+  "version": "3.7.11"
+}

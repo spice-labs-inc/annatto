@@ -1,0 +1,12 @@
+{
+  "name": "PromisesObjC",
+  "simpleName": "PromisesObjC",
+  "version": "2.4.0",
+  "description": "Synchronization construct for Objective-C",
+  "license": "Apache-2.0",
+  "publisher": "Google Inc.",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

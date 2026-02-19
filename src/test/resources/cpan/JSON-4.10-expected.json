@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "JSON (JavaScript Object Notation) encoder/decoder",
+   "license" : "perl_5",
+   "name" : "JSON",
+   "publishedAt" : null,
+   "publisher" : "Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>",
+   "simpleName" : "JSON",
+   "version" : "4.10"
+}

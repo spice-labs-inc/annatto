@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    }
+  ],
+  "description": "Provides a common interface for defining metrics based on Telemetry events.",
+  "license": "Apache-2.0",
+  "name": "telemetry_metrics",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "telemetry_metrics",
+  "version": "0.6.2"
+}

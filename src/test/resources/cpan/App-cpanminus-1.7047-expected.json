@@ -1,0 +1,196 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "App::FatPacker",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::DistnameInfo",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : "2.132830"
+      },
+      {
+         "name" : "CPAN::Meta::Check",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Prereqs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::YAML",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Capture::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Digest::SHA",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Milla",
+         "scope" : "dev",
+         "versionConstraint" : "v1.0.22"
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "dev",
+         "versionConstraint" : "5.63"
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::pushd",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Getopt::Long",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "JSON",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "JSON::PP",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "LWP::Simple",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "LWP::UserAgent",
+         "scope" : "dev",
+         "versionConstraint" : "5.802"
+      },
+      {
+         "name" : "Module::CPANfile",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::CoreList",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Install",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Metadata",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Parse::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Parse::PMFile",
+         "scope" : "dev",
+         "versionConstraint" : "0.26"
+      },
+      {
+         "name" : "Perl::Strip",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "String::ShellQuote",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.90"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Requires",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Tie::File",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "YAML",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "YAML::Tiny",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "local::lib",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "version",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "get, unpack, build and install modules from CPAN",
+   "license" : "perl_5",
+   "name" : "App-cpanminus",
+   "publishedAt" : null,
+   "publisher" : "- Tatsuhiko Miyagawa",
+   "simpleName" : "App-cpanminus",
+   "version" : "1.7047"
+}

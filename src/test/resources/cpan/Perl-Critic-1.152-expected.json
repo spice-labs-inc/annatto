@@ -1,0 +1,281 @@
+{
+   "dependencies" : [
+      {
+         "name" : "B::Keywords",
+         "scope" : "build",
+         "versionConstraint" : "1.23"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "English",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "build",
+         "versionConstraint" : "5.63"
+      },
+      {
+         "name" : "List::SomeUtils",
+         "scope" : "build",
+         "versionConstraint" : "0.55"
+      },
+      {
+         "name" : "Module::Build",
+         "scope" : "build",
+         "versionConstraint" : "0.4204"
+      },
+      {
+         "name" : "base",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "lib",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "B::Keywords",
+         "scope" : "runtime",
+         "versionConstraint" : "1.23"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "2"
+      },
+      {
+         "name" : "English",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exception::Class",
+         "scope" : "runtime",
+         "versionConstraint" : "1.23"
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.63"
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Find",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Unix",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Which",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Getopt::Long",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "List::SomeUtils",
+         "scope" : "runtime",
+         "versionConstraint" : "0.55"
+      },
+      {
+         "name" : "List::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Pluggable",
+         "scope" : "runtime",
+         "versionConstraint" : "3.1"
+      },
+      {
+         "name" : "PPI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPI::Document",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPI::Document::File",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPI::Node",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPI::Token::Quote::Single",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPI::Token::Whitespace",
+         "scope" : "runtime",
+         "versionConstraint" : "1.277"
+      },
+      {
+         "name" : "PPIx::QuoteLike",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "PPIx::Regexp",
+         "scope" : "runtime",
+         "versionConstraint" : "0.027"
+      },
+      {
+         "name" : "PPIx::Regexp::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "0.068"
+      },
+      {
+         "name" : "PPIx::Utils::Traversal",
+         "scope" : "runtime",
+         "versionConstraint" : "0.003"
+      },
+      {
+         "name" : "Perl::Tidy",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::PlainText",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Select",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Spell",
+         "scope" : "runtime",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Pod::Usage",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Readonly",
+         "scope" : "runtime",
+         "versionConstraint" : "2"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "String::Format",
+         "scope" : "runtime",
+         "versionConstraint" : "1.18"
+      },
+      {
+         "name" : "Term::ANSIColor",
+         "scope" : "runtime",
+         "versionConstraint" : "2.02"
+      },
+      {
+         "name" : "Test::Builder",
+         "scope" : "runtime",
+         "versionConstraint" : "0.92"
+      },
+      {
+         "name" : "Text::ParseWords",
+         "scope" : "runtime",
+         "versionConstraint" : "3"
+      },
+      {
+         "name" : "charnames",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "version",
+         "scope" : "runtime",
+         "versionConstraint" : "0.77"
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "lib",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Critique Perl source code for best-practices.",
+   "license" : "perl_5",
+   "name" : "Perl-Critic",
+   "publishedAt" : null,
+   "publisher" : "Jeffrey Thalhammer <jeff@imaginative-software.com>",
+   "simpleName" : "Perl-Critic",
+   "version" : "1.152"
+}

@@ -1,0 +1,46 @@
+{
+  "dependencies": [
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "phoenix",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.6.15 or ~> 1.7.0"
+    },
+    {
+      "name": "phoenix_html",
+      "scope": "runtime",
+      "versionConstraint": "~> 3.3 or ~> 4.0"
+    },
+    {
+      "name": "phoenix_template",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "phoenix_view",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.0"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.15"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.2 or ~> 1.0"
+    }
+  ],
+  "description": "Rich, real-time user experiences with server-rendered HTML",
+  "license": "MIT",
+  "name": "phoenix_live_view",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "phoenix_live_view",
+  "version": "0.20.4"
+}

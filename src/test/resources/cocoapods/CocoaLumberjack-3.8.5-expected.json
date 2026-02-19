@@ -1,0 +1,12 @@
+{
+  "name": "CocoaLumberjack",
+  "simpleName": "CocoaLumberjack",
+  "version": "3.8.5",
+  "description": "A fast & simple, yet powerful & flexible logging framework for macOS, iOS, tvOS and watchOS.",
+  "license": "BSD",
+  "publisher": "Robbie Hanson",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

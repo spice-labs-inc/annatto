@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "A specification for password hashing libraries",
+  "license": "BSD-3-Clause",
+  "name": "comeonin",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "comeonin",
+  "version": "5.4.0"
+}

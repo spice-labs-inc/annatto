@@ -1,0 +1,12 @@
+{
+  "name": "nanopb",
+  "simpleName": "nanopb",
+  "version": "2.30910.0",
+  "description": "Protocol buffers with small code size.",
+  "license": "zlib",
+  "publisher": "Petteri Aimonen",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

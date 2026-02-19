@@ -1,0 +1,12 @@
+{
+  "name": "Hero",
+  "simpleName": "Hero",
+  "version": "1.6.3",
+  "description": "Elegant transition library for iOS",
+  "license": "MIT",
+  "publisher": "Luke, Joe Mattiello",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

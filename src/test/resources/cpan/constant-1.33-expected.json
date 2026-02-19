@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Perl pragma to declare constants",
+   "license" : "perl_5",
+   "name" : "constant",
+   "publishedAt" : null,
+   "publisher" : "Sebastien Aperghis-Tramoni <sebastien@aperghis.net>",
+   "simpleName" : "constant",
+   "version" : "1.33"
+}

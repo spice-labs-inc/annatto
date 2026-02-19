@@ -1,0 +1,12 @@
+{
+  "name": "SwiftLint",
+  "simpleName": "SwiftLint",
+  "version": "0.54.0",
+  "description": "A tool to enforce Swift style and conventions.",
+  "license": "MIT",
+  "publisher": "JP Simard",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "AFNetworking",
+  "simpleName": "AFNetworking",
+  "version": "4.0.1",
+  "description": "A delightful networking framework for Apple platforms.",
+  "license": "MIT",
+  "publisher": "Mattt Thompson",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

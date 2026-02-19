@@ -1,0 +1,31 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Socket::IP",
+         "scope" : "runtime",
+         "versionConstraint" : "0.37"
+      },
+      {
+         "name" : "Sub::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.41"
+      }
+   ],
+   "description" : "Real-time web framework",
+   "license" : "artistic_2",
+   "name" : "Mojolicious",
+   "publishedAt" : null,
+   "publisher" : "Sebastian Riedel <sri@cpan.org>",
+   "simpleName" : "Mojolicious",
+   "version" : "9.37"
+}

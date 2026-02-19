@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    }
+  ],
+  "description": "Periodically collect measurements and dispatch them as Telemetry events.",
+  "license": "Apache 2.0",
+  "name": "telemetry_poller",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "telemetry_poller",
+  "version": "1.0.0"
+}

@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "goldrush",
+      "scope": "runtime",
+      "versionConstraint": "0.1.9"
+    }
+  ],
+  "description": "Erlang logging framework",
+  "license": "Apache 2",
+  "name": "lager",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "lager",
+  "version": "3.9.2"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "SnapKit",
+  "simpleName": "SnapKit",
+  "version": "5.7.1",
+  "description": "Harness the power of auto layout with a simplified, chainable, and compile time safe syntax.",
+  "license": "MIT",
+  "publisher": "Robert Payne",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

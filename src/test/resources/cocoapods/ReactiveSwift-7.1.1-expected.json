@@ -1,0 +1,12 @@
+{
+  "name": "ReactiveSwift",
+  "simpleName": "ReactiveSwift",
+  "version": "7.1.1",
+  "description": "Streams of values over time",
+  "license": "MIT",
+  "publisher": "ReactiveCocoa",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

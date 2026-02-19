@@ -16,10 +16,13 @@ package io.spicelabs.annatto;
 
 import io.spicelabs.annatto.common.EcosystemId;
 import io.spicelabs.annatto.conda.CondaHandler;
+import io.spicelabs.annatto.cocoapods.CocoapodsHandler;
+import io.spicelabs.annatto.cpan.CpanHandler;
 import io.spicelabs.annatto.filter.AnnattoProcessFilter;
 import io.spicelabs.annatto.crates.CratesHandler;
 import io.spicelabs.annatto.luarocks.LuarocksHandler;
 import io.spicelabs.annatto.go.GoHandler;
+import io.spicelabs.annatto.hex.HexHandler;
 import io.spicelabs.annatto.handler.BaseArtifactHandler;
 import io.spicelabs.annatto.npm.NpmHandler;
 import io.spicelabs.annatto.packagist.PackagistHandler;
@@ -41,7 +44,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The main Annatto component that integrates with the Goat Rodeo plugin system.
- * Registers ecosystem-specific artifact handlers for 11 package ecosystems.
+ * Registers ecosystem-specific artifact handlers for all supported package ecosystems.
  *
  * <p>This class is thread-safe. Mutable fields are managed via {@link AtomicReference}
  * and are only set during the well-ordered lifecycle methods.</p>
@@ -112,15 +115,18 @@ public final class AnnattoComponent implements RodeoComponent {
         registrarRef.set(registrar);
 
         // Build handler map with implemented ecosystem handlers
-        Map<EcosystemId, BaseArtifactHandler> handlers = Map.of(
-                EcosystemId.NPM, new NpmHandler(),
-                EcosystemId.PYPI, new PypiHandler(),
-                EcosystemId.GO, new GoHandler(),
-                EcosystemId.CRATES, new CratesHandler(),
-                EcosystemId.RUBYGEMS, new RubygemsHandler(),
-                EcosystemId.PACKAGIST, new PackagistHandler(),
-                EcosystemId.CONDA, new CondaHandler(),
-                EcosystemId.LUAROCKS, new LuarocksHandler()
+        Map<EcosystemId, BaseArtifactHandler> handlers = Map.ofEntries(
+                Map.entry(EcosystemId.NPM, new NpmHandler()),
+                Map.entry(EcosystemId.PYPI, new PypiHandler()),
+                Map.entry(EcosystemId.GO, new GoHandler()),
+                Map.entry(EcosystemId.CRATES, new CratesHandler()),
+                Map.entry(EcosystemId.RUBYGEMS, new RubygemsHandler()),
+                Map.entry(EcosystemId.PACKAGIST, new PackagistHandler()),
+                Map.entry(EcosystemId.CONDA, new CondaHandler()),
+                Map.entry(EcosystemId.LUAROCKS, new LuarocksHandler()),
+                Map.entry(EcosystemId.CPAN, new CpanHandler()),
+                Map.entry(EcosystemId.COCOAPODS, new CocoapodsHandler()),
+                Map.entry(EcosystemId.HEX, new HexHandler())
         );
 
         AnnattoProcessFilter filter = new AnnattoProcessFilter(handlers);

@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "A MIME type module for Elixir",
+  "license": "Apache-2.0",
+  "name": "mime",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "mime",
+  "version": "2.0.5"
+}

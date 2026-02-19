@@ -1,0 +1,12 @@
+{
+  "name": "SVProgressHUD",
+  "simpleName": "SVProgressHUD",
+  "version": "2.3.1",
+  "description": "A clean and lightweight progress HUD for your iOS and tvOS app.",
+  "license": "MIT",
+  "publisher": "Sam Vermette, Tobias Totzek",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

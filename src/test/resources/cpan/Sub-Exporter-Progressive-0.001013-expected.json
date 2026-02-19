@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.88"
+      }
+   ],
+   "description" : "Only use Sub::Exporter if you need it",
+   "license" : "perl_5",
+   "name" : "Sub-Exporter-Progressive",
+   "publishedAt" : null,
+   "publisher" : "Arthur Axel \"fREW\" Schmidt <Sub-Exporter-Progressive@afoolishmanifesto.com>",
+   "simpleName" : "Sub-Exporter-Progressive",
+   "version" : "0.001013"
+}

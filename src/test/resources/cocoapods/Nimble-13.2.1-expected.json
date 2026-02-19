@@ -1,0 +1,12 @@
+{
+  "name": "Nimble",
+  "simpleName": "Nimble",
+  "version": "13.2.1",
+  "description": "A Matcher Framework for Swift and Objective-C",
+  "license": "Apache 2.0",
+  "publisher": "Quick Contributors",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

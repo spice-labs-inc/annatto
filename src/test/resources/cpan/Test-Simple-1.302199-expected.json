@@ -1,0 +1,61 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Term::Table",
+         "scope" : "dev",
+         "versionConstraint" : "0.013"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.13"
+      },
+      {
+         "name" : "Storable",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Basic utilities for writing tests.",
+   "license" : "perl_5",
+   "name" : "Test-Simple",
+   "publishedAt" : null,
+   "publisher" : "Chad Granum <exodist@cpan.org>",
+   "simpleName" : "Test-Simple",
+   "version" : "1.302199"
+}

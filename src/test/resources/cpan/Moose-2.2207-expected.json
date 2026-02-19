@@ -1,0 +1,406 @@
+{
+   "dependencies" : [
+      {
+         "name" : "Dist::CheckConflicts",
+         "scope" : "build",
+         "versionConstraint" : "0.02"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Algorithm::C3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Class::Load",
+         "scope" : "dev",
+         "versionConstraint" : "0.07"
+      },
+      {
+         "name" : "DBM::Deep",
+         "scope" : "dev",
+         "versionConstraint" : "1.003"
+      },
+      {
+         "name" : "Data::Visitor",
+         "scope" : "dev",
+         "versionConstraint" : "0.26"
+      },
+      {
+         "name" : "DateTime",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "DateTime::Calendar::Mayan",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "DateTime::Format::MySQL",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Declare::Constraints::Simple",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Devel::PPPort",
+         "scope" : "dev",
+         "versionConstraint" : "3.68"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker::Dist::Zilla::Develop",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Find::Rule",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Headers",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::File",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Locale::US",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::CPANTS::Analyse",
+         "scope" : "dev",
+         "versionConstraint" : "0.92"
+      },
+      {
+         "name" : "Module::Refresh",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Moo",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::MarkAsMethods",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::NonMoose",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "PadWalker",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Params::Coerce",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Regexp::Common",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "SUPER",
+         "scope" : "dev",
+         "versionConstraint" : "1.10"
+      },
+      {
+         "name" : "Specio",
+         "scope" : "dev",
+         "versionConstraint" : "0.10"
+      },
+      {
+         "name" : "Test::CPAN::Changes",
+         "scope" : "dev",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "Test::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Deep",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::EOL",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Inline",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Kwalitee",
+         "scope" : "dev",
+         "versionConstraint" : "1.21"
+      },
+      {
+         "name" : "Test::LeakTrace",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Memory::Cycle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.94"
+      },
+      {
+         "name" : "Test::NoTabs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Output",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.04"
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Warnings",
+         "scope" : "dev",
+         "versionConstraint" : "0.016"
+      },
+      {
+         "name" : "Types::Standard",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "blib",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : "1.22"
+      },
+      {
+         "name" : "Class::Load",
+         "scope" : "runtime",
+         "versionConstraint" : "0.09"
+      },
+      {
+         "name" : "Class::Load::XS",
+         "scope" : "runtime",
+         "versionConstraint" : "0.01"
+      },
+      {
+         "name" : "Data::OptList",
+         "scope" : "runtime",
+         "versionConstraint" : "0.107"
+      },
+      {
+         "name" : "Devel::GlobalDestruction",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Devel::OverloadInfo",
+         "scope" : "runtime",
+         "versionConstraint" : "0.005"
+      },
+      {
+         "name" : "Devel::StackTrace",
+         "scope" : "runtime",
+         "versionConstraint" : "2.03"
+      },
+      {
+         "name" : "Dist::CheckConflicts",
+         "scope" : "runtime",
+         "versionConstraint" : "0.02"
+      },
+      {
+         "name" : "Eval::Closure",
+         "scope" : "runtime",
+         "versionConstraint" : "0.04"
+      },
+      {
+         "name" : "List::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.56"
+      },
+      {
+         "name" : "MRO::Compat",
+         "scope" : "runtime",
+         "versionConstraint" : "0.05"
+      },
+      {
+         "name" : "Module::Runtime",
+         "scope" : "runtime",
+         "versionConstraint" : "0.014"
+      },
+      {
+         "name" : "Module::Runtime::Conflicts",
+         "scope" : "runtime",
+         "versionConstraint" : "0.002"
+      },
+      {
+         "name" : "Package::DeprecationManager",
+         "scope" : "runtime",
+         "versionConstraint" : "0.11"
+      },
+      {
+         "name" : "Package::Stash",
+         "scope" : "runtime",
+         "versionConstraint" : "0.32"
+      },
+      {
+         "name" : "Package::Stash::XS",
+         "scope" : "runtime",
+         "versionConstraint" : "0.24"
+      },
+      {
+         "name" : "Params::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.00"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.19"
+      },
+      {
+         "name" : "Sub::Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "0.980"
+      },
+      {
+         "name" : "Sub::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.40"
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "0.17"
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : "0.223"
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : "1.03"
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : "1.03"
+      },
+      {
+         "name" : "CPAN::Meta::Check",
+         "scope" : "test",
+         "versionConstraint" : "0.011"
+      },
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Metadata",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : "0.001"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::Needs",
+         "scope" : "test",
+         "versionConstraint" : "0.002010"
+      }
+   ],
+   "description" : "A postmodern object system for Perl 5",
+   "license" : "perl_5",
+   "name" : "Moose",
+   "publishedAt" : null,
+   "publisher" : "Stevan Little <stevan@cpan.org>, Dave Rolsky <autarch@urth.org>, Jesse Luehrs <doy@cpan.org>, Shawn M Moore <sartak@cpan.org>, יובל קוג'מן (Yuval Kogman) <nothingmuch@woobling.org>, Karen Etheridge <ether@cpan.org>, Florian Ragwitz <rafl@debian.org>, Hans Dieter Pearcey <hdp@cpan.org>, Chris Prather <chris@prather.org>, Matt S Trout <mstrout@cpan.org>",
+   "simpleName" : "Moose",
+   "version" : "2.2207"
+}

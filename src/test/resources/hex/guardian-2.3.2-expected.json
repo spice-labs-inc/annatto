@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    {
+      "name": "jose",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.8"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.3.3 or ~> 1.4"
+    }
+  ],
+  "description": "Elixir Authentication framework",
+  "license": "MIT",
+  "name": "guardian",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "guardian",
+  "version": "2.3.2"
+}

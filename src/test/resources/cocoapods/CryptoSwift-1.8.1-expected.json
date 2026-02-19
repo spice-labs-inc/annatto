@@ -1,0 +1,12 @@
+{
+  "name": "CryptoSwift",
+  "simpleName": "CryptoSwift",
+  "version": "1.8.1",
+  "description": "Cryptography in Swift. SHA, MD5, CRC, PBKDF, Poly1305, HMAC, CMAC, HDKF, Scrypt, ChaCha20, Rabbit, Blowfish, AES, RSA.",
+  "license": "Attribution",
+  "publisher": "Marcin Krzyżanowski",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

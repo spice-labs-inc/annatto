@@ -1,0 +1,12 @@
+{
+  "name": "PromiseKit",
+  "simpleName": "PromiseKit",
+  "version": "8.1.2",
+  "description": "Promises for Swift & ObjC.",
+  "license": "MIT",
+  "publisher": "Max Howell",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

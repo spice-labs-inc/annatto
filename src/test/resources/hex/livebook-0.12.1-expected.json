@@ -1,0 +1,106 @@
+{
+  "dependencies": [
+    {
+      "name": "aws_credentials",
+      "scope": "runtime",
+      "versionConstraint": "0.1.11"
+    },
+    {
+      "name": "aws_signature",
+      "scope": "runtime",
+      "versionConstraint": "0.3.1"
+    },
+    {
+      "name": "bandit",
+      "scope": "runtime",
+      "versionConstraint": "1.1.0"
+    },
+    {
+      "name": "dns_cluster",
+      "scope": "runtime",
+      "versionConstraint": "0.1.1"
+    },
+    {
+      "name": "earmark_parser",
+      "scope": "runtime",
+      "versionConstraint": "1.4.37"
+    },
+    {
+      "name": "ecto",
+      "scope": "runtime",
+      "versionConstraint": "3.10.3"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "1.4.1"
+    },
+    {
+      "name": "jose",
+      "scope": "runtime",
+      "versionConstraint": "1.11.6"
+    },
+    {
+      "name": "mint_web_socket",
+      "scope": "runtime",
+      "versionConstraint": "1.0.3"
+    },
+    {
+      "name": "phoenix",
+      "scope": "runtime",
+      "versionConstraint": "1.7.10"
+    },
+    {
+      "name": "phoenix_ecto",
+      "scope": "runtime",
+      "versionConstraint": "4.4.2"
+    },
+    {
+      "name": "phoenix_html",
+      "scope": "runtime",
+      "versionConstraint": "3.3.2"
+    },
+    {
+      "name": "phoenix_live_dashboard",
+      "scope": "runtime",
+      "versionConstraint": "0.8.2"
+    },
+    {
+      "name": "phoenix_live_view",
+      "scope": "runtime",
+      "versionConstraint": "0.20.2"
+    },
+    {
+      "name": "plug_crypto",
+      "scope": "runtime",
+      "versionConstraint": "2.0.0"
+    },
+    {
+      "name": "protobuf",
+      "scope": "runtime",
+      "versionConstraint": "0.8.0"
+    },
+    {
+      "name": "req",
+      "scope": "runtime",
+      "versionConstraint": "0.4.4"
+    },
+    {
+      "name": "telemetry_metrics",
+      "scope": "runtime",
+      "versionConstraint": "0.6.1"
+    },
+    {
+      "name": "telemetry_poller",
+      "scope": "runtime",
+      "versionConstraint": "1.0.0"
+    }
+  ],
+  "description": "Automate code & data workflows with interactive notebooks",
+  "license": "Apache-2.0",
+  "name": "livebook",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "livebook",
+  "version": "0.12.1"
+}

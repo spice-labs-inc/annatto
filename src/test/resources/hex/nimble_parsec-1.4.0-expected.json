@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "A simple and fast library for text-based parser combinators",
+  "license": "Apache-2.0",
+  "name": "nimble_parsec",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "nimble_parsec",
+  "version": "1.4.0"
+}

@@ -17,22 +17,45 @@ package io.spicelabs.annatto.cocoapods;
 
 /**
  * Documents CocoaPods ecosystem quirks that affect metadata extraction.
+ * This is an intentionally empty record — it serves as living documentation.
  *
  * <ul>
- *   <li><b>.podspec is Ruby code (not static data)</b> — podspec files are executable Ruby,
- *       so they cannot be reliably parsed without evaluating Ruby. Prefer {@code .podspec.json}
- *       when available, as it provides the same metadata in a machine-readable JSON format.</li>
- *   <li><b>Prefer .podspec.json</b> — the JSON variant is a serialised representation of the
- *       evaluated podspec. When the CocoaPods trunk API is used, JSON is always available.</li>
- *   <li><b>Subspecs for nested components</b> — a single pod can declare subspecs, each with
- *       its own source files, dependencies, and platform requirements. These effectively act
- *       as sub-packages within a single podspec.</li>
- *   <li><b>Source field pointing to actual archive</b> — the {@code source} hash in the podspec
- *       indicates where the actual source archive lives (e.g. a Git repo, an HTTP tarball, or
- *       an SVN location). This is distinct from the CocoaPods specs repo entry.</li>
- *   <li><b>Platform requirements</b> — pods may declare minimum deployment targets for one or
- *       more Apple platforms (iOS, macOS, tvOS, watchOS, visionOS). A pod is not necessarily
- *       usable on all platforms.</li>
+ *   <li><b>Q1: .podspec is Ruby code → only .podspec.json supported</b> — Podspec files are
+ *       executable Ruby DSL. We only process {@code .podspec.json} (the JSON serialization)
+ *       which is always available from the CocoaPods trunk API.
+ *       Tested by: {@code extractFromJson_validPodspec}.</li>
+ *
+ *   <li><b>Q2: License polymorphism</b> — The license field can be a plain string ({@code "MIT"})
+ *       or an object ({@code {"type": "MIT", "text": "..."}). We extract the "type" key from
+ *       objects.
+ *       Tested by: {@code extractLicense_stringDirect}, {@code extractLicense_objectType}.</li>
+ *
+ *   <li><b>Q3: Authors polymorphism</b> — The authors field can be an object map
+ *       ({@code {"Name": "email"}}), a string, or an array. We extract names from map keys
+ *       or array/string values. Fallback to singular "author" field.
+ *       Tested by: {@code extractPublisher_mapKeys}, {@code extractPublisher_string},
+ *       {@code extractPublisher_array}.</li>
+ *
+ *   <li><b>Q4: Subspec dependency aggregation</b> — A pod may declare subspecs with their own
+ *       dependencies. If {@code default_subspecs} is present, only those subspecs' deps are
+ *       included; otherwise all subspecs are included. Self-referencing deps (pod/subspec)
+ *       are filtered.
+ *       Tested by: {@code extractDeps_subspecDefaultsOnly},
+ *       {@code extractDeps_selfReferencingFiltered}.</li>
+ *
+ *   <li><b>Q5: Dependency version arrays</b> — Version constraints are arrays of strings.
+ *       Empty array means "any version" (null versionConstraint). Multiple entries are joined
+ *       with ", ".
+ *       Tested by: {@code extractDeps_emptyVersionIsNull},
+ *       {@code extractDeps_multipleConstraints}.</li>
+ *
+ *   <li><b>Q6: No publishedAt</b> — The podspec.json does not contain a publication timestamp.
+ *       publishedAt is always null.
+ *       Tested by: {@code extractPublishedAt_alwaysNull}.</li>
+ *
+ *   <li><b>Q7: PURL name preserves case</b> — CocoaPods pod names are case-sensitive and the
+ *       PURL must preserve the original casing: {@code pkg:cocoapods/AFNetworking@4.0.1}.
+ *       Tested by: {@code getPurls_preservesCase}.</li>
  * </ul>
  */
 public record CocoapodsQuirks() {

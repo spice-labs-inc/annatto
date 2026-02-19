@@ -1,0 +1,31 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Mojolicious",
+         "scope" : "runtime",
+         "versionConstraint" : "9.0"
+      },
+      {
+         "name" : "YAML::XS",
+         "scope" : "runtime",
+         "versionConstraint" : "0.67"
+      }
+   ],
+   "description" : "Job queue",
+   "license" : "artistic_2",
+   "name" : "Minion",
+   "publishedAt" : null,
+   "publisher" : "Sebastian Riedel <sri@cpan.org>",
+   "simpleName" : "Minion",
+   "version" : "10.30"
+}

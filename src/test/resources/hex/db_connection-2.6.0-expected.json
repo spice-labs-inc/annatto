@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    }
+  ],
+  "description": "Database connection behaviour for database transactions and connection pooling",
+  "license": "Apache-2.0",
+  "name": "db_connection",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "db_connection",
+  "version": "2.6.0"
+}

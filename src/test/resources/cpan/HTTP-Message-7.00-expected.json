@@ -1,0 +1,226 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Changes",
+         "scope" : "dev",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "Test::Mojibake",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Version",
+         "scope" : "dev",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Clone",
+         "scope" : "runtime",
+         "versionConstraint" : "0.46"
+      },
+      {
+         "name" : "Compress::Raw::Bzip2",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Compress::Raw::Zlib",
+         "scope" : "runtime",
+         "versionConstraint" : "2.062"
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : "3.01"
+      },
+      {
+         "name" : "Encode::Locale",
+         "scope" : "runtime",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "HTTP::Date",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "IO::Compress::Bzip2",
+         "scope" : "runtime",
+         "versionConstraint" : "2.021"
+      },
+      {
+         "name" : "IO::Compress::Deflate",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Compress::Gzip",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::HTML",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Uncompress::Inflate",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Uncompress::RawInflate",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "LWP::MediaTypes",
+         "scope" : "runtime",
+         "versionConstraint" : "6"
+      },
+      {
+         "name" : "MIME::Base64",
+         "scope" : "runtime",
+         "versionConstraint" : "2.1"
+      },
+      {
+         "name" : "MIME::QuotedPrint",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.10"
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "PerlIO::encoding",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.88"
+      },
+      {
+         "name" : "Test::Needs",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Time::Local",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "URI::URL",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "lib",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "overload",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "HTTP style message (base class)",
+   "license" : "perl_5",
+   "name" : "HTTP-Message",
+   "publishedAt" : null,
+   "publisher" : "Gisle Aas <gisle@activestate.com>",
+   "simpleName" : "HTTP-Message",
+   "version" : "7.00"
+}

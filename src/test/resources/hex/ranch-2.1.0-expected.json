@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "Socket acceptor pool for TCP protocols.",
+  "license": "ISC",
+  "name": "ranch",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ranch",
+  "version": "2.1.0"
+}

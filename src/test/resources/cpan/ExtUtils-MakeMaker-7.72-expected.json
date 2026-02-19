@@ -1,0 +1,36 @@
+{
+   "dependencies" : [
+      {
+         "name" : "Data::Dumper",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : "0.8"
+      },
+      {
+         "name" : "Pod::Man",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Create a module Makefile",
+   "license" : "perl_5",
+   "name" : "ExtUtils-MakeMaker",
+   "publishedAt" : null,
+   "publisher" : "Michael G Schwern <schwern@pobox.com>",
+   "simpleName" : "ExtUtils-MakeMaker",
+   "version" : "7.72"
+}

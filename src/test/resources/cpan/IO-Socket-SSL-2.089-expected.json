@@ -1,0 +1,36 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Net::SSLeay",
+         "scope" : "build",
+         "versionConstraint" : "1.46"
+      },
+      {
+         "name" : "Net::SSLeay",
+         "scope" : "runtime",
+         "versionConstraint" : "1.46"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Nearly transparent SSL encapsulation for IO::Socket::INET.",
+   "license" : "perl_5",
+   "name" : "IO-Socket-SSL",
+   "publishedAt" : null,
+   "publisher" : "Steffen Ullrich <sullr@cpan.org>, Peter Behroozi, Marko Asplund",
+   "simpleName" : "IO-Socket-SSL",
+   "version" : "2.089"
+}

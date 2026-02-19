@@ -1,0 +1,26 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.48"
+      },
+      {
+         "name" : "Test::Simple",
+         "scope" : "build",
+         "versionConstraint" : "0.90"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Database independent interface for Perl",
+   "license" : "perl_5",
+   "name" : "DBI",
+   "publishedAt" : null,
+   "publisher" : "Tim Bunce (dbi-users@perl.org)",
+   "simpleName" : "DBI",
+   "version" : "1.643"
+}

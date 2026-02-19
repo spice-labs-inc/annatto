@@ -1,0 +1,181 @@
+{
+   "dependencies" : [
+      {
+         "name" : "CPAN::Meta",
+         "scope" : "build",
+         "versionConstraint" : "2.142060"
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "build",
+         "versionConstraint" : "0.82"
+      },
+      {
+         "name" : "Module::Metadata",
+         "scope" : "build",
+         "versionConstraint" : "1.000002"
+      },
+      {
+         "name" : "Perl::OSType",
+         "scope" : "build",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "version",
+         "scope" : "build",
+         "versionConstraint" : "0.87"
+      },
+      {
+         "name" : "CPAN::Meta",
+         "scope" : "runtime",
+         "versionConstraint" : "2.142060"
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Data::Dumper",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::CBuilder",
+         "scope" : "runtime",
+         "versionConstraint" : "0.27"
+      },
+      {
+         "name" : "ExtUtils::Install",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::Manifest",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::Mkbootstrap",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::ParseXS",
+         "scope" : "runtime",
+         "versionConstraint" : "2.21"
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Compare",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Find",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : "0.82"
+      },
+      {
+         "name" : "Getopt::Long",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Metadata",
+         "scope" : "runtime",
+         "versionConstraint" : "1.000002"
+      },
+      {
+         "name" : "Perl::OSType",
+         "scope" : "runtime",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "TAP::Harness",
+         "scope" : "runtime",
+         "versionConstraint" : "3.29"
+      },
+      {
+         "name" : "Text::Abbrev",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Text::ParseWords",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "version",
+         "scope" : "runtime",
+         "versionConstraint" : "0.87"
+      },
+      {
+         "name" : "CPAN::Meta::YAML",
+         "scope" : "test",
+         "versionConstraint" : "0.003"
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "test",
+         "versionConstraint" : "0.15"
+      },
+      {
+         "name" : "Parse::CPAN::Meta",
+         "scope" : "test",
+         "versionConstraint" : "1.4401"
+      },
+      {
+         "name" : "TAP::Harness",
+         "scope" : "test",
+         "versionConstraint" : "3.29"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.49"
+      }
+   ],
+   "description" : "Build and install Perl modules",
+   "license" : "perl_5",
+   "name" : "Module-Build",
+   "publishedAt" : null,
+   "publisher" : "Ken Williams <kwilliams@cpan.org>, Module-Build mailing list at <module-build@perl.org>.",
+   "simpleName" : "Module-Build",
+   "version" : "0.4234"
+}

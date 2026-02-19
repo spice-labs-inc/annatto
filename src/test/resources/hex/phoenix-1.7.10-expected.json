@@ -1,0 +1,61 @@
+{
+  "dependencies": [
+    {
+      "name": "castore",
+      "scope": "runtime",
+      "versionConstraint": ">= 0.0.0"
+    },
+    {
+      "name": "jason",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "phoenix_pubsub",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.1"
+    },
+    {
+      "name": "phoenix_template",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.0"
+    },
+    {
+      "name": "phoenix_view",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.0"
+    },
+    {
+      "name": "plug",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.14"
+    },
+    {
+      "name": "plug_cowboy",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.6"
+    },
+    {
+      "name": "plug_crypto",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.2 or ~> 2.0"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4 or ~> 1.0"
+    },
+    {
+      "name": "websock_adapter",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.5.3"
+    }
+  ],
+  "description": "Peace of mind from prototype to production",
+  "license": "MIT",
+  "name": "phoenix",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "phoenix",
+  "version": "1.7.10"
+}

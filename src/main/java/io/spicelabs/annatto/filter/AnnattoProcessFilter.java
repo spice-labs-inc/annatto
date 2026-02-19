@@ -142,6 +142,10 @@ public final class AnnattoProcessFilter implements RodeoProcessFilter {
         if (lower.endsWith(".zip")) {
             return detectZipEcosystem(filename);
         }
+        // Hex: plain .tar (must check after .tar.gz and .tar.bz2)
+        if (lower.endsWith(".tar")) {
+            return Optional.of(EcosystemId.HEX);
+        }
 
         // Simple extension match
         for (var ext : EXTENSION_MAP.entrySet()) {
@@ -154,12 +158,36 @@ public final class AnnattoProcessFilter implements RodeoProcessFilter {
     }
 
     /**
-     * Heuristic detection for .tar.gz files which could be PyPI sdist, CPAN, or Hex.
-     * Currently returns PyPI as the only implemented .tar.gz ecosystem.
+     * Heuristic detection for .tar.gz files which could be PyPI sdist or CPAN.
      * Go modules use .zip format, not .tar.gz.
-     * // TODO: Add disambiguation when CPAN/Hex phases are added.
+     *
+     * <p>Heuristic: strip {@code .tar.gz}, find last hyphen-before-digit (version separator).
+     * If the name portion contains any uppercase letter, route to CPAN (e.g., {@code Moose-2.2207}).
+     * Otherwise route to PyPI (e.g., {@code requests-2.31.0}).
+     * Known limitation: all-lowercase CPAN names (e.g., {@code namespace-clean}) route to PyPI.</p>
      */
     private @NotNull Optional<EcosystemId> detectTarGzEcosystem(@NotNull String filename) {
+        String base = filename;
+        if (base.toLowerCase().endsWith(".tar.gz")) {
+            base = base.substring(0, base.length() - ".tar.gz".length());
+        }
+
+        // Find the last hyphen that is followed by a digit (version separator)
+        String namePortion = base;
+        for (int i = base.length() - 1; i >= 0; i--) {
+            if (base.charAt(i) == '-' && i + 1 < base.length() && Character.isDigit(base.charAt(i + 1))) {
+                namePortion = base.substring(0, i);
+                break;
+            }
+        }
+
+        // If name portion contains uppercase, it's CPAN (Perl naming convention)
+        for (int i = 0; i < namePortion.length(); i++) {
+            if (Character.isUpperCase(namePortion.charAt(i))) {
+                return Optional.of(EcosystemId.CPAN);
+            }
+        }
+
         return Optional.of(EcosystemId.PYPI);
     }
 

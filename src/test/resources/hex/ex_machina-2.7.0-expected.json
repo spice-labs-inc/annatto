@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    {
+      "name": "ecto",
+      "scope": "runtime",
+      "versionConstraint": "~> 2.2 or ~> 3.0"
+    },
+    {
+      "name": "ecto_sql",
+      "scope": "runtime",
+      "versionConstraint": "~> 3.0"
+    }
+  ],
+  "description": "A factory library by the creators of FactoryBot (née FactoryGirl)",
+  "license": "MIT",
+  "name": "ex_machina",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "ex_machina",
+  "version": "2.7.0"
+}

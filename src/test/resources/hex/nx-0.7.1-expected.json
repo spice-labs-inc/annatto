@@ -1,0 +1,21 @@
+{
+  "dependencies": [
+    {
+      "name": "complex",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.5"
+    },
+    {
+      "name": "telemetry",
+      "scope": "runtime",
+      "versionConstraint": "~> 0.4.0 or ~> 1.0"
+    }
+  ],
+  "description": "Multi-dimensional arrays (tensors) and numerical definitions for Elixir",
+  "license": "Apache-2.0",
+  "name": "nx",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "nx",
+  "version": "0.7.1"
+}

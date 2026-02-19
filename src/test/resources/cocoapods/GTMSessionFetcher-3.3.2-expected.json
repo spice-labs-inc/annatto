@@ -1,0 +1,12 @@
+{
+  "name": "GTMSessionFetcher",
+  "simpleName": "GTMSessionFetcher",
+  "version": "3.3.2",
+  "description": "Google Toolbox for Mac - Session Fetcher",
+  "license": "Apache",
+  "publisher": "Google Inc.",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

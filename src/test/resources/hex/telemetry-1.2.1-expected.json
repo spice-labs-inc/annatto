@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "Dynamic dispatching library for metrics and instrumentations",
+  "license": "Apache-2.0",
+  "name": "telemetry",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "telemetry",
+  "version": "1.2.1"
+}

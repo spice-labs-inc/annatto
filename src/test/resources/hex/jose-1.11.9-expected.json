@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "description": "JSON Object Signing and Encryption (JOSE) for Erlang and Elixir.",
+  "license": "MIT",
+  "name": "jose",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "jose",
+  "version": "1.11.9"
+}

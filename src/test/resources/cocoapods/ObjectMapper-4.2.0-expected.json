@@ -1,0 +1,12 @@
+{
+  "name": "ObjectMapper",
+  "simpleName": "ObjectMapper",
+  "version": "4.2.0",
+  "description": "JSON Object mapping written in Swift",
+  "license": "MIT",
+  "publisher": "Tristan Himmelman",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

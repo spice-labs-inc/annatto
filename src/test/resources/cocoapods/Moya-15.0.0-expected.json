@@ -1,0 +1,16 @@
+{
+  "name": "Moya",
+  "simpleName": "Moya",
+  "version": "15.0.0",
+  "description": "Network abstraction layer written in Swift",
+  "license": "MIT",
+  "publisher": "Ash Furrow",
+  "publishedAt": null,
+  "dependencies": [
+    {
+      "name": "Alamofire",
+      "versionConstraint": "~> 5.0",
+      "scope": "runtime"
+    }
+  ]
+}

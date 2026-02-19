@@ -1,0 +1,21 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "indent and reformat perl scripts",
+   "license" : "gpl_2",
+   "name" : "Perl-Tidy",
+   "publishedAt" : null,
+   "publisher" : "Steve Hancock <perltidy@perltidy.sourceforge.net>",
+   "simpleName" : "Perl-Tidy",
+   "version" : "20240903"
+}

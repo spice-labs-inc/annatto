@@ -1,0 +1,276 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.17"
+      },
+      {
+         "name" : "Dist::Zilla",
+         "scope" : "dev",
+         "versionConstraint" : "5"
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::MinimumPerl",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::OnlyCorePrereqs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::Prereqs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::ReleaseStatus::FromVersion",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::Plugin::RemovePrereqs",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Dist::Zilla::PluginBundle::DAGOLDEN",
+         "scope" : "dev",
+         "versionConstraint" : "0.072"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IO::Handle",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "IPC::Open3",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Coverage::TrustPod",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Pod::Wordlist",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Software::License::Apache_2_0",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::CPAN::Meta",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::MinimumVersion",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Perl::Critic",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "Test::Pod::Coverage",
+         "scope" : "dev",
+         "versionConstraint" : "1.08"
+      },
+      {
+         "name" : "Test::Portability::Files",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Spelling",
+         "scope" : "dev",
+         "versionConstraint" : "0.12"
+      },
+      {
+         "name" : "Test::Version",
+         "scope" : "dev",
+         "versionConstraint" : "1"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Cwd",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Digest",
+         "scope" : "runtime",
+         "versionConstraint" : "1.03"
+      },
+      {
+         "name" : "Digest::SHA",
+         "scope" : "runtime",
+         "versionConstraint" : "5.45"
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : "5.57"
+      },
+      {
+         "name" : "Fcntl",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Compare",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Copy",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Glob",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : "2.07"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : "0.86"
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "File::stat",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "constant",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "overload",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings::register",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Digest::MD5",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Basename",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : "0.86"
+      },
+      {
+         "name" : "File::Spec::Functions",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Spec::Unix",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "test",
+         "versionConstraint" : "0.19"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "lib",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "open",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "File path utility",
+   "license" : "apache_2_0",
+   "name" : "Path-Tiny",
+   "publishedAt" : null,
+   "publisher" : "David Golden <dagolden@cpan.org>",
+   "simpleName" : "Path-Tiny",
+   "version" : "0.146"
+}

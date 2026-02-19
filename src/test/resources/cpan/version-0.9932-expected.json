@@ -1,0 +1,36 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "test",
+         "versionConstraint" : "0.13"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.45"
+      },
+      {
+         "name" : "base",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Structured version objects",
+   "license" : "perl_5",
+   "name" : "version",
+   "publishedAt" : null,
+   "publisher" : "John Peacock <jpeacock@cpan.org>",
+   "simpleName" : "version",
+   "version" : "0.9932"
+}

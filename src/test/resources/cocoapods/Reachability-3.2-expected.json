@@ -1,0 +1,12 @@
+{
+  "name": "Reachability",
+  "simpleName": "Reachability",
+  "version": "3.2",
+  "description": "ARC and GCD Compatible Reachability Class for iOS and OS X. Drop in replacement for Apple Reachability.",
+  "license": "BSD",
+  "publisher": "Tony Million",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

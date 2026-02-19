@@ -1,0 +1,12 @@
+{
+  "name": "Toast-Swift",
+  "simpleName": "Toast-Swift",
+  "version": "5.1.1",
+  "description": "A Swift extension that adds toast notifications to the UIView object class.",
+  "license": "MIT",
+  "publisher": "Charles Scalesse",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}

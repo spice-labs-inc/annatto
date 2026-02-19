@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "hackney",
+      "scope": "runtime",
+      "versionConstraint": "~> 1.17"
+    }
+  ],
+  "description": "Yet Another HTTP client for Elixir powered by hackney",
+  "license": "MIT",
+  "name": "httpoison",
+  "publishedAt": null,
+  "publisher": null,
+  "simpleName": "httpoison",
+  "version": "2.2.1"
+}

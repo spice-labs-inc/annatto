@@ -1,0 +1,51 @@
+{
+   "dependencies" : [
+      {
+         "name" : "File::Spec",
+         "scope" : "build",
+         "versionConstraint" : "0.82"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "build",
+         "versionConstraint" : "0.88"
+      },
+      {
+         "name" : "DBI",
+         "scope" : "build",
+         "versionConstraint" : "1.57"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.48"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "build",
+         "versionConstraint" : "0.82"
+      },
+      {
+         "name" : "DBI",
+         "scope" : "runtime",
+         "versionConstraint" : "1.57"
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Tie::Hash",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "Self Contained SQLite RDBMS in a DBI Driver",
+   "license" : "perl_5",
+   "name" : "DBD-SQLite",
+   "publishedAt" : null,
+   "publisher" : "Adam Kennedy <adamk@cpan.org>",
+   "simpleName" : "DBD-SQLite",
+   "version" : "1.76"
+}

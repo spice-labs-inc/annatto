@@ -1,0 +1,501 @@
+{
+   "dependencies" : [
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "build",
+         "versionConstraint" : "6.78"
+      },
+      {
+         "name" : "File::ShareDir::Install",
+         "scope" : "build",
+         "versionConstraint" : "0.06"
+      },
+      {
+         "name" : "Test::CleanNamespaces",
+         "scope" : "dev",
+         "versionConstraint" : "0.15"
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "dev",
+         "versionConstraint" : "0.94"
+      },
+      {
+         "name" : "Test::Pod",
+         "scope" : "dev",
+         "versionConstraint" : "1.41"
+      },
+      {
+         "name" : "strict",
+         "scope" : "dev",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "App::Cmd::Command::version",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "App::Cmd::Setup",
+         "scope" : "runtime",
+         "versionConstraint" : "0.330"
+      },
+      {
+         "name" : "App::Cmd::Tester",
+         "scope" : "runtime",
+         "versionConstraint" : "0.306"
+      },
+      {
+         "name" : "App::Cmd::Tester::CaptureExternal",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Archive::Tar",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Converter",
+         "scope" : "runtime",
+         "versionConstraint" : "2.101550"
+      },
+      {
+         "name" : "CPAN::Meta::Merge",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Prereqs",
+         "scope" : "runtime",
+         "versionConstraint" : "2.120630"
+      },
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "runtime",
+         "versionConstraint" : "2.121"
+      },
+      {
+         "name" : "CPAN::Meta::Validator",
+         "scope" : "runtime",
+         "versionConstraint" : "2.101550"
+      },
+      {
+         "name" : "CPAN::Uploader",
+         "scope" : "runtime",
+         "versionConstraint" : "0.103004"
+      },
+      {
+         "name" : "Carp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::INI::Reader",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::MVP",
+         "scope" : "runtime",
+         "versionConstraint" : "2.200011"
+      },
+      {
+         "name" : "Config::MVP::Assembler",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::MVP::Assembler::WithBundles",
+         "scope" : "runtime",
+         "versionConstraint" : "2.200010"
+      },
+      {
+         "name" : "Config::MVP::Reader",
+         "scope" : "runtime",
+         "versionConstraint" : "2.101540"
+      },
+      {
+         "name" : "Config::MVP::Reader::Findable::ByExtension",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::MVP::Reader::Finder",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Config::MVP::Reader::INI",
+         "scope" : "runtime",
+         "versionConstraint" : "2.101461"
+      },
+      {
+         "name" : "Config::MVP::Section",
+         "scope" : "runtime",
+         "versionConstraint" : "2.200009"
+      },
+      {
+         "name" : "Data::Dumper",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Data::Section",
+         "scope" : "runtime",
+         "versionConstraint" : "0.200002"
+      },
+      {
+         "name" : "DateTime",
+         "scope" : "runtime",
+         "versionConstraint" : "0.44"
+      },
+      {
+         "name" : "Digest::MD5",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Encode",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::Manifest",
+         "scope" : "runtime",
+         "versionConstraint" : "1.66"
+      },
+      {
+         "name" : "File::Copy::Recursive",
+         "scope" : "runtime",
+         "versionConstraint" : "0.41"
+      },
+      {
+         "name" : "File::Find::Rule",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Path",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::ShareDir",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::ShareDir::Install",
+         "scope" : "runtime",
+         "versionConstraint" : "0.03"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::Temp",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "File::pushd",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "JSON::MaybeXS",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "List::Util",
+         "scope" : "runtime",
+         "versionConstraint" : "1.45"
+      },
+      {
+         "name" : "Log::Dispatchouli",
+         "scope" : "runtime",
+         "versionConstraint" : "1.102220"
+      },
+      {
+         "name" : "Mixin::Linewise::Readers",
+         "scope" : "runtime",
+         "versionConstraint" : "0.100"
+      },
+      {
+         "name" : "Module::CoreList",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Module::Runtime",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Moose",
+         "scope" : "runtime",
+         "versionConstraint" : "0.92"
+      },
+      {
+         "name" : "Moose::Role",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Moose::Util::TypeConstraints",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::LazyRequire",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::Role::Parameterized",
+         "scope" : "runtime",
+         "versionConstraint" : "1.01"
+      },
+      {
+         "name" : "MooseX::SetOnce",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::Types",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::Types::Moose",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "MooseX::Types::Perl",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "PPI::Document",
+         "scope" : "runtime",
+         "versionConstraint" : "1.222"
+      },
+      {
+         "name" : "Params::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Path::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : "0.052"
+      },
+      {
+         "name" : "Perl::PrereqScanner",
+         "scope" : "runtime",
+         "versionConstraint" : "1.016"
+      },
+      {
+         "name" : "Pod::Simple",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Scalar::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Software::License",
+         "scope" : "runtime",
+         "versionConstraint" : "0.104001"
+      },
+      {
+         "name" : "Software::LicenseUtils",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "String::Formatter",
+         "scope" : "runtime",
+         "versionConstraint" : "0.100680"
+      },
+      {
+         "name" : "String::RewritePrefix",
+         "scope" : "runtime",
+         "versionConstraint" : "0.006"
+      },
+      {
+         "name" : "Sub::Exporter",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Sub::Exporter::ForMethods",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Sub::Exporter::Util",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Term::ANSIColor",
+         "scope" : "runtime",
+         "versionConstraint" : "5.00"
+      },
+      {
+         "name" : "Term::Encoding",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Term::ReadKey",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Term::ReadLine",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Term::UI",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Deep",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Text::Glob",
+         "scope" : "runtime",
+         "versionConstraint" : "0.08"
+      },
+      {
+         "name" : "Text::Template",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Try::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "YAML::Tiny",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "autodie",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "experimental",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "namespace::autoclean",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "parent",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "utf8",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "version",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "warnings",
+         "scope" : "runtime",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "CPAN::Meta::Check",
+         "scope" : "test",
+         "versionConstraint" : "0.011"
+      },
+      {
+         "name" : "CPAN::Meta::Requirements",
+         "scope" : "test",
+         "versionConstraint" : "2.121"
+      },
+      {
+         "name" : "ExtUtils::MakeMaker",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "ExtUtils::Manifest",
+         "scope" : "test",
+         "versionConstraint" : "1.66"
+      },
+      {
+         "name" : "File::Spec",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Software::License::None",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::FailWarnings",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::Fatal",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::File::ShareDir",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "Test::More",
+         "scope" : "test",
+         "versionConstraint" : "0.96"
+      },
+      {
+         "name" : "lib",
+         "scope" : "test",
+         "versionConstraint" : null
+      },
+      {
+         "name" : "strict",
+         "scope" : "test",
+         "versionConstraint" : null
+      }
+   ],
+   "description" : "distribution builder; installer not included!",
+   "license" : "perl_5",
+   "name" : "Dist-Zilla",
+   "publishedAt" : null,
+   "publisher" : "Ricardo SIGNES 😏 <cpan@semiotic.systems>",
+   "simpleName" : "Dist-Zilla",
+   "version" : "6.032"
+}

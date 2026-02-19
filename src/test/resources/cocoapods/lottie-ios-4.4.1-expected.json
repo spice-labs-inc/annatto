@@ -1,0 +1,12 @@
+{
+  "name": "lottie-ios",
+  "simpleName": "lottie-ios",
+  "version": "4.4.1",
+  "description": "A library to render native animations from bodymovin json",
+  "license": "Apache",
+  "publisher": "Brandon Withrow, Cal Stephens",
+  "publishedAt": null,
+  "dependencies": [
+
+  ]
+}
