@@ -19,6 +19,10 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Identifies the 11 package ecosystems supported by Annatto.
  * Each ecosystem has a display name and a PURL type string.
+ * (tested by {@code EcosystemIdTest.allElevenEcosystemsDefined},
+ * {@code EcosystemIdTest.allEcosystemsHaveDisplayName},
+ * {@code EcosystemIdTest.allEcosystemsHavePurlType},
+ * {@code EcosystemIdTest.purlTypeMappingsAreCorrect})
  */
 public enum EcosystemId {
 

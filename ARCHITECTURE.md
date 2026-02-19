@@ -4,12 +4,12 @@
 
 Annatto integrates with Goat Rodeo via the `rodeo-components` plugin system. The lifecycle is:
 
-1. **Discovery**: `AnnattoComponent` is found via `ServiceLoader` from `META-INF/services/io.spicelabs.rodeocomponents.RodeoComponent`
-2. **initialize()**: Validates runtime environment
+1. **Discovery**: `AnnattoComponent` is found via `ServiceLoader` from `META-INF/services/io.spicelabs.rodeocomponents.RodeoComponent`. Tests: `AnnattoComponentTest.serviceLoaderRegistration_isPresent`
+2. **initialize()**: Validates runtime environment. Tests: `AnnattoComponentTest.initialize_doesNotThrow`
 3. **exportAPIFactories()**: Annatto does not export APIs
-4. **importAPIFactories()**: Obtains `ArtifactHandlerRegistrar` and registers `AnnattoProcessFilter`
-5. **onLoadingComplete()**: Final validation
-6. **shutDown()**: Releases acquired APIs
+4. **importAPIFactories()**: Obtains `ArtifactHandlerRegistrar` and registers `AnnattoProcessFilter` with all 11 ecosystem handlers
+5. **onLoadingComplete()**: Final validation. Tests: `AnnattoComponentTest.onLoadingComplete_doesNotThrow`
+6. **shutDown()**: Releases acquired APIs. Tests: `AnnattoComponentTest.shutDown_isSafeWithoutInitialization`
 
 ## Metadata Extraction Pipeline
 
@@ -24,13 +24,20 @@ Artifact File
     -> EcosystemHandler.end()                (cleanup)
 ```
 
+Each step is tested per-ecosystem:
+- `filterByName()`: `AnnattoProcessFilterTest.detectEcosystem_*` (20+ tests)
+- `begin()`: every `*HandlerTest.begin_returnsMementoWithMetadata` + `begin_neverThrows` (50 parameterized)
+- `getMetadata()`: every `*HandlerTest.getMetadata_returnsPopulatedList`
+- `getPurls()`: every `*HandlerTest.getPurls_correctFormat` + `getPurls_neverThrows` (50 parameterized)
+- `end()`: every `*HandlerTest.end_doesNotThrow`
+
 ## Thread Safety Model
 
-- All records are immutable (`List.copyOf()`, `Map.copyOf()`)
-- No shared mutable state in handlers - each `begin()` creates a fresh memento
-- `AnnattoProcessFilter` is stateless (only inspects filenames)
-- `AnnattoComponent` uses `AtomicReference` for fields set during lifecycle
-- Ecosystem extractors are stateless pure functions: input -> output
+- All records are immutable (`List.copyOf()`, `Map.copyOf()`). Tests: `MetadataResult` compact constructor calls `List.copyOf(dependencies)`
+- No shared mutable state in handlers — each `begin()` creates a fresh memento. Tests: every `*HandlerTest.handlerIsolation_noInterference` (e.g. `CpanHandlerTest.handlerIsolation_noInterference`)
+- `AnnattoProcessFilter` is stateless (only inspects filenames). Tests: `AnnattoProcessFilterTest.detectEcosystem_*` (20+ detection tests)
+- `AnnattoComponent` uses `AtomicReference` for fields set during lifecycle. Tests: `AnnattoComponentTest.shutDown_isSafeWithoutInitialization`
+- Ecosystem extractors are stateless pure functions (private constructor, static methods): input -> output
 - Concurrency through immutability and the memento pattern
 
 ## Per-Ecosystem Structure
@@ -65,10 +72,13 @@ All ecosystems map to the same `MetadataTag` enum:
 
 During corpus preparation (not during normal test runs):
 
-1. Download a real package from the ecosystem registry
-2. Run `docker run annatto-<ecosystem>-validator <package-file>` -> outputs JSON
-3. Upload both the package and the expected JSON to the test data server
-4. Tests compare Annatto output against the expected JSON
+1. Download real packages from the ecosystem registry using `docker/<ecosystem>/download.sh`
+2. Run the Docker-based native extractor (`docker/<ecosystem>/extract.*`) to produce expected JSON
+3. Expected JSON files are stored in `src/test/resources/<ecosystem>/` (git-tracked)
+4. Package files are stored in `test-corpus/<ecosystem>/` (downloaded, gitignored)
+5. Tests compare Annatto Java extraction output against the expected JSON via `SourceOfTruth.loadExpected()`
+
+Each ecosystem has 50 real packages. Tests: all `*MetadataExtractorTest.extract*_matchesSourceOfTruth` parameterized tests (50 packages x 9 fields = 450 SoT comparisons per ecosystem)
 
 ## npm Ecosystem Details
 
@@ -272,6 +282,87 @@ During corpus preparation (not during normal test runs):
 **PURL**: `pkg:luarocks/name@version` (name lowercased, no namespace)
 
 **Test corpus**: 50 real LuaRocks packages downloaded from luarocks.org, source-of-truth metadata extracted via Lua in Docker (`docker/luarocks/`). 663 tests total.
+
+## CPAN Ecosystem Details
+
+**Format**: `.tar.gz` (gzip-compressed tar) containing `DistName-Version/META.json` (CPAN::Meta::Spec v2, preferred) or `META.yml` (v1.x)
+
+**Extraction pipeline** (`CpanMetadataExtractor`):
+1. Open `GZIPInputStream` -> `TarArchiveInputStream` (commons-compress)
+2. Scan tar entries for `META.json` (preferred) or `META.yml` at top level; path traversal rejection on entries with `..`
+3. Parse with Gson (JSON, v2 format) or SnakeYAML `SafeConstructor` with custom `StringPreservingResolver` (YAML, v1 format)
+4. For v2: extract prereqs from nested `prereqs.{phase}.requires` structure; for v1: extract from flat keys (`requires`, `build_requires`, `configure_requires`, `test_requires`)
+5. Map phases to scopes: runtime->"runtime", test->"test", build/configure->"build", develop->"dev"
+6. Normalize v1 license identifiers (perl->perl_5, gpl->gpl_1, artistic->artistic_1, etc.)
+
+**Key quirks** (documented in `CpanQuirks.java`, tested in `CpanMetadataExtractorTest`, `CpanHandlerTest`, and `CpanMetadataExtractorPropertyTest`):
+- **Q1 META.json preferred over META.yml**: Modern CPAN distributions ship both; JSON (v2 spec) is preferred. META v1 YAML uses flat prereqs keys and v1 license identifiers. Tests: `extractFromArchive_prefersMetaJson`, `extractFromArchive_fallsBackToMetaYml`, `package_yamlTiny_metaYmlOnly`
+- **Q2 Distribution name vs module name**: CPAN identifies packages by distribution name (hyphens, e.g. `Moose`), not module name (double-colons, e.g. `Moose::Role`). Distribution name used for both name and simpleName. Tests: `extractName_matchesSourceOfTruth` (50 packages), property `buildMetadataResult_simpleNameEqualsName`
+- **Q3 PAUSE ID unavailable from tarball**: Author PAUSE ID is in the upload path, not in metadata. PURL namespace is `Optional.empty()`. Tests: `getPurls_noNamespace`
+- **Q4 Prereqs = phases x relationships; only "requires" extracted**: Prereqs organized into phases (runtime, test, build, configure, develop) and relationships (requires, recommends, suggests, conflicts). Only "requires" extracted. Tests: `extractDependencies_matchSourceOfTruth` (50 packages), `extractDeps_onlyRequires`, `extractDeps_configureMapsToBuild`, `extractDeps_developMapsToDev`, `extractDeps_v1FlatStructure`
+- **Q5 Version constraint "0" maps to null**: Version "0" means "any version" and is normalized to null versionConstraint. Tests: `parseVersionConstraint_zeroMapsToNull`, property `versionZero_alwaysMapsToEmpty`
+- **Q6 No publishedAt in META.json**: CPAN metadata has no publication timestamp. publishedAt always null. Tests: `extractPublishedAt_matchesSourceOfTruth` (50 packages), property `buildMetadataResult_publishedAtAlwaysEmpty`
+- **Q7 License array; ["unknown"] maps to null**: License field is array of CPAN identifiers joined with " OR ". Single-element `["unknown"]` maps to null. v1 short names normalized (perl->perl_5, gpl->gpl_1). Tests: `extractLicense_matchesSourceOfTruth` (50 packages), `extractLicense_unknownMapsToNull`, `extractLicense_v1NormalizesPerl`, `extractLicense_v1NormalizesGpl`, property `extractLicense_unknownAlwaysEmpty`
+- **Q8 .tar.gz disambiguation with PyPI**: Both CPAN and PyPI use .tar.gz. Heuristic: if name portion (before version) contains uppercase, route to CPAN; else PyPI. Known limitation: all-lowercase CPAN names (e.g. `namespace-clean`) route to PyPI. Tests: `detectTarGzEcosystem_cpanUppercase`, `detectEcosystem_tarGz_lowercaseIsPypi`, `detectTarGzEcosystem_cpanHyphenatedUppercase`, `detectTarGzEcosystem_lowercaseCpanRoutesToPypi`, `detectTarGzEcosystem_constantRoutesToPypi`
+
+**PURL**: `pkg:cpan/Distribution-Name@version` (no namespace — PAUSE ID unavailable)
+
+**Test corpus**: 50 real CPAN distributions downloaded from cpan.metacpan.org, source-of-truth metadata extracted via Perl's `CPAN::Meta` in Docker (`docker/cpan/`). 607 tests total: 450 parameterized SoT, 10 named, 22 unit, 10 property, 111 handler, 5 filter.
+
+## CocoaPods Ecosystem Details
+
+**Format**: `.podspec.json` — plain JSON file downloaded from the CocoaPods trunk API. Native `.podspec` files are Ruby DSL and are NOT supported (Q1).
+
+**Extraction pipeline** (`CocoapodsMetadataExtractor`):
+1. Read `.podspec.json` as raw JSON string (10 MB size limit)
+2. Parse with Gson `JsonParser`
+3. Extract name, version, summary/description (summary preferred), license (string or object), authors (map/string/array with singular fallback)
+4. Aggregate dependencies: top-level `dependencies` map + subspec dependencies (filtered by `default_subspecs` or all subspecs); self-referencing deps filtered
+5. Version constraints from dependency version arrays (empty = null, multiple joined with ", ")
+6. All dependency scopes "runtime"
+
+**Key quirks** (documented in `CocoapodsQuirks.java`, tested in `CocoapodsMetadataExtractorTest`, `CocoapodsHandlerTest`, and `CocoapodsMetadataExtractorPropertyTest`):
+- **Q1 .podspec is Ruby code -> only .podspec.json supported**: Podspec files are executable Ruby DSL. Only the JSON serialization is processed. Tests: `extractFromJson_validPodspec`
+- **Q2 License polymorphism**: License can be string (`"MIT"`) or object (`{"type": "MIT"}`). We extract the "type" key from objects. Tests: `extractLicense_stringDirect`, `extractLicense_objectType`, `package_reachability_licenseObject`, property `extractLicense_stringPreserved`, property `extractLicense_objectTypeExtracted`
+- **Q3 Authors polymorphism**: Authors can be object map (`{"Name": "email"}`), string, or array. Fallback to singular "author" field. Tests: `extractPublisher_mapKeys`, `extractPublisher_string`, `extractPublisher_array`, `extractPublisher_fallbackToAuthor`
+- **Q4 Subspec dependency aggregation**: Pods may declare subspecs with their own dependencies. `default_subspecs` filtering honored; self-referencing deps (pod/subspec) filtered. Tests: `extractDeps_subspecDefaultsOnly`, `extractDeps_selfReferencingFiltered`, `package_afNetworking_selfReferencingFiltered`, `package_moya_defaultSubspecs`, `package_firebase_manySubspecs`, property `extractDeps_selfReferencingAlwaysFiltered`
+- **Q5 Dependency version arrays**: Version constraints are arrays. Empty array = null (any version). Multiple entries joined with ", ". Tests: `extractDeps_emptyVersionIsNull`, `extractDeps_multipleConstraints`, `extractDeps_allRuntime`
+- **Q6 No publishedAt**: podspec.json has no publication timestamp. publishedAt always null. Tests: `extractPublishedAt_alwaysNull` (50 packages), property `buildMetadataResult_publishedAtAlwaysEmpty`
+- **Q7 PURL name preserves case**: CocoaPods pod names are case-sensitive. PURL preserves original casing: `pkg:cocoapods/AFNetworking@4.0.1`. Tests: `getPurls_preservesCase`, `package_lottieIos_caseSensitive`
+
+**PURL**: `pkg:cocoapods/Name@version` (no namespace, case-sensitive name)
+
+**Test corpus**: 50 real CocoaPods podspec.json files downloaded from trunk.cocoapods.org, source-of-truth metadata extracted via Ruby in Docker (`docker/cocoapods/`). 592 tests total: 450 parameterized SoT, 9 named, 25 unit, 8 property, 109 handler.
+
+## Hex Ecosystem Details
+
+**Format**: `.tar` (plain tar, NOT gzip-compressed) containing `VERSION`, `CHECKSUM`, `metadata.config`, and `contents.tar.gz`. The `metadata.config` file is in Erlang external term format.
+
+**Custom Erlang term parser** (no external dependency): Annatto includes a purpose-built parser in two layers:
+- `ErlangTermTokenizer` — lexes Erlang term format into tokens: binary strings (`<<"text">>`), atoms (true/false/barewords), integers, tuples (`{}`), lists (`[]`), commas, dots. Handles `<<"text"/utf8>>` encoding specifiers, escape sequences, and `%` line comments. Security limits: 1 MB input, 50,000 tokens.
+- `ErlangTermParser` — parses tokenized terms into `Map<String, Object>`. Top-level: sequence of `{<<"key">>, value}.` statements. Automatically detects proplist patterns (list of 2-element tuples with string keys) and converts to Map. Security limits: max nesting depth 10, max 10,000 elements.
+
+**Extraction pipeline** (`HexMetadataExtractor`):
+1. Open `TarArchiveInputStream` directly (NO GZIPInputStream — Hex packages are plain tar; Q1)
+2. Path traversal rejection on entries with `..`; scan for exact match `metadata.config` (10 MB size limit)
+3. Tokenize via `ErlangTermTokenizer`, parse via `ErlangTermParser` into `Map<String, Object>`
+4. Extract name, version, description, licenses (list joined with " OR ")
+5. Parse requirements: handle BOTH Elixir (mix) format (list-of-proplists with "name" key inside) and Erlang (rebar3) format (proplist where dep name is outer key); Q8
+6. All dependency scopes "runtime"
+
+**Key quirks** (documented in `HexQuirks.java`, tested in `HexMetadataExtractorTest`, `HexHandlerTest`, `ErlangTermTokenizerTest`, `ErlangTermParserTest`, and `HexMetadataExtractorPropertyTest`):
+- **Q1 Plain .tar archive (not .tar.gz)**: Hex packages are plain tar archives, NOT gzip-compressed. Filter checks `.tar` AFTER `.tar.gz` and `.tar.bz2` to avoid false positives. Tests: `begin_returnsMementoWithMetadata`, `package_jason`, `detectEcosystem_tar_isHex`, `detectEcosystem_tarGz_notHex`
+- **Q2 Erlang term format (not JSON/YAML)**: `metadata.config` uses Erlang external term format (`{<<"key">>, value}.` statements). Custom tokenizer and parser required. Tests: `ErlangTermTokenizerTest` (20 tests), `ErlangTermParserTest` (20 tests), `tokenize_realMetadataFragment`, `parse_realJasonMetadata`
+- **Q3 Licenses list joined with " OR "**: `licenses` field is a list of strings. Multiple licenses joined with " OR ". Empty list -> null. Tests: `extractLicense_joinedWithOr`, `extractLicense_single`, `extractLicense_emptyListReturnsEmpty`, `extractLicense_missingKey`, property `extractLicense_multipleAlwaysJoined`
+- **Q4 No publisher or publishedAt**: `metadata.config` has no author/maintainer or timestamp fields. Both always null. Tests: property `buildMetadataResult_publisherAlwaysEmpty`, property `buildMetadataResult_publishedAtAlwaysEmpty`
+- **Q5 Dependencies are proplists, all "runtime"**: Requirements are lists of proplists with name, requirement, optional, app, repository fields. All dependencies scope "runtime". Tests: `extractDeps_allRuntime`, `extractDeps_emptyList`, `extractDeps_missingKey`, `extractDeps_sortedByName`, property `extractDeps_allScopesRuntime`
+- **Q6 PURL name lowercased per purl-spec**: Package names in PURL must be lowercased: `pkg:hex/phoenix@1.7.10`. Original case preserved in MetadataResult name/simpleName. Tests: `getPurls_correctFormat`, `getPurls_nameLowercased`
+- **Q7 Erlang and Elixir packages coexist**: Hex serves both ecosystems. The `build_tools` field indicates tooling (`mix`, `rebar3`, `erlang.mk`). Metadata format is identical. Tests: `package_cowboy_erlangPackage`, `package_ranch_erlang`, `package_hackney_erlang`
+- **Q8 Two requirement formats (Elixir mix vs Erlang rebar3)**: Elixir packages use list of proplists with "name" keys inside. Erlang packages use proplist where dep name is the outer key. Both formats handled transparently. Tests: `extractDeps_mixFormat`, `extractDeps_rebar3Format`
+
+**PURL**: `pkg:hex/name@version` (name lowercased, no namespace)
+
+**Test corpus**: 50 real Hex packages downloaded from repo.hex.pm, source-of-truth metadata extracted via Elixir's `:erl_scan`/`:erl_parse` in Docker (`docker/hex/`). 635 tests total: 450 parameterized SoT, 10 named, 16 unit, 7 property, 109 handler, 2 filter, 20 tokenizer, 20 parser.
 
 ## Exception Hierarchy
 

@@ -34,9 +34,11 @@ import java.util.Set;
 /**
  * Process filter that claims artifacts belonging to Annatto's supported ecosystems
  * based on filename extension and MIME type. This filter is stateless and thread-safe.
+ * (tested by {@code AnnattoProcessFilterTest} — 20+ extension routing tests)
  *
  * <p>For each claimed artifact, the filter creates a {@link RodeoProcessItems} that
- * provides the correct ecosystem-specific {@link ArtifactHandler}.</p>
+ * provides the correct ecosystem-specific {@link ArtifactHandler}.
+ * (tested by {@code AnnattoProcessFilterTest.getName_returnsAnnatto})</p>
  */
 public final class AnnattoProcessFilter implements RodeoProcessFilter {
 

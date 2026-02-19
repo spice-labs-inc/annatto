@@ -56,7 +56,7 @@
 
         <!-- Compression libraries -->
         <xz.version>1.9</xz.version>
-        <zstd.version>1.5.5-6</zstd.version>
+        <aircompressor.version>0.27</aircompressor.version>
         <commons-compress.version>1.26.0</commons-compress.version>
 
         <!-- Parsing libraries -->
@@ -127,11 +127,11 @@
             <version>${xz.version}</version>
         </dependency>
 
-        <!-- Zstd decompression -->
+        <!-- Zstd decompression (pure Java, no JNI) -->
         <dependency>
-            <groupId>com.github.luben</groupId>
-            <artifactId>zstd-jni</artifactId>
-            <version>${zstd.version}</version>
+            <groupId>io.airlift</groupId>
+            <artifactId>aircompressor</artifactId>
+            <version>${aircompressor.version}</version>
         </dependency>
 
         <!-- SLF4J logging facade -->

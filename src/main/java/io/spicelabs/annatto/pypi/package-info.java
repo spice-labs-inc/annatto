@@ -19,16 +19,24 @@
  *
  * <p>Handles extraction of metadata from PyPI artifacts in two formats:</p>
  * <ul>
- *   <li>{@code .whl} — ZIP wheels containing {@code *.dist-info/METADATA}</li>
- *   <li>{@code .tar.gz} — gzip-compressed tar sdists containing {@code PKG-INFO}</li>
+ *   <li>{@code .whl} — ZIP wheels containing {@code *.dist-info/METADATA}
+ *       (tested by {@code PypiMetadataExtractorTest.wheelPackage_requests_extractsCorrectly})</li>
+ *   <li>{@code .tar.gz} — gzip-compressed tar sdists containing {@code PKG-INFO}
+ *       (tested by {@code PypiMetadataExtractorTest.sdistPackage_cffi_extractsCorrectly},
+ *       {@code AnnattoProcessFilterTest.detectEcosystem_tarGz_lowercaseIsPypi})</li>
  * </ul>
  *
  * <p>Both metadata files use RFC 822 (email-style) header format with support for
  * multi-line continuation and repeated headers (e.g., {@code Requires-Dist},
- * {@code Classifier}).</p>
+ * {@code Classifier}).
+ * (tested by {@code PypiMetadataExtractorTest.parseRfc822Headers_basicHeaders},
+ * {@code PypiMetadataExtractorTest.parseRfc822Headers_continuationLines},
+ * {@code PypiMetadataExtractorTest.parseRfc822Headers_repeatedHeaders})</p>
  *
  * <p>Produces PURLs of the form {@code pkg:pypi/normalized-name@version} where
- * the name is normalized per PEP 503 (lowercase, runs of [-_.] collapsed to single hyphen).</p>
+ * the name is normalized per PEP 503 (lowercase, runs of [-_.] collapsed to single hyphen).
+ * (tested by {@code PurlBuilderTest.forPypi_normalizesName},
+ * {@code PypiMetadataExtractorTest.normalizeName_collapsesSpecialCharacters})</p>
  *
  * @see PypiMetadataExtractor
  * @see PypiHandler

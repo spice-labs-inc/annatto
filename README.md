@@ -15,9 +15,9 @@ Annatto extracts and normalizes package metadata from 11 ecosystems, integrating
 | RubyGems | `.gem` (metadata.gz YAML) | `pkg:gem` | **Implemented** |
 | Packagist | `.zip` (composer.json) | `pkg:composer` | **Implemented** |
 | Conda | `.tar.bz2` / `.conda` | `pkg:conda` | **Implemented** |
-| CocoaPods | `.podspec` / `.podspec.json` | `pkg:cocoapods` | Skeleton |
-| CPAN | `.tar.gz` (META.json) | `pkg:cpan` | Skeleton |
-| Hex | `.tar` (metadata.config) | `pkg:hex` | Skeleton |
+| CocoaPods | `.podspec.json` | `pkg:cocoapods` | **Implemented** |
+| CPAN | `.tar.gz` (META.json/META.yml) | `pkg:cpan` | **Implemented** |
+| Hex | `.tar` (metadata.config) | `pkg:hex` | **Implemented** |
 | LuaRocks | `.src.rock` / `.rockspec` | `pkg:luarocks` | **Implemented** |
 
 ## Prerequisites

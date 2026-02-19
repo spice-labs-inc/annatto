@@ -19,7 +19,9 @@
  *
  * <h2>Artifact Format</h2>
  * <p>A Packagist artifact is a {@code .zip} archive (typically a GitHub zipball) containing
- * a {@code composer.json} manifest at the root or within a single top-level directory.</p>
+ * a {@code composer.json} manifest at the root or within a single top-level directory.
+ * (tested by {@code PackagistMetadataExtractorTest.package_monolog_runtimeDeps},
+ * {@code AnnattoProcessFilterTest.detectEcosystem_zipWithoutAtV_isPackagist})</p>
  *
  * <h2>Extraction Pipeline</h2>
  * <ol>
@@ -30,12 +32,16 @@
  *   <li>Parse JSON via Gson {@code JsonParser}</li>
  *   <li>Extract name, simpleName, version, description, license, publisher, dependencies</li>
  *   <li>Filter platform dependencies ({@code php}, {@code ext-*}, {@code lib-*}) from
- *       require/require-dev sections</li>
+ *       require/require-dev sections
+ *       (tested by {@code PackagistMetadataExtractorTest.package_symfony_console_platformDepsFiltered})</li>
  * </ol>
+ * <p>(pipeline tested by 9 parameterized SoT tests in {@code PackagistMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
  * <h2>PURL</h2>
  * <p>{@code pkg:composer/vendor/name@version} — empty when version is absent from
- * {@code composer.json} (which is the common case; see {@link io.spicelabs.annatto.packagist.PackagistQuirks Q1}).</p>
+ * {@code composer.json} (which is the common case; see {@link io.spicelabs.annatto.packagist.PackagistQuirks Q1}).
+ * (tested by {@code PurlBuilderTest.forPackagist_splitsVendor},
+ * {@code PackagistMetadataExtractorTest.package_version_absent})</p>
  *
  * @see io.spicelabs.annatto.packagist.PackagistHandler
  * @see io.spicelabs.annatto.packagist.PackagistMetadataExtractor

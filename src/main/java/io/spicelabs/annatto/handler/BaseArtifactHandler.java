@@ -37,9 +37,11 @@ import java.util.Optional;
  * Abstract base class for all ecosystem-specific artifact handlers.
  * Provides default implementations for shared lifecycle methods
  * and delegates ecosystem-specific logic to subclasses.
+ * (tested indirectly by all 11 ecosystem {@code *HandlerTest} classes)
  *
  * <p>Handlers are stateless; all per-artifact state is stored in the {@link BaseMemento}
- * created during {@link #begin}.</p>
+ * created during {@link #begin}.
+ * (tested by {@code *HandlerTest.begin_*} and {@code *HandlerTest.getPurls_*} across all ecosystems)</p>
  */
 public abstract class BaseArtifactHandler implements ArtifactHandler {
 

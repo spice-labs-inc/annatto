@@ -27,7 +27,7 @@ import io.spicelabs.annatto.common.ParsedDependency;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-import org.apache.commons.compress.compressors.zstandard.ZstdCompressorInputStream;
+import io.airlift.compress.zstd.ZstdInputStream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -159,7 +159,7 @@ public final class CondaMetadataExtractor {
     private static @NotNull CondaArchiveData extractInfoFromZstdTar(
             @NotNull InputStream zstdStream, @NotNull String filename)
             throws MetadataExtractionException, MalformedPackageException {
-        try (ZstdCompressorInputStream zstdIn = new ZstdCompressorInputStream(zstdStream);
+        try (ZstdInputStream zstdIn = new ZstdInputStream(zstdStream);
              TarArchiveInputStream tarIn = new TarArchiveInputStream(zstdIn, StandardCharsets.UTF_8.name())) {
             String indexJson = null;
             String aboutJson = null;

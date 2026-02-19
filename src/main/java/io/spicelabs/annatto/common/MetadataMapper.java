@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 /**
  * Maps a {@link MetadataResult} to a list of {@link Metadata} instances
  * using the rodeo-components {@link MetadataTag} enum.
+ * (tested by {@code MetadataMapperTest} — 3 tests covering full mapping,
+ * empty optionals, and dependency formatting)
  */
 public final class MetadataMapper {
 

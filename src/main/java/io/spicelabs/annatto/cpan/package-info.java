@@ -19,14 +19,19 @@
  *
  * <h2>Extraction Pipeline</h2>
  * <ol>
- *   <li>Decompress .tar.gz (GZIPInputStream + TarArchiveInputStream)</li>
- *   <li>Find META.json (preferred) or META.yml at top level</li>
+ *   <li>Decompress .tar.gz (GZIPInputStream + TarArchiveInputStream)
+ *       (tested by {@code AnnattoProcessFilterTest.detectTarGzEcosystem_cpanUppercase})</li>
+ *   <li>Find META.json (preferred) or META.yml at top level
+ *       (tested by {@code CpanMetadataExtractorTest.package_yamlTiny})</li>
  *   <li>Parse with Gson (JSON) or SnakeYAML SafeConstructor (YAML)</li>
- *   <li>Build MetadataResult with dependencies from prereqs structure</li>
+ *   <li>Build MetadataResult with dependencies from prereqs structure
+ *       (tested by {@code CpanMetadataExtractorTest.package_moose_manyDeps})</li>
  * </ol>
+ * <p>(pipeline tested by 9 parameterized SoT tests in {@code CpanMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
  * <h2>PURL Format</h2>
- * <p>{@code pkg:cpan/Distribution-Name@version} — no namespace (PAUSE ID unavailable).</p>
+ * <p>{@code pkg:cpan/Distribution-Name@version} — no namespace (PAUSE ID unavailable).
+ * (tested by {@code PurlBuilderTest.forCpan_withPauseId})</p>
  *
  * <h2>Key Classes</h2>
  * <ul>

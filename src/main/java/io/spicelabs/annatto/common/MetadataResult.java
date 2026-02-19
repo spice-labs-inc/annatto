@@ -22,6 +22,8 @@ import java.util.Optional;
 /**
  * Normalized metadata extraction result that is common across all ecosystems.
  * All fields use {@link Optional} for values that may be absent rather than returning null.
+ * (tested by {@code MetadataMapperTest.toMetadataList_mapsAllPresentFields},
+ * {@code MetadataMapperTest.toMetadataList_skipsEmptyOptionals})
  *
  * @param ecosystem    the ecosystem this metadata was extracted from
  * @param name         the fully qualified package name (e.g., {@code @scope/name}, {@code vendor/package})

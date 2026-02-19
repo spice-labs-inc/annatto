@@ -18,9 +18,12 @@
  * RubyGems ecosystem support for Annatto.
  *
  * <h2>Artifact Format</h2>
- * <p>A {@code .gem} file is a plain tar archive (NOT gzip-wrapped) containing:</p>
+ * <p>A {@code .gem} file is a plain tar archive (NOT gzip-wrapped) containing:
+ * (tested by {@code RubygemsMetadataExtractorTest.gem_rake_zeroDeps},
+ * {@code AnnattoProcessFilterTest.detectEcosystem_gem_isRubygems})</p>
  * <ul>
- *   <li>{@code metadata.gz} &mdash; gzip-compressed YAML gemspec with package metadata</li>
+ *   <li>{@code metadata.gz} &mdash; gzip-compressed YAML gemspec with package metadata
+ *       (tested by {@code RubygemsMetadataExtractorTest.isMetadataGz_standardEntry})</li>
  *   <li>{@code data.tar.gz} &mdash; gzip-compressed tar of the actual library source files</li>
  *   <li>{@code checksums.yaml.gz} &mdash; gzip-compressed checksums</li>
  * </ul>
@@ -33,9 +36,11 @@
  *   <li>Parse with SnakeYAML {@code SafeConstructor}</li>
  *   <li>Map fields to normalized {@link io.spicelabs.annatto.common.MetadataResult}</li>
  * </ol>
+ * <p>(pipeline tested by 9 parameterized SoT tests in {@code RubygemsMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
  * <h2>PURL</h2>
- * <p>{@code pkg:gem/name@version}</p>
+ * <p>{@code pkg:gem/name@version}
+ * (tested by {@code PurlBuilderTest.forRubyGems_simple})</p>
  *
  * @see RubygemsMetadataExtractor
  * @see RubygemsHandler

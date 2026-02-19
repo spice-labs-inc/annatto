@@ -25,6 +25,7 @@ import java.util.TreeMap;
 /**
  * Builds {@link PackageURL} instances for each supported ecosystem.
  * All methods are stateless pure functions.
+ * (tested by {@code PurlBuilderTest} — 18 method-level tests covering all 11 ecosystems)
  */
 public final class PurlBuilder {
 
@@ -33,6 +34,8 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for an npm package.
+     * (tested by {@code PurlBuilderTest.forNpm_unscopedPackage},
+     * {@code PurlBuilderTest.forNpm_scopedPackage})
      *
      * @param name    the package name (may include {@code @scope/} prefix)
      * @param version the package version
@@ -53,6 +56,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a PyPI package. Name is lowercased and hyphens normalized per PyPI conventions.
+     * (tested by {@code PurlBuilderTest.forPypi_normalizesName})
      *
      * @param name    the package name
      * @param version the package version
@@ -67,6 +71,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a Go module.
+     * (tested by {@code PurlBuilderTest.forGo_splitsModulePath})
      *
      * @param modulePath the full Go module path (e.g., {@code github.com/user/repo})
      * @param version    the module version
@@ -83,6 +88,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a Crates.io package.
+     * (tested by {@code PurlBuilderTest.forCrates_flatNamespace})
      *
      * @param name    the crate name
      * @param version the crate version
@@ -96,6 +102,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a RubyGems package.
+     * (tested by {@code PurlBuilderTest.forRubyGems_simple})
      *
      * @param name    the gem name
      * @param version the gem version
@@ -109,6 +116,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a Packagist (Composer) package.
+     * (tested by {@code PurlBuilderTest.forPackagist_splitsVendor})
      *
      * @param vendorAndName the full name in {@code vendor/package} format
      * @param version       the package version
@@ -129,6 +137,11 @@ public final class PurlBuilder {
     /**
      * Builds a PURL for a Conda package. Per purl-spec, Conda PURLs have no namespace
      * (channel is not available from the package file). Build and subdir are qualifiers.
+     * (tested by {@code PurlBuilderTest.forConda_nameAndVersion},
+     * {@code PurlBuilderTest.forConda_withBuildQualifier},
+     * {@code PurlBuilderTest.forConda_withSubdirQualifier},
+     * {@code PurlBuilderTest.forConda_withBothQualifiers},
+     * {@code PurlBuilderTest.forConda_noNamespace})
      *
      * @param name    the package name
      * @param version the package version
@@ -149,6 +162,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a CocoaPods podspec.
+     * (tested by {@code PurlBuilderTest.forCocoapods_simple})
      *
      * @param name    the pod name
      * @param version the pod version
@@ -162,6 +176,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a CPAN distribution.
+     * (tested by {@code PurlBuilderTest.forCpan_withPauseId})
      *
      * @param name    the distribution name
      * @param version the distribution version
@@ -176,6 +191,7 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a Hex package.
+     * (tested by {@code PurlBuilderTest.forHex_simple})
      *
      * @param name    the package name
      * @param version the package version
@@ -189,6 +205,9 @@ public final class PurlBuilder {
 
     /**
      * Builds a PURL for a LuaRocks package.
+     * (tested by {@code PurlBuilderTest.forLuaRocks_simple},
+     * {@code PurlBuilderTest.forLuaRocks_nameLowercased},
+     * {@code PurlBuilderTest.forLuaRocks_versionWithRevision})
      *
      * @param name    the rock name
      * @param version the rock version (may include revision suffix)

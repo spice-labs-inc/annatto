@@ -19,7 +19,10 @@
  *
  * <p>Handles extraction of metadata from Go module artifacts: {@code .zip} archives
  * from the Go module proxy containing {@code module@version/go.mod} and source files.
- * Produces PURLs of the form {@code pkg:golang/namespace/name@version}.</p>
+ * (tested by {@code GoMetadataExtractorTest.goModule_gin_extractsCorrectly},
+ * {@code AnnattoProcessFilterTest.detectEcosystem_zipWithAtV_isGo})
+ * Produces PURLs of the form {@code pkg:golang/namespace/name@version}.
+ * (tested by {@code PurlBuilderTest.forGo_splitsModulePath})</p>
  *
  * <p>The extraction pipeline:</p>
  * <ol>
@@ -29,6 +32,7 @@
  *   <li>Parse {@code go.mod} for module path and require directives</li>
  *   <li>Map to normalized {@link io.spicelabs.annatto.common.MetadataResult}</li>
  * </ol>
+ * <p>(pipeline tested by 9 parameterized SoT tests in {@code GoMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
  * @see io.spicelabs.annatto.go.GoHandler
  * @see io.spicelabs.annatto.go.GoMetadataExtractor

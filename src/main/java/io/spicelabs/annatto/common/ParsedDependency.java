@@ -20,6 +20,8 @@ import java.util.Optional;
 
 /**
  * Represents a single dependency extracted from a package manifest.
+ * (tested by {@code ParsedDependencyTest.toFormattedString_withVersion},
+ * {@code ParsedDependencyTest.toFormattedString_withoutVersion})
  *
  * @param name              the dependency name
  * @param versionConstraint the version constraint string, if present

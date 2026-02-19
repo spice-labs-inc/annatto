@@ -45,12 +45,16 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * The main Annatto component that integrates with the Goat Rodeo plugin system.
  * Registers ecosystem-specific artifact handlers for all supported package ecosystems.
+ * (tested by {@code AnnattoComponentTest.getIdentity_returnsCorrectNameAndPublisher},
+ * {@code AnnattoComponentTest.initialize_doesNotThrow})
  *
  * <p>This class is thread-safe. Mutable fields are managed via {@link AtomicReference}
- * and are only set during the well-ordered lifecycle methods.</p>
+ * and are only set during the well-ordered lifecycle methods.
+ * (tested by {@code AnnattoComponentTest.shutDown_isSafeWithoutInitialization})</p>
  *
  * <p>Discovered via {@link java.util.ServiceLoader} from
- * {@code META-INF/services/io.spicelabs.rodeocomponents.RodeoComponent}.</p>
+ * {@code META-INF/services/io.spicelabs.rodeocomponents.RodeoComponent}.
+ * (tested by {@code AnnattoComponentTest.serviceLoaderRegistration_isPresent})</p>
  */
 public final class AnnattoComponent implements RodeoComponent {
 

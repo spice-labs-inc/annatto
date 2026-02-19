@@ -25,6 +25,8 @@ import java.util.Optional;
  * Base memento holding common fields shared across all ecosystem handlers.
  * Each ecosystem extends this with additional state as needed.
  * Mementos are created per-artifact in {@code begin()} and are not shared across threads.
+ * (tested indirectly by all 11 ecosystem {@code *HandlerTest} classes
+ * via {@code begin()} → memento → {@code getMetadata()}/{@code getPurls()})
  */
 public class BaseMemento implements ArtifactMemento {
 
