@@ -24,9 +24,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: test-corpus
-          key: test-corpus-${{ hashFiles('src/test/resources/**/*.json') }}
+          key: test-corpus-v2-${{ hashFiles('src/test/resources/**/*.json') }}
           restore-keys: |
-            test-corpus-
+            test-corpus-v2-
 
       - name: Build (skip tests)
         run: mvn clean install -DskipTests
@@ -68,9 +68,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: test-corpus
-          key: test-corpus-${{ hashFiles('src/test/resources/**/*.json') }}
+          key: test-corpus-v2-${{ hashFiles('src/test/resources/**/*.json') }}
           restore-keys: |
-            test-corpus-
+            test-corpus-v2-
 
       - name: Build (skip tests)
         run: mvn clean install -DskipTests -q

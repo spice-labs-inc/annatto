@@ -22,6 +22,7 @@ import io.spicelabs.annatto.ecosystem.luarocks.LuarocksPackage;
 import io.spicelabs.annatto.testutil.SourceOfTruthLoader;
 import io.spicelabs.annatto.testutil.SourceOfTruthLoader.PackageTestCase;
 import io.spicelabs.annatto.testutil.TestCorpusDownloader;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -68,6 +69,11 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * the source of truth JSON files in src/test/resources/<ecosystem>/.
  */
 class LanguagePackageReaderIntegrationTest {
+
+    @BeforeAll
+    static void downloadCorpus() throws IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+    }
 
     // --- Path-based routing tests ---
 
