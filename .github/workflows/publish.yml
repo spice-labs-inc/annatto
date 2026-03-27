@@ -1,64 +1,138 @@
-name: Publish
+name: Publish Annatto
 
 on:
   release:
     types: [published]
 
 jobs:
-  validate-tag:
-    runs-on: ubuntu-latest
+  publish_jars:
+    name: Publish JAR Artifacts
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      thread-ts: ${{ steps.release-notification.outputs.thread-ts }}
+      channel-id: ${{ steps.release-notification.outputs.channel-id }}
+
     steps:
-      - name: Validate tag format
+      - name: Notify release
+        id: release-notification
+        uses: spice-labs-inc/action-release-notification@v3.3
+        with:
+          type: release
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          username-mapping: ${{ vars.GH_SLACK_USERNAME_MAPPING }}
+          github-token: ${{ github.token }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Extract and Validate Version
+        id: version
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
           if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Tag '$TAG' does not match vX.Y.Z format"
+            echo "Error: Tag '$TAG' does not match semantic versioning (vX.Y.Z)"
             exit 1
           fi
+          VERSION="${TAG#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Validated version: $VERSION"
 
-  publish:
-    needs: validate-tag
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 21
+      - name: Set up JDK 21 and GitHub Maven auth
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: "21"
+          cache: "maven"
+          server-id: github
+          server-username: ${{ secrets.GH_USERNAME_SG }}
+          server-password: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          gpg-private-key: ${{ secrets.MAVEN_CENTRAL_GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.MAVEN_CENTRAL_GPG_PASSPHRASE }}
 
-      - name: Set version from tag
+      - name: Write settings.xml for GitHub + Maven Central
         run: |
-          TAG="${GITHUB_REF#refs/tags/v}"
-          mvn versions:set -DnewVersion="$TAG" -DgenerateBackupPoms=false
+          mkdir -p ~/.m2
+          cat <<EOF > ~/.m2/settings.xml
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-      - name: Build and test
-        run: mvn clean verify
+            <servers>
+              <server>
+                <id>github</id>
+                <username>${{ secrets.GH_USERNAME_SG }}</username>
+                <password>${{ secrets.GH_TOKEN }}</password>
+              </server>
+              <server>
+                <id>central</id>
+                <username>${{ secrets.MAVEN_CENTRAL_USERNAME }}</username>
+                <password>${{ secrets.MAVEN_CENTRAL_PASSWORD }}</password>
+              </server>
+            </servers>
 
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          </settings>
+          EOF
 
-      - name: Deploy to GitHub Packages
-        run: mvn deploy -P github -DskipTests
+      - name: Import GPG Key
+        run: |
+          echo "${{ secrets.MAVEN_CENTRAL_GPG_PRIVATE_KEY }}" | gpg --batch --import
+
+      - name: Set Release Version
+        run: |
+          mvn versions:set -DnewVersion=${{ steps.version.outputs.version }} -DgenerateBackupPoms=false
+
+      - name: Build and publish to GitHub Packages
+        run: mvn --batch-mode clean deploy -P github
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.MAVEN_CENTRAL_GPG_PASSPHRASE }}
 
-      - name: Deploy to Maven Central
-        run: mvn deploy -P maven-central -DskipTests
+      - name: Build and publish to Maven Central
+        run: mvn --batch-mode clean deploy -P maven-central
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.MAVEN_CENTRAL_GPG_PASSPHRASE }}
 
-      - name: Attach JARs to Release
+      - name: Upload JAR to Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            target/annatto-*.jar
+            target/annatto-${{ steps.version.outputs.version }}.jar
+            target/annatto-${{ steps.version.outputs.version }}-sources.jar
+            target/annatto-${{ steps.version.outputs.version }}-javadoc.jar
+
+  notify:
+    needs: [publish_jars]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployment status
+        id: deployment-status
+        shell: bash
+        run: |
+          JAR_STATUS="${{ needs.publish_jars.result }}"
+
+          if [ "$JAR_STATUS" == "success" ]; then
+            echo "overall_status=success" >> $GITHUB_OUTPUT
+            echo "message=✅ All components deployed successfully!" >> $GITHUB_OUTPUT
+          else
+            echo "overall_status=failure" >> $GITHUB_OUTPUT
+            echo "message=❌ JAR publishing failed." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify deployment result
+        uses: spice-labs-inc/action-release-notification@v3.3
+        with:
+          type: ${{ steps.deployment-status.outputs.overall_status == 'success' && 'deployment-success' || 'deployment-failure' }}
+          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+          username-mapping: ${{ vars.GH_SLACK_USERNAME_MAPPING }}
+          github-token: ${{ github.token }}
+          environment: production
+          thread-ts: ${{ needs.publish_jars.outputs.thread-ts }}
+          channel-id: ${{ needs.publish_jars.outputs.channel-id }}
