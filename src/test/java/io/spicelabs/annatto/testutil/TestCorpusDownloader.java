@@ -323,7 +323,17 @@ public final class TestCorpusDownloader {
                     continue;
                 }
 
-                Path target = CORPUS_DIR.resolve(entry.getName()).normalize();
+                // Strip leading directory prefix from tar entry names
+                // The archive has format: annatto-test-corpus/<ecosystem>/<file>
+                // We want to extract to: test-corpus/<ecosystem>/<file>
+                String entryName = entry.getName();
+                String strippedName = stripLeadingDirectory(entryName);
+                if (strippedName.isEmpty() || strippedName.equals("/")) {
+                    // Skip the root directory entry
+                    continue;
+                }
+
+                Path target = CORPUS_DIR.resolve(strippedName).normalize();
 
                 // Prevent path traversal attacks
                 // After normalization, target must still be within CORPUS_DIR
@@ -339,6 +349,19 @@ public final class TestCorpusDownloader {
                 }
             }
         }
+    }
+
+    /**
+     * Strips the leading directory component from a tar entry name.
+     * For example, "annatto-test-corpus/npm/lodash.tgz" becomes "npm/lodash.tgz"
+     */
+    private static String stripLeadingDirectory(String entryName) {
+        int firstSlash = entryName.indexOf('/');
+        if (firstSlash == -1) {
+            return entryName;
+        }
+        // Skip the first directory component
+        return entryName.substring(firstSlash + 1);
     }
 
     // ====================================================================================
