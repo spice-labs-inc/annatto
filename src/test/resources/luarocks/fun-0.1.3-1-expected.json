@@ -6,11 +6,5 @@
   "license": "MIT/X11",
   "publisher": "Roman Tsisyk <roman@tarantool.org>",
   "publishedAt": null,
-  "dependencies": [
-    {
-    "name": "lua",
-    "versionConstraint": null,
-    "scope": "runtime"
-    }
-  ]
+  "dependencies": []
 }

@@ -1,7 +1,7 @@
 {
     "name": "symfony/process",
     "simpleName": "process",
-    "version": null,
+    "version": "7.0.3",
     "description": "Executes commands in sub-processes",
     "license": "MIT",
     "publisher": "Fabien Potencier",

@@ -1,7 +1,7 @@
 {
     "name": "psr/http-server-handler",
     "simpleName": "http-server-handler",
-    "version": null,
+    "version": "1.0.2",
     "description": "Common interface for HTTP server-side request handler",
     "license": "MIT",
     "publisher": "PHP-FIG",

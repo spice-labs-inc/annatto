@@ -20,6 +20,14 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Cache test corpus
+        uses: actions/cache@v4
+        with:
+          path: test-corpus
+          key: test-corpus-${{ hashFiles('src/test/resources/**/*.json') }}
+          restore-keys: |
+            test-corpus-
+
       - name: Build (skip tests)
         run: mvn clean install -DskipTests
 
@@ -40,3 +48,39 @@ jobs:
           path: |
             target/surefire-reports/
             target/site/jacoco/
+
+  source-of-truth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Cache test corpus
+        uses: actions/cache@v4
+        with:
+          path: test-corpus
+          key: test-corpus-${{ hashFiles('src/test/resources/**/*.json') }}
+          restore-keys: |
+            test-corpus-
+
+      - name: Build (skip tests)
+        run: mvn clean install -DskipTests -q
+
+      - name: Run source-of-truth tests
+        run: mvn test -Dtest=SourceOfTruthIntegrationTest -DsourceOfTruth.enabled=true
+
+      - name: Archive SoT test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-of-truth-reports
+          path: target/surefire-reports/

@@ -1,7 +1,7 @@
 {
     "name": "squizlabs/php_codesniffer",
     "simpleName": "php_codesniffer",
-    "version": null,
+    "version": "3.9.0",
     "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
     "license": "BSD-3-Clause",
     "publisher": "Greg Sherwood",

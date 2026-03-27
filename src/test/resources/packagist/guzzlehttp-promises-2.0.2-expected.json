@@ -1,7 +1,7 @@
 {
     "name": "guzzlehttp/promises",
     "simpleName": "promises",
-    "version": null,
+    "version": "2.0.2",
     "description": "Guzzle promises library",
     "license": "MIT",
     "publisher": "Graham Campbell",

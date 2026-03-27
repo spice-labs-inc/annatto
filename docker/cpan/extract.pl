@@ -45,7 +45,7 @@ sub extract_metadata {
     my ($dist_file) = @_;
     my $tmpdir = tempdir(CLEANUP => 1);
 
-    system("tar", "xzf", $dist_file, "-C", $tmpdir) == 0
+    system("tar", "xzf", $dist_file, "-C", $tmpdir, "--no-same-owner") == 0
         or return { error => "tar extraction failed for $dist_file" };
 
     # Find META.json or META.yml (prefer .json)

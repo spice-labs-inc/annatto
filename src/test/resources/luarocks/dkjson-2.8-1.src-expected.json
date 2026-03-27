@@ -1,0 +1,10 @@
+{
+  "name": "dkjson",
+  "simpleName": "dkjson",
+  "version": "2.8-1",
+  "description": "David Kolf's JSON module for Lua",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

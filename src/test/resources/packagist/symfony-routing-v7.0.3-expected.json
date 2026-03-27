@@ -1,7 +1,7 @@
 {
     "name": "symfony/routing",
     "simpleName": "routing",
-    "version": null,
+    "version": "7.0.3",
     "description": "Maps an HTTP request to a set of configuration variables",
     "license": "MIT",
     "publisher": "Fabien Potencier",

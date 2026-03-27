@@ -1,7 +1,7 @@
 {
     "name": "symfony/finder",
     "simpleName": "finder",
-    "version": null,
+    "version": "7.0.0",
     "description": "Finds files and directories via an intuitive fluent interface",
     "license": "MIT",
     "publisher": "Fabien Potencier",

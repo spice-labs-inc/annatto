@@ -1,7 +1,7 @@
 {
     "name": "twig/twig",
     "simpleName": "twig",
-    "version": null,
+    "version": "3.8.0",
     "description": "Twig, the flexible, fast, and secure template language for PHP",
     "license": "BSD-3-Clause",
     "publisher": "Fabien Potencier",

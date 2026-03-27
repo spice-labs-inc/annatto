@@ -1,7 +1,7 @@
 {
     "name": "league/commonmark",
     "simpleName": "commonmark",
-    "version": null,
+    "version": "2.4.1",
     "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and GitHub-Flavored Markdown (GFM)",
     "license": "BSD-3-Clause",
     "publisher": "Colin O'Dell",

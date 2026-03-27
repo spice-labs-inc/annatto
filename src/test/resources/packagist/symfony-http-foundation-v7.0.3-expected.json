@@ -1,7 +1,7 @@
 {
     "name": "symfony/http-foundation",
     "simpleName": "http-foundation",
-    "version": null,
+    "version": "7.0.3",
     "description": "Defines an object-oriented layer for the HTTP specification",
     "license": "MIT",
     "publisher": "Fabien Potencier",

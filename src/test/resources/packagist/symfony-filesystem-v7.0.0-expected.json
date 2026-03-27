@@ -1,7 +1,7 @@
 {
     "name": "symfony/filesystem",
     "simpleName": "filesystem",
-    "version": null,
+    "version": "7.0.0",
     "description": "Provides basic utilities for the filesystem",
     "license": "MIT",
     "publisher": "Fabien Potencier",

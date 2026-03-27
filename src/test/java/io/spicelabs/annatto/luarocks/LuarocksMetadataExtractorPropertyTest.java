@@ -328,9 +328,9 @@ class LuarocksMetadataExtractorPropertyTest {
 
         assertThatNoException().isThrownBy(() -> {
             MetadataResult result = LuarocksMetadataExtractor.buildMetadataResult(data);
-            // Should only contain the one runtime dep ("lua"), not any EXT_LIB_*
-            assertThat(result.dependencies()).hasSize(1);
-            assertThat(result.dependencies().get(0).name()).isEqualTo("lua");
+            // "lua" is filtered as platform dependency, so deps should be empty
+            // Most importantly: no EXT_LIB_* entries
+            assertThat(result.dependencies()).isEmpty();
             for (ParsedDependency dep : result.dependencies()) {
                 assertThat(dep.name()).doesNotStartWith("EXT_LIB_");
             }

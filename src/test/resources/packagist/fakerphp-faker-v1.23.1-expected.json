@@ -1,7 +1,7 @@
 {
     "name": "fakerphp/faker",
     "simpleName": "faker",
-    "version": null,
+    "version": "1.23.1",
     "description": "Faker is a PHP library that generates fake data for you.",
     "license": "MIT",
     "publisher": "Fran\u00e7ois Zaninotto",

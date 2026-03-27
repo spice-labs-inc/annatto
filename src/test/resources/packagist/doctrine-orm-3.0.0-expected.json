@@ -1,7 +1,7 @@
 {
     "name": "doctrine/orm",
     "simpleName": "orm",
-    "version": null,
+    "version": "3.0.0",
     "description": "Object-Relational-Mapper for PHP",
     "license": "MIT",
     "publisher": "Guilherme Blanco",

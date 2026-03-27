@@ -1,0 +1,10 @@
+{
+  "name": "LuaSocket",
+  "simpleName": "LuaSocket",
+  "version": "3.1.0-1",
+  "description": "Network support for the Lua language",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

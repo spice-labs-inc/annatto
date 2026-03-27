@@ -1,0 +1,10 @@
+{
+  "name": "lua-cjson",
+  "simpleName": "lua-cjson",
+  "version": "2.1.0.10-1",
+  "description": "A fast JSON encoding/parsing module",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "ansicolors",
+  "simpleName": "ansicolors",
+  "version": "1.0.2-3",
+  "description": "Library for color Manipulation.",
+  "license": "MIT <http://opensource.org/licenses/MIT>",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

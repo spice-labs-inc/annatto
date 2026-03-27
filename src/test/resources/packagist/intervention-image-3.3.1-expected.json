@@ -1,7 +1,7 @@
 {
     "name": "intervention/image",
     "simpleName": "image",
-    "version": null,
+    "version": "3.3.1",
     "description": "PHP image manipulation",
     "license": "MIT",
     "publisher": "Oliver Vogel",

@@ -1,7 +1,7 @@
 {
     "name": "symfony/console",
     "simpleName": "console",
-    "version": null,
+    "version": "7.0.3",
     "description": "Eases the creation of beautiful and testable command line interfaces",
     "license": "MIT",
     "publisher": "Fabien Potencier",

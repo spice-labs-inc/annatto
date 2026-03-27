@@ -1,7 +1,7 @@
 {
     "name": "nikic/php-parser",
     "simpleName": "php-parser",
-    "version": null,
+    "version": "5.0.0",
     "description": "A PHP parser written in PHP",
     "license": "BSD-3-Clause",
     "publisher": "Nikita Popov",

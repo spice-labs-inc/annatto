@@ -210,7 +210,8 @@ local function build_output(env)
         if type(dep_table) ~= "table" then return end
         for _, dep_str in ipairs(dep_table) do
             local parsed = parse_dependency(dep_str)
-            if parsed then
+            -- Filter out platform dependencies (lua runtime)
+            if parsed and parsed.name ~= "lua" then
                 table.insert(deps, {
                     name = parsed.name,
                     versionConstraint = parsed.versionConstraint,
@@ -304,9 +305,11 @@ local function main()
                 -- Strip extension for output filename
                 local basename
                 if filename:match("%.src%.rock$") then
-                    basename = filename:gsub("%.src%.rock$", "")
+                    -- Preserve .src suffix for src.rock files: foo-1.0.src.rock -> foo-1.0.src
+                    basename = filename:gsub("%.src%.rock$", "") .. ".src"
                 elseif filename:match("%.all%.rock$") then
-                    basename = filename:gsub("%.all%.rock$", "")
+                    -- Preserve .all suffix for all.rock files: foo-1.0.all.rock -> foo-1.0.all
+                    basename = filename:gsub("%.all%.rock$", "") .. ".all"
                 else
                     basename = filename:gsub("%.[^.]+$", "")
                 end

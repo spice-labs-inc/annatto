@@ -1,7 +1,7 @@
 {
     "name": "illuminate/support",
     "simpleName": "support",
-    "version": null,
+    "version": "11.47.0",
     "description": "The Illuminate Support package.",
     "license": "MIT",
     "publisher": "Taylor Otwell",

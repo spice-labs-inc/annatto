@@ -36,6 +36,105 @@ Annatto is discovered automatically by Goat Rodeo via Java's `ServiceLoader` mec
 
 ---
 
+## Goat Rodeo Integration
+
+Annatto integrates into Goat Rodeo as a **strategy** following the same pattern as Baharat. The primary entry point is `LanguagePackageReader.read()`:
+
+### Scala Integration Example
+
+```scala
+import io.spicelabs.annatto.{LanguagePackageReader, PackageMetadata}
+import scala.jdk.CollectionConverters._
+import scala.jdk.OptionConverters._
+
+/** MIME types for all supported language package formats */
+val supportedMimeTypes: Set[String] = LanguagePackageReader.supportedMimeTypes().asScala.toSet
+// Returns: application/gzip, application/x-gzip, application/zip,
+//          application/x-tar, application/x-bzip2, application/json, text/x-lua
+
+/** Compute files to process using Annatto */
+def computeAnnattoFiles(
+    byUUID: ToProcess.ByUUID,
+    byName: ToProcess.ByName
+): (Vector[ToProcess], ByUUID, ByName, String) = {
+
+  val mine = for {
+    // For every type that has a MIME type that is supported
+    (_, wrapper) <- byUUID
+    if wrapper.mimeType.intersect(supportedMimeTypes).nonEmpty
+    // If we can create a package, then it's a thing we will handle
+    pkg <- Try(wrapper.withFile(f => LanguagePackageReader.read(f.toPath()))).toOption
+  } yield (wrapper, pkg)
+
+  val uuids: Set[String] = mine.map(_._1.uuid).toSet
+
+  val revisedByUUID = byUUID.filter { case (uuid, _) => !uuids.contains(uuid) }
+  val revisedByName = byName.filter { case (_, artifacts) =>
+    !artifacts.exists(a => uuids.contains(a.uuid))
+  }
+
+  (
+    mine.map { case (artifact, pkg) => Annatto(artifact, pkg) }.toVector,
+    revisedByUUID,
+    revisedByName,
+    "Annatto"
+  )
+}
+
+/** Extract metadata from an Annatto package */
+override def getMetadata(
+    artifact: ArtifactWrapper,
+    item: Item,
+    marker: SingleMarker
+): (TreeMap[String, TreeSet[StringOrPair]], AnnattoState) = {
+  val metadata: PackageMetadata = pkg.metadata()
+
+  // Compute dependencies as JSON array
+  val dependencies: JArray = JArray(
+    metadata.dependencies().asScala.toList.map { d =>
+      val scopePrefix = d.scope().toScala.map(_ + "/").getOrElse("")
+      JString(s"$scopePrefix${d.name()}@${d.versionConstraint()}")
+    }
+  )
+
+  // Build metadata tree using standard keys (MKC) and ad-hoc prefix
+  val adHoc = MKC.adHoc("Annatto")
+
+  val tm: TreeMap[String, TreeSet[StringOrPair]] =
+    TreeMap[String, TreeSet[StringOrPair]]()
+      +? maybeStringOrPair(MKC.NAME, metadata.name())
+      +? maybeStringOrPair(MKC.VERSION, metadata.version())
+      +? maybeStringOrPair(MKC.DESCRIPTION, metadata.description().toScala)
+      +? maybeStringOrPair(MKC.LICENSE, metadata.license().toScala)
+      +? maybeStringOrPair(MKC.PUBLISHER, metadata.publisher().toScala)
+      +? maybeStringOrPair(MKC.PUBLICATION_DATE, metadata.publishedAt().map(_.toString).toScala)
+      +? maybeStringOrPair(MKC.DEPENDENCIES, "application/json" -> compact(render(dependencies)))
+      // Ecosystem-specific fields available via raw() map
+      +? maybeStringOrPair(adHoc("Ecosystem"), metadata.raw().get("ecosystem").toString)
+
+  tm -> this
+}
+```
+
+### API Comparison: Annatto vs Baharat
+
+| Aspect | Baharat (System Packages) | Annatto (Language Packages) |
+|--------|---------------------------|-----------------------------|
+| **Entry Point** | `PackageReader.read(path)` | `LanguagePackageReader.read(path)` |
+| **MIME Types** | `application/x-rpm`, `application/x-debian-package` | `application/gzip`, `application/zip`, `application/x-tar` |
+| **Metadata Fields** | arch, epoch, release, vendor, maintainer | name, version, description, license, publisher, publishedAt |
+| **Dependencies** | `toVersionedString()` | `name`, `scope`, `versionConstraint` |
+| **Extensions** | RPM, DEB, PKG (system) | tgz, whl, crate, gem (language) |
+
+### Key Differences from Baharat
+
+1. **No arch/epoch/release**: Language packages don't have system-level concepts
+2. **Optional scope**: Dependencies may have scopes (e.g., `@types/node`, `devDependencies`)
+3. **Raw metadata**: Use `metadata.raw()` for ecosystem-specific fields not in the standard model
+4. **PURL generation**: Call `pkg.toPurl()` for Package URL standard identifiers
+
+---
+
 ## Supported Ecosystems
 
 | Ecosystem | Archive Format | PURL Type | Metadata Source |

@@ -161,11 +161,11 @@ class PackagistHandlerTest {
     // --- PURL tests ---
 
     /**
-     * Goal: Verify PURL is empty when version is absent.
-     * Rationale: Q1 — monolog has no version in composer.json; PURL needs version.
+     * Goal: Verify PURL is generated when version is extracted from filename.
+     * Rationale: Q1 — monolog has no version in composer.json but we extract from filename.
      */
     @Test
-    void getPurls_noVersion_returnsEmptyList() throws Exception {
+    void getPurls_versionFromFilename_returnsPurl() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
         assumeThat(Files.exists(pkg)).isTrue();
 
@@ -178,8 +178,9 @@ class PackagistHandlerTest {
                     stubArtifact("monolog-monolog-3.5.0.zip"),
                     stubWorkItem(), stubMarker());
 
-            // monolog has no version in composer.json, so no PURL can be generated
-            assertThat(purls).isEmpty();
+            // Version extracted from filename, so PURL is generated
+            assertThat(purls).hasSize(1);
+            assertThat(purls.get(0).toString()).isEqualTo("pkg:composer/monolog/monolog@3.5.0");
         }
     }
 

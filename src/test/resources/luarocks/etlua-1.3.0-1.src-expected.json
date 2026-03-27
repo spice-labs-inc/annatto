@@ -1,0 +1,10 @@
+{
+  "name": "etlua",
+  "simpleName": "etlua",
+  "version": "1.3.0-1",
+  "description": "Embedded templates for Lua",
+  "license": "MIT",
+  "publisher": "Leaf Corcoran <leafot@gmail.com>",
+  "publishedAt": null,
+  "dependencies": []
+}

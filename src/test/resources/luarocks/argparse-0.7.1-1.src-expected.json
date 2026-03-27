@@ -1,0 +1,10 @@
+{
+  "name": "argparse",
+  "simpleName": "argparse",
+  "version": "0.7.1-1",
+  "description": "A feature-rich command-line argument parser",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

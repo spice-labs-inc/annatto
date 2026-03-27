@@ -1,0 +1,10 @@
+{
+  "name": "bit32",
+  "simpleName": "bit32",
+  "version": "5.3.5.1-1",
+  "description": "Lua 5.2 bit manipulation library",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

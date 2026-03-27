@@ -1,7 +1,7 @@
 {
     "name": "league/csv",
     "simpleName": "csv",
-    "version": null,
+    "version": "9.15.0",
     "description": "CSV data manipulation made easy in PHP",
     "license": "MIT",
     "publisher": "Ignace Nyamagana Butera",

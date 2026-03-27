@@ -1,7 +1,7 @@
 {
     "name": "vimeo/psalm",
     "simpleName": "psalm",
-    "version": null,
+    "version": "5.22.1",
     "description": "A static analysis tool for finding errors in PHP applications",
     "license": "MIT",
     "publisher": "Matthew Brown",
