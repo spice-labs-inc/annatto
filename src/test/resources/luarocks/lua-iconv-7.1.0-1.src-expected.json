@@ -1,0 +1,10 @@
+{
+  "name": "lua-iconv",
+  "simpleName": "lua-iconv",
+  "version": "7.1.0-1",
+  "description": "Lua binding to the iconv",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

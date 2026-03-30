@@ -1,0 +1,10 @@
+{
+  "name": "date",
+  "simpleName": "date",
+  "version": "2.2.1-1",
+  "description": "Date & Time module for Lua 5.x",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

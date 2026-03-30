@@ -1,7 +1,7 @@
 {
     "name": "composer/composer",
     "simpleName": "composer",
-    "version": null,
+    "version": "2.7.1",
     "description": "Composer helps you declare, manage and install dependencies of PHP projects. It ensures you have the right stack everywhere.",
     "license": "MIT",
     "publisher": "Nils Adermann",

@@ -1,0 +1,16 @@
+{
+  "name": "luacov",
+  "simpleName": "luacov",
+  "version": "0.16.0-1",
+  "description": "Coverage analysis tool for Lua scripts",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "datafile",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

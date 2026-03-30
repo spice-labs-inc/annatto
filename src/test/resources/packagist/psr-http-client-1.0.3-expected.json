@@ -1,7 +1,7 @@
 {
     "name": "psr/http-client",
     "simpleName": "http-client",
-    "version": null,
+    "version": "1.0.3",
     "description": "Common interface for HTTP clients",
     "license": "MIT",
     "publisher": "PHP-FIG",

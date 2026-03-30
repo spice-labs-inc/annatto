@@ -1,7 +1,7 @@
 {
     "name": "graham-campbell/result-type",
     "simpleName": "result-type",
-    "version": null,
+    "version": "1.1.2",
     "description": "An Implementation Of The Result Type",
     "license": "MIT",
     "publisher": "Graham Campbell",

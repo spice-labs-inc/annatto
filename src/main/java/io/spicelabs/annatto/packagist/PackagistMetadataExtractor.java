@@ -69,7 +69,7 @@ public final class PackagistMetadataExtractor {
     public static @NotNull MetadataResult extract(@NotNull InputStream inputStream, @NotNull String filename)
             throws MetadataExtractionException, MalformedPackageException {
         ComposerJsonData data = extractComposerJsonFromZip(inputStream, filename);
-        return buildMetadataResult(data);
+        return buildMetadataResult(data, filename);
     }
 
     /**
@@ -80,7 +80,7 @@ public final class PackagistMetadataExtractor {
      * @return the normalized metadata result
      * @throws MetadataExtractionException if JSON parsing fails
      */
-    static @NotNull MetadataResult buildMetadataResult(@NotNull ComposerJsonData data)
+    static @NotNull MetadataResult buildMetadataResult(@NotNull ComposerJsonData data, @NotNull String filename)
             throws MetadataExtractionException {
         JsonObject json;
         try {
@@ -92,6 +92,10 @@ public final class PackagistMetadataExtractor {
         Optional<String> name = getOptionalString(json, "name");
         Optional<String> simpleName = name.map(PackagistMetadataExtractor::extractSimpleName);
         Optional<String> version = getOptionalString(json, "version");
+        // If no version in composer.json, extract from filename (e.g., name-v1.0.0.zip or name-1.0.0.zip)
+        if (version.isEmpty()) {
+            version = extractVersionFromFilename(filename);
+        }
         Optional<String> description = getOptionalString(json, "description");
         Optional<String> license = extractLicense(json);
         Optional<String> publisher = extractPublisher(json);
@@ -314,6 +318,26 @@ public final class PackagistMetadataExtractor {
                     Optional.of(scope)
             ));
         }
+    }
+
+    /**
+     * Extracts version from filename when not present in composer.json.
+     * Packagist filenames typically include version: vendor-name-v1.0.0.zip or name-1.0.0.zip
+     *
+     * @param filename the package filename
+     * @return the extracted version, or empty if not found
+     */
+    private static @NotNull Optional<String> extractVersionFromFilename(@NotNull String filename) {
+        // Remove .zip extension
+        String base = filename.endsWith(".zip") ? filename.substring(0, filename.length() - 4) : filename;
+        // Match version pattern at end of filename: -v1.0.0 or -1.0.0
+        // Version starts with digit after a dash
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("-v?(\\d+\\.\\d+(?:\\.\\d+)?)$");
+        java.util.regex.Matcher matcher = pattern.matcher(base);
+        if (matcher.find()) {
+            return Optional.of(matcher.group(1));
+        }
+        return Optional.empty();
     }
 
     private static @NotNull String readStreamToString(@NotNull InputStream stream) throws IOException {

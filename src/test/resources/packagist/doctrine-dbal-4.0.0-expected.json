@@ -1,7 +1,7 @@
 {
     "name": "doctrine/dbal",
     "simpleName": "dbal",
-    "version": null,
+    "version": "4.0.0",
     "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
     "license": "MIT",
     "publisher": "Guilherme Blanco",

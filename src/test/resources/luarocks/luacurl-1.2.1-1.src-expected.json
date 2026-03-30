@@ -1,0 +1,10 @@
+{
+  "name": "LuaCURL",
+  "simpleName": "LuaCURL",
+  "version": "1.2.1-1",
+  "description": "Lua module binding CURL",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

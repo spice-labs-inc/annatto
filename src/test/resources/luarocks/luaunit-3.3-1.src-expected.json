@@ -1,0 +1,10 @@
+{
+  "name": "LuaUnit",
+  "simpleName": "LuaUnit",
+  "version": "3.3-1",
+  "description": "A unit testing framework for Lua",
+  "license": "BSD",
+  "publisher": "Philippe Fremy <phil at freehackers dot org>",
+  "publishedAt": null,
+  "dependencies": []
+}

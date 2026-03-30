@@ -70,8 +70,9 @@ public class AnnattoException extends Exception {
 
     /**
      * Thrown when a package file is structurally invalid or corrupt.
+     * This is a RuntimeException so it doesn't need to be declared in method signatures.
      */
-    public static class MalformedPackageException extends AnnattoException {
+    public static class MalformedPackageException extends RuntimeException {
         /**
          * @param message description of the malformation
          */
@@ -85,6 +86,35 @@ public class AnnattoException extends Exception {
          */
         public MalformedPackageException(@NotNull String message, @NotNull Throwable cause) {
             super(message, cause);
+        }
+    }
+
+    /**
+     * Thrown when a package format is not recognized.
+     * Test: EcosystemRouterDisambiguationTest.ambiguousGzipDefaultsToNone
+     */
+    public static class UnknownFormatException extends AnnattoException {
+        /**
+         * @param message description of the unknown format
+         */
+        public UnknownFormatException(@NotNull String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Thrown when security limits are violated (ZIP bomb, path traversal, etc.).
+     * Test: SecurityLimitsTest validates all security exceptions
+     *
+     * <p>Note: This is a RuntimeException so it doesn't need to be declared
+     * in method signatures throughout the codebase.
+     */
+    public static class SecurityException extends RuntimeException {
+        /**
+         * @param message description of the security violation
+         */
+        public SecurityException(@NotNull String message) {
+            super(message);
         }
     }
 }

@@ -1,7 +1,7 @@
 {
     "name": "psr/http-factory",
     "simpleName": "http-factory",
-    "version": null,
+    "version": "1.1.0",
     "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
     "license": "MIT",
     "publisher": "PHP-FIG",

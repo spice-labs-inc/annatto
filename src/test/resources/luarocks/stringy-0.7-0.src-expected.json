@@ -1,0 +1,10 @@
+{
+  "name": "stringy",
+  "simpleName": "stringy",
+  "version": "0.7-0",
+  "description": "C extension for fast string methods",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

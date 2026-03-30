@@ -1,0 +1,10 @@
+{
+  "name": "stdlib",
+  "simpleName": "stdlib",
+  "version": "41.2.2-1",
+  "description": "General Lua Libraries",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

@@ -1,7 +1,7 @@
 {
     "name": "symfony/dependency-injection",
     "simpleName": "dependency-injection",
-    "version": null,
+    "version": "7.0.3",
     "description": "Allows you to standardize and centralize the way objects are constructed in your application",
     "license": "MIT",
     "publisher": "Fabien Potencier",

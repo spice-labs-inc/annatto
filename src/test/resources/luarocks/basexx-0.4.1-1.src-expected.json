@@ -1,0 +1,10 @@
+{
+  "name": "basexx",
+  "simpleName": "basexx",
+  "version": "0.4.1-1",
+  "description": "A base2, base16, base32, base64 and base85 library for Lua",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

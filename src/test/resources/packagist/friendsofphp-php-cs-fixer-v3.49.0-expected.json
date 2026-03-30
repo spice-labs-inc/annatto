@@ -1,7 +1,7 @@
 {
     "name": "friendsofphp/php-cs-fixer",
     "simpleName": "php-cs-fixer",
-    "version": null,
+    "version": "3.49.0",
     "description": "A tool to automatically fix PHP code style",
     "license": "MIT",
     "publisher": "Fabien Potencier",

@@ -1,7 +1,7 @@
 {
     "name": "guzzlehttp/guzzle",
     "simpleName": "guzzle",
-    "version": null,
+    "version": "7.8.1",
     "description": "Guzzle is a PHP HTTP client library",
     "license": "MIT",
     "publisher": "Graham Campbell",

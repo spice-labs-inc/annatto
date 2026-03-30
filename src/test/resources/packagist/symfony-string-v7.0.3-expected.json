@@ -1,7 +1,7 @@
 {
     "name": "symfony/string",
     "simpleName": "string",
-    "version": null,
+    "version": "7.0.3",
     "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
     "license": "MIT",
     "publisher": "Nicolas Grekas",

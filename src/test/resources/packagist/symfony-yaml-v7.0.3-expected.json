@@ -1,7 +1,7 @@
 {
     "name": "symfony/yaml",
     "simpleName": "yaml",
-    "version": null,
+    "version": "7.0.3",
     "description": "Loads and dumps YAML files",
     "license": "MIT",
     "publisher": "Fabien Potencier",

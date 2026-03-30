@@ -1,0 +1,10 @@
+{
+  "name": "luaossl",
+  "simpleName": "luaossl",
+  "version": "20220711-0",
+  "description": "Most comprehensive OpenSSL module in the Lua universe.",
+  "license": "MIT/X11",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

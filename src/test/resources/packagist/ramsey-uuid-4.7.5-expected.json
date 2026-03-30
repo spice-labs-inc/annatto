@@ -1,7 +1,7 @@
 {
     "name": "ramsey/uuid",
     "simpleName": "uuid",
-    "version": null,
+    "version": "4.7.5",
     "description": "A PHP library for generating and working with universally unique identifiers (UUIDs).",
     "license": "MIT",
     "publisher": null,

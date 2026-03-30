@@ -6,11 +6,5 @@
   "license": "MIT <http://opensource.org/licenses/MIT>",
   "publisher": null,
   "publishedAt": null,
-  "dependencies": [
-    {
-    "name": "lua",
-    "versionConstraint": ">= 5.1",
-    "scope": "runtime"
-    }
-  ]
+  "dependencies": []
 }

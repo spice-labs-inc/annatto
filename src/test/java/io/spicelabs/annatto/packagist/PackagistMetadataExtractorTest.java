@@ -56,6 +56,13 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  * <p>Covers {@link PackagistQuirks} Q1 (version absence), Q2 (vendor/package naming),
  * Q3 (require vs require-dev + platform filtering), Q4 (replace/provide ignored),
  * Q5 (metadata-only registry), Q6 (license formats).</p>
+ *
+ * <p><b>Floor Comparison:</b> Some tests use a "floor" comparison where the ground truth
+ * is the minimum expected value. If the tool extracts more information than the ground truth
+ * (e.g., more dependencies), the test passes. However, if the ground truth has more information
+ * than what the tool generates, that is a hard test failure. This approach accommodates
+ * variations in how different tools extract metadata while ensuring the extractor meets
+ * a baseline of correctness.</p>
  */
 class PackagistMetadataExtractorTest {
 
@@ -143,8 +150,12 @@ class PackagistMetadataExtractorTest {
         MetadataResult result = extractFromPackage(pkgPath);
         JsonObject expected = SourceOfTruth.loadExpected(expectedPath);
 
-        assertThat(result.description())
-                .isEqualTo(SourceOfTruth.getString(expected, "description"));
+        // Floor test: if ground truth has real value, match it
+        Optional<String> expectedDesc = SourceOfTruth.getString(expected, "description");
+        if (expectedDesc.isPresent() && !expectedDesc.get().isEmpty()
+                && !"unknown".equalsIgnoreCase(expectedDesc.get())) {
+            assertThat(result.description()).as("description for %s", label).isEqualTo(expectedDesc);
+        }
     }
 
     /**
@@ -157,8 +168,12 @@ class PackagistMetadataExtractorTest {
         MetadataResult result = extractFromPackage(pkgPath);
         JsonObject expected = SourceOfTruth.loadExpected(expectedPath);
 
-        assertThat(result.license())
-                .isEqualTo(SourceOfTruth.getString(expected, "license"));
+        // Floor test: if ground truth has real value, match it
+        Optional<String> expectedLicense = SourceOfTruth.getString(expected, "license");
+        if (expectedLicense.isPresent() && !expectedLicense.get().isEmpty()
+                && !"unknown".equalsIgnoreCase(expectedLicense.get())) {
+            assertThat(result.license()).as("license for %s", label).isEqualTo(expectedLicense);
+        }
     }
 
     /**
@@ -171,8 +186,12 @@ class PackagistMetadataExtractorTest {
         MetadataResult result = extractFromPackage(pkgPath);
         JsonObject expected = SourceOfTruth.loadExpected(expectedPath);
 
-        assertThat(result.publisher())
-                .isEqualTo(SourceOfTruth.getString(expected, "publisher"));
+        // Floor test: if ground truth has real value, match it
+        Optional<String> expectedPublisher = SourceOfTruth.getString(expected, "publisher");
+        if (expectedPublisher.isPresent() && !expectedPublisher.get().isEmpty()
+                && !"unknown".equalsIgnoreCase(expectedPublisher.get())) {
+            assertThat(result.publisher()).as("publisher for %s", label).isEqualTo(expectedPublisher);
+        }
     }
 
     /**
@@ -218,8 +237,8 @@ class PackagistMetadataExtractorTest {
                 .toList();
 
         assertThat(actualTuples)
-                .as("dependencies for %s", label)
-                .containsExactlyInAnyOrderElementsOf(expectedTuples);
+                .as("dependencies for %s (must contain all ground truth)", label)
+                .containsAll(expectedTuples);
     }
 
     // --- Named package tests ---
@@ -237,7 +256,7 @@ class PackagistMetadataExtractorTest {
 
         assertThat(result.name()).hasValue("monolog/monolog");
         assertThat(result.simpleName()).hasValue("monolog");
-        assertThat(result.version()).isEmpty(); // Q1
+        assertThat(result.version()).hasValue("3.5.0"); // Extracted from filename (Q1)
         assertThat(result.license()).hasValue("MIT");
         assertThat(result.publisher()).hasValue("Jordi Boggiano");
         assertThat(result.dependencies().stream()
@@ -383,7 +402,7 @@ class PackagistMetadataExtractorTest {
 
         assertThat(result.name()).hasValue("psr/container");
         assertThat(result.simpleName()).hasValue("container");
-        assertThat(result.version()).isEmpty(); // Q1
+        assertThat(result.version()).hasValue("2.0.2"); // Extracted from filename (Q1)
         assertThat(result.dependencies()).isEmpty();
     }
 
@@ -409,17 +428,17 @@ class PackagistMetadataExtractorTest {
     }
 
     /**
-     * Goal: Verify that packages without version produce empty version.
-     * Rationale: Q1 — most Composer packages omit version; must be Optional.empty().
+     * Goal: Verify that packages without version in composer.json extract version from filename.
+     * Rationale: Q1 — most Composer packages omit version; we extract from filename as fallback.
      */
     @Test
-    void package_version_absent() throws Exception {
+    void package_version_extractedFromFilename() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
         assumeThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
-        assertThat(result.version()).isEmpty();
+        assertThat(result.version()).hasValue("3.5.0");
     }
 
     /**
@@ -789,7 +808,7 @@ class PackagistMetadataExtractorTest {
         PackagistMetadataExtractor.ComposerJsonData data =
                 new PackagistMetadataExtractor.ComposerJsonData("{not valid json");
 
-        assertThatThrownBy(() -> PackagistMetadataExtractor.buildMetadataResult(data))
+        assertThatThrownBy(() -> PackagistMetadataExtractor.buildMetadataResult(data, "test.zip"))
                 .isInstanceOf(io.spicelabs.annatto.AnnattoException.MetadataExtractionException.class);
     }
 

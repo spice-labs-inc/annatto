@@ -1,7 +1,7 @@
 {
     "name": "predis/predis",
     "simpleName": "predis",
-    "version": null,
+    "version": "2.2.2",
     "description": "A flexible and feature-complete Redis client for PHP.",
     "license": "MIT",
     "publisher": "Till Kr\u00fcss",

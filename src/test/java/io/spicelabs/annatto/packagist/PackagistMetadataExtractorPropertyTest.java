@@ -214,7 +214,7 @@ class PackagistMetadataExtractorPropertyTest {
                 new PackagistMetadataExtractor.ComposerJsonData(composerJson);
 
         assertThatNoException().isThrownBy(() -> {
-            MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(data);
+            MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(data, "test.zip");
             assertThat(result).isNotNull();
             assertThat(result.dependencies()).isNotNull();
         });
@@ -229,7 +229,7 @@ class PackagistMetadataExtractorPropertyTest {
             @ForAll("minimalComposerJsons") String composerJson) throws Exception {
         PackagistMetadataExtractor.ComposerJsonData data =
                 new PackagistMetadataExtractor.ComposerJsonData(composerJson);
-        MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(data);
+        MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(data, "test.zip");
         assertThat(result.dependencies()).isNotNull();
     }
 

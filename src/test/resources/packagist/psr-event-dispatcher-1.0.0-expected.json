@@ -1,7 +1,7 @@
 {
     "name": "psr/event-dispatcher",
     "simpleName": "event-dispatcher",
-    "version": null,
+    "version": "1.0.0",
     "description": "Standard interfaces for event handling.",
     "license": "MIT",
     "publisher": "PHP-FIG",

@@ -1,7 +1,7 @@
 {
     "name": "phpstan/phpstan",
     "simpleName": "phpstan",
-    "version": null,
+    "version": "1.10.57",
     "description": "PHPStan - PHP Static Analysis Tool",
     "license": "MIT",
     "publisher": null,

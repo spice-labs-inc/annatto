@@ -1,7 +1,7 @@
 {
     "name": "laravel/framework",
     "simpleName": "framework",
-    "version": null,
+    "version": "11.0.0",
     "description": "The Laravel Framework.",
     "license": "MIT",
     "publisher": "Taylor Otwell",

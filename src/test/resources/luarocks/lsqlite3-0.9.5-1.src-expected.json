@@ -1,0 +1,10 @@
+{
+  "name": "lsqlite3",
+  "simpleName": "lsqlite3",
+  "version": "0.9.5-1",
+  "description": "A binding for Lua to the SQLite3 database library",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

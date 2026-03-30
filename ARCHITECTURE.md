@@ -15,6 +15,93 @@ Annatto is a plugin for [Goat Rodeo](https://github.com/spice-labs-inc/goatrodeo
 5. **onLoadingComplete()** — Final validation
 6. **shutDown()** — Releases acquired APIs
 
+## LanguagePackage API
+
+Annatto provides a unified `LanguagePackage` API for direct programmatic access to package metadata and entry streaming, independent of the Rodeo plugin lifecycle. This API is implemented by all 11 ecosystem packages.
+
+### Core Interface
+
+```java
+public interface LanguagePackage extends AutoCloseable {
+    String mimeType();                          // MIME type of the package format
+    Ecosystem ecosystem();                      // Enum identifying the ecosystem
+    String name();                              // Package name (never null)
+    String version();                           // Package version (never null)
+    PackageMetadata metadata();                 // Full metadata record
+    Optional<PackageURL> toPurl();             // PURL generation
+    PackageEntryStream streamEntries();        // Stream archive contents
+    void close();                               // Release resources
+}
+```
+
+### Entry Streaming
+
+`PackageEntryStream` provides memory-efficient access to archive contents without extracting to disk:
+
+```java
+try (var stream = pkg.streamEntries()) {
+    while (stream.hasNext()) {
+        PackageEntry entry = stream.nextEntry();
+        try (InputStream content = stream.openStream()) {
+            // Process entry content
+        }
+    }
+}
+```
+
+**Thread Safety Guarantees:**
+- Only one stream may be open per package at a time (`IllegalStateException` on second call)
+- Package objects are immutable after construction
+- Concurrent read-only access to metadata is safe
+- Stream lifecycle is managed via `AtomicBoolean` state machine
+
+**Security Limits (enforced by all implementations):**
+- Maximum entry count: 10,000 entries
+- Maximum entry size: 10 MB
+- Maximum metadata size: 10 MB (1 MB for Hex)
+- Path traversal rejected: entries with `..` or absolute paths
+
+### Metadata Record
+
+`PackageMetadata` provides immutable access to extracted metadata:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | String | Package name (non-null) |
+| `version` | String | Package version (non-null) |
+| `description` | Optional<String> | Package description/summary |
+| `license` | Optional<String> | SPDX identifier or license string |
+| `publisher` | Optional<String> | First author/maintainer |
+| `publishedAt` | Optional<Instant> | Publication timestamp |
+| `dependencies` | List<Dependency> | Runtime dependencies (unmodifiable) |
+| `raw` | Map<String, Object> | Ecosystem-specific raw metadata (unmodifiable) |
+
+### LanguagePackageReader
+
+`LanguagePackageReader` provides auto-detection and routing:
+
+```java
+// Auto-detect from file content
+LanguagePackage pkg = LanguagePackageReader.read(path);
+
+// Use specific MIME type with disambiguation
+LanguagePackage pkg = LanguagePackageReader.read(path, "application/gzip");
+
+// Check support
+boolean supported = LanguagePackageReader.isSupported("application/zip");
+Set<String> allTypes = LanguagePackageReader.supportedMimeTypes();
+```
+
+**Supported MIME Types:**
+- `application/gzip` — npm, PyPI (sdist), CPAN (disambiguated by content)
+- `application/zip` — PyPI (wheel), Packagist, Conda (v2), LuaRocks (.rock)
+- `application/x-bzip2` — Conda (v1)
+- `application/x-tar` — RubyGems, Hex
+- `application/x-gtar` — RubyGems (alternative)
+- `application/x-compressed-tar` — Crates.io
+- `text/x-lua` — LuaRocks (.rockspec)
+- `application/json` — CocoaPods (.podspec.json)
+
 ## Metadata Extraction Pipeline
 
 When Goat Rodeo encounters a package artifact, Annatto processes it through this pipeline:
@@ -110,16 +197,66 @@ LuaRocks rockspec files are executable Lua scripts. The evaluator has three laye
 - **`LuaTableBuilder`** — Evaluates Lua expressions: literals, table constructors, string concatenation (`..`), variable references, dotted access. Unsupported constructs return null. Limits: depth 20, 1 MB strings, 10,000 table elements.
 - **`LuaRockspecEvaluator`** — Executes assignment statements, captures metadata fields, skips unrecognized constructs (function definitions, control flow). Catches `RuntimeException` to skip failed statements while preserving already-captured fields.
 
-## Source-of-Truth Testing
+## Testing Strategy
 
-Each ecosystem is validated against real packages using native tools:
+Annatto employs three complementary testing approaches:
 
-1. **Download**: `docker/<ecosystem>/download.sh` fetches 50 real packages from the ecosystem registry
-2. **Extract**: `docker/<ecosystem>/extract.*` runs native tools (Node.js, Python, Ruby, Go, etc.) inside Docker to produce expected JSON
-3. **Store**: Expected JSON is committed to `src/test/resources/<ecosystem>/`; package files are downloaded to `test-corpus/` (gitignored)
-4. **Compare**: `*MetadataExtractorTest` parameterized tests compare Annatto's Java output against the expected JSON via `SourceOfTruth.loadExpected()`
+### Contract Tests
 
-This gives 550+ source-of-truth comparisons (50 packages x 11 ecosystems) ensuring Annatto's pure-Java extraction matches native tool output.
+Contract tests verify that all `LanguagePackage` implementations satisfy the behavioral contract defined by the interface. These tests are implemented via JUnit 5 inheritance:
+
+**Base Contract Tests** (`LanguagePackageContractTest`):
+- Immutability: `immutableAfterConstruction()`, `metadataDependenciesImmutable()`
+- Non-null returns: `mimeTypeNonNull()`, `nameNeverNull()`, `versionNeverNull()`
+- PURL generation: `toPurlReturnsValidPurl()`, `toPurlReturnsEmptyWhenIncomplete()`
+- Stream lifecycle: `streamEntries_secondCallThrows()`, `streamEntries_afterCloseAllowsNewStream()`
+- Thread safety: `concurrentReadOnlyAccessIsThreadSafe()`, `concurrentStreamAccessThrows()`
+- Security: `entryCountLimitEnforced()`, `entrySizeLimitEnforced()`
+
+**Ecosystem Contract Tests** (11 implementations):
+Each ecosystem extends `LanguagePackageContractTest` and adds format-specific tests:
+- npm: Scoped package handling, PURL namespace extraction
+- PyPI: Wheel vs sdist format, PEP 503 name normalization
+- Crates: Cargo.toml parsing, target-specific dependencies
+- Go: Version extraction from path, go.mod require parsing
+- RubyGems: metadata.gz format, YAML tag stripping
+- Packagist: Platform dependency filtering
+- Conda: v1 (.tar.bz2) vs v2 (.conda) format
+- CocoaPods: JSON podspec parsing, author extraction
+- CPAN: META.json vs META.yml, `::` namespace conversion
+- Hex: Erlang term format parsing
+- LuaRocks: .rockspec vs .rock format, version revision handling
+
+### Integration Tests
+
+`LanguagePackageReaderIntegrationTest` verifies:
+- Path-based auto-detection for all 11 ecosystems
+- MIME type disambiguation (gzip -> PyPI vs CPAN, zip -> Conda vs Packagist)
+- Error handling: unsupported types, malformed packages, non-existent files
+- Thread safety: concurrent reads, reentrancy
+
+### Source-of-Truth Tests
+
+Source-of-truth tests validate extraction accuracy against native tools:
+
+**Docker-Based Extraction**:
+1. **Download**: `docker/<ecosystem>/download.sh` fetches packages from registry
+2. **Extract**: `docker/<ecosystem>/extract.*` runs native tools (Node.js, Python, etc.) inside hardened Docker containers (non-root, read-only filesystem, cap-drop ALL)
+3. **Verify**: `test-corpus/packages.sha256` ensures package integrity
+4. **Compare**: `SourceOfTruthIntegrationTest` compares Annatto output against native extraction
+
+**Comparison Rules** (with tolerance for documented normalizations):
+| Field | Comparison | Tolerance |
+|-------|------------|-----------|
+| name | Exact equality | None |
+| version | Exact equality | None |
+| description | Presence match | null == empty == "UNKNOWN" |
+| license | Case-insensitive | "MIT" == "MIT License" |
+| publisher | Presence match | null == empty |
+| dependencies | Set equality | Platform deps may be filtered |
+
+**Pilot Scope** (Phase 6c): npm, PyPI, Crates (30 packages)
+**Full Scope** (Phase 6e): All 11 ecosystems (110 packages)
 
 ## Ecosystem-Specific Notes
 
@@ -227,7 +364,23 @@ annatto/
 │   │   ├── hex/                       # Includes ErlangTermTokenizer/Parser
 │   │   └── luarocks/                  # Includes LuaTokenizer/TableBuilder/Evaluator
 │   └── test/
-│       ├── java/                      # 44 test classes, 550+ SoT comparisons
+│       ├── java/                      # Contract tests, integration tests, 550+ SoT comparisons
+│       │   ├── io/spicelabs/annatto/
+│       │   │   ├── contract/          # LanguagePackageContractTest (base class)
+│       │   │   ├── LanguagePackageReaderIntegrationTest.java
+│       │   │   └── SourceOfTruthIntegrationTest.java
+│       │   └── io/spicelabs/annatto/ecosystem/
+│       │       ├── npm/NpmPackageContractTest.java
+│       │       ├── pypi/PyPIPackageContractTest.java
+│       │       ├── crates/CratesPackageContractTest.java
+│       │       ├── go/GoPackageContractTest.java
+│       │       ├── rubygems/RubygemsPackageContractTest.java
+│       │       ├── packagist/PackagistPackageContractTest.java
+│       │       ├── conda/CondaPackageContractTest.java
+│       │       ├── cocoapods/CocoapodsPackageContractTest.java
+│       │       ├── cpan/CpanPackageContractTest.java
+│       │       ├── hex/HexPackageContractTest.java
+│       │       └── luarocks/LuarocksPackageContractTest.java
 │       └── resources/                 # Expected JSON per ecosystem (50 each)
 ├── pom.xml
 ├── README.md

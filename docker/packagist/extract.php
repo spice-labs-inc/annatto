@@ -55,6 +55,10 @@ for ($argIdx = 1; $argIdx < $argc; $argIdx++) {
     }
 
     $version = $composerJson['version'] ?? null;
+    // If no version in composer.json, extract from filename (e.g., name-v1.0.0.zip or name-1.0.0.zip)
+    if ($version === null) {
+        $version = extractVersionFromFilename($baseName);
+    }
     $description = $composerJson['description'] ?? null;
 
     // License: string or array, joined with " OR "
@@ -113,6 +117,19 @@ for ($argIdx = 1; $argIdx < $argc; $argIdx++) {
     $json = json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
     file_put_contents($outFile, $json);
     echo "OK $outFile\n";
+}
+
+/**
+ * Extract version from filename when not present in composer.json.
+ * Packagist filenames typically include version: vendor-name-v1.0.0.zip
+ */
+function extractVersionFromFilename(string $baseName): ?string {
+    // Match version pattern at end of filename: -v1.0.0 or -1.0.0
+    // Version starts with digit after a dash
+    if (preg_match('/-v?(\d+\.\d+(?:\.\d+)?)$/', $baseName, $matches)) {
+        return $matches[1];
+    }
+    return null;
 }
 
 /**

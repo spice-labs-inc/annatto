@@ -1,7 +1,7 @@
 {
     "name": "phpunit/phpunit",
     "simpleName": "phpunit",
-    "version": null,
+    "version": "11.0.4",
     "description": "The PHP Unit Testing framework.",
     "license": "BSD-3-Clause",
     "publisher": "Sebastian Bergmann",

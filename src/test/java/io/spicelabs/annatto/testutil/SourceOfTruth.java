@@ -15,6 +15,7 @@ limitations under the License. */
 package io.spicelabs.annatto.testutil;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,9 +85,14 @@ public final class SourceOfTruth {
         } else if (filename.endsWith(".podspec.json")) {
             return filename.substring(0, filename.length() - ".podspec.json".length());
         } else if (filename.endsWith(".src.rock")) {
-            return filename.substring(0, filename.length() - ".src.rock".length());
+            // Keep .src suffix for luarocks: package-1.0.src.rock -> package-1.0.src
+            return filename.substring(0, filename.length() - ".rock".length());
         } else if (filename.endsWith(".all.rock")) {
-            return filename.substring(0, filename.length() - ".all.rock".length());
+            // Keep .all suffix for luarocks: package-1.0.all.rock -> package-1.0.all
+            return filename.substring(0, filename.length() - ".rock".length());
+        } else if (filename.endsWith(".rockspec")) {
+            // Strip .rockspec extension (consistent with SourceOfTruthLoader)
+            return filename.substring(0, filename.length() - ".rockspec".length());
         } else {
             int lastDot = filename.lastIndexOf('.');
             return lastDot > 0 ? filename.substring(0, lastDot) : filename;
@@ -95,15 +101,28 @@ public final class SourceOfTruth {
 
     /**
      * Extracts a string field from expected JSON, returning Optional.empty() if absent or null.
+     * Handles both string values and arrays (joining array elements with ", ").
      *
      * @param expected  the expected JSON object
      * @param fieldName the field name to extract
      * @return the field value, or empty if absent
      */
     public static @NotNull Optional<String> getString(@NotNull JsonObject expected, @NotNull String fieldName) {
-        if (expected.has(fieldName) && !expected.get(fieldName).isJsonNull()) {
-            return Optional.of(expected.get(fieldName).getAsString());
+        if (!expected.has(fieldName) || expected.get(fieldName).isJsonNull()) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        var element = expected.get(fieldName);
+        if (element.isJsonArray()) {
+            JsonArray arr = element.getAsJsonArray();
+            if (arr.isEmpty()) {
+                return Optional.empty();
+            }
+            // Join array elements with ", "
+            String joined = java.util.stream.StreamSupport.stream(arr.spliterator(), false)
+                    .map(e -> e.isJsonNull() ? "" : e.getAsString())
+                    .collect(java.util.stream.Collectors.joining(", "));
+            return joined.isEmpty() ? Optional.empty() : Optional.of(joined);
+        }
+        return Optional.of(element.getAsString());
     }
 }

@@ -1,0 +1,10 @@
+{
+  "name": "compat53",
+  "simpleName": "compat53",
+  "version": "0.13-1",
+  "description": "Compatibility module providing Lua-5.3-style APIs for Lua 5.2 and 5.1",
+  "license": "MIT",
+  "publisher": null,
+  "publishedAt": null,
+  "dependencies": []
+}

@@ -1,0 +1,61 @@
+{
+  "name": "lapis",
+  "simpleName": "lapis",
+  "version": "1.16.0-1",
+  "description": "A web framework for MoonScript & Lua",
+  "license": "MIT",
+  "publisher": "Leaf Corcoran <leafot@gmail.com>",
+  "publishedAt": null,
+  "dependencies": [
+    {
+    "name": "ansicolors",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "argparse",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "date",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "etlua",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "loadkit",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "lpeg",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "lua-cjson",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "luaossl",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "luasocket",
+    "versionConstraint": null,
+    "scope": "runtime"
+    },
+    {
+    "name": "pgmoon",
+    "versionConstraint": null,
+    "scope": "runtime"
+    }
+  ]
+}

@@ -247,7 +247,8 @@ public final class LuarocksMetadataExtractor {
             for (Object item : depsList) {
                 if (item instanceof String depStr) {
                     ParsedDependency dep = parseDependencyString(depStr, scope);
-                    if (dep != null) {
+                    // Filter out platform dependencies (lua runtime)
+                    if (dep != null && !dep.name().equals("lua")) {
                         deps.add(dep);
                     }
                 }

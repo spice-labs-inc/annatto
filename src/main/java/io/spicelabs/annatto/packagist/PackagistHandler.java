@@ -65,7 +65,7 @@ public final class PackagistHandler extends BaseArtifactHandler {
         try {
             PackagistMetadataExtractor.ComposerJsonData composerJsonData =
                     PackagistMetadataExtractor.extractComposerJsonFromZip(stream, filename);
-            MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(composerJsonData);
+            MetadataResult result = PackagistMetadataExtractor.buildMetadataResult(composerJsonData, filename);
 
             PackagistMemento memento = new PackagistMemento(filename, composerJsonData.rawJson());
             memento.setMetadataResult(result);
