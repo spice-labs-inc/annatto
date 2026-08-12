@@ -40,7 +40,6 @@ import java.util.zip.ZipOutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link PackagistMetadataExtractor} comparing extraction results against
@@ -73,8 +72,9 @@ class PackagistMetadataExtractorTest {
     private static final Path PACKAGIST_EXPECTED = TestCorpusDownloader.expectedDir("packagist");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(PACKAGIST_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(PACKAGIST_CORPUS))
                 .as("packagist test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -250,7 +250,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_monolog_runtimeDeps() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -271,7 +271,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_psr_log_zeroDeps() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("psr-log-3.0.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -287,7 +287,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_phpunit_runtimeDeps() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("phpunit-phpunit-11.0.4.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -306,7 +306,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_symfony_console_platformDepsFiltered() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("symfony-console-v7.0.3.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -327,7 +327,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_guzzle_manyDeps() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("guzzlehttp-guzzle-7.8.1.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -345,7 +345,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_doctrine_orm_complexConstraints() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("doctrine-orm-3.0.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -365,7 +365,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_twig_multipleAuthors() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("twig-twig-v3.8.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -380,7 +380,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_league_flysystem_licenseString() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("league-flysystem-3.24.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -396,7 +396,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_psr_container_minimalMetadata() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("psr-container-2.0.2.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -413,7 +413,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_ramsey_uuid_platformAndRealDeps() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("ramsey-uuid-4.7.5.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -434,7 +434,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_version_extractedFromFilename() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 
@@ -448,7 +448,7 @@ class PackagistMetadataExtractorTest {
     @Test
     void package_ramsey_uuid_noPublisher() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("ramsey-uuid-4.7.5.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         MetadataResult result = extractFromPackage(pkg);
 

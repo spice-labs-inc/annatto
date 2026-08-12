@@ -39,7 +39,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link RubygemsMetadataExtractor} comparing extraction results against
@@ -65,8 +64,9 @@ class RubygemsMetadataExtractorTest {
     private static final Path GEMS_EXPECTED = TestCorpusDownloader.expectedDir("rubygems");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(GEMS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(GEMS_CORPUS))
                 .as("rubygems test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -230,7 +230,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_rake_zeroDeps() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rake-13.1.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -249,7 +249,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_rails_exactVersionPinning() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rails-7.1.3.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -271,7 +271,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_rspec_core_mixedDependencyScopes() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rspec-core-3.13.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -293,7 +293,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_nokogiri_multipleAuthors() throws Exception {
         Path gem = GEMS_CORPUS.resolve("nokogiri-1.16.2.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -308,7 +308,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_sinatra_summaryPreferred() throws Exception {
         Path gem = GEMS_CORPUS.resolve("sinatra-4.0.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -323,7 +323,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_faraday_compoundConstraints() throws Exception {
         Path gem = GEMS_CORPUS.resolve("faraday-2.9.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -345,7 +345,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_json_minimal() throws Exception {
         Path gem = GEMS_CORPUS.resolve("json-2.7.1.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -360,7 +360,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_devise_runtimeAndDevDeps() throws Exception {
         Path gem = GEMS_CORPUS.resolve("devise-4.9.3.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -378,7 +378,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_zeitwerk_summaryAsDescription() throws Exception {
         Path gem = GEMS_CORPUS.resolve("zeitwerk-2.6.13.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 
@@ -394,7 +394,7 @@ class RubygemsMetadataExtractorTest {
     @Test
     void gem_activesupport_manyDeps() throws Exception {
         Path gem = GEMS_CORPUS.resolve("activesupport-7.1.3.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         MetadataResult result = extractFromPackage(gem);
 

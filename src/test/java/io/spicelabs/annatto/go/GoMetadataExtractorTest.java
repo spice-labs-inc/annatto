@@ -34,7 +34,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link GoMetadataExtractor} comparing extraction results against
@@ -61,8 +60,9 @@ class GoMetadataExtractorTest {
     private static final Path GO_EXPECTED = TestCorpusDownloader.expectedDir("go");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(GO_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(GO_CORPUS))
                 .as("go test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -225,7 +225,7 @@ class GoMetadataExtractorTest {
     @Test
     void goModule_gin_extractsCorrectly() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 
@@ -245,7 +245,7 @@ class GoMetadataExtractorTest {
     @Test
     void goModule_golangOrgText_extractsCorrectly() throws Exception {
         Path zip = GO_CORPUS.resolve("golang.org_x_text@v0.14.0.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 
@@ -261,7 +261,7 @@ class GoMetadataExtractorTest {
     @Test
     void goModule_gopkgInYamlV3_extractsCorrectly() throws Exception {
         Path zip = GO_CORPUS.resolve("gopkg.in_yaml.v3@v3.0.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 
@@ -277,7 +277,7 @@ class GoMetadataExtractorTest {
     @Test
     void goModule_uuid_zeroDeps() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_google_uuid@v1.5.0.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 
@@ -293,7 +293,7 @@ class GoMetadataExtractorTest {
     @Test
     void goModule_chiV5_majorVersion() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_go-chi_chi_v5@v5.0.11.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 
@@ -310,7 +310,7 @@ class GoMetadataExtractorTest {
     void goModule_genproto_pseudoVersion() throws Exception {
         Path zip = GO_CORPUS.resolve(
                 "google.golang.org_genproto@v0.0.0-20240102182953-50ed04b92917.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         MetadataResult result = extractFromPackage(zip);
 

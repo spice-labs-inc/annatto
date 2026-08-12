@@ -30,13 +30,18 @@ class AnnattoProcessFilterTest {
     private final AnnattoProcessFilter filter = new AnnattoProcessFilter(Map.of());
 
     /**
-     * Goal: Verify .tgz files are detected as npm.
-     * Rationale: npm packages are distributed as .tgz archives.
+     * Goal: Verify .tgz files are NOT claimed by name alone.
+     * Rationale: A generic tar.gz must not be treated as npm (Goat Rodeo survey incident:
+     * repo_ea.tgz was routed to npm by extension and OOM'd). The filter is name-based and
+     * cannot inspect content, so it must not claim .tgz at all; npm classification is
+     * content-based in LanguagePackageReader (Phase 7 plan, bug 1).
      */
     @Test
-    void detectEcosystem_tgz_isNpm() {
+    void detectEcosystem_tgz_isNotClaimedByName() {
+        assertThat(filter.detectEcosystem("repo_ea.tgz"))
+                .isEmpty();
         assertThat(filter.detectEcosystem("express-4.18.2.tgz"))
-                .isEqualTo(Optional.of(EcosystemId.NPM));
+                .isEmpty();
     }
 
     /**

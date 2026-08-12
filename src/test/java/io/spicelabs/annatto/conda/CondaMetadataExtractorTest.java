@@ -39,7 +39,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CondaMetadataExtractor} comparing extraction results against
@@ -62,8 +61,9 @@ class CondaMetadataExtractorTest {
     private static final Gson GSON = new Gson();
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CONDA_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CONDA_CORPUS))
                 .as("conda test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -714,7 +714,7 @@ class CondaMetadataExtractorTest {
 
     private Path findPackage(String filename) {
         Path pkg = CONDA_CORPUS.resolve(filename);
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
         return pkg;
     }
 

@@ -162,7 +162,7 @@ override def getMetadata(
 - **Custom parsers**: Purpose-built Erlang term parser and Lua subset evaluator — no native dependencies
 - **Source-of-truth testing**: Every ecosystem validated against 50 real packages extracted by native tools in Docker
 - **Security protections**: Path traversal rejection, file size limits, decompression bounds
-- **Thread-safe**: Immutable records, stateless extractors, memento pattern for handler state
+- **Single-threaded execution model**: Annatto is driven by one thread (`read()` then the returned package); packages are immutable and stateless between sequential calls
 
 ---
 
@@ -170,10 +170,17 @@ override def getMetadata(
 
 Annatto includes security protections for parsing untrusted package archives:
 
-- **Path traversal rejection**: Archive entries containing `..` are rejected
-- **File size limits**: 10 MB per-entry limit (1 MB for Lua rockspecs)
+- **Content-required routing**: `.tgz`/`.crate` files must contain their ecosystem's marker
+  (e.g. `package/package.json`) — a generic tar.gz is never treated as npm
+- **Path traversal rejection**: Archive entries containing `..`, absolute paths, and CR/LF/DEL
+  control characters are rejected; unsafe symlink targets are refused when opened
+- **No whole-archive buffering**: packages stream through bounded spools and per-pass
+  decompression budgets; a >2 GiB archive fails closed with `SecurityException` instead of OOM
+- **File size limits**: 10 MB per-entry limit, 1 MB per-entry metadata files, 500 MB decompressed
+  metadata scan, per-pass stream budgets, 10,000-entry cap
 - **Token limits**: Lua tokenizer (50,000 tokens) and Erlang tokenizer (50,000 tokens)
 - **Nesting depth limits**: Lua table depth 20, Erlang term depth 10
+- **Sanitized messages**: error messages never leak host/temp paths (basename only)
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting.
 

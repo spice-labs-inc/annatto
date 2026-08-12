@@ -38,7 +38,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CpanMetadataExtractor} comparing extraction results against
@@ -59,8 +58,9 @@ class CpanMetadataExtractorTest {
     private static final Gson GSON = new Gson();
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CPAN_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CPAN_CORPUS))
                 .as("cpan test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -777,7 +777,7 @@ class CpanMetadataExtractorTest {
 
     private Path findPackage(String filename) {
         Path pkg = CPAN_CORPUS.resolve(filename);
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
         return pkg;
     }
 

@@ -52,7 +52,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link NpmHandler} covering the full handler lifecycle:
@@ -73,8 +72,9 @@ class NpmHandlerTest {
     private NpmHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(NPM_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(NPM_CORPUS))
                 .as("npm test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -93,7 +93,7 @@ class NpmHandlerTest {
     @Test
     void begin_returnsNpmMementoWithMetadata() throws Exception {
         Path tgz = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("lodash-4.17.21.tgz"),
@@ -129,7 +129,7 @@ class NpmHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path tgz = NPM_CORPUS.resolve("express-4.18.2.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("express-4.18.2.tgz"),
@@ -174,7 +174,7 @@ class NpmHandlerTest {
     @Test
     void getPurls_unscopedPackage_generatesCorrectPurl() throws Exception {
         Path tgz = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("lodash-4.17.21.tgz"),
@@ -195,7 +195,7 @@ class NpmHandlerTest {
     @Test
     void getPurls_scopedPackage_generatesCorrectPurl() throws Exception {
         Path tgz = NPM_CORPUS.resolve("babel-core-7.24.0.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("babel-core-7.24.0.tgz"),
@@ -252,7 +252,7 @@ class NpmHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path tgz = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("lodash-4.17.21.tgz"),
@@ -276,8 +276,8 @@ class NpmHandlerTest {
         // processing on different handler instances don't cross-contaminate.
         Path pkg1 = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
         Path pkg2 = NPM_CORPUS.resolve("express-4.18.2.tgz");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         NpmHandler handler1 = new NpmHandler();
         NpmHandler handler2 = new NpmHandler();

@@ -17,7 +17,11 @@ package io.spicelabs.annatto.ecosystem.rubygems;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
+import io.spicelabs.annatto.internal.BoundedInflateStream;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Spool;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.jetbrains.annotations.NotNull;
@@ -47,8 +51,10 @@ public final class RubygemsPackage implements LanguagePackage {
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
      * Create a RubygemsPackage from a file path.
@@ -59,10 +65,7 @@ public final class RubygemsPackage implements LanguagePackage {
      */
     public static RubygemsPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
@@ -75,21 +78,51 @@ public final class RubygemsPackage implements LanguagePackage {
      */
     public static RubygemsPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        // Extract metadata from metadata.gz
-        Map<String, Object> gemSpec = extractMetadata(data, filename);
-        PackageMetadata metadata = parseMetadata(gemSpec);
-
-        return new RubygemsPackage(filename, metadata, data);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private RubygemsPackage(String filename, PackageMetadata metadata, byte[] data) {
+    /**
+     * Create a RubygemsPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the package stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static RubygemsPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    public static RubygemsPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static RubygemsPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Map<String, Object> gemSpec;
+        try {
+            gemSpec = extractMetadata(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(gemSpec);
+        return new RubygemsPackage(filename, source, metadata, limits);
+    }
+
+    private RubygemsPackage(String filename, PackageSource source, PackageMetadata metadata, Limits limits) {
         this.filename = filename;
         this.metadata = metadata;
-        this.data = data;
+        this.source = source;
+        this.limits = limits;
     }
 
     @Override
@@ -135,25 +168,40 @@ public final class RubygemsPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return new RubygemsEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return new RubygemsEntryStream();
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractMetadata(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
+    private static Map<String, Object> extractMetadata(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name())) {
+                new BufferedInputStream(new FileInputStream(file.toFile()), 8192), StandardCharsets.UTF_8.name())) {
 
             TarArchiveEntry entry;
+            int count = 0;
             while ((entry = tarIn.getNextEntry()) != null) {
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
@@ -163,32 +211,27 @@ public final class RubygemsPackage implements LanguagePackage {
                         throw new AnnattoException.SecurityException(
                             "metadata.gz exceeds size limit");
                     }
-                    return readAndParseMetadataGz(tarIn);
+                    // Nested member decompression is bounded (Phase 8).
+                    return readAndParseMetadataGz(tarIn, filename, Math.min(limits.scanBytes(), MAX_METADATA_SIZE));
                 }
             }
             throw new AnnattoException.MalformedPackageException(
                 "No metadata.gz found in gem: " + filename);
-        } catch (AnnattoException.MalformedPackageException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException(
-                "Failed to read gem archive: " + e.getMessage(), e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> readAndParseMetadataGz(InputStream stream) throws IOException {
-        try (GZIPInputStream gzis = new GZIPInputStream(stream);
+    private static Map<String, Object> readAndParseMetadataGz(InputStream gzSource, String filename, long cap)
+            throws IOException {
+        // Bound the DECOMPRESSED member bytes: the bounded inflate wrapper sits between the
+        // nested GZIPInputStream and the YAML read, so over-limit members fail closed.
+        try (BoundedInflateStream bounded =
+                     new BoundedInflateStream(new GZIPInputStream(gzSource), cap, filename, () -> { });
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
             byte[] buffer = new byte[8192];
             int read;
-            long totalRead = 0;
-            while ((read = gzis.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > MAX_METADATA_SIZE) {
-                    throw new IOException("metadata.gz content exceeds size limit");
-                }
+            while ((read = bounded.read(buffer)) != -1) {
                 baos.write(buffer, 0, read);
             }
 
@@ -318,6 +361,18 @@ public final class RubygemsPackage implements LanguagePackage {
     /**
      * Entry stream implementation for RubyGems packages.
      */
+    private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
     private class RubygemsEntryStream implements PackageEntryStream {
         private final TarArchiveInputStream tarIn;
         private TarArchiveEntry currentEntry;
@@ -326,19 +381,20 @@ public final class RubygemsPackage implements LanguagePackage {
 
         RubygemsEntryStream() throws IOException {
             this.tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name());
+                new BufferedInputStream(new FileInputStream(source.path().toFile()), 8192),
+                StandardCharsets.UTF_8.name());
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -372,7 +428,7 @@ public final class RubygemsPackage implements LanguagePackage {
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
                     " (" + size + " > " + MAX_ENTRY_SIZE + ")");
@@ -384,7 +440,7 @@ public final class RubygemsPackage implements LanguagePackage {
             long totalRead = 0;
             while ((read = tarIn.read(buffer)) != -1) {
                 totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
+                if (totalRead > limits.entryBytes()) {
                     throw new AnnattoException.SecurityException(
                         "Entry exceeds size limit during read");
                 }

@@ -47,7 +47,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link RubygemsHandler} covering the full handler lifecycle:
@@ -64,8 +63,9 @@ class RubygemsHandlerTest {
     private RubygemsHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(GEMS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(GEMS_CORPUS))
                 .as("rubygems test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -84,7 +84,7 @@ class RubygemsHandlerTest {
     @Test
     void begin_returnsRubygemsMementoWithMetadata() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rake-13.1.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(gem.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -122,7 +122,7 @@ class RubygemsHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rake-13.1.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(gem.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -169,7 +169,7 @@ class RubygemsHandlerTest {
     @Test
     void getPurls_rake_generatesCorrectPurl() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rake-13.1.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(gem.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -228,7 +228,7 @@ class RubygemsHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path gem = GEMS_CORPUS.resolve("rake-13.1.0.gem");
-        assumeThat(Files.exists(gem)).isTrue();
+        assertThat(Files.exists(gem)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(gem.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -248,8 +248,8 @@ class RubygemsHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = GEMS_CORPUS.resolve("rake-13.1.0.gem");
         Path pkg2 = GEMS_CORPUS.resolve("json-2.7.1.gem");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         RubygemsHandler handler1 = new RubygemsHandler();
         RubygemsHandler handler2 = new RubygemsHandler();

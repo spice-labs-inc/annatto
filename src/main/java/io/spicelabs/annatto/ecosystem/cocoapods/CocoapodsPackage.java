@@ -18,13 +18,19 @@ import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import com.google.gson.*;
 import io.spicelabs.annatto.*;
+import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Spool;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,9 +52,11 @@ public final class CocoapodsPackage implements LanguagePackage {
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
+    private final Limits limits;
     private final boolean isZipFormat;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
      * Create a CocoapodsPackage from a file path.
@@ -59,10 +67,7 @@ public final class CocoapodsPackage implements LanguagePackage {
      */
     public static CocoapodsPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
@@ -75,24 +80,55 @@ public final class CocoapodsPackage implements LanguagePackage {
      */
     public static CocoapodsPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        boolean isZip = filename.toLowerCase().endsWith(".zip");
-        String podspecJson = isZip
-                ? extractPodspecFromZip(data, filename)
-                : new String(data, StandardCharsets.UTF_8);
-
-        PackageMetadata metadata = parseMetadata(podspecJson);
-        return new CocoapodsPackage(filename, metadata, data, isZip);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private CocoapodsPackage(String filename, PackageMetadata metadata, byte[] data, boolean isZip) {
+    /**
+     * Create a CocoapodsPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the package stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static CocoapodsPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    public static CocoapodsPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static CocoapodsPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        boolean isZip = filename.toLowerCase(java.util.Locale.ROOT).endsWith(".zip");
+        String podspecJson;
+        try {
+            podspecJson = isZip
+                ? extractPodspecFromZip(source.path(), filename, limits)
+                : readFileBounded(source.path(), filename, Math.min(limits.entryBytes(), MAX_PODSPEC_SIZE));
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(podspecJson);
+        return new CocoapodsPackage(filename, source, metadata, isZip, limits);
+    }
+
+    private CocoapodsPackage(String filename, PackageSource source, PackageMetadata metadata, boolean isZip, Limits limits) {
         this.filename = filename;
         this.metadata = metadata;
-        this.data = data;
+        this.source = source;
         this.isZipFormat = isZip;
+        this.limits = limits;
     }
 
     @Override
@@ -138,63 +174,78 @@ public final class CocoapodsPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
+        }
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
             if (isZipFormat) {
                 return new CocoapodsZipEntryStream();
             } else {
                 // For JSON files, return a single-entry stream with the JSON itself
                 return new SingleEntryStream();
             }
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
         }
-        throw new IllegalStateException("A stream is already open on this package");
     }
 
     @Override
     public void close() {
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
-    private static String extractPodspecFromZip(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        try (ZipArchiveInputStream zipIn = new ZipArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name(), true, true)) {
-
-            ZipArchiveEntry entry;
-            while ((entry = zipIn.getNextEntry()) != null) {
+    private static String extractPodspecFromZip(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        try (ZipFile zf = Archives.zipFile(file)) {
+            java.util.Enumeration<ZipArchiveEntry> entries = zf.getEntries();
+            int count = 0;
+            while (entries.hasMoreElements()) {
+                ZipArchiveEntry entry = entries.nextElement();
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
-                String entryName = entry.getName();
-                if (entryName.endsWith(".podspec.json")) {
-                    if (entry.getSize() > MAX_PODSPEC_SIZE) {
-                        throw new AnnattoException.SecurityException("podspec.json exceeds size limit");
-                    }
-                    return readStreamToString(zipIn, entry.getSize());
+                if (entry.getName().endsWith(".podspec.json")) {
+                    return readStreamToString(zf.getInputStream(entry), filename,
+                            Math.min(limits.entryBytes(), MAX_PODSPEC_SIZE));
                 }
             }
             throw new AnnattoException.MalformedPackageException("No .podspec.json found in: " + filename);
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException("Failed to read package: " + e.getMessage(), e);
         }
     }
 
-    private static String readStreamToString(InputStream stream, long size) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(
-                size > 0 ? (int) Math.min(size, MAX_PODSPEC_SIZE) : 8192);
+    private static String readStreamToString(InputStream stream, String filename, long cap) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) Math.min(cap, 8192));
         byte[] buffer = new byte[8192];
         int read;
         long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
             totalRead += read;
-            if (totalRead > MAX_PODSPEC_SIZE) {
-                throw new IOException("Content exceeds size limit");
+            if (totalRead > cap) {
+                throw new AnnattoException.SecurityException(
+                    "Metadata file exceeds size limit: " + filename);
             }
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);
     }
 
-    private static PackageMetadata parseMetadata(String podspecJson)
+    private static String readFileBounded(Path file, String filename, long cap) throws IOException {
+        try (InputStream in = new BufferedInputStream(Files.newInputStream(file), 8192)) {
+            return readStreamToString(in, filename, cap);
+        }
+    }
+
+private static PackageMetadata parseMetadata(String podspecJson)
             throws AnnattoException.MalformedPackageException {
         JsonObject json;
         try {
@@ -291,7 +342,19 @@ public final class CocoapodsPackage implements LanguagePackage {
         return deps;
     }
 
-    /**
+        private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
+/**
      * Single entry stream for JSON files (returns the JSON itself as the only entry).
      */
     private class SingleEntryStream implements PackageEntryStream {
@@ -305,22 +368,36 @@ public final class CocoapodsPackage implements LanguagePackage {
         }
 
         @Override
-        public @NotNull PackageEntry nextEntry() {
+        public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
             if (returned) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
             returned = true;
-            return new PackageEntry(filename, data.length, false, false, Optional.empty());
+            return new PackageEntry(filename, Files.size(source.path()), false, false, Optional.empty());
         }
 
         @Override
-        public @NotNull InputStream openStream() {
+        public @NotNull InputStream openStream() throws IOException {
             checkClosed();
             if (!returned) {
                 throw new IllegalStateException("No current entry");
             }
-            return new ByteArrayInputStream(data);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[8192];
+            long total = 0;
+            try (InputStream in = new BufferedInputStream(Files.newInputStream(source.path()), 8192)) {
+                int r;
+                while ((r = in.read(buffer)) != -1) {
+                    total += r;
+                    if (total > limits.entryBytes()) {
+                        throw new AnnattoException.SecurityException(
+                            "Entry exceeds size limit during read");
+                    }
+                    baos.write(buffer, 0, r);
+                }
+            }
+            return new ByteArrayInputStream(baos.toByteArray());
         }
 
         @Override
@@ -336,29 +413,31 @@ public final class CocoapodsPackage implements LanguagePackage {
         }
     }
 
-    /**
-     * Entry stream for ZIP format.
-     */
     private class CocoapodsZipEntryStream implements PackageEntryStream {
-        private final ZipArchiveInputStream zipIn;
+        private final ZipFile zf;
+        private final java.util.Enumeration<ZipArchiveEntry> entries;
+        private final java.util.concurrent.atomic.AtomicLong passInflated = new java.util.concurrent.atomic.AtomicLong();
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
         private ZipArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         CocoapodsZipEntryStream() throws IOException {
-            this.zipIn = new ZipArchiveInputStream(
-                    new ByteArrayInputStream(data), StandardCharsets.UTF_8.name(), true, true);
+            this.zf = Archives.zipFile(source.path());
+            this.entries = zf.getEntries();
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException("Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
-            currentEntry = zipIn.getNextEntry();
+            checkBudget();
+            currentEntry = entries.hasMoreElements() ? entries.nextElement() : null;
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -366,47 +445,53 @@ public final class CocoapodsPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
-
             String name = PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
-
             return new PackageEntry(
-                    name,
-                    size,
-                    currentEntry.isDirectory(),
-                    false,
-                    Optional.empty()
+                name,
+                size,
+                currentEntry.isDirectory(),
+                false,
+                Optional.empty()
             );
         }
 
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
-
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
-                throw new AnnattoException.SecurityException("Entry exceeds size limit: " + currentEntry.getName() +
-                        " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+            if (size >= 0 && size > limits.entryBytes()) {
+                throw new AnnattoException.SecurityException(
+                    "Entry exceeds size limit: " + currentEntry.getName() +
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
-
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
             long totalRead = 0;
-            while ((read = zipIn.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
-                    throw new AnnattoException.SecurityException("Entry exceeds size limit during read");
+            try (InputStream in = zf.getInputStream(currentEntry)) {
+                while ((read = in.read(buffer)) != -1) {
+                    totalRead += read;
+                    if (totalRead > limits.entryBytes()) {
+                        throw new AnnattoException.SecurityException(
+                            "Entry exceeds size limit during read");
+                    }
+                    if (passInflated.addAndGet(read) > limits.zipPassBytes()) {
+                        budgetExceeded.set(true);
+                        throw new AnnattoException.SecurityException(
+                            "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
+                    }
+                    baos.write(buffer, 0, read);
                 }
-                baos.write(buffer, 0, read);
             }
-
             return new ByteArrayInputStream(baos.toByteArray());
         }
 
@@ -415,7 +500,7 @@ public final class CocoapodsPackage implements LanguagePackage {
             if (!closed) {
                 closed = true;
                 try {
-                    zipIn.close();
+                    zf.close();
                 } catch (IOException e) {
                     // Ignore
                 }
@@ -426,6 +511,13 @@ public final class CocoapodsPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
             }
         }
     }

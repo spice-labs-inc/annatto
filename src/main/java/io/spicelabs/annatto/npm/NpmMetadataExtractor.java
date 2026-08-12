@@ -145,18 +145,8 @@ public final class NpmMetadataExtractor {
      * or is just "package.json" at root level.
      */
     static boolean isPackageJson(@NotNull String entryName) {
-        // Normalize path separators
-        String normalized = entryName.replace('\\', '/');
-        // Match: package/package.json, or any-prefix/package.json (one level deep)
-        if (normalized.equals("package.json")) {
-            return true;
-        }
-        if (normalized.endsWith("/package.json")) {
-            // Ensure it's only one directory deep
-            String withoutFile = normalized.substring(0, normalized.length() - "/package.json".length());
-            return !withoutFile.contains("/");
-        }
-        return false;
+        // Single source of truth (Phase 7): shared marker used by routing and both extractors.
+        return io.spicelabs.annatto.markers.NpmEntryMarker.isPackageJson(entryName);
     }
 
     private static @NotNull JsonObject parseJsonFromStream(@NotNull InputStream stream)

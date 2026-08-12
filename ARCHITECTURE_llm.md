@@ -43,7 +43,7 @@
 2. Non-null - `name()` and `version()` never return null (empty string if unknown)
 3. Optional - `description()`, `license()`, `publisher()` return `Optional`
 4. Single stream - Only one `PackageEntryStream` open at a time per package
-5. Thread-safe - Concurrent metadata reads OK; stream access serialized
+5. Single-threaded - one thread reads; one active stream per package
 
 **Security Limits (all implementations):**
 - MAX_ENTRIES = 10,000
@@ -149,13 +149,17 @@ LanguagePackageReader routes by MIME type + content:
 | `application/x-tar` | RubyGems | `.gem` extension |
 | `application/x-tar` | Hex | not `.gem`, has `metadata.config` |
 
-## Thread Safety Model
+## Execution Model (Single-Threaded)
+
+Annatto has NO concurrency requirement (ADR-004, de-scoped 2026-08):
+- One thread calls `LanguagePackageReader.read(...)`, then reads the returned package.
+- Concurrent `read()`/`streamEntries()`/`close()` is out of scope and not guaranteed.
 
 ```
 LanguagePackage (immutable)
-├── metadata: PackageMetadata (immutable, safe for concurrent read)
-└── streamOpen: AtomicBoolean (serializes stream access)
-    └── PackageEntryStream (only one active at a time)
+├── metadata: PackageMetadata (immutable; repeated reads consistent)
+└── streamOpen: AtomicBoolean (enforces single-stream-per-package)
+    └── PackageEntryStream (one active at a time; single-threaded use)
 ```
 
 ## File Organization
@@ -188,7 +192,7 @@ src/
 | 001 | Stream Lifecycle | Single-stream policy with AtomicBoolean |
 | 002 | Double Read | Load into memory, parse twice for metadata + entries |
 | 003 | Metadata Extensibility | Raw map for ecosystem-specific fields |
-| 004 | Thread Safety | Immutability + AtomicBoolean serialization |
+| 004 | Execution Model | Single-threaded; immutable after construction |
 | 005 | Security Model | Limits on entries, size, path validation |
 | 006 | Source-of-Truth | Docker-native extraction with comparison rules |
 

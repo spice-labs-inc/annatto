@@ -23,11 +23,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -230,124 +225,51 @@ public abstract class LanguagePackageContractTest {
     }
 
     /**
-     * Goal: Verify that after close(), a new stream can be opened.
-     * Rationale: Packages should be reusable after proper cleanup.
-     * Requirement: Stream lifecycle - reusability after close
+     * Goal: Verify that close() makes the package closed and a later streamEntries() fails.
+     * Rationale (S-5, approved): close() now releases package-owned resources (e.g. a
+     * spooled temp file) and marks the package closed; using a closed package is a caller
+     * error. This replaces the old "reopen after close" contract.
+     * Requirement: Package lifecycle - closed-package semantics
      */
     @Test
-    @DisplayName("streamEntries() allows new stream after close()")
-    void streamEntries_afterCloseAllowsNewStream() throws IOException {
+    @DisplayName("streamEntries() throws after close() (closed package)")
+    void streamEntries_afterCloseThrows() throws IOException {
         LanguagePackage pkg = createValidPackage();
 
-        // First stream
+        // First stream: valid while the package is open
         try (PackageEntryStream stream1 = pkg.streamEntries()) {
             assertThat(stream1).isNotNull();
         }
+
         pkg.close();
 
-        // Second stream after close
-        try (PackageEntryStream stream2 = pkg.streamEntries()) {
-            assertThat(stream2).isNotNull();
-        }
+        // After close() the package is closed and must refuse new streams
+        assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(pkg::streamEntries)
+                .withMessageContaining("closed");
     }
 
-    /**
-     * Goal: Verify that concurrent stream access from multiple threads throws.
-     * Rationale: Stream state is not thread-safe; concurrent access could corrupt state.
-     * Requirement: Thread safety - stream access serialization
-     */
-    @Test
-    @DisplayName("streamEntries() throws on concurrent access from multiple threads")
-    void concurrentStreamAccessThrows() throws Exception {
-        LanguagePackage pkg = createValidPackage();
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<Exception> firstException = new AtomicReference<>();
-        AtomicReference<Exception> secondException = new AtomicReference<>();
-
-        // First thread opens stream
-        executor.submit(() -> {
-            try {
-                PackageEntryStream stream = pkg.streamEntries();
-                latch.await(); // Wait for signal
-                stream.close();
-            } catch (Exception e) {
-                firstException.set(e);
-            }
-        });
-
-        // Second thread tries to open stream concurrently
-        executor.submit(() -> {
-            try {
-                Thread.sleep(50); // Give first thread time to open
-                latch.countDown(); // Signal first thread
-                pkg.streamEntries(); // This should throw
-            } catch (IllegalStateException e) {
-                secondException.set(e); // Expected
-            } catch (Exception e) {
-                secondException.set(e);
-            }
-        });
-
-        executor.shutdown();
-        executor.awaitTermination(5, TimeUnit.SECONDS);
-
-        try {
-            // At least one thread should have gotten IllegalStateException
-            assertThat(secondException.get())
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("stream is already open");
-        } finally {
-            pkg.close();
-        }
-    }
-
-    // --- Thread safety tests ---
+    // --- Single-threaded immutable-access contract (ADR-004) ---
 
     /**
-     * Goal: Verify that multiple threads reading metadata concurrently don't interfere.
-     * Rationale: LanguagePackage is immutable; concurrent reads should be safe.
-     * Requirement: Thread safety - immutable after construction
+     * Goal: Verify that repeated metadata reads return consistent results after construction.
+     * Rationale: Annatto executes on a single thread (ADR-004): the package is immutable after
+     * construction, so repeated reads must return equal values.
+     * Requirement: Immutability - consistent after construction
      */
     @Test
-    @DisplayName("concurrent read-only access is thread-safe")
-    void concurrentReadOnlyAccessIsThreadSafe() throws Exception {
+    @DisplayName("repeated metadata reads are consistent")
+    void repeatedReadsConsistentAfterConstruction() {
         LanguagePackage pkg = createValidPackage();
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        CountDownLatch startLatch = new CountDownLatch(1);
-        CountDownLatch completeLatch = new CountDownLatch(4);
 
-        for (int i = 0; i < 4; i++) {
-            executor.submit(() -> {
-                try {
-                    startLatch.await();
-                    // Perform read operations
-                    String name = pkg.name();
-                    String version = pkg.version();
-                    String mimeType = pkg.mimeType();
-                    Ecosystem ecosystem = pkg.ecosystem();
-                    PackageMetadata metadata = pkg.metadata();
-                    Optional<PackageURL> purl = pkg.toPurl();
-
-                    // Verify none are null (would indicate race condition)
-                    assertThat(name).isNotNull();
-                    assertThat(version).isNotNull();
-                    assertThat(mimeType).isNotNull();
-                    assertThat(ecosystem).isNotNull();
-                    assertThat(metadata).isNotNull();
-                } catch (Exception e) {
-                    fail("Concurrent access failed: " + e.getMessage());
-                } finally {
-                    completeLatch.countDown();
-                }
-            });
+        for (int i = 0; i < 50; i++) {
+            assertThat(pkg.name()).isNotNull();
+            assertThat(pkg.version()).isNotNull();
+            assertThat(pkg.mimeType()).isNotNull();
+            assertThat(pkg.ecosystem()).isNotNull();
+            assertThat(pkg.metadata()).isNotNull();
+            assertThat(pkg.toPurl()).isEqualTo(pkg.toPurl());
         }
-
-        startLatch.countDown(); // All threads start simultaneously
-        completeLatch.await(10, TimeUnit.SECONDS);
-        executor.shutdown();
-
-        // Test passes if no exceptions thrown
     }
 
     // --- Security contract tests (documented as abstract methods) ---

@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Contract tests for {@link RubygemsPackage}.
@@ -56,10 +55,10 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
     @Override
     protected LanguagePackage createValidPackage() {
         List<PackageTestCase> cases = testCases();
-        assumeThat(cases).as("At least one package/JSON pair must exist").isNotEmpty();
+        assertThat(cases).as("At least one package/JSON pair must exist").isNotEmpty();
 
         PackageTestCase firstCase = cases.get(0);
-        assumeThat(Files.exists(firstCase.packagePath()))
+        assertThat(Files.exists(firstCase.packagePath()))
             .as("Package file must exist: %s", firstCase.packagePath())
             .isTrue();
 
@@ -124,7 +123,7 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
     @Override
     protected String expectedValidPurl() {
         List<PackageTestCase> cases = testCases();
-        assumeThat(cases).as("At least one package/JSON pair must exist").isNotEmpty();
+        assertThat(cases).as("At least one package/JSON pair must exist").isNotEmpty();
 
         try {
             JsonObject expected = cases.get(0).loadExpectedJson();
@@ -151,7 +150,7 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
     @MethodSource("testCases")
     @DisplayName("extracts metadata matching source of truth")
     void extractsMetadataMatchingSourceOfTruth(PackageTestCase testCase) throws Exception {
-        assumeThat(Files.exists(testCase.packagePath()))
+        assertThat(Files.exists(testCase.packagePath()))
             .as("Package file must exist: %s", testCase.packagePath())
             .isTrue();
 
@@ -176,7 +175,7 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
     @MethodSource("testCases")
     @DisplayName("generates correct PURL matching source of truth")
     void generatesCorrectPurl(PackageTestCase testCase) throws Exception {
-        assumeThat(Files.exists(testCase.packagePath()))
+        assertThat(Files.exists(testCase.packagePath()))
             .as("Package file must exist: %s", testCase.packagePath())
             .isTrue();
 

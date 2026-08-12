@@ -36,15 +36,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Integration tests for {@link LanguagePackageReader}.
@@ -61,7 +55,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  *   <li>Error handling (UnknownFormatException, MalformedPackageException)</li>
  *   <li>MIME type queries (isSupported, supportedMimeTypes)</li>
  *   <li>Ecosystem detection API (detect)</li>
- *   <li>Thread safety for concurrent read calls</li>
+ *   <li>Sequential (single-threaded model) repeatability — reader methods are reentrant</li>
  * </ul>
  *
  * <p>Implementation Note: Tests use SourceOfTruthLoader to discover package files
@@ -103,12 +97,12 @@ class LanguagePackageReaderIntegrationTest {
     void readPath_autoDetectsEcosystem(String ecosystemName, Ecosystem expectedEcosystem, Class<?> expectedClass) throws Exception {
         // Discover test cases from ground truth documents
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases(ecosystemName);
-        assumeThat(cases)
+        assertThat(cases)
             .as("At least one package/JSON pair must exist for %s", ecosystemName)
             .isNotEmpty();
 
         PackageTestCase testCase = cases.get(0);
-        assumeThat(Files.exists(testCase.packagePath()))
+        assertThat(Files.exists(testCase.packagePath()))
             .as("Package file must exist: %s", testCase.packagePath())
             .isTrue();
 
@@ -127,10 +121,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("read(Path, String) uses provided MIME type for routing")
     void readPathWithMimeType_usesProvidedMimeType() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         LanguagePackage result = LanguagePackageReader.read(pkg, "application/gzip");
         assertThat(result).isNotNull();
@@ -162,10 +156,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("read(InputStream, String, String) uses filename hint for detection")
     void readStream_withFilenameHint() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         String filename = pkg.getFileName().toString();
         byte[] data = Files.readAllBytes(pkg);
@@ -173,6 +167,69 @@ class LanguagePackageReaderIntegrationTest {
             LanguagePackage result = LanguagePackageReader.read(stream, filename, "application/gzip");
             assertThat(result).isNotNull();
             assertThat(result.ecosystem()).isEqualTo(Ecosystem.NPM);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid npm tgz (guard: spool-once handoff)")
+    void readStream_validNpmTgzStillParses() throws Exception {
+        byte[] tgz = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "package/package.json", "{\"name\": \"guard-pkg\", \"version\": \"1.0.0\"}"),
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of("package/index.js", "1"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(tgz)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-pkg-1.0.0.tgz", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.NPM);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid crate (guard: spool-once handoff)")
+    void readStream_validCrateStillParses() throws Exception {
+        byte[] crateBytes = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "guard-crate-1.0.0/Cargo.toml",
+                        "[package]\nname = \"guard-crate\"\nversion = \"1.0.0\"\n"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(crateBytes)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-crate-1.0.0.crate", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.CRATES);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid PyPI sdist (RED: stream-drain bug)")
+    void readStream_validSdistStillParses() throws Exception {
+        // RED until the Phase 7 spool-once-and-handoff lands: today the ".tar.gz" name is
+        // ambiguous, so route(...) consumes the caller's stream during content disambiguation
+        // (EcosystemRouter.disambiguateGzipTar drains it to EOF) and the package factory then
+        // receives an exhausted stream and fails. The reader fix (spool once + handoff the
+        // owned spooled file) makes this parse again.
+        byte[] sdist = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "guard-sdist-1.0.0/PKG-INFO", "Name: guard-sdist\nVersion: 1.0.0\n"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(sdist)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-sdist-1.0.0.tar.gz", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.PYPI);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) refuses a generic tgz with UnknownFormatException")
+    void readStream_genericTgzNotNpm() throws IOException {
+        byte[] genericTgz = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of("repo_ea/README.md", "# Repo"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(genericTgz)) {
+            assertThatExceptionOfType(AnnattoException.UnknownFormatException.class)
+                    .isThrownBy(() -> LanguagePackageReader.read(stream, "repo_ea.tgz", "application/gzip"))
+                    .as("generic .tgz must not be parsed as npm on the stream path either")
+                    .withMessageContaining("Cannot determine ecosystem");
         }
     }
 
@@ -242,10 +299,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("detect returns ecosystem for supported package")
     void detect_returnsEcosystemForSupportedPackage() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         Optional<Ecosystem> result = LanguagePackageReader.detect(pkg);
         assertThat(result).isPresent();
@@ -264,62 +321,12 @@ class LanguagePackageReaderIntegrationTest {
         }
     }
 
-    // --- Thread safety tests ---
+    // --- Sequential (single-threaded execution model, ADR-004) tests ---
 
     @Test
-    @DisplayName("concurrent read calls do not interfere")
-    void concurrentReadCallsDoNotInterfere() throws Exception {
-        List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
-
-        Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
-
-        ExecutorService executor = Executors.newFixedThreadPool(20);
-        CountDownLatch startLatch = new CountDownLatch(1);
-        CountDownLatch completeLatch = new CountDownLatch(20);
-        AtomicInteger successCount = new AtomicInteger(0);
-        java.util.List<Exception> errors = java.util.Collections.synchronizedList(new java.util.ArrayList<>());
-
-        for (int i = 0; i < 20; i++) {
-            final int threadNum = i;
-            executor.submit(() -> {
-                try {
-                    startLatch.await();
-                    LanguagePackage result = LanguagePackageReader.read(pkg);
-                    if (result != null && result.ecosystem() == Ecosystem.NPM) {
-                        successCount.incrementAndGet();
-                    }
-                } catch (Exception e) {
-                    errors.add(new RuntimeException("Thread " + threadNum + " failed: " + e.getMessage(), e));
-                } finally {
-                    completeLatch.countDown();
-                }
-            });
-        }
-
-        startLatch.countDown();
-        completeLatch.await(30, TimeUnit.SECONDS);
-        executor.shutdown();
-
-        // Print all errors for debugging
-        if (!errors.isEmpty()) {
-            System.err.println("=== ERRORS during concurrent read ===");
-            for (Exception e : errors) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-            System.err.println("=== END ERRORS ===");
-            fail("Had " + errors.size() + " errors out of 20 threads. First error: " + errors.get(0));
-        }
-
-        assertThat(successCount.get()).isEqualTo(20);
-    }
-
-    @Test
-    @DisplayName("reader methods are reentrant")
+    @DisplayName("reader methods are sequential/repeatable")
     void readerMethodsAreReentrant() {
-        // Multiple calls to static query methods should be safe
+        // Multiple sequential calls to static query methods should be safe.
         for (int i = 0; i < 100; i++) {
             Set<String> supported = LanguagePackageReader.supportedMimeTypes();
             assertThat(supported).isNotEmpty();

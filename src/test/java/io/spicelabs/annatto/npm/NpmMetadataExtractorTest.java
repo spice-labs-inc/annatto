@@ -34,7 +34,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link NpmMetadataExtractor} comparing extraction results against
@@ -61,8 +60,9 @@ class NpmMetadataExtractorTest {
     private static final Path NPM_EXPECTED = TestCorpusDownloader.expectedDir("npm");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(NPM_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(NPM_CORPUS))
                 .as("npm test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -229,7 +229,7 @@ class NpmMetadataExtractorTest {
     @Test
     void scopedPackage_babelCore_extractsCorrectly() throws Exception {
         Path tgz = NPM_CORPUS.resolve("babel-core-7.24.0.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -245,7 +245,7 @@ class NpmMetadataExtractorTest {
     @Test
     void scopedPackage_angularCore_extractsCorrectly() throws Exception {
         Path tgz = NPM_CORPUS.resolve("angular-core-17.2.0.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -261,7 +261,7 @@ class NpmMetadataExtractorTest {
     @Test
     void scopedPackage_typesNode_extractsCorrectly() throws Exception {
         Path tgz = NPM_CORPUS.resolve("types-node-20.11.16.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -278,7 +278,7 @@ class NpmMetadataExtractorTest {
     @Test
     void unscopedPackage_lodash_extractsCorrectly() throws Exception {
         Path tgz = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -297,7 +297,7 @@ class NpmMetadataExtractorTest {
     @Test
     void unscopedPackage_express_hasManyDependencies() throws Exception {
         Path tgz = NPM_CORPUS.resolve("express-4.18.2.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -319,7 +319,7 @@ class NpmMetadataExtractorTest {
     @Test
     void authorAsString_express_extractsNameOnly() throws Exception {
         Path tgz = NPM_CORPUS.resolve("express-4.18.2.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -334,7 +334,7 @@ class NpmMetadataExtractorTest {
     @Test
     void authorAbsent_chalk_returnsEmpty() throws Exception {
         Path tgz = NPM_CORPUS.resolve("chalk-5.3.0.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
         JsonObject expected = SourceOfTruth.loadExpected(SourceOfTruth.expectedPathFor(tgz, NPM_EXPECTED));
@@ -353,7 +353,7 @@ class NpmMetadataExtractorTest {
     @Test
     void peerDependencies_angularCore_extracted() throws Exception {
         Path tgz = NPM_CORPUS.resolve("angular-core-17.2.0.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -373,7 +373,7 @@ class NpmMetadataExtractorTest {
     @Test
     void devOnlyDeps_minimist_allDev() throws Exception {
         Path tgz = NPM_CORPUS.resolve("minimist-1.2.8.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         MetadataResult result = extractFromTgz(tgz);
 
@@ -501,7 +501,7 @@ class NpmMetadataExtractorTest {
     @Test
     void fullExtraction_lodash_fromTgz() throws Exception {
         Path tgz = NPM_CORPUS.resolve("lodash-4.17.21.tgz");
-        assumeThat(Files.exists(tgz)).isTrue();
+        assertThat(Files.exists(tgz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tgz.toFile())) {
             MetadataResult result = NpmMetadataExtractor.extract(fis, "lodash-4.17.21.tgz");

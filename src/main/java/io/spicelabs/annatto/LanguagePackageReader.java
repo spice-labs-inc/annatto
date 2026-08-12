@@ -27,6 +27,8 @@ import io.spicelabs.annatto.ecosystem.npm.NpmPackage;
 import io.spicelabs.annatto.ecosystem.packagist.PackagistPackage;
 import io.spicelabs.annatto.ecosystem.pypi.PyPIPackage;
 import io.spicelabs.annatto.ecosystem.rubygems.RubygemsPackage;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.Spool;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -37,12 +39,26 @@ import java.util.Set;
 /**
  * Main entry point for reading language packages.
  *
+ * <p>Phase 7 (Bug 1/Bug 2):
+ * <ul>
+ *   <li>{@code read(Path,...)} routes with content-required disambiguation on a BOUNDED
+ *       scanning pass (no temp copy); packages read directly from the caller path.</li>
+ *   <li>{@code read(InputStream,...)} SPOOLS the stream ONCE (bounded), routes from the
+ *       spooled file, and hands the owned spooled file to the package factory - fixing both
+ *       the double-spool and the caller-stream-drain bug where the router consumed the
+ *       stream before the package factory saw it.</li>
+ * </ul>
+ *
+ * <p>Threading model (ADR-004): Annatto executes on a SINGLE thread. {@code read(...)} is
+ * invoked by one thread and the returned {@link LanguagePackage} is read by that same thread.
+ * Concurrent {@code read()}/{@code streamEntries()}/{@code close()} is OUT OF SCOPE and not
+ * guaranteed; the Phase 7+ streaming/budget code is not synchronized for concurrent callers.
+ *
  * <p>Claims:
  * <ul>
- *   <li>Thread-safe for all static methods (verified by ThreadSafetyTest)</li>
- *   <li>Stateless - no mutable state between calls (verified by ThreadSafetyTest)</li>
+ *   <li>Stateless - no mutable state between sequential calls (verified by
+ *       LanguagePackageReaderIntegrationTest.readerMethodsAreReentrant)</li>
  *   <li>Never returns null - always Optional or throws (verified by LanguagePackageContractTest)</li>
- *   <li>All methods complete within 1 second for valid input (verified by MimeTypeFuzzTest)</li>
  * </ul>
  */
 public final class LanguagePackageReader {
@@ -56,8 +72,6 @@ public final class LanguagePackageReader {
     /**
      * Read package with Tika-detected MIME type.
      * Primary entry point for Goat Rodeo integration.
-     *
-     * <p>Test: EcosystemRouterDisambiguationTest validates routing for all formats</p>
      *
      * @param path the file path
      * @param tikaMimeType MIME type from Apache Tika
@@ -77,11 +91,8 @@ public final class LanguagePackageReader {
             path.getFileName().toString(), tikaMimeType);
 
         if (ecosystem.isEmpty()) {
-            // Need content inspection
-            try (InputStream is = Files.newInputStream(path)) {
-                BufferedInputStream bis = new BufferedInputStream(is, DETECTION_BUFFER_SIZE);
-                ecosystem = EcosystemRouter.route(path, tikaMimeType, bis);
-            }
+            // Content-required, bounded scan on the path (no temp copy).
+            ecosystem = EcosystemRouter.route(path, tikaMimeType);
         }
 
         if (ecosystem.isEmpty()) {
@@ -89,13 +100,15 @@ public final class LanguagePackageReader {
                 "Cannot determine ecosystem for: " + path.getFileName());
         }
 
-        return createPackage(ecosystem.get(), path.toString());
+        return createPackage(ecosystem.get(), path);
     }
 
     /**
      * Read from stream with Tika-detected MIME type.
      *
-     * <p>Test: StreamingResourceManagementTest validates stream handling</p>
+     * <p>Phase 7: ambiguous streams are spooled ONCE; the owning package adopts the spooled
+     * file (its {@code close()} deletes it). This prevents (a) the old whole-file buffering
+     * OOM and (b) the router draining the caller's stream before the package factory reads it.
      *
      * @param stream the input stream
      * @param filename original filename for hinting
@@ -112,31 +125,31 @@ public final class LanguagePackageReader {
             throw new UnknownFormatException("Unsupported MIME type: " + tikaMimeType);
         }
 
-        Optional<Ecosystem> ecosystem = EcosystemRouter.routeFromFilename(filename, tikaMimeType);
+        String base = basename(filename);
+        Optional<Ecosystem> ecosystem = EcosystemRouter.routeFromFilename(base, tikaMimeType);
 
         if (ecosystem.isEmpty()) {
-            // Need content inspection
-            BufferedInputStream bis;
-            if (stream instanceof BufferedInputStream) {
-                bis = (BufferedInputStream) stream;
-            } else {
-                bis = new BufferedInputStream(stream, DETECTION_BUFFER_SIZE);
+            // Content inspection: spool once, route from the spooled file, hand it over.
+            Spool.Spooled spooled = Spool.create(stream, base, Limits.DEFAULT.spoolBytes());
+            try {
+                ecosystem = EcosystemRouter.route(spooled.path(), tikaMimeType);
+            } catch (IOException e) {
+                Spool.delete(spooled);
+                throw e;
             }
-            ecosystem = EcosystemRouter.route(Path.of(filename), tikaMimeType, bis);
+            if (ecosystem.isEmpty()) {
+                Spool.delete(spooled);
+                throw new UnknownFormatException("Cannot determine ecosystem for: " + base);
+            }
+            return createPackageFromOwnedSpool(ecosystem.get(), spooled, base);
         }
 
-        if (ecosystem.isEmpty()) {
-            throw new UnknownFormatException("Cannot determine ecosystem for: " + filename);
-        }
-
-        return createPackageFromStream(ecosystem.get(), stream, filename);
+        return createPackageFromStream(ecosystem.get(), stream, base);
     }
 
     /**
-     * Read with auto-detection (uses internal Tika if available).
+     * Read with auto-detection (uses content inspection).
      * Convenience method for standalone use.
-     *
-     * <p>Test: EcosystemRouterDisambiguationTest validates detection</p>
      *
      * @param path the file path
      * @return parsed package
@@ -154,13 +167,11 @@ public final class LanguagePackageReader {
                 "Cannot determine ecosystem for: " + path.getFileName());
         }
 
-        return createPackage(ecosystem.get(), path.toString());
+        return createPackage(ecosystem.get(), path);
     }
 
     /**
      * Check if MIME type is supported without parsing.
-     *
-     * <p>Test: MimeTypeFuzzTest.forall(String).routerNeverThrows</p>
      *
      * @param tikaMimeType MIME type from Apache Tika
      * @return true if supported
@@ -175,8 +186,6 @@ public final class LanguagePackageReader {
     /**
      * Get all supported MIME types.
      *
-     * <p>Test: LanguagePackageContractTest.supportedMimeTypesNonEmpty</p>
-     *
      * @return immutable set of supported MIME type strings
      */
     public static Set<String> supportedMimeTypes() {
@@ -187,8 +196,6 @@ public final class LanguagePackageReader {
      * Detect ecosystem from path without full parse.
      * Uses content inspection for disambiguation.
      *
-     * <p>Test: EcosystemRouterDisambiguationTest validates all detection paths</p>
-     *
      * @param path the file path
      * @return detected ecosystem, or empty if cannot determine
      * @throws IOException if I/O error occurs
@@ -198,30 +205,27 @@ public final class LanguagePackageReader {
     }
 
     /**
-     * Create a package from a file path.
+     * Create a package from a file path (phase 7: reads directly from the caller's path).
      */
-    private static LanguagePackage createPackage(Ecosystem ecosystem, String path)
+    private static LanguagePackage createPackage(Ecosystem ecosystem, Path path)
             throws IOException, AnnattoException.MalformedPackageException, AnnattoException.UnknownFormatException {
         return switch (ecosystem) {
-            case NPM -> NpmPackage.fromPath(Path.of(path));
-            case PYPI -> PyPIPackage.fromPath(Path.of(path));
-            case CRATES -> CratesPackage.fromPath(Path.of(path));
-            case GO -> GoPackage.fromPath(Path.of(path));
-            case RUBYGEMS -> RubygemsPackage.fromPath(Path.of(path));
-            case PACKAGIST -> PackagistPackage.fromPath(Path.of(path));
-            case CONDA -> CondaPackage.fromPath(Path.of(path));
-            case COCOAPODS -> CocoapodsPackage.fromPath(Path.of(path));
-            case CPAN -> CpanPackage.fromPath(Path.of(path));
-            case HEX -> HexPackage.fromPath(Path.of(path));
-            case LUAROCKS -> LuarocksPackage.fromPath(Path.of(path));
+            case NPM -> NpmPackage.fromPath(path);
+            case PYPI -> PyPIPackage.fromPath(path);
+            case CRATES -> CratesPackage.fromPath(path);
+            case GO -> GoPackage.fromPath(path);
+            case RUBYGEMS -> RubygemsPackage.fromPath(path);
+            case PACKAGIST -> PackagistPackage.fromPath(path);
+            case CONDA -> CondaPackage.fromPath(path);
+            case COCOAPODS -> CocoapodsPackage.fromPath(path);
+            case CPAN -> CpanPackage.fromPath(path);
+            case HEX -> HexPackage.fromPath(path);
+            case LUAROCKS -> LuarocksPackage.fromPath(path);
         };
     }
 
     /**
-     * Create a package from a stream.
-     */
-    /**
-     * Create a package from a stream.
+     * Create a package from a stream (immutable filename, sanity for error messages).
      */
     private static LanguagePackage createPackageFromStream(
             Ecosystem ecosystem, InputStream stream, String filename)
@@ -239,5 +243,42 @@ public final class LanguagePackageReader {
             case HEX -> HexPackage.fromStream(stream, filename);
             case LUAROCKS -> LuarocksPackage.fromStream(stream, filename);
         };
+    }
+
+    /**
+     * Create a package over the reader's OWNED spool (Phase 7/8). All eleven ecosystems now
+     * adopt the spool (their {@code close()} deletes it, S-5). The spool is deleted in
+     * {@code finally} if package construction fails.
+     */
+    private static LanguagePackage createPackageFromOwnedSpool(
+            Ecosystem ecosystem, Spool.Spooled spooled, String filename)
+            throws IOException, AnnattoException.MalformedPackageException, AnnattoException.UnknownFormatException {
+        try {
+            return switch (ecosystem) {
+                case NPM -> NpmPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case PYPI -> PyPIPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case CRATES -> CratesPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case GO -> GoPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case RUBYGEMS -> RubygemsPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case PACKAGIST -> PackagistPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case CONDA -> CondaPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case COCOAPODS -> CocoapodsPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case CPAN -> CpanPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case HEX -> HexPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+                case LUAROCKS -> LuarocksPackage.adoptSpool(spooled, filename, Limits.DEFAULT);
+            };
+        } catch (IOException | RuntimeException e) {
+            Spool.delete(spooled);
+            throw e;
+        }
+    }
+
+    /** Strip any directory components from a caller-supplied filename (ADR-005 sanitization). */
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
     }
 }

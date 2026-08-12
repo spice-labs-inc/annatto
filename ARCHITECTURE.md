@@ -49,17 +49,53 @@ try (var stream = pkg.streamEntries()) {
 }
 ```
 
-**Thread Safety Guarantees:**
+**Execution Model (single-threaded, ADR-004):**
 - Only one stream may be open per package at a time (`IllegalStateException` on second call)
-- Package objects are immutable after construction
-- Concurrent read-only access to metadata is safe
-- Stream lifecycle is managed via `AtomicBoolean` state machine
+- Package objects are immutable after construction; repeated reads are consistent
+- Annatto executes on a single thread: one thread calls `read(...)` and reads the returned
+  package; concurrent `read()`/`streamEntries()`/`close()` is out of scope and not guaranteed
 
 **Security Limits (enforced by all implementations):**
 - Maximum entry count: 10,000 entries
 - Maximum entry size: 10 MB
-- Maximum metadata size: 10 MB (1 MB for Hex)
-- Path traversal rejected: entries with `..` or absolute paths
+- Maximum metadata size: 10 MB (1 MB for Hex) — Phase 7: 1 MB per-entry metadata cap for
+  PyPI/Crates/CPAN metadata files
+- Path traversal rejected: entries with `..` (backslash-normalized), absolute paths, CR/LF/DEL
+  control characters; unsafe symlink targets refused at `openStream()`
+
+### Phase 7: Streaming & Misclassification Hardening (2026-08)
+
+Incident: a 4.9 GiB generic `.tgz` fixture (`repo_ea.tgz`) was routed to npm by filename alone
+and buffered into a Java `byte[]`, dying at the ~2 GiB array limit. Two fixes shipped (see
+`docs/phase-7-claims.md` for claim→test bindings):
+
+1. **Content-required routing.** `.tgz`/`.crate` names are ambiguous; `EcosystemRouter` uses a
+   BOUNDED content scan (caps at 1 GiB compressed / 500 MiB inflated / 1 000 000 entries - above ANY legitimate package)
+   with shared strict top-level markers (`markers.*`) shared with the extractors. The process
+   filter no longer claims `.tgz` by name.
+2. **No whole-archive buffering.** npm/PyPI/Crates/CPAN/Conda never retain a full-file `byte[]`.
+   `fromStream` bounded-spools to a private 0700 dir (`internal.Spool`; 0600 files, Cleaner +
+   startup stale-spool sweep, per-package 1 GiB + process-wide ~4 GiB aggregate quotas,
+   admission-time reserve); metadata extraction is a single bounded streaming scan; each
+   `streamEntries()` pass opens a fresh decompression chain with its own inflated budget and a
+   fail-fast latch; entry content is per-entry (≤10 MB) buffered. `close()` deletes owned spools
+   and CLOSES the package (S-5). `read(InputStream,...)` spools once and hands the owned spool to
+   the package factory.
+3. **Message hardening (ADR-005):** budget/scan exceptions carry basename-only display names and
+   never render spool/temp paths; raw `cause.getMessage()` is never spliced.
+
+### Phase 8: Streaming Rollout - All 11 Ecosystems Streaming (2026-08)
+
+Phase 7's streaming/budget model now covers ALL 11 ecosystems (Go, RubyGems, Packagist,
+CocoaPods, Hex, LuaRocks rolled out in Phase 8). No `fromStream` retains a whole-file `byte[]`.
+Each package consumes a bounded spool (or the caller's path) via `internal.PackageSource`;
+metadata extraction is a bounded single pass; entry streams open fresh per pass with per-entry
+caps, per-pass inflated budgets (compressed zip/gzip sources), and fail-fast latches. RubyGems'
+nested `metadata.gz` member is decompressed through a bounded inflate so no nested decompression
+can amplify. `LanguagePackageReader.read(InputStream,...)` hands the OWNED spool to every
+ecosystem's `adoptSpool`; spool cleanup (close/GC/startup sweep) is once-per-path idempotent.
+Plain-tar/zip metadata scans have no decompression amplification and rely on entry-count +
+per-entry/metadata caps (ADR-005).
 
 ### Metadata Record
 
@@ -168,15 +204,18 @@ Each ecosystem is implemented as a self-contained Java package under `io.spicela
 | `<E>Quirks.java` | Documented ecosystem-specific behaviors and edge cases |
 | `package-info.java` | Package-level Javadoc |
 
-## Thread Safety
+## Execution Model (Single-Threaded)
 
-Annatto achieves thread safety through immutability and isolation:
+Annatto has no concurrency requirement (ADR-004, de-scoped 2026-08). It executes on a single
+thread: one thread calls `LanguagePackageReader.read(...)` and reads the returned package.
+Code is kept free of shared mutable state so sequential/repeated use is deterministic:
 
 - **Immutable records**: `MetadataResult`, `ParsedDependency`, and all mementos use `List.copyOf()` and `Map.copyOf()`
 - **No shared mutable state**: Each `begin()` creates a fresh memento; handlers hold no state between invocations
 - **Stateless extractors**: All `*MetadataExtractor` classes are pure functions with private constructors and static methods
 - **Stateless filter**: `AnnattoProcessFilter` only inspects filenames
-- **Atomic lifecycle fields**: `AnnattoComponent` uses `AtomicReference` for fields set during the plugin lifecycle
+- **Single sanctioned mutable static**: the process-wide aggregate spool budget (`internal.Spool.budget()`), which bounds temp-disk usage under the single worker thread
+- The single-stream-per-package guard and closed-package (S-5) flag remain: only one `streamEntries()` may be open; `close()` closes the package.
 
 ## Custom Parsers
 
@@ -233,7 +272,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Path-based auto-detection for all 11 ecosystems
 - MIME type disambiguation (gzip -> PyPI vs CPAN, zip -> Conda vs Packagist)
 - Error handling: unsupported types, malformed packages, non-existent files
-- Thread safety: concurrent reads, reentrancy
+- Single-threaded model: sequential repeatability (reentrancy)
 
 ### Source-of-Truth Tests
 

@@ -42,7 +42,7 @@ public final class PathValidator {
      * Validate an entry name from an archive.
      *
      * @param name the entry name
-     * @return normalized name if valid
+     * @return normalized name if valid (backslashes normalized to forward slashes)
      * @throws AnnattoException.SecurityException if path is invalid
      */
     public static String validateEntryName(String name) {
@@ -61,30 +61,64 @@ public final class PathValidator {
             throw new AnnattoException.SecurityException("Entry name contains null byte");
         }
 
+        // Phase 7: reject control characters (CR/LF) - log-injection guard.
+        if (name.indexOf('\r') >= 0 || name.indexOf('\n') >= 0 || name.indexOf((char) 0x7F) >= 0) {
+            throw new AnnattoException.SecurityException(
+                "Entry name contains control character");
+        }
+
+        // Phase 7: normalize backslashes BEFORE traversal checks so a POSIX path with
+        // ".." segments hidden behind backslashes cannot bypass validation.
+        String normalized = name.replace('\\', '/');
+
         // Normalize and check for traversal
-        Path path = Paths.get(name).normalize();
+        Path path = Paths.get(normalized).normalize();
 
         // Check if absolute
-        if (path.isAbsolute()) {
-            throw new AnnattoException.SecurityException("Entry name is absolute path: " + sanitize(name));
+        if (path.isAbsolute() || normalized.startsWith("/")) {
+            throw new AnnattoException.SecurityException("Entry name is absolute path: " + sanitize(normalized));
         }
 
         // Check for traversal after normalization
-        String normalized = path.toString();
-        if (normalized.startsWith("..")) {
-            throw new AnnattoException.SecurityException("Entry name contains path traversal: " + sanitize(name));
+        String normPath = path.toString();
+        if (normPath.startsWith("..")) {
+            throw new AnnattoException.SecurityException("Entry name contains path traversal: " + sanitize(normalized));
         }
 
         // Check for embedded .. in path
-        for (int i = 0; i < normalized.length() - 2; i++) {
-            if (normalized.charAt(i) == '.' &&
-                normalized.charAt(i + 1) == '.' &&
-                (i + 2 == normalized.length() || normalized.charAt(i + 2) == '/')) {
-                throw new AnnattoException.SecurityException("Entry name contains path traversal: " + sanitize(name));
+        for (int i = 0; i < normPath.length() - 2; i++) {
+            if (normPath.charAt(i) == '.' &&
+                normPath.charAt(i + 1) == '.' &&
+                (i + 2 == normPath.length() || normPath.charAt(i + 2) == '/')) {
+                throw new AnnattoException.SecurityException("Entry name contains path traversal: " + sanitize(normalized));
             }
         }
 
         return normalized;
+    }
+
+    /**
+     * Whether an archive-entry symlink target is SAFE (Phase 7): non-empty, not absolute, no
+     * traversal segments, no null bytes. Used at {@code openStream()} time to refuse unsafe
+     * symlink content.
+     *
+     * @param target the raw symlink target
+     * @return true if the target stays inside the archive
+     */
+    public static boolean isSafeSymlinkTarget(String target) {
+        if (target == null || target.isEmpty() || target.indexOf('\0') >= 0) {
+            return false;
+        }
+        String normalized = target.replace('\\', '/');
+        if (normalized.startsWith("/")) {
+            return false;
+        }
+        for (String segment : normalized.split("/", -1)) {
+            if (segment.isEmpty() || segment.equals(".") || segment.equals("..")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

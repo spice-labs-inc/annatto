@@ -28,9 +28,14 @@ import java.util.Optional;
  *   <li>All implementations are immutable (verified by LanguagePackageContractTest.immutableAfterConstruction)</li>
  *   <li>All methods return consistent results on multiple calls (verified by LanguagePackageContractTest)</li>
  *   <li>name() and version() never return null (verified by LanguagePackageContractTest.nameNeverNull)</li>
- *   <li>streamEntries() is NOT thread-safe - one stream per thread (verified by ThreadSafetyTest)</li>
- *   <li>All other methods are thread-safe (verified by ThreadSafetyTest)</li>
+ *   <li>streamEntries() opens exactly ONE stream per package; a second open throws (verified by
+ *       LanguagePackageContractTest.streamEntries_secondCallThrows)</li>
  * </ul>
+ *
+ * <p>Threading model (ADR-004, de-scoped 2026-08): Annatto executes on a SINGLE thread. A
+ * {@code LanguagePackage} is constructed by one thread's {@code read(...)} call and then read
+ * by that same thread. Concurrent use of {@code read()}/{@code streamEntries()}/{@code close()}
+ * is OUT OF SCOPE and not guaranteed.
  *
  * <p>Stream Lifecycle (ADR-001):
  * The stream returned by streamEntries() MUST be closed by the caller using try-with-resources.
@@ -110,7 +115,9 @@ public interface LanguagePackage {
      * <p>Stream Lifecycle (ADR-001):
      * <ul>
      *   <li>Caller MUST close the returned stream using try-with-resources</li>
-     *   <li>Stream is NOT thread-safe - use one stream per thread</li>
+     *   <li>Only one stream may be open per package instance at a time</li>
+ *   <li>Streams are for single-threaded use: a stream is NOT shared across threads
+ *       (ADR-004: single-threaded execution model)</li>
      *   <li>Only one stream can be open per package instance at a time</li>
      *   <li>Opening a new stream while another is open throws IllegalStateException</li>
      * </ul>

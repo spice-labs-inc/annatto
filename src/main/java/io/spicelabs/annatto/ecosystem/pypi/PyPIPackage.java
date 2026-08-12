@@ -17,47 +17,47 @@ package io.spicelabs.annatto.ecosystem.pypi;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
-import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
+import io.spicelabs.annatto.internal.Spool;
+import io.spicelabs.annatto.markers.PkgInfoMarker;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A PyPI package (.whl wheel or .tar.gz sdist).
  *
- * <p>Implements LanguagePackage for PyPI packages, providing metadata extraction
- * and entry streaming for both wheel and sdist formats.
+ * <p>Phase 7 (Bug 2): never read whole into memory. Wheel metadata is read via random-access
+ * {@link ZipFile} (central directory gives real sizes); sdist metadata is a bounded streaming
+ * gzip scan; entry streams open fresh per pass with per-pass budgets.
  */
 public final class PyPIPackage implements LanguagePackage {
 
     private static final String MIME_TYPE_WHEEL = "application/zip";
     private static final String MIME_TYPE_SDIST = "application/gzip";
-    private static final long MAX_ENTRY_SIZE = 10 * 1024 * 1024; // 10MB
-    private static final int MAX_ENTRIES = 10000;
+    private static final long MAX_METADATA_SIZE = 1024 * 1024; // 1MB (plan limits table)
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
     private final boolean isWheel;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
-     * Create a PyPIPackage from a file path.
+     * Create a PyPIPackage from a file path (direct read).
      *
      * @param path the .whl or .tar.gz file path
      * @throws IOException if the file cannot be read
@@ -65,14 +65,11 @@ public final class PyPIPackage implements LanguagePackage {
      */
     public static PyPIPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
-     * Create a PyPIPackage from an input stream.
+     * Create a PyPIPackage from an input stream (bounded spool).
      *
      * @param stream the input stream (.whl or .tar.gz)
      * @param filename for error reporting and format detection
@@ -81,25 +78,58 @@ public final class PyPIPackage implements LanguagePackage {
      */
     public static PyPIPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        // Buffer the stream for multiple reads
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        // Determine format and extract metadata
-        boolean isWheel = filename.endsWith(".whl");
-
-        // Extract metadata directly
-        PackageMetadata metadata = extractMetadata(data, filename);
-
-        return new PyPIPackage(filename, metadata, data, isWheel);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private PyPIPackage(String filename, PackageMetadata metadata, byte[] data, boolean isWheel) {
+    /**
+     * Create a PyPIPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the input stream (.whl or .tar.gz)
+     * @param filename for error reporting and format detection
+     * @param limits resource limits (spool/scan/stream-pass/zip-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static PyPIPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    /**
+     * Adopt an owned spooled file (reader stream handoff); {@code close()} deletes it (S-5).
+     */
+    public static PyPIPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static PyPIPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        boolean isWheel = filename.toLowerCase(Locale.ROOT).endsWith(".whl");
+        PackageMetadata metadata;
+        try {
+            metadata = isWheel
+                ? extractWheelMetadata(source.path(), filename, limits)
+                : extractSdistMetadata(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        return new PyPIPackage(filename, source, metadata, isWheel, limits);
+    }
+
+    private PyPIPackage(String filename, PackageSource source, PackageMetadata metadata,
+                        boolean isWheel, Limits limits) {
         this.filename = filename;
+        this.source = source;
         this.metadata = metadata;
-        this.data = data;
         this.isWheel = isWheel;
+        this.limits = limits;
     }
 
     @Override
@@ -148,102 +178,90 @@ public final class PyPIPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return isWheel ? new WheelEntryStream() : new SdistEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return isWheel ? new WheelEntryStream() : new SdistEntryStream();
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
-        // Nothing to close - data is in memory
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
-    private static PackageMetadata extractMetadata(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        String metadataText;
-        if (filename.endsWith(".whl")) {
-            metadataText = extractMetadataFromWheel(data, filename);
-        } else if (filename.endsWith(".tar.gz")) {
-            metadataText = extractMetadataFromSdist(data, filename);
-        } else {
-            throw new AnnattoException.MalformedPackageException("Unsupported PyPI format: " + filename);
-        }
-        Map<String, List<String>> headers = parseRfc822Headers(metadataText);
-        return buildMetadata(headers);
-    }
+    // ================================================================
+    // Metadata extraction (streaming / random-access, no whole-file buffer)
+    // ================================================================
 
-    private static String extractMetadataFromWheel(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        try (ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(data), StandardCharsets.UTF_8)) {
-            ZipEntry entry;
-            while ((entry = zipIn.getNextEntry()) != null) {
+    private static PackageMetadata extractWheelMetadata(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        try (ZipFile zf = Archives.zipFile(file)) {
+            int count = 0;
+            Enumeration<ZipArchiveEntry> entries = zf.getEntries();
+            while (entries.hasMoreElements()) {
+                ZipArchiveEntry entry = entries.nextElement();
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
-                if (isDistInfoMetadata(entry.getName())) {
-                    return readStreamToString(zipIn);
+                if (PkgInfoMarker.isDistInfoMetadata(entry.getName())) {
+                    String metadataText = readBounded(zf.getInputStream(entry),
+                            Math.min(limits.entryBytes(), MAX_METADATA_SIZE), filename);
+                    return buildMetadata(parseRfc822Headers(metadataText));
                 }
             }
-            throw new AnnattoException.MalformedPackageException("No .dist-info/METADATA found in wheel: " + filename);
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException("Failed to read wheel archive: " + filename, e);
+            throw new AnnattoException.MalformedPackageException(
+                "No .dist-info/METADATA found in wheel: " + filename);
         }
     }
 
-    private static String extractMetadataFromSdist(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        // Pre-decompress GZIP to avoid concurrency issues with Inflater
-        byte[] tarData = decompressGzipToBytes(data, filename);
-        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(tarData), StandardCharsets.UTF_8.name())) {
+    private static PackageMetadata extractSdistMetadata(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        try (TarArchiveInputStream tarIn = Archives.gzipTar(file, filename, limits.scanBytes(), () -> { })) {
+            int count = 0;
             TarArchiveEntry entry;
             while ((entry = tarIn.getNextEntry()) != null) {
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
-                if (isPkgInfo(entry.getName())) {
-                    return readStreamToString(tarIn);
+                if (PkgInfoMarker.isPkgInfo(entry.getName())) {
+                    String metadataText = readBounded(tarIn, Math.min(limits.entryBytes(), MAX_METADATA_SIZE), filename);
+                    return buildMetadata(parseRfc822Headers(metadataText));
                 }
             }
-            throw new AnnattoException.MalformedPackageException("No PKG-INFO found in sdist: " + filename);
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException("Failed to read sdist archive: " + filename, e);
+            throw new AnnattoException.MalformedPackageException(
+                "No PKG-INFO found in sdist: " + filename);
         }
     }
 
-    private static byte[] decompressGzipToBytes(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        try (GZIPInputStream gzis = new GZIPInputStream(new ByteArrayInputStream(data));
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            gzis.transferTo(baos);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException("Failed to decompress sdist: " + filename, e);
-        }
-    }
-
-    private static boolean isDistInfoMetadata(String entryName) {
-        String normalized = entryName.replace('\\', '/');
-        String[] parts = normalized.split("/");
-        return parts.length == 2
-                && parts[0].endsWith(".dist-info")
-                && parts[1].equals("METADATA");
-    }
-
-    private static boolean isPkgInfo(String entryName) {
-        String normalized = entryName.replace('\\', '/');
-        String[] parts = normalized.split("/");
-        return parts.length == 2
-                && parts[1].equals("PKG-INFO");
-    }
-
-    private static String readStreamToString(InputStream stream) throws IOException {
+    private static String readBounded(InputStream stream, long cap, String filename) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[8192];
         int read;
+        long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
+            totalRead += read;
+            if (totalRead > cap) {
+                throw new AnnattoException.SecurityException(
+                    "Metadata file exceeds size limit: " + filename);
+            }
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);
@@ -341,19 +359,14 @@ public final class PyPIPackage implements LanguagePackage {
     }
 
     private static Optional<String> extractLicense(Map<String, List<String>> headers) {
-        // 1. License-Expression (SPDX)
         Optional<String> licenseExpr = getHeader(headers, "License-Expression");
         if (licenseExpr.isPresent()) {
             return licenseExpr;
         }
-
-        // 2. License header (skip UNKNOWN)
         Optional<String> license = getHeader(headers, "License");
         if (license.isPresent()) {
             return license;
         }
-
-        // 3. Classifiers
         List<String> classifiers = headers.getOrDefault("Classifier", List.of());
         List<String> licenseNames = new ArrayList<>();
         for (String c : classifiers) {
@@ -372,18 +385,14 @@ public final class PyPIPackage implements LanguagePackage {
         if (!licenseNames.isEmpty()) {
             return Optional.of(String.join(" OR ", licenseNames));
         }
-
         return Optional.empty();
     }
 
     private static Optional<String> extractPublisher(Map<String, List<String>> headers) {
-        // 1. Author
         Optional<String> author = getHeader(headers, "Author");
         if (author.isPresent()) {
             return author;
         }
-
-        // 2. Author-email -> extract name part
         Optional<String> authorEmail = getHeader(headers, "Author-email");
         if (authorEmail.isPresent()) {
             Optional<String> name = extractNameFromEmailField(authorEmail.get());
@@ -391,19 +400,14 @@ public final class PyPIPackage implements LanguagePackage {
                 return name;
             }
         }
-
-        // 3. Maintainer
         Optional<String> maintainer = getHeader(headers, "Maintainer");
         if (maintainer.isPresent()) {
             return maintainer;
         }
-
-        // 4. Maintainer-email
         Optional<String> maintainerEmail = getHeader(headers, "Maintainer-email");
         if (maintainerEmail.isPresent()) {
             return extractNameFromEmailField(maintainerEmail.get());
         }
-
         return Optional.empty();
     }
 
@@ -415,13 +419,11 @@ public final class PyPIPackage implements LanguagePackage {
         int angleIdx = trimmed.indexOf('<');
         if (angleIdx > 0) {
             String name = trimmed.substring(0, angleIdx).trim();
-            // Strip surrounding quotes if present
             if (name.startsWith("\"") && name.endsWith("\"")) {
                 name = name.substring(1, name.length() - 1).trim();
             }
             return name.isEmpty() ? Optional.empty() : Optional.of(name);
         }
-        // No angle bracket - might be just an email or a bare name
         if (trimmed.contains("@")) {
             return Optional.empty();
         }
@@ -442,14 +444,10 @@ public final class PyPIPackage implements LanguagePackage {
         if (trimmed.isEmpty()) {
             return Optional.empty();
         }
-
-        // Strip environment markers (after ;)
         int semicolonIdx = trimmed.indexOf(';');
         if (semicolonIdx >= 0) {
             trimmed = trimmed.substring(0, semicolonIdx).trim();
         }
-
-        // Strip extras (inside [])
         int bracketIdx = trimmed.indexOf('[');
         if (bracketIdx >= 0) {
             int closeIdx = trimmed.indexOf(']', bracketIdx);
@@ -458,8 +456,6 @@ public final class PyPIPackage implements LanguagePackage {
                 trimmed = trimmed.trim();
             }
         }
-
-        // Extract name using simple pattern matching
         int i = 0;
         while (i < trimmed.length() && (Character.isLetterOrDigit(trimmed.charAt(i))
                 || trimmed.charAt(i) == '_' || trimmed.charAt(i) == '-' || trimmed.charAt(i) == '.')) {
@@ -470,14 +466,10 @@ public final class PyPIPackage implements LanguagePackage {
         }
         String name = trimmed.substring(0, i);
         String rest = trimmed.substring(i).trim();
-
-        // Extract version constraint - strip outer parentheses if present
         if (rest.startsWith("(") && rest.endsWith(")")) {
             rest = rest.substring(1, rest.length() - 1).trim();
         }
-
         String versionConstraint = rest.isEmpty() ? "" : rest;
-
         return Optional.of(new Dependency(name, Optional.of("runtime"), versionConstraint));
     }
 
@@ -485,27 +477,49 @@ public final class PyPIPackage implements LanguagePackage {
         return name.toLowerCase().replaceAll("[-_.]+", "-");
     }
 
+    private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
+    // ================================================================
+    // Entry streams (fresh per pass; per-pass inflated budgets)
+    // ================================================================
+
     /**
-     * Entry stream implementation for wheel packages (ZIP format).
+     * Wheel entry stream: fresh {@link ZipFile} per pass (random access, real sizes); the
+     * per-pass ZIP inflated budget accumulates across opened entries and latches on trip.
      */
     private class WheelEntryStream implements PackageEntryStream {
-        private final ZipInputStream zipIn;
-        private ZipEntry currentEntry;
+        private final ZipFile zf;
+        private final java.util.Enumeration<ZipArchiveEntry> entries;
+        private final AtomicLong passInflated = new AtomicLong();
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
+        private ZipArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         WheelEntryStream() throws IOException {
-            this.zipIn = new ZipInputStream(new ByteArrayInputStream(data), StandardCharsets.UTF_8);
+            this.zf = Archives.zipFile(source.path());
+            this.entries = zf.getEntries();
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
+            checkBudget();
+            if (entryCount >= limits.maxEntries()) {
                 throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
+                    "Package exceeds maximum entry count: " + limits.maxEntries());
             }
-            currentEntry = zipIn.getNextEntry();
+            currentEntry = entries.hasMoreElements() ? entries.nextElement() : null;
             if (currentEntry != null) {
                 entryCount++;
             }
@@ -515,18 +529,17 @@ public final class PyPIPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
-
-            String name = PathValidator.validateEntryName(currentEntry.getName());
+            String name = io.spicelabs.annatto.internal.PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
-
             return new PackageEntry(
                 name,
                 size,
                 currentEntry.isDirectory(),
-                false, // ZIP doesn't support symlinks directly
+                false,
                 Optional.empty()
             );
         }
@@ -534,29 +547,36 @@ public final class PyPIPackage implements LanguagePackage {
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
 
-            // Read entry content into buffer
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
             long totalRead = 0;
-            while ((read = zipIn.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
-                    throw new AnnattoException.SecurityException(
-                        "Entry exceeds size limit during read");
+            try (InputStream in = zf.getInputStream(currentEntry)) {
+                while ((read = in.read(buffer)) != -1) {
+                    totalRead += read;
+                    if (totalRead > limits.entryBytes()) {
+                        throw new AnnattoException.SecurityException(
+                            "Entry exceeds size limit during read");
+                    }
+                    if (passInflated.addAndGet(read) > limits.zipPassBytes()) {
+                        budgetExceeded.set(true);
+                        throw new AnnattoException.SecurityException(
+                            "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
+                    }
+                    baos.write(buffer, 0, read);
                 }
-                baos.write(buffer, 0, read);
             }
 
             return new ByteArrayInputStream(baos.toByteArray());
@@ -567,7 +587,7 @@ public final class PyPIPackage implements LanguagePackage {
             if (!closed) {
                 closed = true;
                 try {
-                    zipIn.close();
+                    zf.close();
                 } catch (IOException e) {
                     // Ignore
                 }
@@ -580,33 +600,41 @@ public final class PyPIPackage implements LanguagePackage {
                 throw new IllegalStateException("Stream is closed");
             }
         }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
+            }
+        }
     }
 
     /**
-     * Entry stream implementation for sdist packages (tar.gz format).
+     * Sdist entry stream: fresh gzip chain per pass with a per-pass decompressed budget.
      */
     private class SdistEntryStream implements PackageEntryStream {
         private final TarArchiveInputStream tarIn;
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
         private TarArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         SdistEntryStream() throws IOException {
-            this.tarIn = new TarArchiveInputStream(
-                new GZIPInputStream(new ByteArrayInputStream(data)),
-                StandardCharsets.UTF_8.name());
+            this.tarIn = Archives.gzipTar(source.path(), filename, limits.streamPassBytes(),
+                    () -> budgetExceeded.set(true));
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
+            checkBudget();
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -614,52 +642,48 @@ public final class PyPIPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
-
-            String name = PathValidator.validateEntryName(currentEntry.getName());
+            String name = io.spicelabs.annatto.internal.PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
-
+            boolean isSymbolic = currentEntry.isSymbolicLink();
+            boolean hasLinkTarget = isSymbolic || currentEntry.isLink();
             return new PackageEntry(
                 name,
                 size,
                 currentEntry.isDirectory(),
-                currentEntry.isSymbolicLink(),
-                currentEntry.isSymbolicLink()
-                    ? Optional.ofNullable(currentEntry.getLinkName())
-                    : Optional.empty()
+                isSymbolic,
+                hasLinkTarget ? Optional.ofNullable(currentEntry.getLinkName()) : Optional.empty()
             );
         }
 
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
-
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
-
-            // Read entry content into buffer
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
             long totalRead = 0;
             while ((read = tarIn.read(buffer)) != -1) {
                 totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
+                if (totalRead > limits.entryBytes()) {
                     throw new AnnattoException.SecurityException(
                         "Entry exceeds size limit during read");
                 }
                 baos.write(buffer, 0, read);
             }
-
             return new ByteArrayInputStream(baos.toByteArray());
         }
 
@@ -679,6 +703,13 @@ public final class PyPIPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "Entry-stream decompressed data exceeds per-pass limit: " + filename);
             }
         }
     }

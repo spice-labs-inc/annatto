@@ -17,7 +17,11 @@ package io.spicelabs.annatto.ecosystem.cpan;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
-import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
+import io.spicelabs.annatto.internal.Spool;
+import io.spicelabs.annatto.markers.MetaMarker;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.jetbrains.annotations.NotNull;
@@ -28,28 +32,29 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.zip.GZIPInputStream;
 
 /**
  * A CPAN (Perl) package (.tar.gz archive).
  *
- * <p>Implements LanguagePackage for CPAN distributions, providing metadata extraction
- * from META.json or META.yml and entry streaming.
+ * <p>Phase 7 (Bug 2): never read whole into memory. Metadata is a bounded streaming gzip
+ * scan for the top-level {@code <dir>/META.json}/{@code META.yml}; entry streams open fresh
+ * per pass with a per-pass budget. The unbounded decompress-to-{@code byte[]} bomb path is
+ * removed and error messages no longer splice raw cause messages.
  */
 public final class CpanPackage implements LanguagePackage {
 
     private static final String MIME_TYPE = "application/gzip";
-    private static final long MAX_ENTRY_SIZE = 10 * 1024 * 1024; // 10MB
-    private static final int MAX_ENTRIES = 10000;
     private static final int MAX_METADATA_SIZE = 10 * 1024 * 1024; // 10MB
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
-     * Create a CpanPackage from a file path.
+     * Create a CpanPackage from a file path (direct read).
      *
      * @param path the .tar.gz file path
      * @throws IOException if the file cannot be read
@@ -57,14 +62,11 @@ public final class CpanPackage implements LanguagePackage {
      */
     public static CpanPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
-     * Create a CpanPackage from an input stream.
+     * Create a CpanPackage from an input stream (bounded spool).
      *
      * @param stream the .tar.gz stream
      * @param filename for error reporting
@@ -73,20 +75,54 @@ public final class CpanPackage implements LanguagePackage {
      */
     public static CpanPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        Map<String, Object> meta = extractMetadata(data, filename);
-        PackageMetadata metadata = parseMetadata(meta);
-
-        return new CpanPackage(filename, metadata, data);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private CpanPackage(String filename, PackageMetadata metadata, byte[] data) {
+    /**
+     * Create a CpanPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the .tar.gz stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static CpanPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    /**
+     * Adopt an owned spooled file (reader stream handoff); {@code close()} deletes it (S-5).
+     */
+    public static CpanPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static CpanPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Map<String, Object> meta;
+        try {
+            meta = extractMetadata(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(meta);
+        return new CpanPackage(filename, source, metadata, limits);
+    }
+
+    private CpanPackage(String filename, PackageSource source, PackageMetadata metadata, Limits limits) {
         this.filename = filename;
+        this.source = source;
         this.metadata = metadata;
-        this.data = data;
+        this.limits = limits;
     }
 
     @Override
@@ -140,38 +176,47 @@ public final class CpanPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return new CpanEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return new CpanEntryStream();
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
+    /**
+     * Streaming single-pass scan for the top-level META.json/META.yml (no whole-tar byte[]).
+     */
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractMetadata(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        // Pre-decompress GZIP to avoid concurrency issues with native Inflater
-        byte[] tarData = decompressGzipToBytes(data, filename);
-        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(tarData), StandardCharsets.UTF_8.name())) {
-
+    private static Map<String, Object> extractMetadata(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        try (TarArchiveInputStream tarIn = Archives.gzipTar(file, filename, limits.scanBytes(), () -> { })) {
+            int count = 0;
             TarArchiveEntry entry;
             while ((entry = tarIn.getNextEntry()) != null) {
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
                 String entryName = entry.getName();
-
-                // Look for META.json or META.yml in the distribution root
-                if (isMetadataFile(entryName)) {
-                    if (entry.getSize() > MAX_METADATA_SIZE) {
-                        throw new AnnattoException.SecurityException("Metadata file exceeds size limit");
-                    }
-                    String content = readStreamToString(tarIn, entry.getSize());
+                if (MetaMarker.isMetaFile(entryName)) {
+                    String content = readStreamToString(tarIn, filename, Math.min(limits.entryBytes(), MAX_METADATA_SIZE));
                     if (entryName.endsWith(".json")) {
                         return parseJsonMetadata(content);
                     } else {
@@ -181,41 +226,19 @@ public final class CpanPackage implements LanguagePackage {
             }
             throw new AnnattoException.MalformedPackageException(
                 "No META.json or META.yml found in CPAN distribution: " + filename);
-        } catch (AnnattoException.MalformedPackageException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException(
-                "Failed to read CPAN distribution: " + e.getMessage(), e);
         }
     }
 
-    private static byte[] decompressGzipToBytes(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        try (GZIPInputStream gzis = new GZIPInputStream(new ByteArrayInputStream(data));
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            gzis.transferTo(baos);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException(
-                "Failed to decompress CPAN distribution: " + filename, e);
-        }
-    }
-
-    private static boolean isMetadataFile(String entryName) {
-        // Format: Dist-Name-1.00/META.json or Dist-Name-1.00/META.yml
-        return entryName.endsWith("/META.json") || entryName.endsWith("/META.yml");
-    }
-
-    private static String readStreamToString(InputStream stream, long size) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(
-            size > 0 ? (int) Math.min(size, MAX_METADATA_SIZE) : 8192);
+    private static String readStreamToString(InputStream stream, String filename, long cap) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) Math.min(cap, 8192));
         byte[] buffer = new byte[8192];
         int read;
         long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
             totalRead += read;
-            if (totalRead > MAX_METADATA_SIZE) {
-                throw new IOException("Metadata file exceeds size limit");
+            if (totalRead > cap) {
+                throw new AnnattoException.SecurityException(
+                    "Metadata file exceeds size limit: " + filename);
             }
             baos.write(buffer, 0, read);
         }
@@ -224,7 +247,6 @@ public final class CpanPackage implements LanguagePackage {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> parseJsonMetadata(String json) {
-        // Simple JSON parsing for key fields
         Map<String, Object> result = new HashMap<>();
         result.put("name", extractJsonString(json, "name"));
         result.put("version", extractJsonString(json, "version"));
@@ -236,9 +258,6 @@ public final class CpanPackage implements LanguagePackage {
 
     @Nullable
     private static String extractJsonString(String json, String key) {
-        // Match top-level keys by requiring they appear after the opening brace
-        // and before any nested objects (which would have more indentation)
-        // Pattern: key at start of line with 1-4 spaces indentation (typical for JSON)
         String pattern = "^\\s{1,4}\"" + key + "\"\\s*:\\s*\"([^\"]+)\"";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.MULTILINE);
         java.util.regex.Matcher m = p.matcher(json);
@@ -267,15 +286,11 @@ public final class CpanPackage implements LanguagePackage {
     }
 
     private static Map<String, Object> parseYamlMetadata(String yaml) {
-        // Simple YAML parsing for key fields
-        // Only matches top-level keys (lines with no leading whitespace)
         Map<String, Object> result = new HashMap<>();
         String[] lines = yaml.split("\n");
 
         for (String line : lines) {
-            // Check if this is a top-level line (no leading whitespace)
             if (!line.isEmpty() && !line.startsWith(" ") && !line.startsWith("\t")) {
-                // Top-level key - strip surrounding quotes from values
                 if (line.startsWith("name: ") && !result.containsKey("name")) {
                     result.put("name", stripYamlQuotes(line.substring(6).trim()));
                 } else if (line.startsWith("version: ") && !result.containsKey("version")) {
@@ -294,7 +309,6 @@ public final class CpanPackage implements LanguagePackage {
     }
 
     private static String stripYamlQuotes(String value) {
-        // Strip single or double quotes from YAML values
         if ((value.startsWith("'") && value.endsWith("'")) ||
             (value.startsWith("\"") && value.endsWith("\""))) {
             return value.substring(1, value.length() - 1);
@@ -347,31 +361,44 @@ public final class CpanPackage implements LanguagePackage {
         return Optional.empty();
     }
 
+    private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
     /**
-     * Entry stream implementation for CPAN packages.
+     * Entry stream for CPAN packages: fresh gzip chain per pass with a per-pass budget.
      */
     private class CpanEntryStream implements PackageEntryStream {
         private final TarArchiveInputStream tarIn;
-        private final GZIPInputStream gzipIn;
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
         private TarArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         CpanEntryStream() throws IOException {
-            this.gzipIn = new GZIPInputStream(new ByteArrayInputStream(data));
-            this.tarIn = new TarArchiveInputStream(gzipIn, StandardCharsets.UTF_8.name());
+            this.tarIn = Archives.gzipTar(source.path(), filename, limits.streamPassBytes(),
+                    () -> budgetExceeded.set(true));
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
+            checkBudget();
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -379,36 +406,38 @@ public final class CpanPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
 
-            String name = PathValidator.validateEntryName(currentEntry.getName());
+            String name = io.spicelabs.annatto.internal.PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
 
+            boolean isSymbolic = currentEntry.isSymbolicLink();
+            boolean hasLinkTarget = isSymbolic || currentEntry.isLink();
             return new PackageEntry(
                 name,
                 size,
                 currentEntry.isDirectory(),
-                currentEntry.isSymbolicLink(),
-                currentEntry.isSymbolicLink()
-                    ? Optional.ofNullable(currentEntry.getLinkName())
-                    : Optional.empty()
+                isSymbolic,
+                hasLinkTarget ? Optional.ofNullable(currentEntry.getLinkName()) : Optional.empty()
             );
         }
 
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -417,7 +446,7 @@ public final class CpanPackage implements LanguagePackage {
             long totalRead = 0;
             while ((read = tarIn.read(buffer)) != -1) {
                 totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
+                if (totalRead > limits.entryBytes()) {
                     throw new AnnattoException.SecurityException(
                         "Entry exceeds size limit during read");
                 }
@@ -443,6 +472,13 @@ public final class CpanPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "Entry-stream decompressed data exceeds per-pass limit: " + filename);
             }
         }
     }
