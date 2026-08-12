@@ -162,7 +162,7 @@ override def getMetadata(
 - **Custom parsers**: Purpose-built Erlang term parser and Lua subset evaluator — no native dependencies
 - **Source-of-truth testing**: Every ecosystem validated against 50 real packages extracted by native tools in Docker
 - **Security protections**: Path traversal rejection, file size limits, decompression bounds
-- **Thread-safe**: Immutable records, stateless extractors, memento pattern for handler state
+- **Single-threaded execution model**: Annatto is driven by one thread (`read()` then the returned package); packages are immutable and stateless between sequential calls
 
 ---
 

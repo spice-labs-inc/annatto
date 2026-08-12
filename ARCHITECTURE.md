@@ -49,11 +49,11 @@ try (var stream = pkg.streamEntries()) {
 }
 ```
 
-**Thread Safety Guarantees:**
+**Execution Model (single-threaded, ADR-004):**
 - Only one stream may be open per package at a time (`IllegalStateException` on second call)
-- Package objects are immutable after construction
-- Concurrent read-only access to metadata is safe
-- Stream lifecycle is managed via `AtomicBoolean` state machine
+- Package objects are immutable after construction; repeated reads are consistent
+- Annatto executes on a single thread: one thread calls `read(...)` and reads the returned
+  package; concurrent `read()`/`streamEntries()`/`close()` is out of scope and not guaranteed
 
 **Security Limits (enforced by all implementations):**
 - Maximum entry count: 10,000 entries
@@ -204,15 +204,18 @@ Each ecosystem is implemented as a self-contained Java package under `io.spicela
 | `<E>Quirks.java` | Documented ecosystem-specific behaviors and edge cases |
 | `package-info.java` | Package-level Javadoc |
 
-## Thread Safety
+## Execution Model (Single-Threaded)
 
-Annatto achieves thread safety through immutability and isolation:
+Annatto has no concurrency requirement (ADR-004, de-scoped 2026-08). It executes on a single
+thread: one thread calls `LanguagePackageReader.read(...)` and reads the returned package.
+Code is kept free of shared mutable state so sequential/repeated use is deterministic:
 
 - **Immutable records**: `MetadataResult`, `ParsedDependency`, and all mementos use `List.copyOf()` and `Map.copyOf()`
 - **No shared mutable state**: Each `begin()` creates a fresh memento; handlers hold no state between invocations
 - **Stateless extractors**: All `*MetadataExtractor` classes are pure functions with private constructors and static methods
 - **Stateless filter**: `AnnattoProcessFilter` only inspects filenames
-- **Atomic lifecycle fields**: `AnnattoComponent` uses `AtomicReference` for fields set during the plugin lifecycle
+- **Single sanctioned mutable static**: the process-wide aggregate spool budget (`internal.Spool.budget()`), which bounds temp-disk usage under the single worker thread
+- The single-stream-per-package guard and closed-package (S-5) flag remain: only one `streamEntries()` may be open; `close()` closes the package.
 
 ## Custom Parsers
 
@@ -269,7 +272,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Path-based auto-detection for all 11 ecosystems
 - MIME type disambiguation (gzip -> PyPI vs CPAN, zip -> Conda vs Packagist)
 - Error handling: unsupported types, malformed packages, non-existent files
-- Thread safety: concurrent reads, reentrancy
+- Single-threaded model: sequential repeatability (reentrancy)
 
 ### Source-of-Truth Tests
 

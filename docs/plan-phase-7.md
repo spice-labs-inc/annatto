@@ -71,7 +71,7 @@ Hostile review found and fixed in 7b:
   `LanguagePackageContractTest.streamEntries_afterCloseThrows` inherited by all 11 contract
   classes (1 each) — the S-5 cascade.
 - Guards confirmed green under the scaffolding: npm/other corpus contract tests
-  (e.g. Npm 168/169), `SecurityLimitsTest`, `ThreadSafetyTest`, `StreamingResourceManagementTest`,
+  (e.g. Npm 168/169), `SecurityLimitsTest`, `SingleThreadedModelTest`, `StreamingResourceManagementTest`,
   `MimeTypeFuzzTest`, `StreamedContentPropertyTest`, handlers/extractors, disambiguation
   (`routerDetectsNpmFromTgzPath` still passes via content marker; renamed in 7b).
 - Scaffolding delivered: `internal/Limits` + `fromStream(..., Limits)` overloads
@@ -326,7 +326,7 @@ caller path; asserts basename-only, no `annatto-*`/`/tmp/`, no raw `e.getMessage
 - `LanguagePackageReaderIntegrationTest`, `NpmMetadataExtractorTest.isPackageJson_*`,
   `NpmPackageContractTest`, `CratesPackageContractTest`, `PyPIPackageContractTest`,
   `CpanPackageContractTest`, `CondaPackageContractTest`, `SourceOfTruthIntegrationTest`.
-- `SecurityLimitsTest`, `StreamingResourceManagementTest`, `ThreadSafetyTest`, `MimeTypeFuzzTest`.
+- `SecurityLimitsTest`, `StreamingResourceManagementTest`, `SingleThreadedModelTest`, `MimeTypeFuzzTest`.
 - `routerDetectsNpmFromTgzPath` — RENAMED/re-purposed: post-fix it passes only via content
   marker; rename to `routerDetectsNpmFromTgzContent` to stop asserting the (removed) name-based
   behavior.

@@ -56,7 +56,7 @@ Every claim below has a named test (verified by running `mvn test`). Status: GRE
 | Unsafe symlink targets refused at `openStream()` | `unsafeSymlinkOpenStreamRejected` |
 
 ## Regression guard (must stay green)
-`SecurityLimitsTest`, `ThreadSafetyTest`, `StreamingResourceManagementTest`, `MimeTypeFuzzTest`,
+`SecurityLimitsTest`, `SingleThreadedModelTest`, `StreamingResourceManagementTest`, `MimeTypeFuzzTest`,
 `EcosystemRouterDisambiguationTest` (19, incl. renamed `routerDetectsNpmFromTgzContent`), all 11
 corpus `*PackageContractTest`, `SourceOfTruthIntegrationTest`, `NpmMetadataExtractorTest` (420),
 handlers/extractors, `LanguagePackageReaderIntegrationTest` body.

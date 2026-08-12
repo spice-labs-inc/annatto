@@ -53,7 +53,8 @@ import java.util.zip.GZIPInputStream;
  * <p>Marker predicates are the SHARED Phase 7 markers ({@code markers.*}) so the router and
  * the metadata extractors can never disagree.
  *
- * <p>Thread Safety: All methods are stateless and thread-safe.
+ * <p>Execution model: stateless utilities on the single-threaded reader path (ADR-004);
+ * concurrent use is not guaranteed.
  */
 public final class EcosystemRouter {
 

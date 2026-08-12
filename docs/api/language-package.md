@@ -60,11 +60,15 @@ try (PackageEntryStream entries = pkg.streamEntries()) {
 | `MalformedPackageException` | Corrupt/invalid package | Log and skip |
 | `SecurityException` | Limits violated (bomb, traversal) | Log warning, quarantine |
 
-## Thread Safety
+## Execution Model (Single-Threaded)
 
-- `LanguagePackageReader`: Thread-safe, stateless
-- `LanguagePackage`: Thread-safe for all methods except `streamEntries()`
-- `PackageEntryStream`: NOT thread-safe - use from single thread only
+Annatto has NO concurrency requirement (ADR-004, de-scoped 2026-08). It executes on a single
+thread:
+
+- `LanguagePackageReader`: called from ONE thread; stateless and repeatable across sequential calls
+- `LanguagePackage`: read by that same ONE thread; immutable after construction
+- `PackageEntryStream`: single-stream-per-package, single-threaded use only
+- Concurrent `read()` / `streamEntries()` / `close()` is OUT OF SCOPE and not guaranteed
 
 ## Supported Formats
 
@@ -86,5 +90,5 @@ try (PackageEntryStream entries = pkg.streamEntries()) {
 
 - All reader methods complete within 1 second (test: MimeTypeFuzzTest)
 - Stream resources properly released (test: StreamingResourceManagementTest)
-- Concurrent access is safe (test: ThreadSafetyTest)
+- Single-threaded model honored; sequential repeatability (test: SingleThreadedModelTest)
 - Malicious packages are rejected (test: SecurityLimitsTest)

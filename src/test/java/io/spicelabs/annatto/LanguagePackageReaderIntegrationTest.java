@@ -36,11 +36,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
@@ -61,7 +56,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  *   <li>Error handling (UnknownFormatException, MalformedPackageException)</li>
  *   <li>MIME type queries (isSupported, supportedMimeTypes)</li>
  *   <li>Ecosystem detection API (detect)</li>
- *   <li>Thread safety for concurrent read calls</li>
+ *   <li>Sequential (single-threaded model) repeatability — reader methods are reentrant</li>
  * </ul>
  *
  * <p>Implementation Note: Tests use SourceOfTruthLoader to discover package files
@@ -327,62 +322,12 @@ class LanguagePackageReaderIntegrationTest {
         }
     }
 
-    // --- Thread safety tests ---
+    // --- Sequential (single-threaded execution model, ADR-004) tests ---
 
     @Test
-    @DisplayName("concurrent read calls do not interfere")
-    void concurrentReadCallsDoNotInterfere() throws Exception {
-        List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
-
-        Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
-
-        ExecutorService executor = Executors.newFixedThreadPool(20);
-        CountDownLatch startLatch = new CountDownLatch(1);
-        CountDownLatch completeLatch = new CountDownLatch(20);
-        AtomicInteger successCount = new AtomicInteger(0);
-        java.util.List<Exception> errors = java.util.Collections.synchronizedList(new java.util.ArrayList<>());
-
-        for (int i = 0; i < 20; i++) {
-            final int threadNum = i;
-            executor.submit(() -> {
-                try {
-                    startLatch.await();
-                    LanguagePackage result = LanguagePackageReader.read(pkg);
-                    if (result != null && result.ecosystem() == Ecosystem.NPM) {
-                        successCount.incrementAndGet();
-                    }
-                } catch (Exception e) {
-                    errors.add(new RuntimeException("Thread " + threadNum + " failed: " + e.getMessage(), e));
-                } finally {
-                    completeLatch.countDown();
-                }
-            });
-        }
-
-        startLatch.countDown();
-        completeLatch.await(30, TimeUnit.SECONDS);
-        executor.shutdown();
-
-        // Print all errors for debugging
-        if (!errors.isEmpty()) {
-            System.err.println("=== ERRORS during concurrent read ===");
-            for (Exception e : errors) {
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
-            System.err.println("=== END ERRORS ===");
-            fail("Had " + errors.size() + " errors out of 20 threads. First error: " + errors.get(0));
-        }
-
-        assertThat(successCount.get()).isEqualTo(20);
-    }
-
-    @Test
-    @DisplayName("reader methods are reentrant")
+    @DisplayName("reader methods are sequential/repeatable")
     void readerMethodsAreReentrant() {
-        // Multiple calls to static query methods should be safe
+        // Multiple sequential calls to static query methods should be safe.
         for (int i = 0; i < 100; i++) {
             Set<String> supported = LanguagePackageReader.supportedMimeTypes();
             assertThat(supported).isNotEmpty();

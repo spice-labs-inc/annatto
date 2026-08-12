@@ -49,10 +49,15 @@ import java.util.Set;
  *       stream before the package factory saw it.</li>
  * </ul>
  *
+ * <p>Threading model (ADR-004): Annatto executes on a SINGLE thread. {@code read(...)} is
+ * invoked by one thread and the returned {@link LanguagePackage} is read by that same thread.
+ * Concurrent {@code read()}/{@code streamEntries()}/{@code close()} is OUT OF SCOPE and not
+ * guaranteed; the Phase 7+ streaming/budget code is not synchronized for concurrent callers.
+ *
  * <p>Claims:
  * <ul>
- *   <li>Thread-safe for all static methods (verified by ThreadSafetyTest)</li>
- *   <li>Stateless - no mutable state between calls (verified by ThreadSafetyTest)</li>
+ *   <li>Stateless - no mutable state between sequential calls (verified by
+ *       LanguagePackageReaderIntegrationTest.readerMethodsAreReentrant)</li>
  *   <li>Never returns null - always Optional or throws (verified by LanguagePackageContractTest)</li>
  * </ul>
  */
