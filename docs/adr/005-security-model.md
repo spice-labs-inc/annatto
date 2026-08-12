@@ -15,7 +15,7 @@ Defense in depth with multiple layers:
 | `FROMSTREAM spool (compressed)` | 1 GiB (per package) | `Spool.create` (admission-time reserve) |
 | Aggregate in-flight spool budget | ~4 GiB (per process) | `AggregateSpoolBudget` |
 | Metadata scan (decompressed) | 500 MiB | gzip/zstd/bzip2 layer via `BoundedInflateStream` |
-| Routing scan compressed / inflated / entries | 256 MiB / 16 MiB / 1000 | `EcosystemRouter` (fail closed) |
+| Routing scan compressed / inflated / entries | 1 GiB / 500 MiB / 1 000 000 (sanity) | `EcosystemRouter` - magnitudes above ANY legitimate package so a valid package always routes; caps guard pathological bundles |
 | Per `streamEntries()` pass (inflated) | 1 GiB gzip-family; 1 GiB ZIP | package entry streams (fail-fast) |
 | Per-entry content | 10 MiB | `openStream()` (buffered, then returned) |
 | Per-entry metadata file | 1 MiB | PyPI / Crates / CPAN metadata read |

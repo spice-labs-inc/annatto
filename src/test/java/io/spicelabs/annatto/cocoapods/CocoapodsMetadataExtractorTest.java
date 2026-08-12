@@ -36,7 +36,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CocoapodsMetadataExtractor} comparing extraction results against
@@ -53,8 +52,9 @@ class CocoapodsMetadataExtractorTest {
     private static final Gson GSON = new Gson();
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(COCOAPODS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(COCOAPODS_CORPUS))
                 .as("cocoapods test corpus directory must exist")
                 .isTrue();
     }
@@ -592,7 +592,7 @@ class CocoapodsMetadataExtractorTest {
 
     private Path findPackage(String filename) {
         Path pkg = COCOAPODS_CORPUS.resolve(filename);
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
         return pkg;
     }
 

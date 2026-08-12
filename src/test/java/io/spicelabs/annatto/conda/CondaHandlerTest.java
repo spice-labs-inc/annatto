@@ -46,7 +46,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CondaHandler} covering the full handler lifecycle:
@@ -62,8 +61,9 @@ class CondaHandlerTest {
     private CondaHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CONDA_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CONDA_CORPUS))
                 .as("conda test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -82,7 +82,7 @@ class CondaHandlerTest {
     @Test
     void begin_condaFormat_returnsMementoWithMetadata() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("numpy-1.26.4-py310hb13e2d6_0.conda");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -105,7 +105,7 @@ class CondaHandlerTest {
     @Test
     void begin_tarBz2Format_returnsMementoWithMetadata() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("six-1.16.0-pyh6c4a22f_0.tar.bz2");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -142,7 +142,7 @@ class CondaHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("numpy-1.26.4-py310hb13e2d6_0.conda");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -189,7 +189,7 @@ class CondaHandlerTest {
     @Test
     void getPurls_condaFormat_includesBuildQualifier() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("numpy-1.26.4-py310hb13e2d6_0.conda");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -215,7 +215,7 @@ class CondaHandlerTest {
     @Test
     void getPurls_noNamespace() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("numpy-1.26.4-py310hb13e2d6_0.conda");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -276,7 +276,7 @@ class CondaHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = CONDA_CORPUS.resolve("six-1.16.0-pyhd8ed1ab_1.conda");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -296,8 +296,8 @@ class CondaHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = CONDA_CORPUS.resolve("numpy-1.26.4-py310hb13e2d6_0.conda");
         Path pkg2 = CONDA_CORPUS.resolve("six-1.16.0-pyh6c4a22f_0.tar.bz2");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         CondaHandler handler1 = new CondaHandler();
         CondaHandler handler2 = new CondaHandler();

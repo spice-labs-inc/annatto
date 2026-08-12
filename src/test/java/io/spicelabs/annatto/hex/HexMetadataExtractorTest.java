@@ -39,7 +39,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link HexMetadataExtractor} using source-of-truth expected JSON files
@@ -51,8 +50,9 @@ class HexMetadataExtractorTest {
     private static final Path HEX_EXPECTED = Path.of("src/test/resources/hex");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(HEX_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(HEX_CORPUS))
                 .as("hex test corpus directory must exist")
                 .isTrue();
     }
@@ -563,13 +563,13 @@ class HexMetadataExtractorTest {
 
     private MetadataResult extractFromPackage(String filename) throws Exception {
         Path pkg = HEX_CORPUS.resolve(filename);
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
         return extractResult(pkg);
     }
 
     private JsonObject loadExpected(Path pkgPath) throws Exception {
         Path expectedPath = SourceOfTruth.expectedPathFor(pkgPath, HEX_EXPECTED);
-        assumeThat(Files.exists(expectedPath))
+        assertThat(Files.exists(expectedPath))
                 .as("expected JSON for %s must exist", pkgPath.getFileName())
                 .isTrue();
         return SourceOfTruth.loadExpected(expectedPath);

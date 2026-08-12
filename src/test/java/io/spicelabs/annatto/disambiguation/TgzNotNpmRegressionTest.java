@@ -304,6 +304,29 @@ class TgzNotNpmRegressionTest {
         }
     }
 
+    @Test
+    @DisplayName("valid npm package with >1000 entries routes to NPM (marker late)")
+    void largeValidNpmTgzRoutesToNpm(@org.junit.jupiter.api.io.TempDir Path tempDir) throws Exception {
+        // lodash-4.17.21.tgz regression: 1054 entries with package/package.json at index 1049.
+        // A valid package must ALWAYS open - the routing budget must never misroute it.
+        List<ArchiveBuilder.Entry> entries = new java.util.ArrayList<>();
+        for (int i = 0; i < 1100; i++) {
+            entries.add(ArchiveBuilder.Entry.of("package/lib/file" + i + ".js", "//" + i));
+        }
+        entries.add(ArchiveBuilder.Entry.of("package/package.json", PKG_JSON));
+        Path pkg = write(tempDir, "big-1.0.0.tgz", ArchiveBuilder.gzipTar(entries));
+
+        assertThat(EcosystemRouter.route(pkg)).hasValue(Ecosystem.NPM);
+
+        // And the full read() path must open it.
+        LanguagePackage lp = LanguagePackageReader.read(pkg);
+        try {
+            assertThat(lp.ecosystem()).isEqualTo(Ecosystem.NPM);
+        } finally {
+            lp.close();
+        }
+    }
+
     // ================================================================
     // helpers
     // ================================================================

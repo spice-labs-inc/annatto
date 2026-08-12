@@ -47,7 +47,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CratesHandler} covering the full handler lifecycle:
@@ -64,8 +63,9 @@ class CratesHandlerTest {
     private CratesHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CRATES_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CRATES_CORPUS))
                 .as("crates test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -84,7 +84,7 @@ class CratesHandlerTest {
     @Test
     void begin_returnsCratesMementoWithMetadata() throws Exception {
         Path crate = CRATES_CORPUS.resolve("serde-1.0.195.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(crate.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -122,7 +122,7 @@ class CratesHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path crate = CRATES_CORPUS.resolve("serde-1.0.195.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(crate.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -169,7 +169,7 @@ class CratesHandlerTest {
     @Test
     void getPurls_serde_generatesCorrectPurl() throws Exception {
         Path crate = CRATES_CORPUS.resolve("serde-1.0.195.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(crate.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -228,7 +228,7 @@ class CratesHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path crate = CRATES_CORPUS.resolve("serde-1.0.195.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(crate.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -248,8 +248,8 @@ class CratesHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = CRATES_CORPUS.resolve("serde-1.0.195.crate");
         Path pkg2 = CRATES_CORPUS.resolve("void-1.0.2.crate");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         CratesHandler handler1 = new CratesHandler();
         CratesHandler handler2 = new CratesHandler();

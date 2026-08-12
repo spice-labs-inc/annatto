@@ -46,7 +46,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link HexHandler} covering the full handler lifecycle.
@@ -59,8 +58,9 @@ class HexHandlerTest {
     private HexHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(HEX_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(HEX_CORPUS))
                 .as("hex test corpus directory must exist")
                 .isTrue();
     }
@@ -79,7 +79,7 @@ class HexHandlerTest {
     @Test
     void begin_returnsMementoWithMetadata() throws Exception {
         Path pkg = HEX_CORPUS.resolve("jason-1.4.1.tar");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -115,7 +115,7 @@ class HexHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = HEX_CORPUS.resolve("jason-1.4.1.tar");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -141,7 +141,7 @@ class HexHandlerTest {
     @Test
     void getPurls_correctFormat() throws Exception {
         Path pkg = HEX_CORPUS.resolve("jason-1.4.1.tar");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -164,7 +164,7 @@ class HexHandlerTest {
     @Test
     void getPurls_nameLowercased() throws Exception {
         Path pkg = HEX_CORPUS.resolve("phoenix-1.7.10.tar");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -223,7 +223,7 @@ class HexHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = HEX_CORPUS.resolve("jason-1.4.1.tar");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,

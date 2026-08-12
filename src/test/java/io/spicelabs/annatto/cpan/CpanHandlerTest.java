@@ -46,7 +46,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CpanHandler} covering the full handler lifecycle:
@@ -61,8 +60,9 @@ class CpanHandlerTest {
     private CpanHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CPAN_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CPAN_CORPUS))
                 .as("cpan test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -81,7 +81,7 @@ class CpanHandlerTest {
     @Test
     void begin_returnsMementoWithMetadata() throws Exception {
         Path pkg = CPAN_CORPUS.resolve("Moose-2.2207.tar.gz");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -118,7 +118,7 @@ class CpanHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = CPAN_CORPUS.resolve("Moose-2.2207.tar.gz");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -165,7 +165,7 @@ class CpanHandlerTest {
     @Test
     void getPurls_correctFormat() throws Exception {
         Path pkg = CPAN_CORPUS.resolve("Moose-2.2207.tar.gz");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -188,7 +188,7 @@ class CpanHandlerTest {
     @Test
     void getPurls_noNamespace() throws Exception {
         Path pkg = CPAN_CORPUS.resolve("Try-Tiny-0.31.tar.gz");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -248,7 +248,7 @@ class CpanHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = CPAN_CORPUS.resolve("Try-Tiny-0.31.tar.gz");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -268,8 +268,8 @@ class CpanHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = CPAN_CORPUS.resolve("Moose-2.2207.tar.gz");
         Path pkg2 = CPAN_CORPUS.resolve("Try-Tiny-0.31.tar.gz");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         CpanHandler handler1 = new CpanHandler();
         CpanHandler handler2 = new CpanHandler();

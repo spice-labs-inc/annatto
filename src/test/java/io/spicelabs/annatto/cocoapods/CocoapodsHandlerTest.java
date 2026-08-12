@@ -46,7 +46,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CocoapodsHandler} covering the full handler lifecycle.
@@ -59,8 +58,9 @@ class CocoapodsHandlerTest {
     private CocoapodsHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(COCOAPODS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(COCOAPODS_CORPUS))
                 .as("cocoapods test corpus directory must exist")
                 .isTrue();
     }
@@ -79,7 +79,7 @@ class CocoapodsHandlerTest {
     @Test
     void begin_returnsMementoWithMetadata() throws Exception {
         Path pkg = COCOAPODS_CORPUS.resolve("Alamofire-5.8.1.podspec.json");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -115,7 +115,7 @@ class CocoapodsHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = COCOAPODS_CORPUS.resolve("Alamofire-5.8.1.podspec.json");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -141,7 +141,7 @@ class CocoapodsHandlerTest {
     @Test
     void getPurls_correctFormat() throws Exception {
         Path pkg = COCOAPODS_CORPUS.resolve("Alamofire-5.8.1.podspec.json");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -164,7 +164,7 @@ class CocoapodsHandlerTest {
     @Test
     void getPurls_preservesCase() throws Exception {
         Path pkg = COCOAPODS_CORPUS.resolve("AFNetworking-4.0.1.podspec.json");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -223,7 +223,7 @@ class CocoapodsHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = COCOAPODS_CORPUS.resolve("Alamofire-5.8.1.podspec.json");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,

@@ -45,7 +45,6 @@ import java.util.zip.ZipOutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link LuarocksMetadataExtractor} comparing extraction results against
@@ -68,8 +67,9 @@ class LuarocksMetadataExtractorTest {
     private static final Path LUAROCKS_EXPECTED = TestCorpusDownloader.expectedDir("luarocks");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(LUAROCKS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(LUAROCKS_CORPUS))
                 .as("luarocks test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -636,7 +636,7 @@ class LuarocksMetadataExtractorTest {
 
     private MetadataResult extractByName(String filename) throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve(filename);
-        assumeThat(Files.exists(pkg)).as("Package file must exist: " + filename).isTrue();
+        assertThat(Files.exists(pkg)).as("Package file must exist: " + filename).isTrue();
         return extractFromPackage(pkg);
     }
 

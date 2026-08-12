@@ -47,7 +47,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link GoHandler} covering the full handler lifecycle:
@@ -68,8 +67,9 @@ class GoHandlerTest {
     private GoHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(GO_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(GO_CORPUS))
                 .as("go test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -88,7 +88,7 @@ class GoHandlerTest {
     @Test
     void begin_returnsGoMementoWithMetadata() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -126,7 +126,7 @@ class GoHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -173,7 +173,7 @@ class GoHandlerTest {
     @Test
     void getPurls_standardModule_generatesCorrectPurl() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -196,7 +196,7 @@ class GoHandlerTest {
     @Test
     void getPurls_golangOrgXModule() throws Exception {
         Path zip = GO_CORPUS.resolve("golang.org_x_text@v0.14.0.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -219,7 +219,7 @@ class GoHandlerTest {
     @Test
     void getPurls_majorVersionModule() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_go-chi_chi_v5@v5.0.11.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -278,7 +278,7 @@ class GoHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path zip = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
-        assumeThat(Files.exists(zip)).isTrue();
+        assertThat(Files.exists(zip)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(zip.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -298,8 +298,8 @@ class GoHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = GO_CORPUS.resolve("github.com_gin-gonic_gin@v1.9.1.zip");
         Path pkg2 = GO_CORPUS.resolve("golang.org_x_text@v0.14.0.zip");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         GoHandler handler1 = new GoHandler();
         GoHandler handler2 = new GoHandler();

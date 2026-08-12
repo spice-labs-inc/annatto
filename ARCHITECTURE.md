@@ -70,7 +70,7 @@ and buffered into a Java `byte[]`, dying at the ~2 GiB array limit. Two fixes sh
 `docs/phase-7-claims.md` for claim→test bindings):
 
 1. **Content-required routing.** `.tgz`/`.crate` names are ambiguous; `EcosystemRouter` uses a
-   BOUNDED content scan (compressed 256 MiB / inflated 16 MiB / 1000 entries caps, fail-closed)
+   BOUNDED content scan (caps at 1 GiB compressed / 500 MiB inflated / 1 000 000 entries - above ANY legitimate package)
    with shared strict top-level markers (`markers.*`) shared with the extractors. The process
    filter no longer claims `.tgz` by name.
 2. **No whole-archive buffering.** npm/PyPI/Crates/CPAN/Conda never retain a full-file `byte[]`.

@@ -35,7 +35,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link PypiMetadataExtractor} comparing extraction results against
@@ -62,8 +61,9 @@ class PypiMetadataExtractorTest {
     private static final Path PYPI_EXPECTED = TestCorpusDownloader.expectedDir("pypi");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(PYPI_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(PYPI_CORPUS))
                 .as("pypi test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -239,7 +239,7 @@ class PypiMetadataExtractorTest {
     @Test
     void wheelPackage_requests_extractsCorrectly() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         MetadataResult result = extractFromPackage(whl);
 
@@ -257,7 +257,7 @@ class PypiMetadataExtractorTest {
     @Test
     void wheelPackage_flask_extractsCorrectly() throws Exception {
         Path whl = PYPI_CORPUS.resolve("flask-3.0.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         MetadataResult result = extractFromPackage(whl);
 
@@ -274,7 +274,7 @@ class PypiMetadataExtractorTest {
     @Test
     void sdistPackage_cffi_extractsCorrectly() throws Exception {
         Path tarGz = PYPI_CORPUS.resolve("cffi-1.16.0.tar.gz");
-        assumeThat(Files.exists(tarGz)).isTrue();
+        assertThat(Files.exists(tarGz)).isTrue();
 
         MetadataResult result = extractFromPackage(tarGz);
 
@@ -290,7 +290,7 @@ class PypiMetadataExtractorTest {
     @Test
     void sdistPackage_pytz_extractsCorrectly() throws Exception {
         Path tarGz = PYPI_CORPUS.resolve("pytz-2023.3.post1.tar.gz");
-        assumeThat(Files.exists(tarGz)).isTrue();
+        assertThat(Files.exists(tarGz)).isTrue();
 
         MetadataResult result = extractFromPackage(tarGz);
 
@@ -721,7 +721,7 @@ class PypiMetadataExtractorTest {
     @Test
     void fullExtraction_requests_fromWheel() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             MetadataResult result = PypiMetadataExtractor.extract(fis, whl.getFileName().toString());
@@ -737,7 +737,7 @@ class PypiMetadataExtractorTest {
     @Test
     void fullExtraction_cffi_fromSdist() throws Exception {
         Path tarGz = PYPI_CORPUS.resolve("cffi-1.16.0.tar.gz");
-        assumeThat(Files.exists(tarGz)).isTrue();
+        assertThat(Files.exists(tarGz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tarGz.toFile())) {
             MetadataResult result = PypiMetadataExtractor.extract(fis, tarGz.getFileName().toString());

@@ -36,7 +36,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link CratesMetadataExtractor} comparing extraction results against
@@ -62,8 +61,9 @@ class CratesMetadataExtractorTest {
     private static final Path CRATES_EXPECTED = TestCorpusDownloader.expectedDir("crates");
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(CRATES_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(CRATES_CORPUS))
                 .as("crates test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -227,7 +227,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_serde_optionalDependency() throws Exception {
         Path crate = CRATES_CORPUS.resolve("serde-1.0.195.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -249,7 +249,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_libc_minimalDeps() throws Exception {
         Path crate = CRATES_CORPUS.resolve("libc-0.2.153.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -266,7 +266,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_openssl_sys_buildDeps() throws Exception {
         Path crate = CRATES_CORPUS.resolve("openssl-sys-0.9.99.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -289,7 +289,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_reqwest_renamedDependencies() throws Exception {
         Path crate = CRATES_CORPUS.resolve("reqwest-0.11.24.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -312,7 +312,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_void_zeroDeps() throws Exception {
         Path crate = CRATES_CORPUS.resolve("void-1.0.2.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -330,7 +330,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_nom_multipleAuthors() throws Exception {
         Path crate = CRATES_CORPUS.resolve("nom-7.1.3.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -346,7 +346,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_ring_nullLicense() throws Exception {
         Path crate = CRATES_CORPUS.resolve("ring-0.17.7.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 
@@ -362,7 +362,7 @@ class CratesMetadataExtractorTest {
     @Test
     void crate_tokio_featureGatedDeps() throws Exception {
         Path crate = CRATES_CORPUS.resolve("tokio-1.35.1.crate");
-        assumeThat(Files.exists(crate)).isTrue();
+        assertThat(Files.exists(crate)).isTrue();
 
         MetadataResult result = extractFromPackage(crate);
 

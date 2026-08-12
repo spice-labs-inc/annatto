@@ -76,7 +76,8 @@ jobs:
         run: mvn clean install -DskipTests -q
 
       - name: Run source-of-truth tests
-        run: mvn test -Dtest=SourceOfTruthIntegrationTest -DsourceOfTruth.enabled=true
+        # Identical to the main suite: no property gate; these run in every `mvn test`.
+        run: mvn test -Dtest=SourceOfTruthIntegrationTest
 
       - name: Archive SoT test reports
         if: always()

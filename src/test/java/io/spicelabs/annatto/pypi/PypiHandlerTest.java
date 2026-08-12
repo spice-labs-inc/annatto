@@ -47,7 +47,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link PypiHandler} covering the full handler lifecycle:
@@ -68,8 +67,9 @@ class PypiHandlerTest {
     private PypiHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(PYPI_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(PYPI_CORPUS))
                 .as("pypi test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -88,7 +88,7 @@ class PypiHandlerTest {
     @Test
     void begin_returnsPypiMementoWithMetadata() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("requests-2.31.0-py3-none-any.whl"),
@@ -124,7 +124,7 @@ class PypiHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("requests-2.31.0-py3-none-any.whl"),
@@ -169,7 +169,7 @@ class PypiHandlerTest {
     @Test
     void getPurls_wheelPackage_generatesCorrectPurl() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("requests-2.31.0-py3-none-any.whl"),
@@ -190,7 +190,7 @@ class PypiHandlerTest {
     @Test
     void getPurls_sdistPackage_generatesCorrectPurl() throws Exception {
         Path tarGz = PYPI_CORPUS.resolve("cffi-1.16.0.tar.gz");
-        assumeThat(Files.exists(tarGz)).isTrue();
+        assertThat(Files.exists(tarGz)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(tarGz.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("cffi-1.16.0.tar.gz"),
@@ -211,7 +211,7 @@ class PypiHandlerTest {
     @Test
     void getPurls_nameNormalization_flaskSocketIO() throws Exception {
         Path whl = PYPI_CORPUS.resolve("Flask_SocketIO-5.3.6-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("Flask_SocketIO-5.3.6-py3-none-any.whl"),
@@ -268,7 +268,7 @@ class PypiHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path whl = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
-        assumeThat(Files.exists(whl)).isTrue();
+        assertThat(Files.exists(whl)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(whl.toFile())) {
             ArtifactMemento memento = handler.begin(fis, stubArtifact("requests-2.31.0-py3-none-any.whl"),
@@ -287,8 +287,8 @@ class PypiHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = PYPI_CORPUS.resolve("requests-2.31.0-py3-none-any.whl");
         Path pkg2 = PYPI_CORPUS.resolve("flask-3.0.0-py3-none-any.whl");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         PypiHandler handler1 = new PypiHandler();
         PypiHandler handler2 = new PypiHandler();

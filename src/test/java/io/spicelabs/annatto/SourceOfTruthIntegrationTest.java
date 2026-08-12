@@ -31,7 +31,6 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Source-of-truth integration tests for Annatto.
@@ -59,11 +58,10 @@ import static org.assertj.core.api.Assumptions.assumeThat;
  *   <li>dependencies: Set equality (order independent)</li>
  * </ul>
  *
- * <p>LLM Note: These tests may be skipped if:
- * <ul>
- *   <li>sourceOfTruth.enabled property is not set to "true"</li>
- *   <li>test corpus is not present (test-corpus/ directory)</li>
- * </ul>
+ * <p>LLM Note: These tests run UNCONDITIONALLY in every environment (ADR-004: identical test
+ * execution locally and in CI). The test corpus is downloaded on demand by
+ * {@link TestCorpusDownloader#ensureCorpusAvailable()}; if the corpus is unavailable the
+ * tests FAIL LOUDLY instead of being skipped.
  */
 class SourceOfTruthIntegrationTest {
 
@@ -71,11 +69,11 @@ class SourceOfTruthIntegrationTest {
     private static final Path TEST_CORPUS = Path.of("test-corpus");
 
     @BeforeAll
-    static void checkEnabled() {
-        assumeThat(System.getProperty("sourceOfTruth.enabled"))
-            .as("Source-of-truth tests require -DsourceOfTruth.enabled=true")
-            .isEqualTo("true");
-        assumeThat(Files.isDirectory(TEST_CORPUS))
+    static void ensureCorpus() throws IOException {
+        // Identical execution locally and in CI: download (or reuse the cached) corpus so
+        // these tests always run; fail loudly if it cannot be made available.
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(TEST_CORPUS))
             .as("Test corpus must be present at " + TEST_CORPUS)
             .isTrue();
     }
@@ -143,10 +141,10 @@ class SourceOfTruthIntegrationTest {
     // --- Verification logic ---
 
     private void verifyExtractionMatches(Path packagePath, Path expectedPath) throws Exception {
-        assumeThat(Files.exists(packagePath))
+        assertThat(Files.exists(packagePath))
             .as("Package file must exist: %s", packagePath)
             .isTrue();
-        assumeThat(Files.exists(expectedPath))
+        assertThat(Files.exists(expectedPath))
             .as("Expected JSON must exist: %s", expectedPath)
             .isTrue();
 

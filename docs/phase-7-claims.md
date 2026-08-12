@@ -14,6 +14,18 @@ Full suite: **7939 run, 0 failures, 0 errors**.
 | Exactly-at-cap archives iterate to completion | `Phase8StreamingTest.exactEntryCountIterationCompletes` |
 | Stream-read handoff (owned spool) works for all 11 ecosystems | contract/integration suites green; `LanguagePackageReaderIntegrationTest` |
 
+## CI-parity & routing policy addenda (2026-08)
+
+| Claim | Test |
+|---|---|
+| A valid package with >1000 entries routes to npm (lodash-4.17.21.tgz regression: 1054 entries, marker at index 1049) | `TgzNotNpmRegressionTest.largeValidNpmTgzRoutesToNpm` (synthetic 1100-entry tgz) |
+| Routing budgets are set ABOVE any legitimate package so a valid package always opens ("valid package => open, period"); the entry cap is a 1 000 000 sanity bound, not a classification sieve | `TgzNotNpmRegressionTest.largeValidNpmTgzRoutesToNpm`, `SourceOfTruthIntegrationTest` (runs real lodash) |
+| Source-of-truth tests run UNCONDITIONALLY and identically in every environment (no `sourceOfTruth.enabled` gate; corpus ensured via `TestCorpusDownloader.ensureCorpusAvailable()`; failures are loud, never skipped) | `SourceOfTruthIntegrationTest` (7 params), `docs/adr/004-thread-safety.md` |
+
+Policy: `mvn test` executes every test locally AND in CI - zero unconditional skips. All
+corpus-dependent classes download/verify the corpus in `@BeforeAll` and hard-assert its
+presence; no `assumeThat` remains in the test suite.
+
 ## Phase 7/8 claim → test → status (GREEN)
 
 Every claim below has a named test (verified by running `mvn test`). Status: GREEN.

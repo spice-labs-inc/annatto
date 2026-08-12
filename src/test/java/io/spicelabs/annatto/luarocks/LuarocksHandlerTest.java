@@ -48,7 +48,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link LuarocksHandler} covering the full handler lifecycle:
@@ -64,8 +63,9 @@ class LuarocksHandlerTest {
     private LuarocksHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(LUAROCKS_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(LUAROCKS_CORPUS))
                 .as("luarocks test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -84,7 +84,7 @@ class LuarocksHandlerTest {
     @Test
     void begin_srcRock_returnsMementoWithMetadata() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("luasocket-3.1.0-1.src.rock");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -105,7 +105,7 @@ class LuarocksHandlerTest {
     @Test
     void begin_rockspec_returnsMementoWithMetadata() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("mediator_lua-1.1.2-0.rockspec");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -142,7 +142,7 @@ class LuarocksHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("luasocket-3.1.0-1.src.rock");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -186,7 +186,7 @@ class LuarocksHandlerTest {
     @Test
     void getPurls_nameLowercased() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("luafilesystem-1.8.0-1.src.rock");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -211,7 +211,7 @@ class LuarocksHandlerTest {
     @Test
     void getPurls_noNamespace() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("luasocket-3.1.0-1.src.rock");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -274,7 +274,7 @@ class LuarocksHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = LUAROCKS_CORPUS.resolve("lpeg-1.1.0-1.src.rock");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -294,8 +294,8 @@ class LuarocksHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = LUAROCKS_CORPUS.resolve("luasocket-3.1.0-1.src.rock");
         Path pkg2 = LUAROCKS_CORPUS.resolve("lpeg-1.1.0-1.src.rock");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         LuarocksHandler handler1 = new LuarocksHandler();
         LuarocksHandler handler2 = new LuarocksHandler();

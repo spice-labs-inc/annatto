@@ -39,7 +39,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Integration tests for {@link LanguagePackageReader}.
@@ -98,12 +97,12 @@ class LanguagePackageReaderIntegrationTest {
     void readPath_autoDetectsEcosystem(String ecosystemName, Ecosystem expectedEcosystem, Class<?> expectedClass) throws Exception {
         // Discover test cases from ground truth documents
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases(ecosystemName);
-        assumeThat(cases)
+        assertThat(cases)
             .as("At least one package/JSON pair must exist for %s", ecosystemName)
             .isNotEmpty();
 
         PackageTestCase testCase = cases.get(0);
-        assumeThat(Files.exists(testCase.packagePath()))
+        assertThat(Files.exists(testCase.packagePath()))
             .as("Package file must exist: %s", testCase.packagePath())
             .isTrue();
 
@@ -122,10 +121,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("read(Path, String) uses provided MIME type for routing")
     void readPathWithMimeType_usesProvidedMimeType() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         LanguagePackage result = LanguagePackageReader.read(pkg, "application/gzip");
         assertThat(result).isNotNull();
@@ -157,10 +156,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("read(InputStream, String, String) uses filename hint for detection")
     void readStream_withFilenameHint() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         String filename = pkg.getFileName().toString();
         byte[] data = Files.readAllBytes(pkg);
@@ -300,10 +299,10 @@ class LanguagePackageReaderIntegrationTest {
     @DisplayName("detect returns ecosystem for supported package")
     void detect_returnsEcosystemForSupportedPackage() throws Exception {
         List<PackageTestCase> cases = SourceOfTruthLoader.discoverTestCases("npm");
-        assumeThat(cases).isNotEmpty();
+        assertThat(cases).isNotEmpty();
 
         Path pkg = cases.get(0).packagePath();
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         Optional<Ecosystem> result = LanguagePackageReader.detect(pkg);
         assertThat(result).isPresent();

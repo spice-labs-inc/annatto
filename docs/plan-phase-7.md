@@ -18,7 +18,8 @@ Next: 7c documentation/claims ratification is folded into the 7b exit (see below
   `Archives`, `Limits`, `markers.{NpmEntryMarker,CargoTomlMarker,PkgInfoMarker,MetaMarker}`.
 - Reader: spool-once-and-handoff; `read(Path,...)` bounded path scan (no temp copy).
 - Routing: `.tgz`/`.crate` ambiguous; bounded scan (compressed 256MiB / inflated 16MiB /
-  1000 entries); fail-closed; shared top-level markers with directory-skip; `MAX_DETECTION_SIZE`
+  1 000 000-entry sanity cap - above ANY legitimate package so valid packages always route);
+  fail-closed; shared top-level markers with directory-skip; `MAX_DETECTION_SIZE`
   removed; filter `.tgz` dropped.
 - Five packages fully streaming (no whole-file `byte[]`): npm, PyPI (ZipFile wheels + sdist
   scan), Crates, CPAN, Conda v1/v2; per-pass budgets + fail-fast `hasNext`; per-entry 10MiB
@@ -376,9 +377,10 @@ caller path; asserts basename-only, no `annatto-*`/`/tmp/`, no raw `e.getMessage
    ambiguous gzip/zip/tar. **`.crate` is also made content-required** (gzip-family S-3
    hardening, matching the RED test `crateGenericContentNotRoutedToCrates`); valid crates keep
    routing to CRATES via the shared strict `CargoTomlMarker` (`<dir>/Cargo.toml`).
-9. Bounded routing scan for `disambiguateGzipTar`/`disambiguateZip`: `MAX_ROUTER_SPOOL`
-   (256 MiB), `MAX_ROUTER_SCAN` (16 MiB decompressed, gzip layer), entries 1000, entry-size
-   1 MiB; fail closed; wire/remove dead `MAX_DETECTION_SIZE`; use shared markers with
+9. Bounded routing scan for `disambiguateGzipTar`/`disambiguateZip`: caps at 1 GiB
+   compressed / 500 MiB inflated / 1 000 000 entries - set ABOVE ANY legitimate package so a
+   valid package is always classifiable ("valid package => open"); fail closed only for
+   pathological bundles; wire/remove dead `MAX_DETECTION_SIZE`; use shared markers with
    directory-skip.
 10. `AnnattoProcessFilter`: remove `.tgz` from `EXTENSION_MAP` (S-1). Keep `.crate`/`.gem`/
     `.whl`/`.conda`/`.rock`/`.rockspec` name claims (out of phase scope; documented
@@ -422,8 +424,8 @@ caller path; asserts basename-only, no `annatto-*`/`/tmp/`, no raw `e.getMessage
 |---|---|---|
 | `MAX_SPOOLED_SIZE` | 1 GiB | spool copy |
 | aggregate spool budget | ~4 GiB | process (admission-time) |
-| `MAX_ROUTER_SPOOL` | 256 MiB | routing copy |
-| `MAX_ROUTER_SCAN` | 16 MiB | routing gzip layer |
+| `MAX_ROUTER_SPOOL` | 1 GiB | routing compressed read (== spool default) |
+| `MAX_ROUTER_SCAN` | 500 MiB | routing gzip layer (== scan default) |
 | `MAX_SCAN_SIZE` (metadata) | 500 MiB | metadata decompressor layer |
 | **ZIP inflated budget** | 1 GiB | wheel + conda-v2-outer metadata pass / zip entry streams |
 | `MAX_STREAM_DECOMPRESSED` | 1 GiB | per `streamEntries()` pass |

@@ -46,7 +46,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Tests for {@link PackagistHandler} covering the full handler lifecycle:
@@ -63,8 +62,9 @@ class PackagistHandlerTest {
     private PackagistHandler handler;
 
     @BeforeAll
-    static void ensureTestPackagesExist() {
-        assumeThat(Files.isDirectory(PACKAGIST_CORPUS))
+    static void ensureTestPackagesExist() throws java.io.IOException {
+        TestCorpusDownloader.ensureCorpusAvailable();
+        assertThat(Files.isDirectory(PACKAGIST_CORPUS))
                 .as("packagist test corpus directory must exist with real packages")
                 .isTrue();
     }
@@ -83,7 +83,7 @@ class PackagistHandlerTest {
     @Test
     void begin_returnsPackagistMementoWithMetadata() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -120,7 +120,7 @@ class PackagistHandlerTest {
     @Test
     void getMetadata_returnsPopulatedList() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -167,7 +167,7 @@ class PackagistHandlerTest {
     @Test
     void getPurls_versionFromFilename_returnsPurl() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -227,7 +227,7 @@ class PackagistHandlerTest {
     @Test
     void end_doesNotThrow() throws Exception {
         Path pkg = PACKAGIST_CORPUS.resolve("psr-log-3.0.0.zip");
-        assumeThat(Files.exists(pkg)).isTrue();
+        assertThat(Files.exists(pkg)).isTrue();
 
         try (FileInputStream fis = new FileInputStream(pkg.toFile())) {
             ArtifactMemento memento = handler.begin(fis,
@@ -247,8 +247,8 @@ class PackagistHandlerTest {
     void handlerIsolation_noInterference() throws Exception {
         Path pkg1 = PACKAGIST_CORPUS.resolve("monolog-monolog-3.5.0.zip");
         Path pkg2 = PACKAGIST_CORPUS.resolve("psr-log-3.0.0.zip");
-        assumeThat(Files.exists(pkg1)).isTrue();
-        assumeThat(Files.exists(pkg2)).isTrue();
+        assertThat(Files.exists(pkg1)).isTrue();
+        assertThat(Files.exists(pkg2)).isTrue();
 
         PackagistHandler handler1 = new PackagistHandler();
         PackagistHandler handler2 = new PackagistHandler();

@@ -61,10 +61,14 @@ public final class EcosystemRouter {
     // Buffer size for mark/reset (8KB as per ADR-002)
     private static final int DETECTION_BUFFER_SIZE = 8192;
 
-    // Phase 7 routing budgets (ADR-005): fail closed when tripped.
-    private static final long MAX_ROUTER_COMPRESSED = 256L * 1024 * 1024;
-    private static final long MAX_ROUTER_INFLATED = 16L * 1024 * 1024;
-    private static final int MAX_ROUTER_ENTRIES = 1000;
+    // Phase 7/8 routing budgets are set at magnitudes ABOVE any legitimate package so that a
+    // valid package is ALWAYS classifiable ("valid package => open, period"). Registry limits
+    // keep real tarballs far below these; the caps guard only against pathological non-package
+    // bundles (e.g. multi-GiB repo dumps): compressed-input cap, decompressed-scan cap, and an
+    // entry-count sanity cap.
+    private static final long MAX_ROUTER_COMPRESSED = 1024L * 1024 * 1024; // 1 GiB (== spool default)
+    private static final long MAX_ROUTER_INFLATED = 500L * 1024 * 1024; // 500 MiB (== scan default)
+    private static final int MAX_ROUTER_ENTRIES = 1_000_000; // sanity only; no real package approaches it
 
     private EcosystemRouter() {
         // Utility class
