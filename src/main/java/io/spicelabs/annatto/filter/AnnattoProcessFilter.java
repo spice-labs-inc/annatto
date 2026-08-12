@@ -48,10 +48,12 @@ public final class AnnattoProcessFilter implements RodeoProcessFilter {
 
     /**
      * Extension-to-ecosystem mapping for file-based detection.
+     *
+     * <p>Phase 7 (S-1): {@code .tgz} is NOT claimed by name - a generic tar.gz must not be
+     * treated as npm (Goat Rodeo survey incident); npm classification is content-based via
+     * the {@code LanguagePackageReader}.
      */
     private static final Map<String, EcosystemId> EXTENSION_MAP = Map.ofEntries(
-            // npm: .tgz files that are npm packages
-            Map.entry(".tgz", EcosystemId.NPM),
             // Crates: .crate files
             Map.entry(".crate", EcosystemId.CRATES),
             // RubyGems: .gem files

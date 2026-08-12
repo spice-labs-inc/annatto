@@ -176,6 +176,69 @@ class LanguagePackageReaderIntegrationTest {
         }
     }
 
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid npm tgz (guard: spool-once handoff)")
+    void readStream_validNpmTgzStillParses() throws Exception {
+        byte[] tgz = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "package/package.json", "{\"name\": \"guard-pkg\", \"version\": \"1.0.0\"}"),
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of("package/index.js", "1"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(tgz)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-pkg-1.0.0.tgz", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.NPM);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid crate (guard: spool-once handoff)")
+    void readStream_validCrateStillParses() throws Exception {
+        byte[] crateBytes = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "guard-crate-1.0.0/Cargo.toml",
+                        "[package]\nname = \"guard-crate\"\nversion = \"1.0.0\"\n"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(crateBytes)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-crate-1.0.0.crate", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.CRATES);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) still parses a valid PyPI sdist (RED: stream-drain bug)")
+    void readStream_validSdistStillParses() throws Exception {
+        // RED until the Phase 7 spool-once-and-handoff lands: today the ".tar.gz" name is
+        // ambiguous, so route(...) consumes the caller's stream during content disambiguation
+        // (EcosystemRouter.disambiguateGzipTar drains it to EOF) and the package factory then
+        // receives an exhausted stream and fails. The reader fix (spool once + handoff the
+        // owned spooled file) makes this parse again.
+        byte[] sdist = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of(
+                        "guard-sdist-1.0.0/PKG-INFO", "Name: guard-sdist\nVersion: 1.0.0\n"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(sdist)) {
+            LanguagePackage result = LanguagePackageReader.read(stream, "guard-sdist-1.0.0.tar.gz", "application/gzip");
+            assertThat(result).isNotNull();
+            assertThat(result.ecosystem()).isEqualTo(Ecosystem.PYPI);
+        }
+    }
+
+    @Test
+    @DisplayName("read(InputStream,...) refuses a generic tgz with UnknownFormatException")
+    void readStream_genericTgzNotNpm() throws IOException {
+        byte[] genericTgz = io.spicelabs.annatto.testutil.ArchiveBuilder.gzipTar(
+                io.spicelabs.annatto.testutil.ArchiveBuilder.Entry.of("repo_ea/README.md", "# Repo"));
+
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(genericTgz)) {
+            assertThatExceptionOfType(AnnattoException.UnknownFormatException.class)
+                    .isThrownBy(() -> LanguagePackageReader.read(stream, "repo_ea.tgz", "application/gzip"))
+                    .as("generic .tgz must not be parsed as npm on the stream path either")
+                    .withMessageContaining("Cannot determine ecosystem");
+        }
+    }
+
     // --- Supported MIME type query tests ---
 
     @ParameterizedTest(name = "{0}")

@@ -42,6 +42,15 @@ PackageEntryStream s2 = pkg.streamEntries(); // Throws IllegalStateException
 ## Claims
 - Concurrent metadata reads are safe (test: ThreadSafetyTest.concurrentReadsOfSamePackage)
 - Concurrent streams throw IllegalStateException (test: ThreadSafetyTest.streamEntriesNotThreadSafe)
+- A failed stream-construction never leaves the package permanently locked (test:
+  NpmMemorySafetyTest.constructorFailureResetsStreamFlag)
+
+## Amendment (Phase 7): the one sanctioned mutable-static
+Annatto otherwise keeps ZERO mutable static state (ADR-004). The single exception is the
+process-wide aggregate spool budget (`internal.Spool.budget()`, an
+`AggregateSpoolBudget`), which exists precisely to bound cross-package disk usage. It is an
+injectable process-global singleton (swap via `Spool.overrideBudgetForTesting`, sanctions
+below) and is the only static mutation in the codebase.
 - No state leakage between instances (test: ThreadSafetyTest.noStateLeakageBetweenInstances)
 
 ## LLM Context

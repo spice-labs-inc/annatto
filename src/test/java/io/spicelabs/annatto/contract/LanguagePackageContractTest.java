@@ -230,25 +230,28 @@ public abstract class LanguagePackageContractTest {
     }
 
     /**
-     * Goal: Verify that after close(), a new stream can be opened.
-     * Rationale: Packages should be reusable after proper cleanup.
-     * Requirement: Stream lifecycle - reusability after close
+     * Goal: Verify that close() makes the package closed and a later streamEntries() fails.
+     * Rationale (S-5, approved): close() now releases package-owned resources (e.g. a
+     * spooled temp file) and marks the package closed; using a closed package is a caller
+     * error. This replaces the old "reopen after close" contract.
+     * Requirement: Package lifecycle - closed-package semantics
      */
     @Test
-    @DisplayName("streamEntries() allows new stream after close()")
-    void streamEntries_afterCloseAllowsNewStream() throws IOException {
+    @DisplayName("streamEntries() throws after close() (closed package)")
+    void streamEntries_afterCloseThrows() throws IOException {
         LanguagePackage pkg = createValidPackage();
 
-        // First stream
+        // First stream: valid while the package is open
         try (PackageEntryStream stream1 = pkg.streamEntries()) {
             assertThat(stream1).isNotNull();
         }
+
         pkg.close();
 
-        // Second stream after close
-        try (PackageEntryStream stream2 = pkg.streamEntries()) {
-            assertThat(stream2).isNotNull();
-        }
+        // After close() the package is closed and must refuse new streams
+        assertThatExceptionOfType(IllegalStateException.class)
+                .isThrownBy(pkg::streamEntries)
+                .withMessageContaining("closed");
     }
 
     /**

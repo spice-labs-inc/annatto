@@ -15,6 +15,10 @@ Use explicit AutoCloseable pattern with try-with-resources for all stream operat
 3. Close is idempotent - safe to call multiple times
 4. Partial consumption is OK - close() releases resources regardless of consumption state
 5. Only one stream per package instance can be open at a time
+6. `LanguagePackage.close()` CLOSES the package (S-5, Phase 7): any owned spooled source is
+   deleted and a subsequent `streamEntries()` throws `IllegalStateException("Package is closed")`.
+   The in-use message `"A stream is already open on this package"` remains distinct. Callers
+   must close open entry streams before closing the package (zip-backed streams hold an fd).
 
 ### Code Pattern
 ```java
@@ -32,6 +36,8 @@ try (PackageEntryStream entries = pkg.streamEntries()) {
 - Stream properly closes via try-with-resources (test: StreamingResourceManagementTest.streamEntriesClosesProperly)
 - Double close is safe (test: StreamingResourceManagementTest.doubleCloseIsSafe)
 - Partial consumption still releases resources (test: StreamingResourceManagementTest.streamEntriesClosesWhenPartiallyConsumed)
+- A closed package refuses new streams (test: LanguagePackageContractTest.streamEntries_afterCloseThrows,
+  inherited by all 11 contract classes)
 
 ## LLM Context
 For LLM code generation: Always generate try-with-resources blocks when using streamEntries(). Never suggest callers rely on finalizers or garbage collection for stream cleanup.

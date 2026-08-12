@@ -70,9 +70,9 @@ try (PackageEntryStream entries = pkg.streamEntries()) {
 
 | Ecosystem | Extensions | MIME Types |
 |-----------|------------|------------|
-| npm | .tgz | application/gzip |
+| npm | .tgz (content-required) | application/gzip |
 | PyPI | .whl, .tar.gz | application/zip, application/gzip |
-| Crates | .crate | application/gzip |
+| Crates | .crate (content-required) | application/gzip |
 | Go | .zip | application/zip |
 | RubyGems | .gem | application/x-tar |
 | Packagist | .zip | application/zip |

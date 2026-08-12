@@ -17,7 +17,10 @@ package io.spicelabs.annatto.ecosystem.hex;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Spool;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +46,10 @@ public final class HexPackage implements LanguagePackage {
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
      * Create a HexPackage from a file path.
@@ -55,10 +60,7 @@ public final class HexPackage implements LanguagePackage {
      */
     public static HexPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
@@ -71,20 +73,51 @@ public final class HexPackage implements LanguagePackage {
      */
     public static HexPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        String metadataConfig = extractMetadata(data, filename);
-        PackageMetadata metadata = parseMetadata(metadataConfig);
-
-        return new HexPackage(filename, metadata, data);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private HexPackage(String filename, PackageMetadata metadata, byte[] data) {
+    /**
+     * Create a HexPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the package stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static HexPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    public static HexPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static HexPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        String metadataConfig;
+        try {
+            metadataConfig = extractMetadata(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(metadataConfig);
+        return new HexPackage(filename, source, metadata, limits);
+    }
+
+    private HexPackage(String filename, PackageSource source, PackageMetadata metadata, Limits limits) {
         this.filename = filename;
         this.metadata = metadata;
-        this.data = data;
+        this.source = source;
+        this.limits = limits;
     }
 
     @Override
@@ -130,63 +163,68 @@ public final class HexPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return new HexEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return new HexEntryStream();
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
-    private static String extractMetadata(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
+    private static String extractMetadata(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name())) {
+                new BufferedInputStream(new FileInputStream(file.toFile()), 8192), StandardCharsets.UTF_8.name())) {
 
             TarArchiveEntry entry;
+            int count = 0;
             while ((entry = tarIn.getNextEntry()) != null) {
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
-                String entryName = entry.getName();
-                if (entryName.equals("metadata.config")) {
-                    if (entry.getSize() > MAX_METADATA_SIZE) {
-                        throw new AnnattoException.SecurityException(
-                            "metadata.config exceeds size limit");
-                    }
-                    return readStreamToString(tarIn, entry.getSize());
+                if (entry.getName().equals("metadata.config")) {
+                    return readStreamToString(tarIn, filename, Math.min(limits.entryBytes(), MAX_METADATA_SIZE));
                 }
             }
             throw new AnnattoException.MalformedPackageException(
                 "No metadata.config found in Hex package: " + filename);
-        } catch (AnnattoException.MalformedPackageException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException(
-                "Failed to read Hex package: " + e.getMessage(), e);
         }
     }
 
-    private static String readStreamToString(InputStream stream, long size) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(
-            size > 0 ? (int) Math.min(size, MAX_METADATA_SIZE) : 8192);
+    private static String readStreamToString(InputStream stream, String filename, long cap) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) Math.min(cap, 8192));
         byte[] buffer = new byte[8192];
         int read;
         long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
             totalRead += read;
-            if (totalRead > MAX_METADATA_SIZE) {
-                throw new IOException("metadata.config exceeds size limit");
+            if (totalRead > cap) {
+                throw new AnnattoException.SecurityException(
+                    "Metadata file exceeds size limit: " + filename);
             }
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);
     }
 
-    private static PackageMetadata parseMetadata(String config)
+private static PackageMetadata parseMetadata(String config)
             throws AnnattoException.MalformedPackageException {
         // metadata.config is Erlang term format
         // Parse key fields using simple pattern matching
@@ -272,7 +310,19 @@ public final class HexPackage implements LanguagePackage {
         return result;
     }
 
-    /**
+        private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
+/**
      * Entry stream implementation for Hex packages.
      */
     private class HexEntryStream implements PackageEntryStream {
@@ -283,19 +333,20 @@ public final class HexPackage implements LanguagePackage {
 
         HexEntryStream() throws IOException {
             this.tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name());
+                new BufferedInputStream(new FileInputStream(source.path().toFile()), 8192),
+                StandardCharsets.UTF_8.name());
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -329,10 +380,10 @@ public final class HexPackage implements LanguagePackage {
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -341,7 +392,7 @@ public final class HexPackage implements LanguagePackage {
             long totalRead = 0;
             while ((read = tarIn.read(buffer)) != -1) {
                 totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
+                if (totalRead > limits.entryBytes()) {
                     throw new AnnattoException.SecurityException(
                         "Entry exceeds size limit during read");
                 }

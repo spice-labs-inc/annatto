@@ -170,10 +170,17 @@ override def getMetadata(
 
 Annatto includes security protections for parsing untrusted package archives:
 
-- **Path traversal rejection**: Archive entries containing `..` are rejected
-- **File size limits**: 10 MB per-entry limit (1 MB for Lua rockspecs)
+- **Content-required routing**: `.tgz`/`.crate` files must contain their ecosystem's marker
+  (e.g. `package/package.json`) — a generic tar.gz is never treated as npm
+- **Path traversal rejection**: Archive entries containing `..`, absolute paths, and CR/LF/DEL
+  control characters are rejected; unsafe symlink targets are refused when opened
+- **No whole-archive buffering**: packages stream through bounded spools and per-pass
+  decompression budgets; a >2 GiB archive fails closed with `SecurityException` instead of OOM
+- **File size limits**: 10 MB per-entry limit, 1 MB per-entry metadata files, 500 MB decompressed
+  metadata scan, per-pass stream budgets, 10,000-entry cap
 - **Token limits**: Lua tokenizer (50,000 tokens) and Erlang tokenizer (50,000 tokens)
 - **Nesting depth limits**: Lua table depth 20, Erlang term depth 10
+- **Sanitized messages**: error messages never leak host/temp paths (basename only)
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting.
 

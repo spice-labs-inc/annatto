@@ -17,9 +17,14 @@ package io.spicelabs.annatto.ecosystem.go;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
+import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Spool;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -45,8 +50,10 @@ public final class GoPackage implements LanguagePackage {
 
     private final String filename;
     private final PackageMetadata metadata;
-    private final byte[] data;
+    private final PackageSource source;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
      * Create a GoPackage from a file path.
@@ -57,10 +64,7 @@ public final class GoPackage implements LanguagePackage {
      */
     public static GoPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
@@ -73,20 +77,54 @@ public final class GoPackage implements LanguagePackage {
      */
     public static GoPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        String goMod = extractGoMod(data, filename);
-        PackageMetadata metadata = parseMetadata(goMod, filename);
-
-        return new GoPackage(filename, metadata, data);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private GoPackage(String filename, PackageMetadata metadata, byte[] data) {
+    /**
+     * Create a GoPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the package stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static GoPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
+
+    /**
+     * Adopt an owned spooled file (reader stream handoff); {@code close()} deletes it (S-5).
+     */
+    public static GoPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static GoPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        String goMod;
+        try {
+            goMod = extractGoMod(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(goMod, filename);
+        return new GoPackage(filename, source, metadata, limits);
+    }
+
+    private GoPackage(String filename, PackageSource source, PackageMetadata metadata, Limits limits) {
         this.filename = filename;
         this.metadata = metadata;
-        this.data = data;
+        this.source = source;
+        this.limits = limits;
     }
 
     @Override
@@ -140,43 +178,49 @@ public final class GoPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return new GoEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return new GoEntryStream();
+        } catch (IOException | RuntimeException e) {
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
-    private static String extractGoMod(byte[] data, String filename)
-            throws AnnattoException.MalformedPackageException {
-        try (ZipArchiveInputStream zipIn = new ZipArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name(), true, true)) {
-
-            ZipArchiveEntry entry;
-            while ((entry = zipIn.getNextEntry()) != null) {
+    private static String extractGoMod(Path file, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        try (ZipFile zf = Archives.zipFile(file)) {
+            java.util.Enumeration<ZipArchiveEntry> entries = zf.getEntries();
+            int count = 0;
+            while (entries.hasMoreElements()) {
+                ZipArchiveEntry entry = entries.nextElement();
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
                 String entryName = entry.getName();
                 if (isGoMod(entryName)) {
-                    if (entry.getSize() > MAX_GO_MOD_SIZE) {
-                        throw new AnnattoException.SecurityException(
-                            "go.mod exceeds size limit");
-                    }
-                    return readStreamToString(zipIn, entry.getSize());
+                    return readStreamToString(zf.getInputStream(entry), filename,
+                            Math.min(limits.entryBytes(), MAX_GO_MOD_SIZE));
                 }
             }
             throw new AnnattoException.MalformedPackageException(
                 "No go.mod found in Go module: " + filename);
-        } catch (AnnattoException.MalformedPackageException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new AnnattoException.MalformedPackageException(
-                "Failed to read Go module: " + e.getMessage(), e);
         }
     }
 
@@ -184,16 +228,16 @@ public final class GoPackage implements LanguagePackage {
         return entryName.endsWith("/go.mod") || entryName.equals("go.mod");
     }
 
-    private static String readStreamToString(InputStream stream, long size) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(
-            size > 0 ? (int) Math.min(size, MAX_GO_MOD_SIZE) : 8192);
+    private static String readStreamToString(InputStream stream, String filename, long cap) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) Math.min(cap, 8192));
         byte[] buffer = new byte[8192];
         int read;
         long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
             totalRead += read;
-            if (totalRead > MAX_GO_MOD_SIZE) {
-                throw new IOException("go.mod content exceeds size limit");
+            if (totalRead > cap) {
+                throw new AnnattoException.SecurityException(
+                    "go.mod metadata exceeds size limit: " + filename);
             }
             baos.write(buffer, 0, read);
         }
@@ -324,30 +368,46 @@ public final class GoPackage implements LanguagePackage {
         return deps;
     }
 
+    private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
     /**
      * Entry stream implementation for Go packages.
      */
     private class GoEntryStream implements PackageEntryStream {
-        private final ZipArchiveInputStream zipIn;
+        private final ZipFile zf;
+        private final java.util.Enumeration<ZipArchiveEntry> entries;
+        private final java.util.concurrent.atomic.AtomicLong passInflated = new java.util.concurrent.atomic.AtomicLong();
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
         private ZipArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         GoEntryStream() throws IOException {
-            this.zipIn = new ZipArchiveInputStream(
-                new ByteArrayInputStream(data), StandardCharsets.UTF_8.name(), true, true);
+            this.zf = Archives.zipFile(source.path());
+            this.entries = zf.getEntries();
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
-            currentEntry = zipIn.getNextEntry();
+            checkBudget();
+            currentEntry = entries.hasMoreElements() ? entries.nextElement() : null;
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -355,18 +415,17 @@ public final class GoPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
-
             String name = PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
-
             return new PackageEntry(
                 name,
                 size,
                 currentEntry.isDirectory(),
-                false, // ZIP doesn't support symlinks directly
+                false, // ZIP does not support symlinks directly
                 Optional.empty()
             );
         }
@@ -374,28 +433,36 @@ public final class GoPackage implements LanguagePackage {
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
             long totalRead = 0;
-            while ((read = zipIn.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
-                    throw new AnnattoException.SecurityException(
-                        "Entry exceeds size limit during read");
+            try (InputStream in = zf.getInputStream(currentEntry)) {
+                while ((read = in.read(buffer)) != -1) {
+                    totalRead += read;
+                    if (totalRead > limits.entryBytes()) {
+                        throw new AnnattoException.SecurityException(
+                            "Entry exceeds size limit during read");
+                    }
+                    if (passInflated.addAndGet(read) > limits.zipPassBytes()) {
+                        budgetExceeded.set(true);
+                        throw new AnnattoException.SecurityException(
+                            "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
+                    }
+                    baos.write(buffer, 0, read);
                 }
-                baos.write(buffer, 0, read);
             }
 
             return new ByteArrayInputStream(baos.toByteArray());
@@ -406,7 +473,7 @@ public final class GoPackage implements LanguagePackage {
             if (!closed) {
                 closed = true;
                 try {
-                    zipIn.close();
+                    zf.close();
                 } catch (IOException e) {
                     // Ignore
                 }
@@ -417,6 +484,13 @@ public final class GoPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
             }
         }
     }

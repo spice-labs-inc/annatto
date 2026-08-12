@@ -340,9 +340,10 @@ public class EcosystemRouterDisambiguationTest {
     // ========================================
 
     @Test
-    @DisplayName("Router detects NPM from path with .tgz extension")
-    void routerDetectsNpmFromTgzPath() throws IOException {
-        // Create a minimal npm-like .tgz file
+    @DisplayName("Router detects NPM from .tgz content (marker-based, Phase 7)")
+    void routerDetectsNpmFromTgzContent() throws IOException {
+        // Phase 7 (Bug 1): .tgz names alone are ambiguous; the content marker
+        // package/package.json is what routes to NPM.
         Path temp = createTempGzipFile("npm", "package/package.json",
             "{\"name\": \"test\", \"version\": \"1.0.0\"}".getBytes());
         Path tgzPath = temp.resolveSibling(temp.getFileName().toString().replace(".tar.gz", ".tgz"));

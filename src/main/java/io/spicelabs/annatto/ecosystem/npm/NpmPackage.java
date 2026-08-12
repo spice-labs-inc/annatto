@@ -17,8 +17,11 @@ package io.spicelabs.annatto.ecosystem.npm;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
-import io.spicelabs.annatto.internal.BoundedInputStream;
-import io.spicelabs.annatto.internal.PathValidator;
+import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.Limits;
+import io.spicelabs.annatto.internal.PackageSource;
+import io.spicelabs.annatto.internal.Spool;
+import io.spicelabs.annatto.markers.NpmEntryMarker;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.jetbrains.annotations.NotNull;
@@ -28,27 +31,35 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.zip.GZIPInputStream;
 
 /**
  * An npm package (.tgz archive).
  *
- * <p>Implements LanguagePackage for npm packages, providing metadata extraction
- * and entry streaming.
+ * <p>Phase 7 (Bug 2): the package is NEVER read whole into memory. {@link #fromPath} reads
+ * streamingly from the caller's path; {@link #fromStream} spools the bounded source to a
+ * temp file; metadata extraction is a single streaming scan with a decompressed budget; each
+ * {@code streamEntries()} pass opens a FRESH decompression chain with its own pass budget;
+ * {@code openStream()} content is per-entry bounded. {@code close()} releases owned spools
+ * and closes the package (S-5).
+ *
+ * <p>Security (ADR-005): spool cap (compressed), metadata scan cap and per-pass stream cap
+ * applied at the gzip layer, per-entry size cap, entry-count cap. A generic tar.gz must never
+ * be treated as npm (routing guarantees this, Bug 1).
  */
 public final class NpmPackage implements LanguagePackage {
 
     private static final String MIME_TYPE = "application/gzip";
-    private static final long MAX_ENTRY_SIZE = 10 * 1024 * 1024; // 10MB
-    private static final int MAX_ENTRIES = 10000;
 
-    private final Path sourcePath;
+    private final String filename;
     private final PackageMetadata metadata;
     private final com.google.gson.JsonObject packageJson;
+    private final PackageSource source;
+    private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
+    private volatile boolean closed = false;
 
     /**
-     * Create an NpmPackage from a file path.
+     * Create an NpmPackage from a file path (direct read; the file must outlive the package).
      *
      * @param path the .tgz file path
      * @throws IOException if the file cannot be read
@@ -56,14 +67,11 @@ public final class NpmPackage implements LanguagePackage {
      */
     public static NpmPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        try (InputStream is = new BufferedInputStream(
-                new FileInputStream(path.toFile()), 8192)) {
-            return fromStream(is, path.toString());
-        }
+        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
     }
 
     /**
-     * Create an NpmPackage from an input stream.
+     * Create an NpmPackage from an input stream (bounded spool to a private temp file).
      *
      * @param stream the .tgz stream
      * @param filename for error reporting
@@ -72,30 +80,61 @@ public final class NpmPackage implements LanguagePackage {
      */
     public static NpmPackage fromStream(InputStream stream, String filename)
             throws IOException, AnnattoException.MalformedPackageException {
-        // Buffer the stream for multiple reads
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        stream.transferTo(baos);
-        byte[] data = baos.toByteArray();
-
-        // Extract package.json
-        com.google.gson.JsonObject packageJson = extractPackageJson(
-            new ByteArrayInputStream(data), filename);
-
-        PackageMetadata metadata = parseMetadata(packageJson);
-
-        return new NpmPackage(filename, metadata, packageJson, data);
+        return fromStream(stream, filename, Limits.DEFAULT);
     }
 
-    private final String filename;
-    private final byte[] data;
+    /**
+     * Create an NpmPackage from an input stream with explicit resource limits.
+     *
+     * @param stream the .tgz stream
+     * @param filename for error reporting
+     * @param limits resource limits (spool/scan/stream-pass/entry bounds)
+     * @throws IOException if reading fails
+     * @throws AnnattoException.MalformedPackageException if the package is invalid
+     * @throws AnnattoException.SecurityException if a resource limit is exceeded
+     */
+    public static NpmPackage fromStream(InputStream stream, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        Spool.Spooled spooled = Spool.create(stream, basename(filename), limits.spoolBytes());
+        return adoptSpool(spooled, filename, limits);
+    }
 
-    private NpmPackage(String filename, PackageMetadata metadata,
-                       com.google.gson.JsonObject packageJson, byte[] data) {
+    /**
+     * Adopt an owned spooled file (reader stream handoff). The package's {@code close()}
+     * deletes the spool (S-5).
+     *
+     * @param spooled the bounded spool (path + budget charge)
+     * @param filename for error reporting
+     * @param limits resource limits
+     */
+    public static NpmPackage adoptSpool(Spool.Spooled spooled, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        PackageSource.SpooledSource src = new PackageSource.SpooledSource(
+                spooled.path(),
+                Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
+        return fromSource(src, basename(filename), limits);
+    }
+
+    private static NpmPackage fromSource(PackageSource source, String filename, Limits limits)
+            throws IOException, AnnattoException.MalformedPackageException {
+        com.google.gson.JsonObject packageJson;
+        try {
+            packageJson = extractPackageJson(source.path(), filename, limits);
+        } catch (Exception e) {
+            source.releaseResources();
+            throw e;
+        }
+        PackageMetadata metadata = parseMetadata(packageJson);
+        return new NpmPackage(filename, source, metadata, packageJson, limits);
+    }
+
+    private NpmPackage(String filename, PackageSource source, PackageMetadata metadata,
+                       com.google.gson.JsonObject packageJson, Limits limits) {
         this.filename = filename;
+        this.source = source;
         this.metadata = metadata;
         this.packageJson = packageJson;
-        this.data = data;
-        this.sourcePath = new File(filename).toPath();
+        this.limits = limits;
     }
 
     @Override
@@ -150,47 +189,48 @@ public final class NpmPackage implements LanguagePackage {
 
     @Override
     public @NotNull PackageEntryStream streamEntries() throws IOException {
-        if (streamOpen.compareAndSet(false, true)) {
-            return new NpmEntryStream();
+        if (closed) {
+            throw new IllegalStateException("Package is closed");
         }
-        throw new IllegalStateException("A stream is already open on this package");
+        if (!streamOpen.compareAndSet(false, true)) {
+            throw new IllegalStateException("A stream is already open on this package");
+        }
+        try {
+            return new NpmEntryStream();
+        } catch (IOException | RuntimeException e) {
+            // Restore the flag so a failed reader construction never locks the package (P0-E).
+            streamOpen.set(false);
+            throw e;
+        }
     }
 
     @Override
     public void close() {
-        // Nothing to close - data is in memory
+        closed = true;
+        source.releaseResources();
         streamOpen.set(false);
     }
 
     /**
-     * Maximum size for npm package decompression (500MB safety limit).
-     * Prevents zip bomb attacks and memory exhaustion.
-     * Note: This is a last-resort limit. Entry-level size limits (10MB per entry)
-     * provide finer-grained protection.
+     * Metadata extraction: a SINGLE streaming pass over the source with a decompressed-scan
+     * budget and entry-count cap (no whole-tar array; Bug 2 fix).
      */
-    private static final long MAX_DECOMPRESSED_SIZE = 500 * 1024 * 1024;
-
-    private static com.google.gson.JsonObject extractPackageJson(
-            InputStream tgzStream, String filename)
+    private static com.google.gson.JsonObject extractPackageJson(Path file, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
-        // Pre-decompress GZIP to byte array to avoid concurrency issues.
-        // java.util.zip.GZIPInputStream uses native Inflater which has
-        // thread-safety issues when multiple threads decompress simultaneously.
-        // Requirement: ThreadSafetyTest.concurrentReadCallsDoNotInterfere
-        byte[] tarData = decompressGzip(tgzStream, filename);
-
-        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
-                new ByteArrayInputStream(tarData), StandardCharsets.UTF_8.name())) {
-
+        try (TarArchiveInputStream tarIn = Archives.gzipTar(file, filename, limits.scanBytes(), () -> { })) {
+            int count = 0;
             TarArchiveEntry entry;
             while ((entry = tarIn.getNextEntry()) != null) {
+                if (++count > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Archive exceeds metadata scan entry count limit: " + filename);
+                }
                 if (entry.isDirectory()) {
                     continue;
                 }
-                String entryName = entry.getName();
-                // npm packs files under package/ prefix
-                if (isPackageJson(entryName)) {
-                    return parseJson(tarIn, (int) entry.getSize());
+                // npm packs files under package/; markers agree with routing (NpmEntryMarker).
+                if (NpmEntryMarker.isPackageJson(entry.getName())) {
+                    return parseJson(tarIn, filename, limits.entryBytes());
                 }
             }
             throw new AnnattoException.MalformedPackageException(
@@ -198,53 +238,18 @@ public final class NpmPackage implements LanguagePackage {
         }
     }
 
-    /**
-     * Decompresses GZIP data to a byte array with size limits.
-     *
-     * @param gzipStream the GZIP compressed input stream
-     * @param filename for error reporting
-     * @return the decompressed TAR data
-     * @throws IOException if decompression fails
-     * @throws AnnattoException.SecurityException if size limit exceeded
-     */
-    private static byte[] decompressGzip(InputStream gzipStream, String filename)
+    private static com.google.gson.JsonObject parseJson(InputStream stream, String filename, long entryCap)
             throws IOException {
-        try (GZIPInputStream gzis = new GZIPInputStream(gzipStream);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[8192];
-            int read;
-            long totalRead = 0;
-            while ((read = gzis.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > MAX_DECOMPRESSED_SIZE) {
-                    throw new AnnattoException.SecurityException(
-                        "Decompressed size exceeds limit (" + MAX_DECOMPRESSED_SIZE +
-                        " bytes) for: " + filename);
-                }
-                baos.write(buffer, 0, read);
-            }
-            return baos.toByteArray();
-        }
-    }
-
-    private static boolean isPackageJson(String entryName) {
-        String normalized = entryName.replace('\\', '/');
-        if (normalized.equals("package.json")) {
-            return true;
-        }
-        if (normalized.endsWith("/package.json")) {
-            String withoutFile = normalized.substring(0, normalized.length() - "/package.json".length());
-            return !withoutFile.contains("/");
-        }
-        return false;
-    }
-
-    private static com.google.gson.JsonObject parseJson(InputStream stream, int size)
-            throws IOException, AnnattoException.MalformedPackageException {
-        byte[] buffer = new byte[size > 0 && size < 10_000_000 ? size : 8192];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[8192];
         int read;
+        long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
+            totalRead += read;
+            if (totalRead > entryCap) {
+                throw new AnnattoException.SecurityException(
+                    "Metadata file exceeds size limit: " + filename);
+            }
             baos.write(buffer, 0, read);
         }
         String json = baos.toString(StandardCharsets.UTF_8);
@@ -385,31 +390,46 @@ public final class NpmPackage implements LanguagePackage {
         }
     }
 
+    private static String basename(Path path) {
+        return path.getFileName().toString();
+    }
+
+    private static String basename(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            return filename;
+        }
+        int slash = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+        return slash < 0 ? filename : filename.substring(slash + 1);
+    }
+
     /**
-     * Entry stream implementation for npm packages.
+     * Entry stream for npm packages. Each pass opens a FRESH decompression chain with its own
+     * per-pass decompressed budget (tar-skip = decompression → bounded); a spent budget
+     * latches the stream into a fail-fast state.
      */
     private class NpmEntryStream implements PackageEntryStream {
         private final TarArchiveInputStream tarIn;
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
         private TarArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
 
         NpmEntryStream() throws IOException {
-            this.tarIn = new TarArchiveInputStream(
-                new GZIPInputStream(new ByteArrayInputStream(data)),
-                StandardCharsets.UTF_8.name());
+            Runnable onExceed = () -> budgetExceeded.set(true);
+            this.tarIn = Archives.gzipTar(source.path(), filename, limits.streamPassBytes(), onExceed);
         }
 
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
-            if (entryCount >= MAX_ENTRIES) {
-                throw new AnnattoException.SecurityException(
-                    "Package exceeds maximum entry count: " + MAX_ENTRIES);
-            }
+            checkBudget();
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
+                if (entryCount > limits.maxEntries()) {
+                    throw new AnnattoException.SecurityException(
+                        "Package exceeds maximum entry count: " + limits.maxEntries());
+                }
             }
             return currentEntry != null;
         }
@@ -417,46 +437,56 @@ public final class NpmPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
 
-            String name = PathValidator.validateEntryName(currentEntry.getName());
+            String name = io.spicelabs.annatto.internal.PathValidator.validateEntryName(currentEntry.getName());
             long size = currentEntry.getSize();
 
+            boolean isSymbolic = currentEntry.isSymbolicLink();
+            boolean hasLinkTarget = isSymbolic || currentEntry.isLink();
             return new PackageEntry(
                 name,
                 size,
                 currentEntry.isDirectory(),
-                currentEntry.isSymbolicLink(),
-                currentEntry.isSymbolicLink()
-                    ? Optional.ofNullable(currentEntry.getLinkName())
-                    : Optional.empty()
+                isSymbolic,
+                hasLinkTarget ? Optional.ofNullable(currentEntry.getLinkName()) : Optional.empty()
             );
         }
 
         @Override
         public @NotNull InputStream openStream() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry");
             }
 
             long size = currentEntry.getSize();
-            if (size > MAX_ENTRY_SIZE) {
+            if (size >= 0 && size > limits.entryBytes()) {
                 throw new AnnattoException.SecurityException(
                     "Entry exceeds size limit: " + currentEntry.getName() +
-                    " (" + size + " > " + MAX_ENTRY_SIZE + ")");
+                    " (" + size + " > " + limits.entryBytes() + ")");
             }
 
-            // Read entry content into buffer
+            // Phase 7: refuse to surface content for a symlink whose target escapes the archive.
+            if (currentEntry.isSymbolicLink()
+                    && !io.spicelabs.annatto.internal.PathValidator.isSafeSymlinkTarget(currentEntry.getLinkName())) {
+                throw new AnnattoException.SecurityException(
+                    "Symlink target escapes the archive: " + currentEntry.getName());
+            }
+
+            // Per-entry bounded buffered content (10 MiB default); the read also flows
+            // through the per-pass decompressed budget wrapped below the tar reader.
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
             long totalRead = 0;
             while ((read = tarIn.read(buffer)) != -1) {
                 totalRead += read;
-                if (totalRead > MAX_ENTRY_SIZE) {
+                if (totalRead > limits.entryBytes()) {
                     throw new AnnattoException.SecurityException(
                         "Entry exceeds size limit during read");
                 }
@@ -482,6 +512,13 @@ public final class NpmPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "Entry-stream decompressed data exceeds per-pass limit: " + filename);
             }
         }
     }

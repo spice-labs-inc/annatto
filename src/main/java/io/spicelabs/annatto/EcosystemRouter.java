@@ -14,7 +14,15 @@ limitations under the License. */
 
 package io.spicelabs.annatto;
 
+import io.spicelabs.annatto.internal.BoundedInflateStream;
+import io.spicelabs.annatto.internal.BoundedInputStream;
+import io.spicelabs.annatto.internal.Spool;
+import io.spicelabs.annatto.markers.CargoTomlMarker;
+import io.spicelabs.annatto.markers.MetaMarker;
+import io.spicelabs.annatto.markers.NpmEntryMarker;
+import io.spicelabs.annatto.markers.PkgInfoMarker;
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -35,20 +43,27 @@ import java.util.zip.GZIPInputStream;
 /**
  * Routes Tika MIME types to ecosystems with content-based disambiguation.
  *
- * <p>Disambiguation (ADR-002):
- * Some MIME types map to multiple ecosystems. This class uses content inspection
- * to determine the correct ecosystem. Detection uses BufferedInputStream with
- * 8KB mark/reset to avoid double-reading.
+ * <p>Disambiguation (ADR-002 + Phase 7): some MIME types map to multiple ecosystems. Routing
+ * inspects archive CONTENT to determine the correct ecosystem. Since {@code .tgz}/{@code .crate}
+ * names are ambiguous (a generic tar.gz bundle is not necessarily an npm package - Goat Rodeo
+ * survey incident), they are no longer classified by name alone. Content routing is BOUNDED:
+ * compressed-input cap, decompressed-scan cap, and entry-count cap; a cap trip fails closed
+ * ({@code Optional.empty()} -> {@link AnnattoException.UnknownFormatException}).
  *
- * <p>Thread Safety:
- * All methods are stateless and thread-safe.
+ * <p>Marker predicates are the SHARED Phase 7 markers ({@code markers.*}) so the router and
+ * the metadata extractors can never disagree.
  *
- * <p>Test: EcosystemRouterDisambiguationTest validates all routing decisions
+ * <p>Thread Safety: All methods are stateless and thread-safe.
  */
 public final class EcosystemRouter {
 
     // Buffer size for mark/reset (8KB as per ADR-002)
     private static final int DETECTION_BUFFER_SIZE = 8192;
+
+    // Phase 7 routing budgets (ADR-005): fail closed when tripped.
+    private static final long MAX_ROUTER_COMPRESSED = 256L * 1024 * 1024;
+    private static final long MAX_ROUTER_INFLATED = 16L * 1024 * 1024;
+    private static final int MAX_ROUTER_ENTRIES = 1000;
 
     private EcosystemRouter() {
         // Utility class
@@ -91,8 +106,6 @@ public final class EcosystemRouter {
     /**
      * Route from file path with content inspection.
      *
-     * <p>Uses Tika to detect MIME type, then inspects content for disambiguation.
-     *
      * @param path file path
      * @return detected ecosystem, or empty if cannot determine
      * @throws IOException if file cannot be read
@@ -100,26 +113,42 @@ public final class EcosystemRouter {
     public static @NotNull Optional<Ecosystem> route(@NotNull Path path) throws IOException {
         String filename = path.getFileName().toString();
 
-        // First try filename-based detection
         Optional<Ecosystem> fromFilename = routeFromFilenameOnly(filename);
         if (fromFilename.isPresent()) {
             return fromFilename;
         }
 
-        // Then use content inspection
+        String mimeType;
         try (InputStream is = Files.newInputStream(path)) {
             BufferedInputStream bis = new BufferedInputStream(is, DETECTION_BUFFER_SIZE);
-            String mimeType = detectMimeTypeFromContent(bis);
-            return routeFromStream(filename, mimeType, bis);
+            mimeType = detectMimeTypeFromContent(bis);
         }
+        return routeFromMime(filename, mimeType, path, null);
     }
 
     /**
-     * Route from MIME type with content inspection.
+     * Route from a path using an explicitly provided MIME type (path-based, no stream copy).
      *
-     * <p>For ambiguous MIME types (gzip, zip), this reads the archive to determine
-     * the correct ecosystem. Uses mark/reset on BufferedInputStream to minimize
-     * overhead.
+     * @param path file path
+     * @param tikaMimeType MIME type from Apache Tika
+     * @return detected ecosystem, or empty if cannot determine
+     * @throws IOException if file cannot be read
+     */
+    public static @NotNull Optional<Ecosystem> route(
+            @NotNull Path path, @NotNull String tikaMimeType) throws IOException {
+        String filename = path.getFileName().toString();
+
+        Optional<Ecosystem> fromFilename = routeFromFilenameOnly(filename);
+        if (fromFilename.isPresent()) {
+            return fromFilename;
+        }
+        return routeFromMime(filename, tikaMimeType, path, null);
+    }
+
+    /**
+     * Route from MIME type with content inspection over a caller-provided stream.
+     *
+     * <p>For ambiguous types the stream is drained into a bounded spool for inspection.
      *
      * @param path file path (for debugging/context)
      * @param tikaMimeType MIME type from Apache Tika
@@ -139,14 +168,11 @@ public final class EcosystemRouter {
             bis = new BufferedInputStream(stream, DETECTION_BUFFER_SIZE);
         }
 
-        return routeFromStream(path.getFileName().toString(), tikaMimeType, bis);
+        return routeFromMime(path.getFileName().toString(), tikaMimeType, null, bis);
     }
 
     /**
      * Route from MIME type and filename alone (no content inspection).
-     *
-     * <p>Useful when stream is not available. May return empty for ambiguous
-     * types even if content would resolve it.
      *
      * @param filename original filename
      * @param tikaMimeType MIME type from Apache Tika
@@ -158,7 +184,6 @@ public final class EcosystemRouter {
 
         String lowerMime = tikaMimeType.toLowerCase(Locale.ROOT);
 
-        // Unambiguous types by filename
         Optional<Ecosystem> fromFilename = routeFromFilenameOnly(filename);
         if (fromFilename.isPresent()) {
             return fromFilename;
@@ -183,6 +208,10 @@ public final class EcosystemRouter {
 
     /**
      * Try to determine ecosystem from filename alone.
+     *
+     * <p>Phase 7: {@code .tgz} and {@code .crate} are AMBIGUOUS (a generic tar.gz-repository
+     * bundle is not necessarily an npm/cargo package) and require content inspection. This is
+     * the fix for the Goat Rodeo survey incident ({@code repo_ea.tgz} routed to npm by name).
      */
     private static Optional<Ecosystem> routeFromFilenameOnly(String filename) {
         String lower = filename.toLowerCase(Locale.ROOT);
@@ -201,10 +230,12 @@ public final class EcosystemRouter {
 
         // Simple extensions
         if (lower.endsWith(".tgz")) {
-            return Optional.of(Ecosystem.NPM);
+            // Ambiguous - need content inspection (a .tgz is not proof of npm)
+            return Optional.empty();
         }
         if (lower.endsWith(".crate")) {
-            return Optional.of(Ecosystem.CRATES);
+            // Ambiguous - need content inspection
+            return Optional.empty();
         }
         if (lower.endsWith(".gem")) {
             return Optional.of(Ecosystem.RUBYGEMS);
@@ -227,16 +258,16 @@ public final class EcosystemRouter {
     }
 
     /**
-     * Route using content inspection.
+     * Route from a MIME type using either a path (fresh streams, no copies) or a caller stream
+     * (bounded spooling for ambiguous archive formats).
      */
-    private static Optional<Ecosystem> routeFromStream(
+    private static Optional<Ecosystem> routeFromMime(
             String filename,
             String mimeType,
-            BufferedInputStream stream) throws IOException {
+            Path path,
+            BufferedInputStream callerStream) throws IOException {
 
         String lowerMime = mimeType.toLowerCase(Locale.ROOT);
-
-        // Check for specific filename patterns first
         String lowerFilename = filename.toLowerCase(Locale.ROOT);
 
         // Go modules have @v in the path
@@ -244,20 +275,32 @@ public final class EcosystemRouter {
             return Optional.of(Ecosystem.GO);
         }
 
-        // Conda v2 - ZIP with .tar.zst inside
+        // Conda v2 - ZIP with .tar.zst inside; PyPI wheels; Packagist; Go modules; LuaRocks
         if (lowerMime.equals("application/zip") || lowerFilename.endsWith(".conda")) {
-            return disambiguateZip(filename, stream);
+            if (path != null) {
+                return disambiguateZip(path, filename);
+            }
+            return disambiguateZipStream(callerStream, filename);
         }
 
         // GZIP tar - npm, PyPI, Crates, CPAN
         if (lowerMime.equals("application/gzip") || lowerMime.equals("application/x-gzip") ||
             lowerFilename.endsWith(".tgz") || lowerFilename.endsWith(".crate") ||
             lowerFilename.endsWith(".tar.gz")) {
-            return disambiguateGzipTar(stream);
+            if (path != null) {
+                return scanGzipTar(path, filename);
+            }
+            return scanGzipTarStream(callerStream, filename);
         }
 
         // Plain tar - RubyGems, Hex
         if (lowerMime.equals("application/x-tar") || lowerFilename.endsWith(".gem")) {
+            InputStream stream;
+            if (path != null) {
+                stream = new BufferedInputStream(Files.newInputStream(path), DETECTION_BUFFER_SIZE);
+            } else {
+                stream = callerStream;
+            }
             return disambiguatePlainTar(stream);
         }
 
@@ -285,170 +328,151 @@ public final class EcosystemRouter {
         return Optional.empty();
     }
 
-    // Maximum size for decompressed GZIP data (1MB for detection buffer)
-    private static final long MAX_DETECTION_SIZE = 1024 * 1024;
-
     /**
-     * Disambiguate GZIP tar files by inspecting contents.
-     *
-     * <p>Buffers the stream to a temporary file since mark/reset cannot reliably
-     * work across GZIP decompression (the read limit is unpredictable due to
-     * compression). The temporary file allows full stream reset for the caller.
+     * Bounded content scan of a gzip-tar file (Phase 7: no unbounded copy, no unbounded
+     * decompression). Markers are the shared strict predicates; a routing budget trip or a
+     * marker-less archive fails closed with {@code Optional.empty()}.
      */
-    private static Optional<Ecosystem> disambiguateGzipTar(BufferedInputStream stream) throws IOException {
-        // Buffer to temp file - GZIP decompression read amount is unpredictable
-        Path tempFile = Files.createTempFile("annatto-gzip-", ".tar.gz");
-        try {
-            Files.copy(stream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+    private static Optional<Ecosystem> scanGzipTar(Path file, String filename) throws IOException {
+        // Compressed-input cap (BoundedInputStream) + decompressed-scan cap (BoundedInflateStream)
+        // + entry-count cap. GZIP below for legacy/native compatibility.
+        try (InputStream raw = new BoundedInputStream(Files.newInputStream(file), MAX_ROUTER_COMPRESSED, filename);
+             GZIPInputStream gzis = new GZIPInputStream(new BufferedInputStream(raw, DETECTION_BUFFER_SIZE));
+             BoundedInflateStream bounded = new BoundedInflateStream(gzis, MAX_ROUTER_INFLATED, filename);
+             TarArchiveInputStream tais = new TarArchiveInputStream(bounded)) {
 
-            try (GZIPInputStream gzis = new GZIPInputStream(Files.newInputStream(tempFile));
-                 TarArchiveInputStream tais = new TarArchiveInputStream(gzis)) {
-
-                ArchiveEntry entry;
-                boolean hasEntries = false;
-                while ((entry = tais.getNextEntry()) != null) {
-                    hasEntries = true;
-                    String name = entry.getName();
-
-                    // NPM: package/package.json
-                    if (name.endsWith("package/package.json")) {
-                        return Optional.of(Ecosystem.NPM);
-                    }
-                    // PyPI: PKG-INFO or pyproject.toml
-                    if (name.endsWith("PKG-INFO") || name.endsWith("pyproject.toml")) {
-                        return Optional.of(Ecosystem.PYPI);
-                    }
-                    // Crates: Cargo.toml (at root of crate)
-                    if (name.equals("Cargo.toml") || name.endsWith("/Cargo.toml")) {
-                        return Optional.of(Ecosystem.CRATES);
-                    }
-                    // CPAN: META.json or META.yml (in package root, e.g., "Dist-Name-1.0/META.json")
-                    if (name.endsWith("/META.json") || name.endsWith("/META.yml")) {
-                        return Optional.of(Ecosystem.CPAN);
-                    }
+            ArchiveEntry entry;
+            boolean hasEntries = false;
+            int count = 0;
+            while ((entry = tais.getNextEntry()) != null) {
+                if (++count > MAX_ROUTER_ENTRIES) {
+                    return Optional.empty(); // too many entries to classify - fail closed
                 }
-
-                // If archive has no entries, it's malformed
-                if (!hasEntries) {
-                    throw new AnnattoException.MalformedPackageException("GZIP archive contains no entries");
+                hasEntries = true;
+                if (entry.isDirectory()) {
+                    continue;
                 }
-
-                return Optional.empty();
-            } catch (java.util.zip.ZipException e) {
-                // Corrupted GZIP
-                throw new AnnattoException.MalformedPackageException("Invalid GZIP archive: " + e.getMessage());
+                String name = entry.getName();
+                if (NpmEntryMarker.isPackageJson(name)) {
+                    return Optional.of(Ecosystem.NPM);
+                }
+                if (PkgInfoMarker.isSdistMarker(name)) {
+                    return Optional.of(Ecosystem.PYPI);
+                }
+                if (CargoTomlMarker.isCargoToml(name)) {
+                    return Optional.of(Ecosystem.CRATES);
+                }
+                if (MetaMarker.isMetaFile(name)) {
+                    return Optional.of(Ecosystem.CPAN);
+                }
             }
+
+            if (!hasEntries) {
+                throw new AnnattoException.MalformedPackageException("GZIP archive contains no entries");
+            }
+            return Optional.empty();
+        } catch (AnnattoException.SecurityException b) {
+            // Routing budget tripped without a marker: cannot classify - fail closed.
+            return Optional.empty();
+        } catch (java.util.zip.ZipException e) {
+            // Corrupted GZIP
+            throw new AnnattoException.MalformedPackageException("Invalid GZIP archive: " + e.getMessage());
+        }
+    }
+
+    /** Bounded-route a caller-provided gzip stream by spooling it once (drains the stream). */
+    private static Optional<Ecosystem> scanGzipTarStream(InputStream caller, String filename) throws IOException {
+        Spool.Spooled spooled = Spool.create(caller, filename, MAX_ROUTER_COMPRESSED);
+        try {
+            return scanGzipTar(spooled.path(), filename);
         } finally {
-            Files.deleteIfExists(tempFile);
+            Spool.delete(spooled);
         }
     }
 
     /**
-     * Disambiguate ZIP files by inspecting contents.
+     * Disambiguate a ZIP file (wheels, conda v2, Go modules, Packagist, LuaRocks).
      */
-    private static Optional<Ecosystem> disambiguateZip(String filename, BufferedInputStream stream) throws IOException {
-        // For ZIP files, we need to buffer to a temp file since ZipFile needs random access
-        // and mark/reset on BufferedInputStream won't work for full ZIP inspection
-
-        String lower = filename.toLowerCase(Locale.ROOT);
-
-        // Fast path: Go modules contain @v in filename
-        if (filename.contains("@v")) {
-            return Optional.of(Ecosystem.GO);
-        }
-
-        // Fast path: Conda v2 detection - check for .conda extension
-        if (lower.endsWith(".conda")) {
-            return Optional.of(Ecosystem.CONDA);
-        }
-
-        // Fast path: PyPI wheel has .whl extension
-        if (lower.endsWith(".whl")) {
-            return Optional.of(Ecosystem.PYPI);
-        }
-
-        // Fast path: LuaRocks has .rock extension
-        if (lower.endsWith(".rock")) {
-            return Optional.of(Ecosystem.LUAROCKS);
-        }
-
-        // For generic .zip files, we need to inspect contents
-        // Buffer the stream to a temporary file for ZipFile inspection
-        Path tempFile = Files.createTempFile("annatto-zip-", ".zip");
-        try {
-            Files.copy(stream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-
-            try (ZipFile zf = new ZipFile(tempFile.toFile())) {
-                Enumeration<ZipArchiveEntry> entries = zf.getEntries();
-                boolean hasEntries = false;
-
-                while (entries.hasMoreElements()) {
-                    hasEntries = true;
-                    ZipArchiveEntry entry = entries.nextElement();
-                    String name = entry.getName();
-
-                    // PyPI wheel: .dist-info/METADATA
-                    if (name.contains(".dist-info/")) {
-                        return Optional.of(Ecosystem.PYPI);
-                    }
-
-                    // Go module: @v in path
-                    if (name.contains("@v")) {
-                        return Optional.of(Ecosystem.GO);
-                    }
-
-                    // Packagist: composer.json
-                    if (name.equals("composer.json") || name.endsWith("/composer.json")) {
-                        return Optional.of(Ecosystem.PACKAGIST);
-                    }
-
-                    // Conda v2: contains .tar.zst files
-                    if (name.endsWith(".tar.zst") || name.endsWith(".tar.bz2")) {
-                        return Optional.of(Ecosystem.CONDA);
-                    }
-
-                    // LuaRocks: .rockspec file
-                    if (name.endsWith(".rockspec")) {
-                        return Optional.of(Ecosystem.LUAROCKS);
-                    }
+    private static Optional<Ecosystem> disambiguateZip(Path file, String filename) throws IOException {
+        try (ZipFile zf = new ZipFile(file.toFile())) {
+            Enumeration<ZipArchiveEntry> entries = zf.getEntries();
+            boolean hasEntries = false;
+            int count = 0;
+            while (entries.hasMoreElements()) {
+                if (++count > MAX_ROUTER_ENTRIES) {
+                    return Optional.empty();
                 }
+                hasEntries = true;
+                ZipArchiveEntry entry = entries.nextElement();
+                if (entry.isDirectory()) {
+                    continue;
+                }
+                String name = entry.getName();
 
-                // Empty ZIP is malformed
-                if (!hasEntries) {
-                    throw new AnnattoException.MalformedPackageException("ZIP archive contains no entries");
+                if (PkgInfoMarker.isDistInfoMetadata(name)) {
+                    return Optional.of(Ecosystem.PYPI);
+                }
+                if (name.contains("@v")) {
+                    return Optional.of(Ecosystem.GO);
+                }
+                if (name.equals("composer.json") || name.endsWith("/composer.json")) {
+                    return Optional.of(Ecosystem.PACKAGIST);
+                }
+                if (name.endsWith(".tar.zst") || name.endsWith(".tar.bz2")) {
+                    return Optional.of(Ecosystem.CONDA);
+                }
+                if (name.endsWith(".rockspec")) {
+                    return Optional.of(Ecosystem.LUAROCKS);
                 }
             }
-        } finally {
-            Files.deleteIfExists(tempFile);
-        }
 
-        return Optional.empty();
+            if (!hasEntries) {
+                throw new AnnattoException.MalformedPackageException("ZIP archive contains no entries");
+            }
+            return Optional.empty();
+        }
+    }
+
+    /** Disambiguate a caller-provided ZIP stream by spooling once (ZipFile needs a seekable file). */
+    private static Optional<Ecosystem> disambiguateZipStream(InputStream caller, String filename) throws IOException {
+        Spool.Spooled spooled = Spool.create(caller, filename, MAX_ROUTER_COMPRESSED);
+        try {
+            return disambiguateZip(spooled.path(), filename);
+        } finally {
+            Spool.delete(spooled);
+        }
     }
 
     /**
      * Disambiguate plain tar files (RubyGems vs Hex).
      */
-    private static Optional<Ecosystem> disambiguatePlainTar(BufferedInputStream stream) throws IOException {
-        stream.mark(DETECTION_BUFFER_SIZE);
+    private static Optional<Ecosystem> disambiguatePlainTar(InputStream stream) throws IOException {
+        BufferedInputStream bis;
+        if (stream instanceof BufferedInputStream) {
+            bis = (BufferedInputStream) stream;
+        } else {
+            bis = new BufferedInputStream(stream, DETECTION_BUFFER_SIZE);
+        }
+        bis.mark(DETECTION_BUFFER_SIZE);
 
-        try (TarArchiveInputStream tais = new TarArchiveInputStream(stream)) {
+        try (TarArchiveInputStream tais = new TarArchiveInputStream(bis)) {
             ArchiveEntry entry;
             while ((entry = tais.getNextEntry()) != null) {
                 String name = entry.getName();
 
                 // RubyGems: metadata.gz
                 if (name.equals("metadata.gz")) {
-                    stream.reset();
+                    bis.reset();
                     return Optional.of(Ecosystem.RUBYGEMS);
                 }
                 // Hex: metadata.config
                 if (name.equals("metadata.config")) {
-                    stream.reset();
+                    bis.reset();
                     return Optional.of(Ecosystem.HEX);
                 }
             }
 
-            stream.reset();
+            bis.reset();
             return Optional.empty();
         }
     }
