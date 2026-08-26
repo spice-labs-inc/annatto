@@ -2,13 +2,13 @@
 
 ## Overview
 
-Annatto is a plugin for [Goat Rodeo](https://github.com/spice-labs-inc/goatrodeo) that extracts and normalizes package metadata from 11 programming language ecosystems. It integrates via the [rodeo-components](https://github.com/spice-labs-inc/rodeo-components) plugin system using Java's `ServiceLoader` mechanism.
+Annatto is a plugin for [Goat Rodeo](https://github.com/spice-labs-inc/goatrodeo) that extracts and normalizes package metadata from 11 programming language ecosystems. It is consumed directly by Goat Rodeo via the `LanguagePackageReader`/`EcosystemRouter` APIs.
 
 ## Plugin Lifecycle
 
 `AnnattoComponent` implements `RodeoComponent` and follows this lifecycle:
 
-1. **Discovery** — `ServiceLoader` finds `AnnattoComponent` via `META-INF/services/io.spicelabs.rodeocomponents.RodeoComponent`
+1. **Discovery** — Goat Rodeo routes artifacts to Annatto directly via `EcosystemRouter.supportedMimeTypes()` and `LanguagePackageReader.read(...)`
 2. **initialize()** — Validates runtime environment
 3. **exportAPIFactories()** — Annatto does not export APIs
 4. **importAPIFactories()** — Obtains `ArtifactHandlerRegistrar` and registers `AnnattoProcessFilter` with all 11 ecosystem handlers

@@ -6,7 +6,7 @@
 |-----------|-------|
 | **Purpose** | Goat Rodeo plugin for extracting package metadata from 11 ecosystems |
 | **Language** | Java 21 |
-| **Plugin System** | Java ServiceLoader (rodeo-components) |
+| **Integration** | Direct API calls from Goat Rodeo (LanguagePackageReader/EcosystemRouter) |
 | **Test Count** | 490+ (291 existing + ~200 Phase 6) |
 | **Ecosystems** | npm, PyPI, Go, Crates, RubyGems, Packagist, Conda, CocoaPods, CPAN, Hex, LuaRocks |
 

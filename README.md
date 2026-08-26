@@ -5,7 +5,7 @@
 [![GitHub Package](https://img.shields.io/badge/GitHub-Packages-blue?logo=github)](https://github.com/spice-labs-inc/annatto/packages/)
 [![Build Status](https://github.com/spice-labs-inc/annatto/actions/workflows/buildAndTest.yml/badge.svg)](https://github.com/spice-labs-inc/annatto/actions)
 
-**Annatto** is a Java plugin for [Goat Rodeo](https://github.com/spice-labs-inc/goatrodeo) that extracts and normalizes package metadata from 11 programming language ecosystems. It integrates via the [rodeo-components](https://github.com/spice-labs-inc/rodeo-components) plugin system and produces standardized metadata and [Package URLs](https://github.com/package-url/purl-spec) for use in Artifact Dependency Graphs.
+**Annatto** is a Java library for [Goat Rodeo](https://github.com/spice-labs-inc/goatrodeo) that extracts and normalizes package metadata from 11 programming language ecosystems, producing standardized metadata and [Package URLs](https://github.com/package-url/purl-spec) for use in Artifact Dependency Graphs.
 
 ## Quick Start
 
@@ -32,7 +32,7 @@
 implementation 'io.spicelabs:annatto:0.0.1-SNAPSHOT'
 ```
 
-Annatto is discovered automatically by Goat Rodeo via Java's `ServiceLoader` mechanism. Add Annatto to your classpath and the `AnnattoComponent` will be loaded during startup.
+Annatto is consumed directly by Goat Rodeo through the `LanguagePackageReader` and `EcosystemRouter` APIs. Add Annatto to your classpath and it is available to Goat Rodeo immediately.
 
 ---
 
