@@ -149,17 +149,27 @@ public final class NpmMetadataExtractor {
         return io.spicelabs.annatto.markers.NpmEntryMarker.isPackageJson(entryName);
     }
 
+    private static final int MAX_METADATA_SIZE = 10 * 1024 * 1024; // 10 MB (Fresh Scent Phase 3)
+
     private static @NotNull JsonObject parseJsonFromStream(@NotNull InputStream stream)
             throws MetadataExtractionException {
         try {
-            // Read the full content - do not close the underlying tar stream
+            // Read the full content - do not close the underlying tar stream.
+            // Bounded (Fresh Scent Phase 3, finding A5): 10 MB cap on package.json text.
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int read;
+            long totalRead = 0;
             while ((read = stream.read(buffer)) != -1) {
+                totalRead += read;
+                if (totalRead > MAX_METADATA_SIZE) {
+                    throw new IOException("package.json exceeds size limit of " + MAX_METADATA_SIZE);
+                }
                 baos.write(buffer, 0, read);
             }
             String json = baos.toString(StandardCharsets.UTF_8);
+            // Depth guard (catalog §8 analog): GSON recursion is unbounded.
+            io.spicelabs.annatto.internal.JsonSecurity.checkDepth(json);
             JsonElement element = JsonParser.parseString(json);
             if (!element.isJsonObject()) {
                 throw new MetadataExtractionException("package.json is not a JSON object");

@@ -63,7 +63,7 @@ final class LuaTokenizer {
      * @throws LuaParseException if the input exceeds size/token limits or contains
      *                           unterminated strings
      */
-    static @NotNull List<Token> tokenize(@NotNull String source) {
+    static @NotNull List<Token> tokenize(@NotNull String source) throws LuaParseException {
         if (source.length() > MAX_INPUT_SIZE) {
             throw new LuaParseException("Input exceeds maximum size of " + MAX_INPUT_SIZE + " bytes");
         }
@@ -79,7 +79,7 @@ final class LuaTokenizer {
         return s;
     }
 
-    private void doTokenize() {
+    private void doTokenize() throws LuaParseException {
         while (pos < input.length()) {
             if (tokens.size() >= MAX_TOKEN_COUNT) {
                 throw new LuaParseException("Token count exceeds maximum of " + MAX_TOKEN_COUNT);
@@ -174,7 +174,7 @@ final class LuaTokenizer {
         }
     }
 
-    private @NotNull Token readQuotedString(char quote) {
+    private @NotNull Token readQuotedString(char quote) throws LuaParseException {
         pos++; // skip opening quote
         StringBuilder sb = new StringBuilder();
         while (pos < input.length()) {
@@ -196,7 +196,7 @@ final class LuaTokenizer {
         throw new LuaParseException("Unterminated string literal");
     }
 
-    private char readEscape() {
+    private char readEscape() throws LuaParseException {
         pos++; // skip backslash
         if (pos >= input.length()) {
             throw new LuaParseException("Unterminated escape sequence");
@@ -301,8 +301,12 @@ final class LuaTokenizer {
 
     /**
      * Thrown when Lua tokenizing or parsing fails.
+     *
+     * <p>This is a CHECKED exception: hostile rockspec input must fail loudly at an API
+     * boundary, never escape silently (see {@code io.spicelabs.annatto} error-handling ADR
+     * and the code-smell catalog §7).
      */
-    static final class LuaParseException extends RuntimeException {
+    static class LuaParseException extends Exception {
         LuaParseException(@NotNull String message) {
             super(message);
         }

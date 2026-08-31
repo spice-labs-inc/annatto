@@ -33,6 +33,18 @@ import static org.assertj.core.api.Assertions.*;
  */
 class LuaTokenizerTest {
 
+    /**
+     * Test helper: tokenizes valid test input, converting the checked
+     * LuaParseException into an AssertionError (inputs here are never expected to fail).
+     */
+    private static List<Token> tk(String source) {
+        try {
+            return LuaTokenizer.tokenize(source);
+        } catch (LuaParseException e) {
+            throw new AssertionError("Unexpected tokenize failure for test input: " + source, e);
+        }
+    }
+
     // -----------------------------------------------------------------------
     // String literal tests
     // -----------------------------------------------------------------------
@@ -43,7 +55,7 @@ class LuaTokenizerTest {
         //       STRING token whose value does not include the enclosing quotes.
         // Rationale: LuaRocks rockspec files use both quoting styles
         //            interchangeably; the extractor must handle both.
-        List<Token> tokens = LuaTokenizer.tokenize("'hello'");
+        List<Token> tokens = tk("'hello'");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("hello");
@@ -56,7 +68,7 @@ class LuaTokenizerTest {
         //       STRING token whose value does not include the enclosing quotes.
         // Rationale: Most rockspec string values (name, version, url) appear
         //            inside double quotes.
-        List<Token> tokens = LuaTokenizer.tokenize("\"hello\"");
+        List<Token> tokens = tk("\"hello\"");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("hello");
@@ -69,7 +81,7 @@ class LuaTokenizerTest {
         //       as a STRING token with the raw content between the brackets.
         // Rationale: Some rockspecs embed multi-line descriptions using long
         //            strings, which must be captured verbatim.
-        List<Token> tokens = LuaTokenizer.tokenize("[[hello]]");
+        List<Token> tokens = tk("[[hello]]");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("hello");
@@ -82,7 +94,7 @@ class LuaTokenizerTest {
         //       correctly and the content is returned without the delimiters.
         // Rationale: Rockspec authors occasionally use levelled long strings to
         //            embed text that itself contains [[ ]] sequences.
-        List<Token> tokens = LuaTokenizer.tokenize("[==[hello]==]");
+        List<Token> tokens = tk("[==[hello]==]");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("hello");
@@ -97,7 +109,7 @@ class LuaTokenizerTest {
         // Rationale: Rockspec description or homepage fields may contain
         //            embedded newlines written as \n; the parser must expand
         //            these so downstream consumers receive the real text.
-        List<Token> tokens = LuaTokenizer.tokenize("\"hello\\nworld\"");
+        List<Token> tokens = tk("\"hello\\nworld\"");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("hello\nworld");
@@ -111,7 +123,7 @@ class LuaTokenizerTest {
         // Rationale: Rockspec fields may legitimately be empty strings (e.g. an
         //            absent description set to ""); the tokenizer must not
         //            misinterpret the closing quote as the start of a new token.
-        List<Token> tokens = LuaTokenizer.tokenize("\"\"");
+        List<Token> tokens = tk("\"\"");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).isEqualTo("");
@@ -128,7 +140,7 @@ class LuaTokenizerTest {
         //       token whose value is the original source text.
         // Rationale: Rockspec version strings may be constructed from numeric
         //            components; the tokenizer must recognise bare integers.
-        List<Token> tokens = LuaTokenizer.tokenize("42");
+        List<Token> tokens = tk("42");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.NUMBER);
         assertThat(tokens.get(0).value()).isEqualTo("42");
@@ -141,7 +153,7 @@ class LuaTokenizerTest {
         //       token preserving the decimal representation.
         // Rationale: Some Lua numeric constants in rockspecs use decimal
         //            notation; the tokenizer must not truncate the fraction.
-        List<Token> tokens = LuaTokenizer.tokenize("3.14");
+        List<Token> tokens = tk("3.14");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.NUMBER);
         assertThat(tokens.get(0).value()).isEqualTo("3.14");
@@ -155,7 +167,7 @@ class LuaTokenizerTest {
         // Rationale: Lua allows hex literals; they appear rarely in rockspecs
         //            but the tokenizer must not misclassify them as identifiers
         //            or produce an error.
-        List<Token> tokens = LuaTokenizer.tokenize("0xFF");
+        List<Token> tokens = tk("0xFF");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.NUMBER);
         assertThat(tokens.get(0).value()).isEqualTo("0xFF");
@@ -172,7 +184,7 @@ class LuaTokenizerTest {
         // Rationale: Rockspec field names (package, version, dependencies, …)
         //            are plain Lua identifiers and must be tokenized as NAME so
         //            that the parser can dispatch on them.
-        List<Token> tokens = LuaTokenizer.tokenize("package");
+        List<Token> tokens = tk("package");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.NAME);
         assertThat(tokens.get(0).value()).isEqualTo("package");
@@ -186,7 +198,7 @@ class LuaTokenizerTest {
         // Rationale: A rockspec parser that uses the token stream must be able
         //            to compare the value string to "nil" itself; there is no
         //            need for a separate NIL token type.
-        List<Token> tokens = LuaTokenizer.tokenize("nil");
+        List<Token> tokens = tk("nil");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.NAME);
         assertThat(tokens.get(0).value()).isEqualTo("nil");
@@ -200,7 +212,7 @@ class LuaTokenizerTest {
         // Rationale: Some rockspec fields (e.g. `build.copy_directories`) may
         //            use boolean values; the tokenizer must not drop or mangle
         //            these tokens.
-        List<Token> tokens = LuaTokenizer.tokenize("true false");
+        List<Token> tokens = tk("true false");
         assertThat(tokens).hasSize(3);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "true"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.NAME, "false"));
@@ -218,7 +230,7 @@ class LuaTokenizerTest {
         // Rationale: Assignment is the backbone of rockspec syntax; every field
         //            definition is an assignment statement that the tokenizer
         //            must render faithfully.
-        List<Token> tokens = LuaTokenizer.tokenize("x = 1");
+        List<Token> tokens = tk("x = 1");
         assertThat(tokens).hasSize(4);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "x"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.SYMBOL, "="));
@@ -233,7 +245,7 @@ class LuaTokenizerTest {
         // Rationale: Table constructors are the primary data structure in
         //            rockspecs (dependencies lists, build tables, etc.); correct
         //            brace and equals tokenization is essential.
-        List<Token> tokens = LuaTokenizer.tokenize("{a=1}");
+        List<Token> tokens = tk("{a=1}");
         assertThat(tokens).hasSize(6);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.SYMBOL, "{"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.NAME, "a"));
@@ -251,7 +263,7 @@ class LuaTokenizerTest {
         // Rationale: Some rockspecs build version strings with `..',` and
         //            distinguishing `.` (field access) from `..` (concat) is
         //            critical for correct parsing.
-        List<Token> tokens = LuaTokenizer.tokenize("\"a\" .. \"b\"");
+        List<Token> tokens = tk("\"a\" .. \"b\"");
         assertThat(tokens).hasSize(4);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.STRING, "a"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.SYMBOL, ".."));
@@ -267,7 +279,7 @@ class LuaTokenizerTest {
         // Rationale: Rockspecs occasionally access sub-fields (e.g. `foo.bar`)
         //            and then concatenate strings in the same expression; the
         //            tokenizer must not merge or confuse the two operators.
-        List<Token> tokens = LuaTokenizer.tokenize("a.b .. c");
+        List<Token> tokens = tk("a.b .. c");
         assertThat(tokens).hasSize(6);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "a"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.SYMBOL, "."));
@@ -284,7 +296,7 @@ class LuaTokenizerTest {
         // Rationale: While rare, some rockspecs use semicolons to separate
         //            statements; the tokenizer must not treat them as special
         //            line terminators or skip them.
-        List<Token> tokens = LuaTokenizer.tokenize("x = 1; y = 2");
+        List<Token> tokens = tk("x = 1; y = 2");
         assertThat(tokens)
             .anySatisfy(t -> {
                 assertThat(t.type()).isEqualTo(TokenType.SYMBOL);
@@ -303,7 +315,7 @@ class LuaTokenizerTest {
         // Rationale: Rockspecs frequently contain comment lines documenting
         //            fields; the tokenizer must skip them without consuming
         //            subsequent code.
-        List<Token> tokens = LuaTokenizer.tokenize("x = 1 -- comment\ny = 2");
+        List<Token> tokens = tk("x = 1 -- comment\ny = 2");
         // Expect NAME x, SYMBOL =, NUMBER 1, NAME y, SYMBOL =, NUMBER 2, EOF
         assertThat(tokens).hasSize(7);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "x"));
@@ -322,7 +334,7 @@ class LuaTokenizerTest {
         // Rationale: Multi-line block comments appear at the tops of some
         //            rockspec files (license preambles, etc.); the tokenizer
         //            must skip them without emitting any spurious tokens.
-        List<Token> tokens = LuaTokenizer.tokenize("--[[comment]] x = 1");
+        List<Token> tokens = tk("--[[comment]] x = 1");
         assertThat(tokens).hasSize(4);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "x"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.SYMBOL, "="));
@@ -341,7 +353,7 @@ class LuaTokenizerTest {
         // Rationale: Description fields in rockspecs are often written as
         //            multi-line long strings; the extractor relies on the full
         //            text including newlines.
-        List<Token> tokens = LuaTokenizer.tokenize("[[line1\nline2]]");
+        List<Token> tokens = tk("[[line1\nline2]]");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         assertThat(tokens.get(0).value()).contains("\n");
@@ -357,7 +369,7 @@ class LuaTokenizerTest {
         //            files retrieved from registries may contain one.  The
         //            tokenizer must not emit it as a stray NAME or SYMBOL token.
         String input = "\uFEFFx = 1";
-        List<Token> tokens = LuaTokenizer.tokenize(input);
+        List<Token> tokens = tk(input);
         assertThat(tokens).hasSize(4);
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.NAME, "x"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.SYMBOL, "="));
@@ -373,7 +385,7 @@ class LuaTokenizerTest {
         // Rationale: A rockspec downloaded on Windows or from a registry that
         //            does not normalise line endings may contain \r\n; the
         //            tokenizer must not crash or emit a malformed token.
-        List<Token> tokens = LuaTokenizer.tokenize("\"a\r\nb\"");
+        List<Token> tokens = tk("\"a\r\nb\"");
         assertThat(tokens).hasSize(2);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.STRING);
         // The value must contain the 'a' and 'b' characters; \r may be

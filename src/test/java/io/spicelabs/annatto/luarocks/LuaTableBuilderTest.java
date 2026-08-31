@@ -39,15 +39,23 @@ class LuaTableBuilderTest {
     // -----------------------------------------------------------------------
 
     private static List<Token> tokens(String source) {
-        return LuaTokenizer.tokenize(source);
+        try {
+            return LuaTokenizer.tokenize(source);
+        } catch (LuaParseException e) {
+            throw new AssertionError("Unexpected tokenize failure for test input: " + source, e);
+        }
     }
 
     private static Object eval(String source) {
-        return LuaTableBuilder.evaluate(tokens(source), Map.of());
+        return eval(source, Map.of());
     }
 
     private static Object eval(String source, Map<String, Object> env) {
-        return LuaTableBuilder.evaluate(tokens(source), env);
+        try {
+            return LuaTableBuilder.evaluate(tokens(source), env);
+        } catch (LuaParseException e) {
+            throw new AssertionError("Unexpected evaluate failure for test input: " + source, e);
+        }
     }
 
     // -----------------------------------------------------------------------

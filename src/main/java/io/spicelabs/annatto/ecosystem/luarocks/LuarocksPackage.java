@@ -18,6 +18,7 @@ import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
@@ -442,21 +443,9 @@ private static String basename(Path path) {
             if (!returned) {
                 throw new IllegalStateException("No current entry");
             }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            long total = 0;
-            try (InputStream in = new BufferedInputStream(Files.newInputStream(source.path()), 8192)) {
-                int r;
-                while ((r = in.read(buffer)) != -1) {
-                    total += r;
-                    if (total > limits.entryBytes()) {
-                        throw new AnnattoException.SecurityException(
-                            "Entry exceeds size limit during read");
-                    }
-                    baos.write(buffer, 0, r);
-                }
-            }
-            return new ByteArrayInputStream(baos.toByteArray());
+            InputStream in = new BufferedInputStream(Files.newInputStream(source.path()), 8192);
+            return EntryContentStream.bounded(in, filename, Files.size(source.path()),
+                    limits.entryBytes());
         }
 
         @Override

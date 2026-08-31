@@ -492,11 +492,18 @@ public final class PypiMetadataExtractor {
         return Optional.empty();
     }
 
+    private static final int MAX_METADATA_SIZE = 10 * 1024 * 1024; // 10 MB (Fresh Scent Phase 3)
+
     private static @NotNull String readStreamToString(@NotNull InputStream stream) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buffer = new byte[8192];
         int read;
+        long totalRead = 0;
         while ((read = stream.read(buffer)) != -1) {
+            totalRead += read;
+            if (totalRead > MAX_METADATA_SIZE) {
+                throw new IOException("Metadata file exceeds size limit of " + MAX_METADATA_SIZE);
+            }
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);

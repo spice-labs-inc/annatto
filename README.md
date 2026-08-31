@@ -180,6 +180,15 @@ Annatto includes security protections for parsing untrusted package archives:
   metadata scan, per-pass stream budgets, 10,000-entry cap
 - **Token limits**: Lua tokenizer (50,000 tokens) and Erlang tokenizer (50,000 tokens)
 - **Nesting depth limits**: Lua table depth 20, Erlang term depth 10
+- **JSON depth limits**: GSON parsing is pre-guarded at depth 512 — `FreshScentJsonDepthTest`
+- **Lazy bounded entry streams**: `openStream()` returns a bounded lazy view (no whole-entry
+  buffering; truncated content throws) — `EntryContentStreamTest`, `FreshScentEntryStreamTest`
+- **Parser hardening**: Lua expression depth guards, no-progress guards, format-width bombs
+  rejected, limit violations propagate as checked exceptions —
+  `LuaTableBuilderSecurityBombTest`, `LuaRockspecEvaluatorSecurityBombTest`,
+  `LuaTokenSoupPropertyBombTest`
+- **Router fuzzing**: arbitrary bytes through `EcosystemRouter` terminate with documented
+  exception types only — `RouterFuzzBombTest`
 - **Sanitized messages**: error messages never leak host/temp paths (basename only)
 
 See [SECURITY.md](SECURITY.md) for vulnerability reporting.

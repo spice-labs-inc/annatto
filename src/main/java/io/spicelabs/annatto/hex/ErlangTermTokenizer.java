@@ -40,6 +40,9 @@ final class ErlangTermTokenizer {
     static final int MAX_INPUT_SIZE = 1024 * 1024; // 1 MB
     static final int MAX_TOKEN_COUNT = 50_000;
 
+    /** Long.MAX_VALUE is 19 digits; longer literals cannot be parsed by Long.parseLong. */
+    static final int MAX_INTEGER_DIGITS = 19;
+
     enum TokenType {
         BINARY_OPEN,   // <<
         BINARY_CLOSE,  // >>
@@ -196,8 +199,16 @@ final class ErlangTermTokenizer {
         if (input.charAt(pos) == '-') {
             pos++;
         }
+        int digits = 0;
         while (pos < input.length() && Character.isDigit(input.charAt(pos))) {
             pos++;
+            digits++;
+        }
+        // Cap the digit count so ErlangTermParser's Long.parseLong cannot throw an
+        // unchecked NumberFormatException on a hostile-length literal (catalog §7).
+        if (digits > MAX_INTEGER_DIGITS) {
+            throw new ErlangTermException("Integer literal exceeds maximum of "
+                    + MAX_INTEGER_DIGITS + " digits");
         }
         return new Token(TokenType.INTEGER, input.substring(start, pos));
     }

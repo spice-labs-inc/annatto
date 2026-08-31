@@ -15,6 +15,7 @@
  */
 package io.spicelabs.annatto.luarocks;
 
+import io.spicelabs.annatto.luarocks.LuaTokenizer.LuaParseException;
 import io.spicelabs.annatto.luarocks.LuaTokenizer.Token;
 import io.spicelabs.annatto.luarocks.LuaTokenizer.TokenType;
 import org.jetbrains.annotations.NotNull;
@@ -47,31 +48,68 @@ final class LuaRockspecEvaluator {
     }
 
     /**
+     * Result of evaluating a rockspec: the captured global assignments plus a flag recording
+     * whether any statement was skipped because the evaluator could not parse it.
+     *
+     * @param globals           global variable assignments (metadata fields)
+     * @param skippedStatements number of statements skipped as unsupported
+     */
+    record Outcome(@NotNull Map<String, Object> globals, int skippedStatements) {
+    }
+
+    /**
      * Evaluates a rockspec Lua source and returns global variable assignments.
      *
      * @param source the rockspec Lua source text
      * @return a map of global variable names to their evaluated values
+     * @throws LuaParseException if the source is malformed or a resource limit is exceeded
+     *                           (limit violations are loud — catalog §6)
      */
-    static @NotNull Map<String, Object> evaluate(@NotNull String source) {
+    static @NotNull Map<String, Object> evaluate(@NotNull String source) throws LuaParseException {
+        return evaluateWithOutcome(source).globals();
+    }
+
+    /**
+     * Evaluates a rockspec Lua source and returns the assignments plus the skipped-statement count.
+     *
+     * @param source the rockspec Lua source text
+     * @return the evaluation outcome
+     * @throws LuaParseException if the source is malformed or a resource limit is exceeded
+     */
+    static @NotNull Outcome evaluateWithOutcome(@NotNull String source) throws LuaParseException {
         List<Token> tokens = LuaTokenizer.tokenize(source);
         LuaRockspecEvaluator evaluator = new LuaRockspecEvaluator(tokens);
         evaluator.run();
         // Use HashMap copy since globals may contain null values (from Lua nil assignments)
-        return new HashMap<>(evaluator.globals);
+        return new Outcome(new HashMap<>(evaluator.globals), evaluator.skippedStatements);
     }
 
-    private void run() {
+    private int skippedStatements = 0;
+
+    private void run() throws LuaParseException {
         while (peek().type() != TokenType.EOF) {
             int before = pos;
             try {
                 if (!parseStatement()) {
                     skipUnrecognized();
+                    skippedStatements++;
+                }
+            } catch (LuaLimitException e) {
+                // Resource-limit violations (depth / string length / format width) are LOUD:
+                // hostile input must surface, not be silently skipped (catalog §6).
+                throw e;
+            } catch (LuaParseException e) {
+                // Skip statements that fail to parse (e.g., complex build tables with
+                // function calls). Important metadata fields (package, version, description,
+                // dependencies) are already captured in globals.
+                skippedStatements++;
+                if (pos == before) {
+                    advance(); // ensure forward progress
                 }
             } catch (RuntimeException e) {
-                // Skip statements that fail to parse or evaluate (e.g., complex build
-                // tables with function calls, null values in Map.copyOf). Important
-                // metadata fields (package, version, description, dependencies) are
-                // already captured in globals.
+                // Legacy robustness: genuinely unexpected evaluation errors (e.g. null values
+                // in Map.copyOf) skip the statement with forward progress, same as above.
+                skippedStatements++;
                 if (pos == before) {
                     advance(); // ensure forward progress
                 }
@@ -79,7 +117,7 @@ final class LuaRockspecEvaluator {
         }
     }
 
-    private boolean parseStatement() {
+    private boolean parseStatement() throws LuaParseException {
         Token token = peek();
 
         // Semicolons
@@ -101,7 +139,7 @@ final class LuaRockspecEvaluator {
         return false;
     }
 
-    private boolean parseLocal() {
+    private boolean parseLocal() throws LuaParseException {
         advance(); // consume 'local'
         Token nameToken = peek();
         if (nameToken.type() != TokenType.NAME) {
@@ -154,7 +192,7 @@ final class LuaRockspecEvaluator {
         return true;
     }
 
-    private boolean parseAssignment() {
+    private boolean parseAssignment() throws LuaParseException {
         Token nameToken = peek();
         String name = nameToken.value();
 
@@ -224,7 +262,7 @@ final class LuaRockspecEvaluator {
         return true;
     }
 
-    private Object evaluateExpression() {
+    private Object evaluateExpression() throws LuaParseException {
         Map<String, Object> combinedEnv = new HashMap<>(globals);
         combinedEnv.putAll(locals); // locals shadow globals
         LuaTableBuilder.ParseResult result = LuaTableBuilder.evaluateAt(tokens, combinedEnv, pos);
