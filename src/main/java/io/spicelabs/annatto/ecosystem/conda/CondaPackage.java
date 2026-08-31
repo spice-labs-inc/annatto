@@ -450,7 +450,7 @@ public final class CondaPackage implements LanguagePackage {
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "Entry-stream decompressed data exceeds per-pass limit: " + filename);
@@ -563,7 +563,7 @@ public final class CondaPackage implements LanguagePackage {
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);

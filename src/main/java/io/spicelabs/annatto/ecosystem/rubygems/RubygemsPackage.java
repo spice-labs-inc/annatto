@@ -18,6 +18,7 @@ import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.BoundedInflateStream;
+import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
@@ -375,6 +376,9 @@ public final class RubygemsPackage implements LanguagePackage {
 
     private class RubygemsEntryStream implements PackageEntryStream {
         private final TarArchiveInputStream tarIn;
+        private final AtomicBoolean budgetExceeded = new AtomicBoolean();
+        private final java.util.concurrent.atomic.AtomicLong passInflated =
+                new java.util.concurrent.atomic.AtomicLong();
         private TarArchiveEntry currentEntry;
         private int entryCount = 0;
         private boolean closed = false;
@@ -388,6 +392,7 @@ public final class RubygemsPackage implements LanguagePackage {
         @Override
         public boolean hasNext() throws IOException {
             checkClosed();
+            checkBudget();
             currentEntry = tarIn.getNextEntry();
             if (currentEntry != null) {
                 entryCount++;
@@ -402,6 +407,7 @@ public final class RubygemsPackage implements LanguagePackage {
         @Override
         public @NotNull PackageEntry nextEntry() throws IOException {
             checkClosed();
+            checkBudget();
             if (currentEntry == null) {
                 throw new IllegalStateException("No current entry - call hasNext() first");
             }
@@ -434,20 +440,10 @@ public final class RubygemsPackage implements LanguagePackage {
                     " (" + size + " > " + MAX_ENTRY_SIZE + ")");
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            int read;
-            long totalRead = 0;
-            while ((read = tarIn.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > limits.entryBytes()) {
-                    throw new AnnattoException.SecurityException(
-                        "Entry exceeds size limit during read");
-                }
-                baos.write(buffer, 0, read);
-            }
-
-            return new ByteArrayInputStream(baos.toByteArray());
+            long declaredSize = currentEntry.isSparse() ? -1 : currentEntry.getSize();
+            return EntryContentStream.withPassBudget(tarIn, currentEntry.getName(), declaredSize,
+                    limits.entryBytes(), passInflated, limits.streamPassBytes(),
+                    () -> budgetExceeded.set(true));
         }
 
         @Override
@@ -466,6 +462,13 @@ public final class RubygemsPackage implements LanguagePackage {
         private void checkClosed() {
             if (closed) {
                 throw new IllegalStateException("Stream is closed");
+            }
+        }
+
+        private void checkBudget() throws java.io.IOException {
+            if (budgetExceeded.get()) {
+                throw new AnnattoException.SecurityException(
+                    "Entry-stream decompressed data exceeds per-pass limit: " + filename);
             }
         }
     }

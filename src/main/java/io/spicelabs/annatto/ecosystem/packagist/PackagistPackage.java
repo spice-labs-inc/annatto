@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
@@ -246,6 +247,8 @@ public final class PackagistPackage implements LanguagePackage {
             throws AnnattoException.MalformedPackageException {
         JsonObject json;
         try {
+            // Depth guard (catalog §8 analog): GSON recursion is unbounded.
+            io.spicelabs.annatto.internal.JsonSecurity.checkDepth(composerJson);
             JsonElement element = JsonParser.parseString(composerJson);
             if (!element.isJsonObject()) {
                 throw new AnnattoException.MalformedPackageException("composer.json is not a JSON object");
@@ -451,26 +454,10 @@ public final class PackagistPackage implements LanguagePackage {
                     "Entry exceeds size limit: " + currentEntry.getName() +
                     " (" + size + " > " + limits.entryBytes() + ")");
             }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            int read;
-            long totalRead = 0;
-            try (InputStream in = zf.getInputStream(currentEntry)) {
-                while ((read = in.read(buffer)) != -1) {
-                    totalRead += read;
-                    if (totalRead > limits.entryBytes()) {
-                        throw new AnnattoException.SecurityException(
-                            "Entry exceeds size limit during read");
-                    }
-                    if (passInflated.addAndGet(read) > limits.zipPassBytes()) {
-                        budgetExceeded.set(true);
-                        throw new AnnattoException.SecurityException(
-                            "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);
-                    }
-                    baos.write(buffer, 0, read);
-                }
-            }
-            return new ByteArrayInputStream(baos.toByteArray());
+            InputStream in = zf.getInputStream(currentEntry);
+            return EntryContentStream.withPassBudget(in, currentEntry.getName(),
+                    currentEntry.getSize(), limits.entryBytes(), passInflated,
+                    limits.zipPassBytes(), () -> budgetExceeded.set(true));
         }
 
         @Override
@@ -492,7 +479,7 @@ public final class PackagistPackage implements LanguagePackage {
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);

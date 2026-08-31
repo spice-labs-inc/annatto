@@ -8,7 +8,7 @@
 
     <groupId>io.spicelabs</groupId>
     <artifactId>annatto</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://github.com/spice-labs-inc/annatto</url>
 
@@ -55,25 +55,25 @@
         <central-publishing-plugin.version>0.8.0</central-publishing-plugin.version>
 
         <!-- Compression libraries -->
-        <xz.version>1.9</xz.version>
-        <aircompressor.version>0.27</aircompressor.version>
-        <commons-compress.version>1.26.0</commons-compress.version>
+        <xz.version>1.12</xz.version>
+        <aircompressor.version>2.0.3</aircompressor.version>
+        <commons-compress.version>1.28.0</commons-compress.version>
 
         <!-- Parsing libraries -->
-        <gson.version>2.10.1</gson.version>
-        <snakeyaml.version>2.2</snakeyaml.version>
+        <gson.version>2.14.0</gson.version>
+        <snakeyaml.version>2.6</snakeyaml.version>
         <tomlj.version>1.1.1</tomlj.version>
 
         <!-- Logging -->
-        <slf4j.version>2.0.9</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
 
         <!-- Package URL -->
         <packageurl.version>1.5.0</packageurl.version>
 
         <!-- Testing -->
-        <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <assertj.version>3.25.3</assertj.version>
-        <jqwik.version>1.8.2</jqwik.version>
+        <junit.jupiter.version>6.1.3</junit.jupiter.version>
+        <assertj.version>3.27.7</assertj.version>
+        <jqwik.version>1.10.1</jqwik.version>
         <jacoco.version>0.8.11</jacoco.version>
             <!-- Whether a Maven Central deployment publishes itself once validated.
              `true` is the normal path. The publish workflow overrides this to
@@ -87,11 +87,6 @@
 
     <dependencies>
         <!-- Rodeo Components plugin contract -->
-        <dependency>
-            <groupId>io.spicelabs</groupId>
-            <artifactId>rodeo-components_3</artifactId>
-            <version>0.0.15</version>
-        </dependency>
 
         <!-- Package URL library -->
         <dependency>
@@ -130,7 +125,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.16.0</version>
+            <version>1.22.1</version>
         </dependency>
 
         <!-- XZ decompression -->
@@ -158,7 +153,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
+            <version>26.1.0</version>
         </dependency>
 
         <!-- JUnit 5 -->
@@ -221,6 +216,45 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <executions>
+                    <!-- Default execution: everything EXCEPT hang/bomb-prone tests.
+                         Excludes are execution-scoped (NOT plugin-level) so the
+                         bomb-tests execution below is not affected (catalog §14). -->
+                    <execution>
+                        <id>default-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/bomb/**</exclude>
+                                <exclude>**/*BombTest</exclude>
+                            </excludes>
+                            <forkCount>1</forkCount>
+                            <reuseForks>true</reuseForks>
+                        </configuration>
+                    </execution>
+                    <!-- Isolation fork: hang/bomb-prone tests run in their own JVM
+                         with a per-method timeout so a hang cannot poison other
+                         tests' results (catalog §14). -->
+                    <execution>
+                        <id>bomb-tests</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/bomb/**</include>
+                                <include>**/*BombTest</include>
+                            </includes>
+                            <forkCount>1</forkCount>
+                            <reuseForks>false</reuseForks>
+                            <systemPropertyVariables>
+                                <junit.jupiter.execution.timeout.default>30s</junit.jupiter.execution.timeout.default>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 class ErlangTermParserTest {
 
-    private Map<String, Object> parse(String input) {
+    private Map<String, Object> parse(String input) throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer(input).tokenize();
         return new ErlangTermParser(tokens).parseMetadataConfig();
     }
@@ -41,7 +41,7 @@ class ErlangTermParserTest {
      * Rationale: Most metadata.config entries are {<<"key">>, <<"value">>}.
      */
     @Test
-    void parse_singleStringKeyValue() {
+    void parse_singleStringKeyValue() throws ErlangTermException {
         Map<String, Object> result = parse("{<<\"name\">>,<<\"jason\">>}.");
         assertThat(result).hasSize(1);
         assertThat(result.get("name")).isEqualTo("jason");
@@ -52,7 +52,7 @@ class ErlangTermParserTest {
      * Rationale: metadata.config has many top-level statements.
      */
     @Test
-    void parse_multipleKeyValues() {
+    void parse_multipleKeyValues() throws ErlangTermException {
         String input = """
                 {<<"name">>,<<"jason">>}.
                 {<<"version">>,<<"1.4.1">>}.
@@ -71,7 +71,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_listOfStrings() {
+    void parse_listOfStrings() throws ErlangTermException {
         String input = "{<<\"licenses\">>,[<<\"Apache-2.0\">>]}.";
         Map<String, Object> result = parse(input);
         List<Object> licenses = (List<Object>) result.get("licenses");
@@ -84,7 +84,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_multiElementList() {
+    void parse_multiElementList() throws ErlangTermException {
         String input = "{<<\"build_tools\">>,[<<\"mix\">>,<<\"rebar3\">>]}.";
         Map<String, Object> result = parse(input);
         List<Object> tools = (List<Object>) result.get("build_tools");
@@ -97,7 +97,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_emptyList() {
+    void parse_emptyList() throws ErlangTermException {
         String input = "{<<\"requirements\">>,[]}.";
         Map<String, Object> result = parse(input);
         List<Object> reqs = (List<Object>) result.get("requirements");
@@ -111,7 +111,7 @@ class ErlangTermParserTest {
      * Rationale: The optional field in requirements uses true/false.
      */
     @Test
-    void parse_booleanValues() {
+    void parse_booleanValues() throws ErlangTermException {
         String input = "{<<\"optional\">>,true}.";
         Map<String, Object> result = parse(input);
         assertThat(result.get("optional")).isEqualTo(Boolean.TRUE);
@@ -122,7 +122,7 @@ class ErlangTermParserTest {
      * Rationale: Most deps have optional=false.
      */
     @Test
-    void parse_falseAtom() {
+    void parse_falseAtom() throws ErlangTermException {
         String input = "{<<\"optional\">>,false}.";
         Map<String, Object> result = parse(input);
         assertThat(result.get("optional")).isEqualTo(Boolean.FALSE);
@@ -135,7 +135,7 @@ class ErlangTermParserTest {
      * Rationale: Some metadata may contain integer fields.
      */
     @Test
-    void parse_integerValue() {
+    void parse_integerValue() throws ErlangTermException {
         String input = "{<<\"count\">>,42}.";
         Map<String, Object> result = parse(input);
         assertThat(result.get("count")).isEqualTo(42L);
@@ -149,7 +149,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_requirementProplist() {
+    void parse_requirementProplist() throws ErlangTermException {
         String input = """
                 {<<"requirements">>,
                  [[{<<"name">>,<<"decimal">>},
@@ -177,7 +177,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_multipleRequirements() {
+    void parse_multipleRequirements() throws ErlangTermException {
         String input = """
                 {<<"requirements">>,
                  [[{<<"name">>,<<"dep1">>},{<<"requirement">>,<<">= 0.0.0">>},{<<"optional">>,false},{<<"app">>,<<"dep1">>},{<<"repository">>,<<"hexpm">>}],
@@ -202,7 +202,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_linksProplist() {
+    void parse_linksProplist() throws ErlangTermException {
         String input = """
                 {<<"links">>,[{<<"GitHub">>,<<"https://github.com/example">>}]}.
                 """;
@@ -218,7 +218,7 @@ class ErlangTermParserTest {
      * Rationale: Some fields may have empty string values.
      */
     @Test
-    void parse_emptyBinaryString() {
+    void parse_emptyBinaryString() throws ErlangTermException {
         String input = "{<<\"desc\">>,<<>>}.";
         Map<String, Object> result = parse(input);
         assertThat(result.get("desc")).isEqualTo("");
@@ -231,7 +231,7 @@ class ErlangTermParserTest {
      * Rationale: Some metadata.config files may have comments.
      */
     @Test
-    void parse_withComments() {
+    void parse_withComments() throws ErlangTermException {
         String input = """
                 % This is a comment
                 {<<"name">>,<<"test">>}.
@@ -248,7 +248,7 @@ class ErlangTermParserTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void parse_realJasonMetadata() {
+    void parse_realJasonMetadata() throws ErlangTermException {
         String input = """
                 {<<"links">>,[{<<"GitHub">>,<<"https://github.com/michalmuskala/jason">>}]}.
                 {<<"name">>,<<"jason">>}.
@@ -292,7 +292,7 @@ class ErlangTermParserTest {
      * Rationale: Security — prevent stack overflow via excessive nesting.
      */
     @Test
-    void parse_rejectsExcessiveNesting() {
+    void parse_rejectsExcessiveNesting() throws ErlangTermException {
         // Build deeply nested list
         StringBuilder sb = new StringBuilder("{<<\"k\">>,");
         for (int i = 0; i < ErlangTermParser.MAX_NESTING_DEPTH + 2; i++) {
@@ -314,7 +314,7 @@ class ErlangTermParserTest {
      * Rationale: Security — prevent memory exhaustion via massive flat structures.
      */
     @Test
-    void parse_rejectsExcessiveElements() {
+    void parse_rejectsExcessiveElements() throws ErlangTermException {
         // Build a flat list with more than 10000 elements
         StringBuilder sb = new StringBuilder("{<<\"k\">>,[");
         for (int i = 0; i < ErlangTermParser.MAX_ELEMENTS + 1; i++) {
@@ -333,7 +333,7 @@ class ErlangTermParserTest {
      * Rationale: Malformed input must produce a clear error.
      */
     @Test
-    void parse_rejectsUnexpectedToken() {
+    void parse_rejectsUnexpectedToken() throws ErlangTermException {
         assertThatThrownBy(() -> parse("{<<\"key\">>,}."))
                 .isInstanceOf(ErlangTermException.class)
                 .hasMessageContaining("Unexpected token");
@@ -344,7 +344,7 @@ class ErlangTermParserTest {
      * Rationale: Empty metadata.config should produce empty map.
      */
     @Test
-    void parse_emptyInput() {
+    void parse_emptyInput() throws ErlangTermException {
         Map<String, Object> result = parse("");
         assertThat(result).isEmpty();
     }
@@ -356,7 +356,7 @@ class ErlangTermParserTest {
      * Rationale: Some fields may have nil values.
      */
     @Test
-    void parse_nilAtom() {
+    void parse_nilAtom() throws ErlangTermException {
         String input = "{<<\"value\">>,nil}.";
         Map<String, Object> result = parse(input);
         assertThat(result).containsEntry("value", null);
@@ -367,7 +367,7 @@ class ErlangTermParserTest {
      * Rationale: Repository field is typically 'hexpm' atom.
      */
     @Test
-    void parse_bareAtomAsString() {
+    void parse_bareAtomAsString() throws ErlangTermException {
         String input = "{<<\"repo\">>,hexpm}.";
         Map<String, Object> result = parse(input);
         assertThat(result.get("repo")).isEqualTo("hexpm");

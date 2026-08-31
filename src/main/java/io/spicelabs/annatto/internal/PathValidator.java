@@ -45,7 +45,7 @@ public final class PathValidator {
      * @return normalized name if valid (backslashes normalized to forward slashes)
      * @throws AnnattoException.SecurityException if path is invalid
      */
-    public static String validateEntryName(String name) {
+    public static String validateEntryName(String name) throws java.io.IOException {
         if (name == null) {
             throw new AnnattoException.SecurityException("Entry name is null");
         }

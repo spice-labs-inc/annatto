@@ -61,7 +61,7 @@ final class ErlangTermParser {
      * @return map of key → parsed value
      * @throws ErlangTermException if parsing fails or limits exceeded
      */
-    @NotNull Map<String, Object> parseMetadataConfig() {
+    @NotNull Map<String, Object> parseMetadataConfig() throws ErlangTermException {
         Map<String, Object> result = new LinkedHashMap<>();
 
         while (current().type() != TokenType.EOF) {
@@ -84,7 +84,7 @@ final class ErlangTermParser {
     /**
      * Parses a single Erlang term value at the given nesting depth.
      */
-    private Object parseValue(int depth) {
+    private Object parseValue(int depth) throws ErlangTermException {
         if (depth > MAX_NESTING_DEPTH) {
             throw new ErlangTermException("Nesting depth exceeds maximum of " + MAX_NESTING_DEPTH);
         }
@@ -121,7 +121,7 @@ final class ErlangTermParser {
     /**
      * Parses a binary string: {@code <<"content">>}.
      */
-    private String parseBinaryString() {
+    private String parseBinaryString() throws ErlangTermException {
         expect(TokenType.BINARY_OPEN);
         Token strTok = current();
         if (strTok.type() == TokenType.BINARY_CLOSE) {
@@ -142,7 +142,7 @@ final class ErlangTermParser {
      * If the list looks like a proplist (all elements are 2-tuples with string keys),
      * converts to a Map.
      */
-    private Object parseList(int depth) {
+    private Object parseList(int depth) throws ErlangTermException {
         expect(TokenType.LIST_OPEN);
         List<Object> items = new ArrayList<>();
 
@@ -169,7 +169,7 @@ final class ErlangTermParser {
      * Parses a tuple: {@code {elem1, elem2, ...}}.
      * Returns as a list internally (tuples don't have a Java equivalent).
      */
-    private Object parseTuple(int depth) {
+    private Object parseTuple(int depth) throws ErlangTermException {
         expect(TokenType.TUPLE_OPEN);
         List<Object> items = new ArrayList<>();
 
@@ -225,7 +225,7 @@ final class ErlangTermParser {
         pos++;
     }
 
-    private void expect(TokenType type) {
+    private void expect(TokenType type) throws ErlangTermException {
         Token tok = current();
         if (tok.type() != type) {
             throw new ErlangTermException(
@@ -234,7 +234,7 @@ final class ErlangTermParser {
         advance();
     }
 
-    private void incrementElementCount() {
+    private void incrementElementCount() throws ErlangTermException {
         elementCount++;
         if (elementCount > MAX_ELEMENTS) {
             throw new ErlangTermException("Element count exceeds maximum of " + MAX_ELEMENTS);

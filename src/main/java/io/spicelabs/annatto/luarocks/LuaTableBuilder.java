@@ -61,8 +61,10 @@ final class LuaTableBuilder {
      * @param tokens the token list
      * @param env    the variable environment
      * @return the evaluated expression value, or null if unsupported
+     * @throws LuaParseException if the expression is malformed or a resource limit is exceeded
      */
-    static @Nullable Object evaluate(@NotNull List<Token> tokens, @NotNull Map<String, Object> env) {
+    static @Nullable Object evaluate(@NotNull List<Token> tokens, @NotNull Map<String, Object> env)
+            throws LuaParseException {
         LuaTableBuilder builder = new LuaTableBuilder(tokens, env);
         return builder.parseExpression();
     }
@@ -75,9 +77,10 @@ final class LuaTableBuilder {
      * @param env      the variable environment
      * @param startPos the starting position in the token list
      * @return the parse result containing value and end position
+     * @throws LuaParseException if the expression is malformed or a resource limit is exceeded
      */
     static @NotNull ParseResult evaluateAt(@NotNull List<Token> tokens,
-            @NotNull Map<String, Object> env, int startPos) {
+            @NotNull Map<String, Object> env, int startPos) throws LuaParseException {
         LuaTableBuilder builder = new LuaTableBuilder(tokens, env);
         builder.pos = startPos;
         Object value = builder.parseExpression();
@@ -87,15 +90,25 @@ final class LuaTableBuilder {
     record ParseResult(@Nullable Object value, int endPos) {
     }
 
-    private @Nullable Object parseExpression() {
-        Object left = parsePrimary();
+    private @Nullable Object parseExpression() throws LuaParseException {
+        return parseExpression(0);
+    }
+
+    /**
+     * Parses an expression at the given parenthesis/unary nesting depth.
+     * {@code exprDepth} guards the parseExpression → parsePrimary ("(" or "-") →
+     * parseExpression recursion cycle (catalog §8): without it, hostile token soups
+     * like "(" repeated 25 000 times overflow the stack.
+     */
+    private @Nullable Object parseExpression(int exprDepth) throws LuaParseException {
+        Object left = parsePrimary(exprDepth);
         // Check for method call: value:method(args)  — supports string.format pattern
-        left = tryMethodCall(left);
+        left = tryMethodCall(left, exprDepth);
         // Check for string concatenation (..)
         while (peek().type() == TokenType.SYMBOL && peek().value().equals("..")) {
             advance(); // consume ..
-            Object right = parsePrimary();
-            right = tryMethodCall(right);
+            Object right = parsePrimary(exprDepth);
+            right = tryMethodCall(right, exprDepth);
             left = concatValues(left, right);
         }
         return left;
@@ -105,7 +118,7 @@ final class LuaTableBuilder {
      * Tries to parse a method call ({@code :method(args)}) on a value.
      * Currently supports {@code string:format(...)} which is common in rockspecs.
      */
-    private @Nullable Object tryMethodCall(@Nullable Object value) {
+    private @Nullable Object tryMethodCall(@Nullable Object value, int exprDepth) throws LuaParseException {
         if (peek().type() != TokenType.SYMBOL || !peek().value().equals(":")) {
             return value;
         }
@@ -131,7 +144,15 @@ final class LuaTableBuilder {
                 advance();
                 continue;
             }
-            args.add(parseExpression());
+            // Progress guard (catalog §5): parseExpression can return null WITHOUT
+            // consuming a token for tokens it does not understand (e.g. "=" in argument
+            // position). Without this check the loop spins forever.
+            int before = pos;
+            args.add(parseExpression(exprDepth));
+            if (pos == before) {
+                throw new LuaParseException(
+                        "No progress parsing method-call argument at token index " + pos);
+            }
         }
 
         // Apply known methods
@@ -144,19 +165,46 @@ final class LuaTableBuilder {
     /**
      * Applies Lua's string.format using Java's String.format.
      * Only handles %s and %d, which are the common specifiers in rockspecs.
+     *
+     * <p>Security (catalog §3): the format string is attacker-controlled. A hostile width
+     * like {@code %9999999999d} makes {@code String.format} attempt a ~10 GB allocation
+     * (an {@code OutOfMemoryError}, which no {@code catch (Exception)} can contain), so the
+     * directive's numeric fields are bounded BEFORE formatting and the formatted result is
+     * length-checked afterwards.
      */
-    private @Nullable String applyStringFormat(@NotNull String fmt, @NotNull List<Object> args) {
+    private @Nullable String applyStringFormat(@NotNull String fmt, @NotNull List<Object> args)
+            throws LuaParseException {
+        if (!isBoundedFormatString(fmt)) {
+            // Unsupported/unsafe directive structure: same observable behavior as the old
+            // catch (Exception) path (null), but never lets a hostile width reach String.format.
+            if (hasOversizedNumericField(fmt)) {
+                throw new LuaLimitException(
+                        "Format string numeric field exceeds maximum of " + MAX_FORMAT_FIELD_DIGITS + " digits");
+            }
+            return null;
+        }
         try {
             Object[] javaArgs = args.stream()
                     .map(a -> a instanceof Number n ? (Object) n : String.valueOf(a))
                     .toArray();
-            return String.format(fmt, javaArgs);
+            String result = String.format(fmt, javaArgs);
+            if (result.length() > MAX_STRING_LENGTH) {
+                throw new LuaLimitException(
+                        "Formatted string exceeds maximum length of " + MAX_STRING_LENGTH);
+            }
+            return result;
+        } catch (LuaLimitException e) {
+            throw e;
         } catch (Exception e) {
             return null;
         }
     }
 
-    private @Nullable Object parsePrimary() {
+    private @Nullable Object parsePrimary() throws LuaParseException {
+        return parsePrimary(0);
+    }
+
+    private @Nullable Object parsePrimary(int exprDepth) throws LuaParseException {
         Token token = peek();
         return switch (token.type()) {
             case STRING -> {
@@ -172,15 +220,25 @@ final class LuaTableBuilder {
                 if (token.value().equals("{")) {
                     yield parseTable();
                 } else if (token.value().equals("(")) {
+                    // Depth guard (catalog §8): "(" nesting has no inherent bound.
+                    if (exprDepth >= MAX_NESTING_DEPTH) {
+                        throw new LuaLimitException(
+                                "Parenthesis nesting depth exceeds maximum of " + MAX_NESTING_DEPTH);
+                    }
                     advance(); // consume (
-                    Object inner = parseExpression();
+                    Object inner = parseExpression(exprDepth + 1);
                     if (peek().type() == TokenType.SYMBOL && peek().value().equals(")")) {
                         advance(); // consume )
                     }
                     yield inner;
                 } else if (token.value().equals("-")) {
+                    // Depth guard (catalog §8): unary-minus chains recurse via parsePrimary.
+                    if (exprDepth >= MAX_NESTING_DEPTH) {
+                        throw new LuaLimitException(
+                                "Unary minus nesting depth exceeds maximum of " + MAX_NESTING_DEPTH);
+                    }
                     advance(); // consume -
-                    Object operand = parsePrimary();
+                    Object operand = parsePrimary(exprDepth + 1);
                     if (operand instanceof Number n) {
                         yield -n.doubleValue();
                     }
@@ -193,7 +251,7 @@ final class LuaTableBuilder {
         };
     }
 
-    private @Nullable Object parseNameExpr() {
+    private @Nullable Object parseNameExpr() throws LuaParseException {
         Token token = peek();
         advance();
         String name = token.value();
@@ -256,9 +314,9 @@ final class LuaTableBuilder {
         }
     }
 
-    private @Nullable Object parseTable() {
+    private @Nullable Object parseTable() throws LuaParseException {
         if (depth >= MAX_NESTING_DEPTH) {
-            throw new LuaParseException("Table nesting depth exceeds maximum of " + MAX_NESTING_DEPTH);
+            throw new LuaLimitException("Table nesting depth exceeds maximum of " + MAX_NESTING_DEPTH);
         }
         depth++;
         advance(); // consume {
@@ -269,7 +327,7 @@ final class LuaTableBuilder {
 
         while (peek().type() != TokenType.EOF) {
             if (arrayPart.size() + hashPart.size() > MAX_TABLE_ELEMENTS) {
-                throw new LuaParseException("Table element count exceeds maximum of " + MAX_TABLE_ELEMENTS);
+                throw new LuaLimitException("Table element count exceeds maximum of " + MAX_TABLE_ELEMENTS);
             }
             Token t = peek();
             if (t.type() == TokenType.SYMBOL && t.value().equals("}")) {
@@ -353,7 +411,8 @@ final class LuaTableBuilder {
         return Map.of();
     }
 
-    private @Nullable Object concatValues(@Nullable Object left, @Nullable Object right) {
+    private @Nullable Object concatValues(@Nullable Object left, @Nullable Object right)
+            throws LuaParseException {
         if (left == null || right == null) {
             return null;
         }
@@ -363,7 +422,7 @@ final class LuaTableBuilder {
             return null;
         }
         if ((long) l.length() + r.length() > MAX_STRING_LENGTH) {
-            throw new LuaParseException(
+            throw new LuaLimitException(
                     "Concatenated string exceeds maximum length of " + MAX_STRING_LENGTH);
         }
         return l + r;
@@ -394,6 +453,127 @@ final class LuaTableBuilder {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    /** Maximum digits allowed in a %-directive numeric field (width / precision / arg index). */
+    static final int MAX_FORMAT_FIELD_DIGITS = 6;
+
+    /**
+     * Returns true if {@code fmt} contains only directives whose numeric fields are within
+     * {@link #MAX_FORMAT_FIELD_DIGITS} digits and whose structure can be validated cheaply.
+     * Unsupported structures return false (caller treats them as "unsupported method", the
+     * pre-existing behavior) — the goal is only to keep hostile widths away from
+     * {@link String#format} (catalog §3: attacker-controlled sizes driving allocations).
+     */
+    private static boolean isBoundedFormatString(@NotNull String fmt) {
+        if (fmt.length() > MAX_STRING_LENGTH) {
+            return false;
+        }
+        int i = 0;
+        int n = fmt.length();
+        while (i < n) {
+            char c = fmt.charAt(i);
+            if (c != '%') {
+                i++;
+                continue;
+            }
+            if (i + 1 >= n) {
+                return false; // trailing % — String.format would reject it; treat as unsupported
+            }
+            if (fmt.charAt(i + 1) == '%') {
+                i += 2;
+                continue;
+            }
+            int j = i + 1;
+            // flags
+            while (j < n && "-+ #0,(".indexOf(fmt.charAt(j)) >= 0) {
+                j++;
+            }
+            // argument index digits, optionally followed by $
+            int indexDigits = 0;
+            while (j < n && Character.isDigit(fmt.charAt(j))) {
+                indexDigits++;
+                j++;
+            }
+            if (indexDigits > MAX_FORMAT_FIELD_DIGITS) {
+                return false;
+            }
+            if (j < n && fmt.charAt(j) == '$') {
+                j++;
+                // width digits
+                int widthDigits = 0;
+                while (j < n && Character.isDigit(fmt.charAt(j))) {
+                    widthDigits++;
+                    j++;
+                }
+                if (widthDigits > MAX_FORMAT_FIELD_DIGITS) {
+                    return false;
+                }
+            }
+            // precision
+            if (j < n && fmt.charAt(j) == '.') {
+                j++;
+                int precisionDigits = 0;
+                while (j < n && Character.isDigit(fmt.charAt(j))) {
+                    precisionDigits++;
+                    j++;
+                }
+                if (precisionDigits > MAX_FORMAT_FIELD_DIGITS) {
+                    return false;
+                }
+            }
+            // conversion character (any single char; String.format does the real validation)
+            if (j >= n) {
+                return false;
+            }
+            i = j + 1;
+        }
+        return true;
+    }
+
+    /** Distinguishes "oversized numeric field" (limit violation) from "unsupported structure" (skip). */
+    private static boolean hasOversizedNumericField(@NotNull String fmt) {
+        int i = 0;
+        int n = fmt.length();
+        while (i < n) {
+            char c = fmt.charAt(i);
+            if (c != '%') {
+                i++;
+                continue;
+            }
+            if (i + 1 >= n || fmt.charAt(i + 1) == '%') {
+                i += (i + 1 >= n) ? 1 : 2;
+                continue;
+            }
+            int j = i + 1;
+            while (j < n && "-+ #0,(".indexOf(fmt.charAt(j)) >= 0) {
+                j++;
+            }
+            int digits = 0;
+            while (j < n && Character.isDigit(fmt.charAt(j))) {
+                digits++;
+                j++;
+            }
+            if (digits > MAX_FORMAT_FIELD_DIGITS) {
+                return true;
+            }
+            if (j < n && fmt.charAt(j) == '$') {
+                j++;
+            }
+            if (j < n && fmt.charAt(j) == '.') {
+                j++;
+                digits = 0;
+                while (j < n && Character.isDigit(fmt.charAt(j))) {
+                    digits++;
+                    j++;
+                }
+                if (digits > MAX_FORMAT_FIELD_DIGITS) {
+                    return true;
+                }
+            }
+            i = (j >= n) ? n : j + 1;
+        }
+        return false;
     }
 
     private @NotNull Token peek() {

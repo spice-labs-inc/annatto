@@ -40,6 +40,9 @@ final class ErlangTermTokenizer {
     static final int MAX_INPUT_SIZE = 1024 * 1024; // 1 MB
     static final int MAX_TOKEN_COUNT = 50_000;
 
+    /** Long.MAX_VALUE is 19 digits; longer literals cannot be parsed by Long.parseLong. */
+    static final int MAX_INTEGER_DIGITS = 19;
+
     enum TokenType {
         BINARY_OPEN,   // <<
         BINARY_CLOSE,  // >>
@@ -66,7 +69,7 @@ final class ErlangTermTokenizer {
     private int pos;
     private final List<Token> tokens;
 
-    ErlangTermTokenizer(@NotNull String input) {
+    ErlangTermTokenizer(@NotNull String input) throws ErlangTermException {
         if (input.length() > MAX_INPUT_SIZE) {
             throw new ErlangTermException("Input exceeds maximum size of " + MAX_INPUT_SIZE + " bytes");
         }
@@ -81,7 +84,7 @@ final class ErlangTermTokenizer {
      * @return immutable list of tokens (always ends with EOF)
      * @throws ErlangTermException if tokenization fails or limits exceeded
      */
-    @NotNull List<Token> tokenize() {
+    @NotNull List<Token> tokenize() throws ErlangTermException {
         while (pos < input.length()) {
             skipWhitespaceAndComments();
             if (pos >= input.length()) break;
@@ -148,7 +151,7 @@ final class ErlangTermTokenizer {
         }
     }
 
-    private Token readString() {
+    private Token readString() throws ErlangTermException {
         pos++; // skip opening "
         StringBuilder sb = new StringBuilder();
         while (pos < input.length()) {
@@ -191,13 +194,21 @@ final class ErlangTermTokenizer {
         }
     }
 
-    private Token readInteger() {
+    private Token readInteger() throws ErlangTermException {
         int start = pos;
         if (input.charAt(pos) == '-') {
             pos++;
         }
+        int digits = 0;
         while (pos < input.length() && Character.isDigit(input.charAt(pos))) {
             pos++;
+            digits++;
+        }
+        // Cap the digit count so ErlangTermParser's Long.parseLong cannot throw an
+        // unchecked NumberFormatException on a hostile-length literal (catalog §7).
+        if (digits > MAX_INTEGER_DIGITS) {
+            throw new ErlangTermException("Integer literal exceeds maximum of "
+                    + MAX_INTEGER_DIGITS + " digits");
         }
         return new Token(TokenType.INTEGER, input.substring(start, pos));
     }
@@ -216,12 +227,12 @@ final class ErlangTermTokenizer {
         return idx < input.length() ? input.charAt(idx) : '\0';
     }
 
-    private void addToken(TokenType type, String value) {
+    private void addToken(TokenType type, String value) throws ErlangTermException {
         tokens.add(new Token(type, value));
         checkTokenLimit();
     }
 
-    private void checkTokenLimit() {
+    private void checkTokenLimit() throws ErlangTermException {
         if (tokens.size() > MAX_TOKEN_COUNT) {
             throw new ErlangTermException("Token count exceeds maximum of " + MAX_TOKEN_COUNT);
         }

@@ -192,8 +192,12 @@ class NpmMemorySafetyTest {
     }
 
     @Test
-    @DisplayName("openStream trips the pass budget mid-entry; the stream fails closed afterwards")
+    @DisplayName("openStream trips the pass budget on first read; the stream fails closed afterwards")
     void openStreamMidEntryBudgetTripHasNextSemantics() throws IOException {
+        // Updated with user approval (2026-08-28, Fresh Scent Phase 2): openStream() is now
+        // LAZY — it no longer buffers entry content, so the pass-budget trip moved from
+        // openStream() itself to the first read. The load-bearing contract is unchanged:
+        // a spent pass budget fails closed and consumers never observe silent truncation.
         byte[] data = npmTgzWithLargePackageJson(4L * 1024 * 1024);
         NpmPackage pkg = NpmPackage.fromStream(
                 new ByteArrayInputStream(data), "bigjson.tgz", Limits.streamPass(1024 * 1024L));
@@ -201,10 +205,13 @@ class NpmMemorySafetyTest {
         try (PackageEntryStream stream = pkg.streamEntries()) {
             assertThat(stream.hasNext()).isTrue();
             stream.nextEntry();
-            // Opening the oversized entry content must be rejected, not buffered.
-            assertThatThrownBy(() -> stream.openStream())
-                    .isInstanceOf(AnnattoException.SecurityException.class)
-                    .as("entry content larger than the (small) pass budget must be rejected");
+            // Lazy: openStream() itself must not consume the entry (no budget trip here).
+            try (java.io.InputStream content = stream.openStream()) {
+                // The trip happens on the first read of the oversized content.
+                assertThatThrownBy(content::readAllBytes)
+                        .isInstanceOf(AnnattoException.SecurityException.class)
+                        .as("entry content larger than the (small) pass budget must be rejected on read");
+            }
             // The pass is now spent; the contract is fail-fast on further use so consumers
             // never observe silently truncated content.
             assertThatThrownBy(stream::hasNext)

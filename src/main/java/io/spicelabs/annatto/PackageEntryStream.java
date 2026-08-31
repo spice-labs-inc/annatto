@@ -53,7 +53,10 @@ public interface PackageEntryStream extends AutoCloseable {
      * Check if there are more entries.
      *
      * @return true if another entry is available
-     * @throws IOException if archive is corrupt
+     * @throws IOException if archive is corrupt or unreadable
+     * @throws AnnattoException.SecurityException (an {@code IOException} subtype) if a
+     *         resource limit is exceeded (entry count / per-pass budget) — the archive is
+     *         not silently truncated; see the AnnattoException javadoc for the contract.
      */
     boolean hasNext() throws IOException;
 

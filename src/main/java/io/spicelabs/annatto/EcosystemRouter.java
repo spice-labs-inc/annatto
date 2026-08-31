@@ -114,6 +114,9 @@ public final class EcosystemRouter {
      * @param path file path
      * @return detected ecosystem, or empty if cannot determine
      * @throws IOException if file cannot be read
+     * @throws AnnattoException.MalformedPackageException (an {@code IOException} subtype)
+     *         if the archive is structurally invalid (e.g. contains no entries) — see the
+     *         AnnattoException javadoc for the exception contract.
      */
     public static @NotNull Optional<Ecosystem> route(@NotNull Path path) throws IOException {
         String filename = path.getFileName().toString();
@@ -300,13 +303,10 @@ public final class EcosystemRouter {
 
         // Plain tar - RubyGems, Hex
         if (lowerMime.equals("application/x-tar") || lowerFilename.endsWith(".gem")) {
-            InputStream stream;
             if (path != null) {
-                stream = new BufferedInputStream(Files.newInputStream(path), DETECTION_BUFFER_SIZE);
-            } else {
-                stream = callerStream;
+                return disambiguatePlainTar(path, null, filename);
             }
-            return disambiguatePlainTar(stream);
+            return disambiguatePlainTar(null, callerStream, filename);
         }
 
         // BZIP2 - Conda legacy
@@ -450,36 +450,63 @@ public final class EcosystemRouter {
 
     /**
      * Disambiguate plain tar files (RubyGems vs Hex).
+     *
+     * <p>Fresh Scent Phase 3 (finding A3): the previous mark/reset approach broke for any
+     * unrecognized tar larger than the 8 KB mark buffer ({@code bis.reset()} threw
+     * "Resetting to invalid mark"). This version re-scans from a FRESH bounded stream:
+     * the path case opens a new stream, the caller-stream case spools once and rescans the
+     * spool. Entry iteration is capped (fail closed) and the raw read is bounded.
      */
-    private static Optional<Ecosystem> disambiguatePlainTar(InputStream stream) throws IOException {
-        BufferedInputStream bis;
-        if (stream instanceof BufferedInputStream) {
-            bis = (BufferedInputStream) stream;
-        } else {
-            bis = new BufferedInputStream(stream, DETECTION_BUFFER_SIZE);
-        }
-        bis.mark(DETECTION_BUFFER_SIZE);
-
-        try (TarArchiveInputStream tais = new TarArchiveInputStream(bis)) {
-            ArchiveEntry entry;
-            while ((entry = tais.getNextEntry()) != null) {
-                String name = entry.getName();
-
-                // RubyGems: metadata.gz
-                if (name.equals("metadata.gz")) {
-                    bis.reset();
-                    return Optional.of(Ecosystem.RUBYGEMS);
-                }
-                // Hex: metadata.config
-                if (name.equals("metadata.config")) {
-                    bis.reset();
-                    return Optional.of(Ecosystem.HEX);
-                }
+    private static Optional<Ecosystem> disambiguatePlainTar(Path path, InputStream callerStream,
+                                                            String filename) throws IOException {
+        if (path != null) {
+            try (InputStream raw = new BoundedInputStream(Files.newInputStream(path),
+                    MAX_ROUTER_COMPRESSED, filename);
+                 InputStream bis = new BufferedInputStream(raw, DETECTION_BUFFER_SIZE);
+                 TarArchiveInputStream tais = new TarArchiveInputStream(bis)) {
+                return scanPlainTar(tais, MAX_ROUTER_ENTRIES);
             }
-
-            bis.reset();
-            return Optional.empty();
         }
+        Spool.Spooled spooled = Spool.create(callerStream, filename, MAX_ROUTER_COMPRESSED);
+        try {
+            try (InputStream raw = new BoundedInputStream(Files.newInputStream(spooled.path()),
+                    MAX_ROUTER_COMPRESSED, filename);
+                 InputStream bis = new BufferedInputStream(raw, DETECTION_BUFFER_SIZE);
+                 TarArchiveInputStream tais = new TarArchiveInputStream(bis)) {
+                return scanPlainTar(tais, MAX_ROUTER_ENTRIES);
+            }
+        } finally {
+            Spool.delete(spooled);
+        }
+    }
+
+    /** Package-private seam so the entry-count cap is testable with small bounds. */
+    static Optional<Ecosystem> scanPlainTar(TarArchiveInputStream tais, int maxEntries)
+            throws IOException {
+        ArchiveEntry entry;
+        boolean hasEntries = false;
+        int count = 0;
+        while ((entry = tais.getNextEntry()) != null) {
+            if (++count > maxEntries) {
+                return Optional.empty(); // too many entries to classify - fail closed
+            }
+            hasEntries = true;
+            String name = entry.getName();
+
+            // RubyGems: metadata.gz
+            if (name.equals("metadata.gz")) {
+                return Optional.of(Ecosystem.RUBYGEMS);
+            }
+            // Hex: metadata.config
+            if (name.equals("metadata.config")) {
+                return Optional.of(Ecosystem.HEX);
+            }
+        }
+
+        if (!hasEntries) {
+            throw new AnnattoException.MalformedPackageException("TAR archive contains no entries");
+        }
+        return Optional.empty();
     }
 
     /**

@@ -17,8 +17,11 @@ package io.spicelabs.annatto.hex;
 
 /**
  * Exception thrown when parsing Erlang term format fails.
+ *
+ * <p>This is a CHECKED exception: hostile hex metadata must fail loudly across a checked
+ * boundary, never escape silently (code-smell catalog §7).
  */
-final class ErlangTermException extends RuntimeException {
+final class ErlangTermException extends Exception {
 
     ErlangTermException(String message) {
         super(message);

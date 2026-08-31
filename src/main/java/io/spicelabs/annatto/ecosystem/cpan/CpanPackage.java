@@ -18,6 +18,7 @@ import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.Spool;
@@ -440,20 +441,9 @@ public final class CpanPackage implements LanguagePackage {
                     " (" + size + " > " + limits.entryBytes() + ")");
             }
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            int read;
-            long totalRead = 0;
-            while ((read = tarIn.read(buffer)) != -1) {
-                totalRead += read;
-                if (totalRead > limits.entryBytes()) {
-                    throw new AnnattoException.SecurityException(
-                        "Entry exceeds size limit during read");
-                }
-                baos.write(buffer, 0, read);
-            }
-
-            return new ByteArrayInputStream(baos.toByteArray());
+            long declaredSize = currentEntry.isSparse() ? -1 : currentEntry.getSize();
+            return EntryContentStream.bounded(tarIn, currentEntry.getName(), declaredSize,
+                    limits.entryBytes());
         }
 
         @Override
@@ -475,7 +465,7 @@ public final class CpanPackage implements LanguagePackage {
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "Entry-stream decompressed data exceeds per-pass limit: " + filename);

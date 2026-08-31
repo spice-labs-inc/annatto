@@ -19,6 +19,7 @@ import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.ParsedDependency;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.luarocks.LuaTokenizer.LuaParseException;
 import io.spicelabs.annatto.luarocks.LuaTokenizer.Token;
 import io.spicelabs.annatto.luarocks.LuaTokenizer.TokenType;
 import net.jqwik.api.Arbitraries;
@@ -265,7 +266,7 @@ class LuarocksMetadataExtractorPropertyTest {
     void luaEvaluator_stringConcatAssociative(
             @ForAll("shortStrings") String a,
             @ForAll("shortStrings") String b,
-            @ForAll("shortStrings") String c) {
+            @ForAll("shortStrings") String c) throws LuaParseException {
         String source1 = "x = (\"" + escapeLuaString(a) + "\" .. \"" + escapeLuaString(b)
                 + "\") .. \"" + escapeLuaString(c) + "\"";
         String source2 = "x = \"" + escapeLuaString(a) + "\" .. (\"" + escapeLuaString(b)
@@ -285,7 +286,7 @@ class LuarocksMetadataExtractorPropertyTest {
      */
     @Property
     void luaEvaluator_tableConstructorPreservesOrder(
-            @ForAll @IntRange(min = 1, max = 8) int fieldCount) {
+            @ForAll @IntRange(min = 1, max = 8) int fieldCount) throws LuaParseException {
         StringBuilder source = new StringBuilder("t = { ");
         for (int i = 0; i < fieldCount; i++) {
             if (i > 0) source.append(", ");

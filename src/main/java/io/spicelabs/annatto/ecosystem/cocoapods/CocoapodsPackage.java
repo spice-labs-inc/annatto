@@ -19,6 +19,7 @@ import com.github.packageurl.PackageURL;
 import com.google.gson.*;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.PathValidator;
@@ -249,6 +250,8 @@ private static PackageMetadata parseMetadata(String podspecJson)
             throws AnnattoException.MalformedPackageException {
         JsonObject json;
         try {
+            // Depth guard (catalog §8 analog): GSON recursion is unbounded.
+            io.spicelabs.annatto.internal.JsonSecurity.checkDepth(podspecJson);
             JsonElement element = JsonParser.parseString(podspecJson);
             if (!element.isJsonObject()) {
                 throw new AnnattoException.MalformedPackageException("podspec.json is not a JSON object");
@@ -383,21 +386,9 @@ private static PackageMetadata parseMetadata(String podspecJson)
             if (!returned) {
                 throw new IllegalStateException("No current entry");
             }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] buffer = new byte[8192];
-            long total = 0;
-            try (InputStream in = new BufferedInputStream(Files.newInputStream(source.path()), 8192)) {
-                int r;
-                while ((r = in.read(buffer)) != -1) {
-                    total += r;
-                    if (total > limits.entryBytes()) {
-                        throw new AnnattoException.SecurityException(
-                            "Entry exceeds size limit during read");
-                    }
-                    baos.write(buffer, 0, r);
-                }
-            }
-            return new ByteArrayInputStream(baos.toByteArray());
+            InputStream in = new BufferedInputStream(Files.newInputStream(source.path()), 8192);
+            return EntryContentStream.bounded(in, filename, Files.size(source.path()),
+                    limits.entryBytes());
         }
 
         @Override
@@ -514,7 +505,7 @@ private static PackageMetadata parseMetadata(String podspecJson)
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);

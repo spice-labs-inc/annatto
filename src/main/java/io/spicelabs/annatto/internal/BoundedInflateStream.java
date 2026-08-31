@@ -108,6 +108,11 @@ public final class BoundedInflateStream extends InputStream {
             if (r < 0) {
                 break;
             }
+            if (r == 0) {
+                // No-progress delegate: fail loud instead of silently under-consuming
+                // (catalog §5; a short skip would misalign the archive reader).
+                throw new IOException("No progress skipping decompressed content: " + entryName);
+            }
             skipped += r;
             count += r;
             if (count > maxBytes) {
@@ -140,7 +145,7 @@ public final class BoundedInflateStream extends InputStream {
         return count;
     }
 
-    private void failExceeded() {
+    private void failExceeded() throws IOException {
         exceeded = true;
         onExceed.run();
         throw new AnnattoException.SecurityException(
