@@ -43,7 +43,7 @@ public final class AggregateSpoolBudget {
     }
 
     /** Charge {@code n} bytes; throws SecurityException if the aggregate cap would be exceeded. */
-    public void charge(long n) {
+    public void charge(long n) throws java.io.IOException {
         if (n <= 0) {
             return;
         }

@@ -108,7 +108,7 @@ public class BoundedInputStream extends InputStream {
         return read;
     }
 
-    private void checkLimit() {
+    private void checkLimit() throws IOException {
         if (bytesRead > maxBytes) {
             limitExceeded = true;
             throw new AnnattoException.SecurityException(

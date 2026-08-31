@@ -35,7 +35,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Q2 — binary strings are <<"...">> in Erlang term format.
      */
     @Test
-    void tokenize_binaryString() {
+    void tokenize_binaryString() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("<<\"hello\">>").tokenize();
         assertThat(tokens).hasSize(4); // BINARY_OPEN, STRING, BINARY_CLOSE, EOF
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.BINARY_OPEN);
@@ -50,7 +50,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Erlang binaries can contain escaped characters.
      */
     @Test
-    void tokenize_stringWithEscapes() {
+    void tokenize_stringWithEscapes() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("<<\"he\\\"llo\\n\">>").tokenize();
         assertThat(tokens.get(1).value()).isEqualTo("he\"llo\n");
     }
@@ -60,7 +60,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Empty binaries <<>> should tokenize to BINARY_OPEN, BINARY_CLOSE.
      */
     @Test
-    void tokenize_emptyBinary() {
+    void tokenize_emptyBinary() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("<<>>").tokenize();
         assertThat(tokens).hasSize(3); // BINARY_OPEN, BINARY_CLOSE, EOF
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.BINARY_OPEN);
@@ -74,7 +74,7 @@ class ErlangTermTokenizerTest {
      * Rationale: true/false are common in Hex metadata (e.g., optional field).
      */
     @Test
-    void tokenize_booleanAtoms() {
+    void tokenize_booleanAtoms() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("true false").tokenize();
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.ATOM, "true"));
         assertThat(tokens.get(1)).isEqualTo(new Token(TokenType.ATOM, "false"));
@@ -85,7 +85,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Atoms like 'hexpm' appear in requirement repositories.
      */
     @Test
-    void tokenize_barewordAtom() {
+    void tokenize_barewordAtom() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("hexpm").tokenize();
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.ATOM, "hexpm"));
     }
@@ -97,7 +97,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Integer values may appear in metadata.
      */
     @Test
-    void tokenize_positiveInteger() {
+    void tokenize_positiveInteger() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("42").tokenize();
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.INTEGER, "42"));
     }
@@ -107,7 +107,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Negative numbers should be handled correctly.
      */
     @Test
-    void tokenize_negativeInteger() {
+    void tokenize_negativeInteger() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("-7").tokenize();
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.INTEGER, "-7"));
     }
@@ -119,7 +119,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Tuples {key, value} are the core structure in metadata.config.
      */
     @Test
-    void tokenize_tupleDelimiters() {
+    void tokenize_tupleDelimiters() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("{,}").tokenize();
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.TUPLE_OPEN);
         assertThat(tokens.get(1).type()).isEqualTo(TokenType.COMMA);
@@ -131,7 +131,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Lists [elem1, elem2] hold dependencies and licenses.
      */
     @Test
-    void tokenize_listDelimiters() {
+    void tokenize_listDelimiters() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("[,]").tokenize();
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.LIST_OPEN);
         assertThat(tokens.get(1).type()).isEqualTo(TokenType.COMMA);
@@ -143,7 +143,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Each top-level statement ends with a dot.
      */
     @Test
-    void tokenize_dot() {
+    void tokenize_dot() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer(".").tokenize();
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.DOT);
     }
@@ -155,7 +155,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Metadata.config has varied whitespace formatting.
      */
     @Test
-    void tokenize_skipsWhitespace() {
+    void tokenize_skipsWhitespace() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("  true   false  \n  42  ").tokenize();
         assertThat(tokens).hasSize(4); // true, false, 42, EOF
     }
@@ -165,7 +165,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Erlang term files can have % line comments.
      */
     @Test
-    void tokenize_skipsComments() {
+    void tokenize_skipsComments() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("% this is a comment\ntrue").tokenize();
         assertThat(tokens).hasSize(2); // true, EOF
         assertThat(tokens.get(0)).isEqualTo(new Token(TokenType.ATOM, "true"));
@@ -178,7 +178,7 @@ class ErlangTermTokenizerTest {
      * Rationale: The basic unit in metadata.config is {<<"key">>, value}.
      */
     @Test
-    void tokenize_fullStatement() {
+    void tokenize_fullStatement() throws ErlangTermException {
         String input = "{<<\"name\">>,<<\"jason\">>}.";
         List<Token> tokens = new ErlangTermTokenizer(input).tokenize();
         assertThat(tokens.stream().map(Token::type).toList()).containsExactly(
@@ -199,7 +199,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Some Erlang binaries use <<"text"/utf8>> for Unicode content.
      */
     @Test
-    void tokenize_binaryWithUtf8Specifier() {
+    void tokenize_binaryWithUtf8Specifier() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("<<\"née\"/utf8>>").tokenize();
         assertThat(tokens).hasSize(4); // BINARY_OPEN, STRING, BINARY_CLOSE, EOF
         assertThat(tokens.get(1).value()).isEqualTo("née");
@@ -212,7 +212,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Security — prevent DoS via oversized input.
      */
     @Test
-    void tokenize_rejectsOversizedInput() {
+    void tokenize_rejectsOversizedInput() throws ErlangTermException {
         String huge = "a".repeat(ErlangTermTokenizer.MAX_INPUT_SIZE + 1);
         assertThatThrownBy(() -> new ErlangTermTokenizer(huge))
                 .isInstanceOf(ErlangTermException.class)
@@ -224,7 +224,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Security — prevent DoS via inputs that generate excessive tokens.
      */
     @Test
-    void tokenize_rejectsExcessiveTokenCount() {
+    void tokenize_rejectsExcessiveTokenCount() throws ErlangTermException {
         // Each "42," generates 2 tokens (INTEGER + COMMA); need > 50000 tokens
         StringBuilder sb = new StringBuilder("{<<\"k\">>,[");
         int pairsNeeded = (ErlangTermTokenizer.MAX_TOKEN_COUNT / 2) + 1;
@@ -244,7 +244,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Malformed input must produce a clear error.
      */
     @Test
-    void tokenize_rejectsUnexpectedChar() {
+    void tokenize_rejectsUnexpectedChar() throws ErlangTermException {
         assertThatThrownBy(() -> new ErlangTermTokenizer("@").tokenize())
                 .isInstanceOf(ErlangTermException.class)
                 .hasMessageContaining("Unexpected character");
@@ -255,7 +255,7 @@ class ErlangTermTokenizerTest {
      * Rationale: A missing closing quote must produce an error.
      */
     @Test
-    void tokenize_rejectsUnterminatedString() {
+    void tokenize_rejectsUnterminatedString() throws ErlangTermException {
         assertThatThrownBy(() -> new ErlangTermTokenizer("<<\"hello>>").tokenize())
                 .isInstanceOf(ErlangTermException.class)
                 .hasMessageContaining("Unterminated string");
@@ -266,7 +266,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Empty input should produce only EOF.
      */
     @Test
-    void tokenize_emptyInput() {
+    void tokenize_emptyInput() throws ErlangTermException {
         List<Token> tokens = new ErlangTermTokenizer("").tokenize();
         assertThat(tokens).hasSize(1);
         assertThat(tokens.get(0).type()).isEqualTo(TokenType.EOF);
@@ -279,7 +279,7 @@ class ErlangTermTokenizerTest {
      * Rationale: Validates tokenizer against actual Hex package data.
      */
     @Test
-    void tokenize_realMetadataFragment() {
+    void tokenize_realMetadataFragment() throws ErlangTermException {
         String input = """
                 {<<"name">>,<<"jason">>}.
                 {<<"version">>,<<"1.4.1">>}.

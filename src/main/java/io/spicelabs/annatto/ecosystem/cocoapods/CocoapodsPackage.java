@@ -505,7 +505,7 @@ private static PackageMetadata parseMetadata(String podspecJson)
             }
         }
 
-        private void checkBudget() {
+        private void checkBudget() throws java.io.IOException {
             if (budgetExceeded.get()) {
                 throw new AnnattoException.SecurityException(
                     "ZIP entry-stream inflated data exceeds per-pass limit: " + filename);

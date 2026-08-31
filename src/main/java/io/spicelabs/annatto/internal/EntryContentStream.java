@@ -157,7 +157,7 @@ public final class EntryContentStream extends InputStream {
         // here would make the shared tar/zip stream unusable for subsequent entries.
     }
 
-    private void account(int r) {
+    private void account(int r) throws IOException {
         totalRead += r;
         if (totalRead > entryCap) {
             entryLimitHit = true;

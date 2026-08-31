@@ -145,7 +145,7 @@ public final class BoundedInflateStream extends InputStream {
         return count;
     }
 
-    private void failExceeded() {
+    private void failExceeded() throws IOException {
         exceeded = true;
         onExceed.run();
         throw new AnnattoException.SecurityException(

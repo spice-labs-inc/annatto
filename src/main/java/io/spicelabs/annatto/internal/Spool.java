@@ -108,7 +108,9 @@ public final class Spool {
                 out.write(buffer, 0, read);
             }
             out.flush();
-        } catch (IOException | AnnattoException.SecurityException e) {
+        } catch (IOException e) {
+            // AnnattoException.SecurityException is an IOException subtype (checked since
+            // Fresh Scent): a limit violation lands here and propagates as declared.
             budget().release(maxBytes); // release the full reservation
             deleteQuietly(file);
             throw e;

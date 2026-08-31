@@ -43,7 +43,7 @@ public final class JsonSecurity {
      * @param json the attacker-controlled JSON text
      * @throws AnnattoException.MalformedPackageException if nesting exceeds the cap
      */
-    public static void checkDepth(String json) {
+    public static void checkDepth(String json) throws java.io.IOException {
         int depth = 0;
         int n = json.length();
         boolean inString = false;

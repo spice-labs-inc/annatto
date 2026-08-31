@@ -70,9 +70,12 @@ public class AnnattoException extends Exception {
 
     /**
      * Thrown when a package file is structurally invalid or corrupt.
-     * This is a RuntimeException so it doesn't need to be declared in method signatures.
+     *
+     * <p>This is a CHECKED exception (extends {@link java.io.IOException}): hostile input
+     * must fail loudly across a checked boundary — code-smell catalog §7. Callers that
+     * already catch {@code IOException} catch corruption automatically.
      */
-    public static class MalformedPackageException extends RuntimeException {
+    public static class MalformedPackageException extends java.io.IOException {
         /**
          * @param message description of the malformation
          */
@@ -106,10 +109,11 @@ public class AnnattoException extends Exception {
      * Thrown when security limits are violated (ZIP bomb, path traversal, etc.).
      * Test: SecurityLimitsTest validates all security exceptions
      *
-     * <p>Note: This is a RuntimeException so it doesn't need to be declared
-     * in method signatures throughout the codebase.
+     * <p>This is a CHECKED exception (extends {@link java.io.IOException}): a resource-limit
+     * violation must fail loudly across a checked boundary — code-smell catalog §7. Callers
+     * that already catch {@code IOException} catch limit violations automatically.
      */
-    public static class SecurityException extends RuntimeException {
+    public static class SecurityException extends java.io.IOException {
         /**
          * @param message description of the security violation
          */

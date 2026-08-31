@@ -114,10 +114,9 @@ public final class EcosystemRouter {
      * @param path file path
      * @return detected ecosystem, or empty if cannot determine
      * @throws IOException if file cannot be read
-     * @throws AnnattoException.MalformedPackageException if the archive is structurally
-     *         invalid (e.g. contains no entries) — UNCHECKED; callers that must treat
-     *         hostile input as recoverable should catch it explicitly (see
-     *         AnnattoException javadoc for the exception contract).
+     * @throws AnnattoException.MalformedPackageException (an {@code IOException} subtype)
+     *         if the archive is structurally invalid (e.g. contains no entries) — see the
+     *         AnnattoException javadoc for the exception contract.
      */
     public static @NotNull Optional<Ecosystem> route(@NotNull Path path) throws IOException {
         String filename = path.getFileName().toString();
