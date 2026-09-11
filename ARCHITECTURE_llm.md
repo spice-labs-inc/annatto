@@ -216,3 +216,6 @@ class NewPackageContractTest extends LanguagePackageContractTest {
 ```java
 assumeThat(Files.exists(pkg)).isTrue();  // JUnit 5 assumption
 ```
+
+
+Tests shared with Surveyor's integration suite: see `AGENTS.md` (ids, `test-fixtures.json`, provenance).
