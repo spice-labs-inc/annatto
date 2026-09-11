@@ -1,4 +1,5 @@
 {
+   "id": "cpan/DBI-1.643",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

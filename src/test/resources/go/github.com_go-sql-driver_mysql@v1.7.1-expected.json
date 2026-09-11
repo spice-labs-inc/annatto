@@ -1,4 +1,5 @@
 {
+  "id": "go/github.com_go-sql-driver_mysql@v1.7.1",
   "name": "github.com/go-sql-driver/mysql",
   "simpleName": "mysql",
   "version": "v1.7.1",

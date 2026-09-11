@@ -1,4 +1,5 @@
 {
+  "id": "conda/libgcc-ng-11.2.0-h1d223b6_10",
   "name": "libgcc-ng",
   "simpleName": "libgcc-ng",
   "version": "11.2.0",

@@ -1,4 +1,5 @@
 {
+  "id": "hex/livebook-0.12.1",
   "dependencies": [
     {
       "name": "aws_credentials",

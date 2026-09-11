@@ -1,4 +1,5 @@
 {
+  "id": "hex/plug_crypto-2.0.0",
   "dependencies": [],
   "description": "Crypto-related functionality for the web",
   "license": "Apache-2.0",

@@ -1,4 +1,5 @@
 {
+  "id": "hex/dialyxir-1.4.3",
   "dependencies": [
     {
       "name": "erlex",

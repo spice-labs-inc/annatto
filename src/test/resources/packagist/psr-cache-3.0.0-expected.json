@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-cache-3.0.0",
     "name": "psr/cache",
     "simpleName": "cache",
     "version": "3.0.0",

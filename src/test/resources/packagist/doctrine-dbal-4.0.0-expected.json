@@ -1,4 +1,5 @@
 {
+    "id": "packagist/doctrine-dbal-4.0.0",
     "name": "doctrine/dbal",
     "simpleName": "dbal",
     "version": "4.0.0",

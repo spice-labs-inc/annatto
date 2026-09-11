@@ -1,4 +1,5 @@
 {
+  "id": "hex/jose-1.11.9",
   "dependencies": [],
   "description": "JSON Object Signing and Encryption (JOSE) for Erlang and Elixir.",
   "license": "MIT",

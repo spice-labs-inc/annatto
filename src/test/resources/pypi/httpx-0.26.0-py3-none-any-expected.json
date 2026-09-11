@@ -1,4 +1,5 @@
 {
+  "id": "pypi/httpx-0.26.0-py3-none-any",
   "name": "httpx",
   "simpleName": "httpx",
   "version": "0.26.0",

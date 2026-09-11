@@ -1,4 +1,5 @@
 {
+  "id": "npm/vue-compiler-core-3.4.15",
   "name": "@vue/compiler-core",
   "simpleName": "compiler-core",
   "version": "3.4.15",

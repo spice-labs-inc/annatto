@@ -1,4 +1,5 @@
 {
+  "id": "hex/oban-2.17.4",
   "dependencies": [
     {
       "name": "ecto_sql",

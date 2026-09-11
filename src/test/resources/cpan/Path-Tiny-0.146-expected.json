@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Path-Tiny-0.146",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

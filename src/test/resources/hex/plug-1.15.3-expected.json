@@ -1,4 +1,5 @@
 {
+  "id": "hex/plug-1.15.3",
   "dependencies": [
     {
       "name": "mime",

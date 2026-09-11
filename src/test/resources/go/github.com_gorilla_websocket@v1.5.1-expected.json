@@ -1,4 +1,5 @@
 {
+  "id": "go/github.com_gorilla_websocket@v1.5.1",
   "name": "github.com/gorilla/websocket",
   "simpleName": "websocket",
   "version": "v1.5.1",

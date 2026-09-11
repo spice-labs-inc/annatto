@@ -1,4 +1,5 @@
 {
+  "id": "hex/tesla-1.8.0",
   "dependencies": [
     {
       "name": "castore",

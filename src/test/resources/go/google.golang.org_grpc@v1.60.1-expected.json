@@ -1,4 +1,5 @@
 {
+  "id": "go/google.golang.org_grpc@v1.60.1",
   "name": "google.golang.org/grpc",
   "simpleName": "grpc",
   "version": "v1.60.1",

@@ -1,0 +1,41 @@
+{
+  "$comment": [
+    "What Surveyor's integration tests take from this repository, at the commit its jar was built",
+    "from (./build-surveyor expectations). tests[]: unit-test source roots; expectations[]: the data",
+    "files that drive tests (their id field is the test ID); fixtures[]: paths to export by tier",
+    "(0 committed and small, 1 nightly, 2 full corpora); downloads[]: fetched at the given tier."
+  ],
+  "schemaVersion": 1,
+  "component": "annatto",
+  "tests": [
+    "src/test/java"
+  ],
+  "expectations": [
+    {
+      "glob": "src/test/resources/*/*-expected.json",
+      "format": "annatto-expected",
+      "idField": "id",
+      "fixture": {
+        "template": "test-corpus/{dir}/{base}.*",
+        "strip": "-expected.json"
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "src/test/resources",
+      "tier": 0
+    }
+  ],
+  "downloads": [
+    {
+      "url": "https://public-test-data.spice-labs.dev/annatto/annatto-test-corpus.tar.gz",
+      "dest": "test-corpus.tar.gz",
+      "tier": 1,
+      "extract": {
+        "kind": "tgz",
+        "into": "."
+      }
+    }
+  ]
+}

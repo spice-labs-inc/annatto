@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Exporter-5.78",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

@@ -1,4 +1,5 @@
 {
+  "id": "hex/floki-0.35.2",
   "dependencies": [],
   "description": "Floki is a simple HTML parser that enables search for nodes using CSS selectors.",
   "license": "MIT",

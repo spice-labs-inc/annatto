@@ -1,4 +1,5 @@
 {
+  "id": "hex/jason-1.4.1",
   "dependencies": [
     {
       "name": "decimal",

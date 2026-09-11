@@ -1,4 +1,5 @@
 {
+  "id": "go/google.golang.org_genproto@v0.0.0-20240102182953-50ed04b92917",
   "name": "google.golang.org/genproto",
   "simpleName": "genproto",
   "version": "v0.0.0-20240102182953-50ed04b92917",

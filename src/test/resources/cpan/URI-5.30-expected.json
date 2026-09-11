@@ -1,4 +1,5 @@
 {
+   "id": "cpan/URI-5.30",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-dependency-injection-v7.0.3",
     "name": "symfony/dependency-injection",
     "simpleName": "dependency-injection",
     "version": "7.0.3",

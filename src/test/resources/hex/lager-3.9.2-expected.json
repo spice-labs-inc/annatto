@@ -1,4 +1,5 @@
 {
+  "id": "hex/lager-3.9.2",
   "dependencies": [
     {
       "name": "goldrush",

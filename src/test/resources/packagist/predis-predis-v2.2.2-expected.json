@@ -1,4 +1,5 @@
 {
+    "id": "packagist/predis-predis-v2.2.2",
     "name": "predis/predis",
     "simpleName": "predis",
     "version": "2.2.2",

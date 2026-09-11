@@ -1,4 +1,5 @@
 {
+  "id": "conda/scikit-learn-1.4.0-py310h1fdf081_0",
   "name": "scikit-learn",
   "simpleName": "scikit-learn",
   "version": "1.4.0",

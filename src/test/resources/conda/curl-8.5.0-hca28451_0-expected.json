@@ -1,4 +1,5 @@
 {
+  "id": "conda/curl-8.5.0-hca28451_0",
   "name": "curl",
   "simpleName": "curl",
   "version": "8.5.0",

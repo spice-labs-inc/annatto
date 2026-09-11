@@ -1,4 +1,5 @@
 {
+  "id": "conda/cryptography-42.0.0-py310hb8475ec_0",
   "name": "cryptography",
   "simpleName": "cryptography",
   "version": "42.0.0",

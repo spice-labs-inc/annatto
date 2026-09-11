@@ -1,4 +1,5 @@
 {
+   "id": "cpan/DBD-SQLite-1.76",
    "dependencies" : [
       {
          "name" : "File::Spec",

@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-process-v7.0.3",
     "name": "symfony/process",
     "simpleName": "process",
     "version": "7.0.3",

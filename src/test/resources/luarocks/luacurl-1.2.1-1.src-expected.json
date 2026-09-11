@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/luacurl-1.2.1-1.src",
   "name": "LuaCURL",
   "simpleName": "LuaCURL",
   "version": "1.2.1-1",

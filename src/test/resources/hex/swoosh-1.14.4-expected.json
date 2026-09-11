@@ -1,4 +1,5 @@
 {
+  "id": "hex/swoosh-1.14.4",
   "dependencies": [
     {
       "name": "cowboy",

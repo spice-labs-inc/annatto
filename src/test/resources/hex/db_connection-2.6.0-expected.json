@@ -1,4 +1,5 @@
 {
+  "id": "hex/db_connection-2.6.0",
   "dependencies": [
     {
       "name": "telemetry",

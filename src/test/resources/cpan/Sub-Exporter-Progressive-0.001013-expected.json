@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Sub-Exporter-Progressive-0.001013",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

@@ -1,4 +1,5 @@
 {
+  "id": "go/google.golang.org_protobuf@v1.32.0",
   "name": "google.golang.org/protobuf",
   "simpleName": "protobuf",
   "version": "v1.32.0",

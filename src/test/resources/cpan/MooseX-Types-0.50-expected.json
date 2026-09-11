@@ -1,4 +1,5 @@
 {
+   "id": "cpan/MooseX-Types-0.50",
    "dependencies" : [
       {
          "name" : "Module::Build::Tiny",

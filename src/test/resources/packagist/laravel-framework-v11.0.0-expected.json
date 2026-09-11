@@ -1,4 +1,5 @@
 {
+    "id": "packagist/laravel-framework-v11.0.0",
     "name": "laravel/framework",
     "simpleName": "framework",
     "version": "11.0.0",

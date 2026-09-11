@@ -1,4 +1,5 @@
 {
+   "id": "cpan/App-cpanminus-1.7047",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

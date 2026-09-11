@@ -1,4 +1,5 @@
 {
+    "id": "packagist/composer-composer-2.7.1",
     "name": "composer/composer",
     "simpleName": "composer",
     "version": "2.7.1",

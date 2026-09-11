@@ -1,4 +1,5 @@
 {
+  "id": "hex/req-0.4.8",
   "dependencies": [
     {
       "name": "brotli",

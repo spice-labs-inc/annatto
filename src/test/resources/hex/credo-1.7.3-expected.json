@@ -1,4 +1,5 @@
 {
+  "id": "hex/credo-1.7.3",
   "dependencies": [
     {
       "name": "bunt",

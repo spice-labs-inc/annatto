@@ -1,4 +1,5 @@
 {
+  "id": "go/golang.org_x_net@v0.20.0",
   "name": "golang.org/x/net",
   "simpleName": "net",
   "version": "v0.20.0",

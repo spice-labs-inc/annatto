@@ -1,4 +1,5 @@
 {
+   "id": "cpan/DBIx-Class-0.082843",
    "dependencies" : [
       {
          "name" : "DBD::SQLite",

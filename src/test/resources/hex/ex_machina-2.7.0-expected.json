@@ -1,4 +1,5 @@
 {
+  "id": "hex/ex_machina-2.7.0",
   "dependencies": [
     {
       "name": "ecto",

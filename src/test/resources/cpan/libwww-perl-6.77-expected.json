@@ -1,4 +1,5 @@
 {
+   "id": "cpan/libwww-perl-6.77",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

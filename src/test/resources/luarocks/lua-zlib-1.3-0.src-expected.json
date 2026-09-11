@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/lua-zlib-1.3-0.src",
   "name": "lua-zlib",
   "simpleName": "lua-zlib",
   "version": "1.3-0",

@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-container-2.0.2",
     "name": "psr/container",
     "simpleName": "container",
     "version": "2.0.2",

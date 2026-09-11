@@ -1,4 +1,5 @@
 {
+  "id": "conda/boto3-1.34.0-pyhd8ed1ab_0",
   "name": "boto3",
   "simpleName": "boto3",
   "version": "1.34.0",

@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Minion-10.30",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

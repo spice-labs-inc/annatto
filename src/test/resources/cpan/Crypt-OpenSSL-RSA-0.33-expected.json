@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Crypt-OpenSSL-RSA-0.33",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

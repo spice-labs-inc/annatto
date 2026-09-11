@@ -1,4 +1,5 @@
 {
+   "id": "cpan/HTTP-Message-7.00",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

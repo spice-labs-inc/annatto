@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-clock-1.0.0",
     "name": "psr/clock",
     "simpleName": "clock",
     "version": "1.0.0",

@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-routing-v7.0.3",
     "name": "symfony/routing",
     "simpleName": "routing",
     "version": "7.0.3",

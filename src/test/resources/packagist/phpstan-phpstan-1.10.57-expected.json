@@ -1,4 +1,5 @@
 {
+    "id": "packagist/phpstan-phpstan-1.10.57",
     "name": "phpstan/phpstan",
     "simpleName": "phpstan",
     "version": "1.10.57",

@@ -1,4 +1,5 @@
 {
+  "id": "hex/guardian-2.3.2",
   "dependencies": [
     {
       "name": "jose",

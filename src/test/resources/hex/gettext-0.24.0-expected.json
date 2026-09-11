@@ -1,4 +1,5 @@
 {
+  "id": "hex/gettext-0.24.0",
   "dependencies": [
     {
       "name": "expo",

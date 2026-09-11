@@ -1,4 +1,5 @@
 {
+    "id": "packagist/ramsey-uuid-4.7.5",
     "name": "ramsey/uuid",
     "simpleName": "uuid",
     "version": "4.7.5",

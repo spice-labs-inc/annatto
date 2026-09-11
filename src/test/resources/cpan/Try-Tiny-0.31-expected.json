@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Try-Tiny-0.31",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",
