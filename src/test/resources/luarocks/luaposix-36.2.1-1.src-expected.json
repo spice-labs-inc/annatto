@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/luaposix-36.2.1-1.src",
   "name": "luaposix",
   "simpleName": "luaposix",
   "version": "36.2.1-1",

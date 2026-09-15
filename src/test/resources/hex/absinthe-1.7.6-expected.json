@@ -1,4 +1,5 @@
 {
+  "id": "hex/absinthe-1.7.6",
   "dependencies": [
     {
       "name": "dataloader",

@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Encode-3.21",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

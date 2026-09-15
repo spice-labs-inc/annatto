@@ -1,4 +1,5 @@
 {
+  "id": "pypi/numpy-1.26.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64",
   "name": "numpy",
   "simpleName": "numpy",
   "version": "1.26.3",

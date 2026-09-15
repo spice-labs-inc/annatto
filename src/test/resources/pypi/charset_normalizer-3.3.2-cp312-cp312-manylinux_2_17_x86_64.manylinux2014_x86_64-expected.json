@@ -1,4 +1,5 @@
 {
+  "id": "pypi/charset_normalizer-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64",
   "name": "charset-normalizer",
   "simpleName": "charset-normalizer",
   "version": "3.3.2",

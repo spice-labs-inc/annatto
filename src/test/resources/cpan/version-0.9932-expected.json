@@ -1,4 +1,5 @@
 {
+   "id": "cpan/version-0.9932",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

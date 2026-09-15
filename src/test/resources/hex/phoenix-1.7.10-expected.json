@@ -1,4 +1,5 @@
 {
+  "id": "hex/phoenix-1.7.10",
   "dependencies": [
     {
       "name": "castore",

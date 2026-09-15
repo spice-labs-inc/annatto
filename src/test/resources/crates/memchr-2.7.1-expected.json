@@ -1,4 +1,5 @@
 {
+  "id": "crates/memchr-2.7.1",
   "name": "memchr",
   "simpleName": "memchr",
   "version": "2.7.1",

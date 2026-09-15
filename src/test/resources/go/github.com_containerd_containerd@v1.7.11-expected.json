@@ -1,4 +1,5 @@
 {
+  "id": "go/github.com_containerd_containerd@v1.7.11",
   "name": "github.com/containerd/containerd",
   "simpleName": "containerd",
   "version": "v1.7.11",

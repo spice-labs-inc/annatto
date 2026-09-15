@@ -1,4 +1,5 @@
 {
+  "id": "go/gopkg.in_check.v1@v1.0.0-20201130134442-10cb98267c6c",
   "name": "gopkg.in/check.v1",
   "simpleName": "check.v1",
   "version": "v1.0.0-20201130134442-10cb98267c6c",

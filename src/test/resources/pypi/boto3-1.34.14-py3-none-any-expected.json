@@ -1,4 +1,5 @@
 {
+  "id": "pypi/boto3-1.34.14-py3-none-any",
   "name": "boto3",
   "simpleName": "boto3",
   "version": "1.34.14",

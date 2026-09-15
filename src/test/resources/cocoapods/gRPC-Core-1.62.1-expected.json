@@ -1,4 +1,5 @@
 {
+  "id": "cocoapods/gRPC-Core-1.62.1",
   "name": "gRPC-Core",
   "simpleName": "gRPC-Core",
   "version": "1.62.1",

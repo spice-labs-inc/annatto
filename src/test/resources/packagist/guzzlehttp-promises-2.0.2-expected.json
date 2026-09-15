@@ -1,4 +1,5 @@
 {
+    "id": "packagist/guzzlehttp-promises-2.0.2",
     "name": "guzzlehttp/promises",
     "simpleName": "promises",
     "version": "2.0.2",

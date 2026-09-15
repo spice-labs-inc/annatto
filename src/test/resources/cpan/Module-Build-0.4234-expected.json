@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Module-Build-0.4234",
    "dependencies" : [
       {
          "name" : "CPAN::Meta",

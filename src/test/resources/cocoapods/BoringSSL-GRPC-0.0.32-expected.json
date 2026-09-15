@@ -1,4 +1,5 @@
 {
+  "id": "cocoapods/BoringSSL-GRPC-0.0.32",
   "name": "BoringSSL-GRPC",
   "simpleName": "BoringSSL-GRPC",
   "version": "0.0.32",

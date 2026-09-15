@@ -1,4 +1,5 @@
 {
+  "id": "hex/hackney-1.20.1",
   "dependencies": [
     {
       "name": "certifi",

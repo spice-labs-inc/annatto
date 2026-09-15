@@ -61,7 +61,10 @@ public final class SourceOfTruthLoader {
         String ecosystem,
         String packageFilename,
         Path packagePath,
-        Path expectedJsonPath
+        Path expectedJsonPath,
+        /** Test ID shared with Surveyor's integration tests: {@code <ecosystem>/<name>-<version>},
+         *  the {@code id} field of the expected JSON. */
+        String id
     ) {
         /**
          * Loads and returns the expected JSON content.
@@ -74,7 +77,7 @@ public final class SourceOfTruthLoader {
 
         @Override
         public String toString() {
-            return ecosystem + "/" + packageFilename;
+            return id;
         }
     }
 
@@ -177,11 +180,33 @@ public final class SourceOfTruthLoader {
                 ecosystem,
                 packagePath.getFileName().toString(),
                 packagePath,
-                jsonPath
+                jsonPath,
+                requireId(jsonPath, ecosystem + "/" + baseName)
             ));
         }
 
         return testCases;
+    }
+
+    /**
+     * Reads the {@code id} of an expected JSON file and checks it is the expected test ID
+     * ({@code <ecosystem>/<name>-<version>}). The id is what Surveyor's integration tests
+     * use to pair their cases with these unit tests, so it must be present and stable.
+     */
+    static String requireId(Path jsonPath, String expected) {
+        try (Reader reader = Files.newBufferedReader(jsonPath)) {
+            JsonObject json = GSON.fromJson(reader, JsonObject.class);
+            if (json == null || !json.has("id") || !json.get("id").isJsonPrimitive()) {
+                throw new AssertionError(jsonPath + ": missing \"id\" (expected \"" + expected + "\")");
+            }
+            String id = json.get("id").getAsString();
+            if (!expected.equals(id)) {
+                throw new AssertionError(jsonPath + ": id is \"" + id + "\" but the file name says \"" + expected + "\"");
+            }
+            return id;
+        } catch (IOException e) {
+            throw new AssertionError("Cannot read " + jsonPath, e);
+        }
     }
 
     /**

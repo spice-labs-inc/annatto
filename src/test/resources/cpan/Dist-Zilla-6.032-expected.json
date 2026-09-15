@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Dist-Zilla-6.032",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

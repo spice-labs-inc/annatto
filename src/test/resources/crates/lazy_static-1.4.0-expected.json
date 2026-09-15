@@ -1,4 +1,5 @@
 {
+  "id": "crates/lazy_static-1.4.0",
   "name": "lazy_static",
   "simpleName": "lazy_static",
   "version": "1.4.0",

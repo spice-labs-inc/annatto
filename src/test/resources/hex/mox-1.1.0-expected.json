@@ -1,4 +1,5 @@
 {
+  "id": "hex/mox-1.1.0",
   "dependencies": [],
   "description": "Mocks and explicit contracts for Elixir",
   "license": "Apache-2.0",

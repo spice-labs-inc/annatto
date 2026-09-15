@@ -1,4 +1,5 @@
 {
+  "id": "go/go.uber.org_zap@v1.26.0",
   "name": "go.uber.org/zap",
   "simpleName": "zap",
   "version": "v1.26.0",

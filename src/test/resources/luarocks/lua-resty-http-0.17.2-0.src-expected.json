@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/lua-resty-http-0.17.2-0.src",
   "name": "lua-resty-http",
   "simpleName": "lua-resty-http",
   "version": "0.17.2-0",

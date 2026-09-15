@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/luafilesystem-1.8.0-1.src",
   "name": "LuaFileSystem",
   "simpleName": "LuaFileSystem",
   "version": "1.8.0-1",

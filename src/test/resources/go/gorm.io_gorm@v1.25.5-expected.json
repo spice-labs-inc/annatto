@@ -1,4 +1,5 @@
 {
+  "id": "go/gorm.io_gorm@v1.25.5",
   "name": "gorm.io/gorm",
   "simpleName": "gorm",
   "version": "v1.25.5",

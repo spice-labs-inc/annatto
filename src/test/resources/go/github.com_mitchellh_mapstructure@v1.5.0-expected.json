@@ -1,4 +1,5 @@
 {
+  "id": "go/github.com_mitchellh_mapstructure@v1.5.0",
   "name": "github.com/mitchellh/mapstructure",
   "simpleName": "mapstructure",
   "version": "v1.5.0",

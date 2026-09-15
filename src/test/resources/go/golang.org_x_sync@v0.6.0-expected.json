@@ -1,4 +1,5 @@
 {
+  "id": "go/golang.org_x_sync@v0.6.0",
   "name": "golang.org/x/sync",
   "simpleName": "sync",
   "version": "v0.6.0",

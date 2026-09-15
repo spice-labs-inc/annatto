@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-http-server-handler-1.0.2",
     "name": "psr/http-server-handler",
     "simpleName": "http-server-handler",
     "version": "1.0.2",

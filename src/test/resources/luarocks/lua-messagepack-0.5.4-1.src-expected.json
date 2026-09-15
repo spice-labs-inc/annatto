@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/lua-messagepack-0.5.4-1.src",
   "name": "lua-MessagePack",
   "simpleName": "lua-MessagePack",
   "version": "0.5.4-1",

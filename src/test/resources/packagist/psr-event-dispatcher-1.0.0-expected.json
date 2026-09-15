@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-event-dispatcher-1.0.0",
     "name": "psr/event-dispatcher",
     "simpleName": "event-dispatcher",
     "version": "1.0.0",

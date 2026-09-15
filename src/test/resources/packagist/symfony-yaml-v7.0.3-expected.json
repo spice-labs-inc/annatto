@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-yaml-v7.0.3",
     "name": "symfony/yaml",
     "simpleName": "yaml",
     "version": "7.0.3",

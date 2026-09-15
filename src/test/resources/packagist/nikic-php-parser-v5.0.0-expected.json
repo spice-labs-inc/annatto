@@ -1,4 +1,5 @@
 {
+    "id": "packagist/nikic-php-parser-v5.0.0",
     "name": "nikic/php-parser",
     "simpleName": "php-parser",
     "version": "5.0.0",

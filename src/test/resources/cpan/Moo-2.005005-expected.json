@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Moo-2.005005",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

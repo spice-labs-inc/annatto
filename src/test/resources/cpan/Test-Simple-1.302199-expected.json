@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Test-Simple-1.302199",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

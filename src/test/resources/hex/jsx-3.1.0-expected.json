@@ -1,4 +1,5 @@
 {
+  "id": "hex/jsx-3.1.0",
   "dependencies": [],
   "description": "a streaming, evented json parsing toolkit",
   "license": "MIT",

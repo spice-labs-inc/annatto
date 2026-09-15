@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-http-foundation-v7.0.3",
     "name": "symfony/http-foundation",
     "simpleName": "http-foundation",
     "version": "7.0.3",

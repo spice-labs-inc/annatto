@@ -1,4 +1,5 @@
 {
+  "id": "hex/ecto_sql-3.11.1",
   "dependencies": [
     {
       "name": "db_connection",

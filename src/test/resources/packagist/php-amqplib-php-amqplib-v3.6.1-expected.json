@@ -1,4 +1,5 @@
 {
+    "id": "packagist/php-amqplib-php-amqplib-v3.6.1",
     "name": "php-amqplib/php-amqplib",
     "simpleName": "php-amqplib",
     "version": "3.6.1",

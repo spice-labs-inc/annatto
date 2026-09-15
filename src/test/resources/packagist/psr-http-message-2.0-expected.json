@@ -1,4 +1,5 @@
 {
+    "id": "packagist/psr-http-message-2.0",
     "name": "psr/http-message",
     "simpleName": "http-message",
     "version": "2.0",

@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Class-Accessor-0.51",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

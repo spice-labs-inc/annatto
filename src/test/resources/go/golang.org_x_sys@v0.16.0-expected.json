@@ -1,4 +1,5 @@
 {
+  "id": "go/golang.org_x_sys@v0.16.0",
   "name": "golang.org/x/sys",
   "simpleName": "sys",
   "version": "v0.16.0",

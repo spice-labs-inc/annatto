@@ -1,4 +1,5 @@
 {
+   "id": "cpan/CPAN-Meta-2.150010",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

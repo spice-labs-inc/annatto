@@ -1,4 +1,5 @@
 {
+  "id": "hex/ranch-2.1.0",
   "dependencies": [],
   "description": "Socket acceptor pool for TCP protocols.",
   "license": "ISC",

@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Mojolicious-9.37",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

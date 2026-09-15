@@ -1,4 +1,5 @@
 {
+  "id": "luarocks/luacheck-1.2.0-1.src",
   "name": "luacheck",
   "simpleName": "luacheck",
   "version": "1.2.0-1",

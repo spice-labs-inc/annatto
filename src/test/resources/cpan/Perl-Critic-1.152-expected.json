@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Perl-Critic-1.152",
    "dependencies" : [
       {
          "name" : "B::Keywords",

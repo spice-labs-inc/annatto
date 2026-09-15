@@ -1,4 +1,5 @@
 {
+  "id": "hex/nimble_csv-1.2.0",
   "dependencies": [],
   "description": "A simple and fast CSV parsing and dumping library",
   "license": "Apache-2.0",

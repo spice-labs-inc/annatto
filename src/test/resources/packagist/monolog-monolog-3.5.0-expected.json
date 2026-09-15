@@ -1,4 +1,5 @@
 {
+    "id": "packagist/monolog-monolog-3.5.0",
     "name": "monolog/monolog",
     "simpleName": "monolog",
     "version": "3.5.0",

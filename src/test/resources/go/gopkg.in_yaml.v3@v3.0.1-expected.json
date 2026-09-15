@@ -1,4 +1,5 @@
 {
+  "id": "go/gopkg.in_yaml.v3@v3.0.1",
   "name": "gopkg.in/yaml.v3",
   "simpleName": "yaml.v3",
   "version": "v3.0.1",

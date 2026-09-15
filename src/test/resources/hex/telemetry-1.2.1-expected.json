@@ -1,4 +1,5 @@
 {
+  "id": "hex/telemetry-1.2.1",
   "dependencies": [],
   "description": "Dynamic dispatching library for metrics and instrumentations",
   "license": "Apache-2.0",

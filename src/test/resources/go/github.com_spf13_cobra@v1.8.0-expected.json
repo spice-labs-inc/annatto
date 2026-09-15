@@ -1,4 +1,5 @@
 {
+  "id": "go/github.com_spf13_cobra@v1.8.0",
   "name": "github.com/spf13/cobra",
   "simpleName": "cobra",
   "version": "v1.8.0",

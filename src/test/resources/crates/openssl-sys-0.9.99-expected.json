@@ -1,4 +1,5 @@
 {
+  "id": "crates/openssl-sys-0.9.99",
   "name": "openssl-sys",
   "simpleName": "openssl-sys",
   "version": "0.9.99",

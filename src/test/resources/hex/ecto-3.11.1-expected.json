@@ -1,4 +1,5 @@
 {
+  "id": "hex/ecto-3.11.1",
   "dependencies": [
     {
       "name": "decimal",

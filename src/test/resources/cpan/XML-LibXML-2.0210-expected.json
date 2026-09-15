@@ -1,4 +1,5 @@
 {
+   "id": "cpan/XML-LibXML-2.0210",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

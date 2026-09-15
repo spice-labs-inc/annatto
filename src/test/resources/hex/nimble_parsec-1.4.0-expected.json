@@ -1,4 +1,5 @@
 {
+  "id": "hex/nimble_parsec-1.4.0",
   "dependencies": [],
   "description": "A simple and fast library for text-based parser combinators",
   "license": "Apache-2.0",

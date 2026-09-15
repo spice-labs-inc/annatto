@@ -1,4 +1,5 @@
 {
+   "id": "cpan/Log-Log4perl-1.57",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

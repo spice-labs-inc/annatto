@@ -1,4 +1,5 @@
 {
+  "id": "crates/tokio-macros-2.2.0",
   "name": "tokio-macros",
   "simpleName": "tokio-macros",
   "version": "2.2.0",

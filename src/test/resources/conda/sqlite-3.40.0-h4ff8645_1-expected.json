@@ -1,4 +1,5 @@
 {
+  "id": "conda/sqlite-3.40.0-h4ff8645_1",
   "name": "sqlite",
   "simpleName": "sqlite",
   "version": "3.40.0",

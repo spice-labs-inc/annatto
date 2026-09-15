@@ -1,4 +1,5 @@
 {
+  "id": "pypi/SQLAlchemy-2.0.25-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64",
   "name": "SQLAlchemy",
   "simpleName": "SQLAlchemy",
   "version": "2.0.25",

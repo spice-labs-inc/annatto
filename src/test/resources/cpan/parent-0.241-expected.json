@@ -1,4 +1,5 @@
 {
+   "id": "cpan/parent-0.241",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

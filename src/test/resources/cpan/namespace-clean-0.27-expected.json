@@ -1,4 +1,5 @@
 {
+   "id": "cpan/namespace-clean-0.27",
    "dependencies" : [
       {
          "name" : "ExtUtils::MakeMaker",

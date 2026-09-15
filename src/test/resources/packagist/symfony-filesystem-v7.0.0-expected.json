@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-filesystem-v7.0.0",
     "name": "symfony/filesystem",
     "simpleName": "filesystem",
     "version": "7.0.0",

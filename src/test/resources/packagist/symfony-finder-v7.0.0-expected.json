@@ -1,4 +1,5 @@
 {
+    "id": "packagist/symfony-finder-v7.0.0",
     "name": "symfony/finder",
     "simpleName": "finder",
     "version": "7.0.0",

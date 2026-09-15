@@ -1,4 +1,5 @@
 {
+  "id": "conda/matplotlib-base-3.8.2-py310h62c0568_0",
   "name": "matplotlib-base",
   "simpleName": "matplotlib-base",
   "version": "3.8.2",

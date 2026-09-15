@@ -1,4 +1,5 @@
 {
+  "id": "crates/rayon-1.8.1",
   "name": "rayon",
   "simpleName": "rayon",
   "version": "1.8.1",
