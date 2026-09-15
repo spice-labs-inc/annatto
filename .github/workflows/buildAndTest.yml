@@ -14,14 +14,14 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
 
       - name: Cache test corpus
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: test-corpus
           key: test-corpus-v2-${{ hashFiles('src/test/resources/**/*.json') }}
@@ -35,14 +35,14 @@ jobs:
         run: mvn verify
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
-          file: target/site/jacoco/jacoco.xml
+          files: target/site/jacoco/jacoco.xml
         continue-on-error: true
 
       - name: Archive test reports
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-reports
           path: |
@@ -58,14 +58,14 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
 
       - name: Cache test corpus
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: test-corpus
           key: test-corpus-v2-${{ hashFiles('src/test/resources/**/*.json') }}
@@ -81,7 +81,7 @@ jobs:
 
       - name: Archive SoT test reports
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: source-of-truth-reports
           path: target/surefire-reports/
