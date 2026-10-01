@@ -17,6 +17,7 @@ package io.spicelabs.annatto.ecosystem.cpan;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
+import io.spicelabs.annatto.common.PurlBuilder;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
@@ -33,6 +34,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A CPAN (Perl) package (.tar.gz archive).
@@ -47,8 +50,14 @@ public final class CpanPackage implements LanguagePackage {
     private static final String MIME_TYPE = "application/gzip";
     private static final int MAX_METADATA_SIZE = 10 * 1024 * 1024; // 10MB
 
+    /** A CPAN mirror path {@code authors/id/E/ET/ETHER/}, whose last directory is the uploader's PAUSE id. */
+    private static final Pattern MIRROR_PATH =
+        Pattern.compile("(?:^|[/\\\\])authors[/\\\\]id[/\\\\]([A-Z])[/\\\\](\\1[A-Z0-9-])[/\\\\]([A-Z][A-Z0-9-]*)[/\\\\]");
+    private static final Pattern PAUSE_ID = Pattern.compile("[A-Z][A-Z0-9-]{1,8}");
+
     private final String filename;
     private final PackageMetadata metadata;
+    private final Optional<String> pauseId;
     private final PackageSource source;
     private final Limits limits;
     private final AtomicBoolean streamOpen = new AtomicBoolean(false);
@@ -63,7 +72,8 @@ public final class CpanPackage implements LanguagePackage {
      */
     public static CpanPackage fromPath(Path path)
             throws IOException, AnnattoException.MalformedPackageException {
-        return fromSource(new PackageSource.PathSource(path), basename(path), Limits.DEFAULT);
+        return fromSource(new PackageSource.PathSource(path), basename(path),
+                pauseIdFromPath(path.toAbsolutePath().toString()), Limits.DEFAULT);
     }
 
     /**
@@ -103,10 +113,11 @@ public final class CpanPackage implements LanguagePackage {
         PackageSource.SpooledSource src = new PackageSource.SpooledSource(
                 spooled.path(),
                 Spool.registration(spooled.path(), spooled.chargedBytes(), new AtomicBoolean(false)));
-        return fromSource(src, basename(filename), limits);
+        return fromSource(src, basename(filename), pauseIdFromPath(filename), limits);
     }
 
-    private static CpanPackage fromSource(PackageSource source, String filename, Limits limits)
+    private static CpanPackage fromSource(PackageSource source, String filename,
+            Optional<String> pathPauseId, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
         Map<String, Object> meta;
         try {
@@ -115,14 +126,20 @@ public final class CpanPackage implements LanguagePackage {
             source.releaseResources();
             throw e;
         }
-        PackageMetadata metadata = parseMetadata(meta);
-        return new CpanPackage(filename, source, metadata, limits);
+        // The mirror path names the uploader; x_authority names the owner, so the path wins.
+        Optional<String> pauseId = pathPauseId.isPresent()
+            ? pathPauseId
+            : pauseIdFromAuthority(getString(meta, "x_authority"));
+        PackageMetadata metadata = parseMetadata(meta, pauseId);
+        return new CpanPackage(filename, source, metadata, pauseId, limits);
     }
 
-    private CpanPackage(String filename, PackageSource source, PackageMetadata metadata, Limits limits) {
+    private CpanPackage(String filename, PackageSource source, PackageMetadata metadata,
+            Optional<String> pauseId, Limits limits) {
         this.filename = filename;
         this.source = source;
         this.metadata = metadata;
+        this.pauseId = pauseId;
         this.limits = limits;
     }
 
@@ -151,25 +168,23 @@ public final class CpanPackage implements LanguagePackage {
         return metadata;
     }
 
+    /**
+     * The cpan purl, {@code pkg:cpan/PAUSEID/Dist-Name@version}. The purl spec requires the
+     * PAUSE id as namespace, so no purl is produced when it is unknown (neither a CPAN mirror
+     * path nor META {@code x_authority} supplied one).
+     */
     @Override
     public @NotNull Optional<PackageURL> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
-        if (name.isEmpty() || version.isEmpty()) {
+        if (name.isEmpty() || version.isEmpty() || pauseId.isEmpty()) {
             return Optional.empty();
         }
 
         try {
-            // CPAN uses double-colon separators, convert to / for namespace
-            String normalized = name.replace("::", "/");
-            int lastSlash = normalized.lastIndexOf('/');
-            if (lastSlash > 0) {
-                String namespace = normalized.substring(0, lastSlash);
-                String pkgName = normalized.substring(lastSlash + 1);
-                return Optional.of(new PackageURL("cpan", namespace, pkgName, version, null, null));
-            }
-            return Optional.of(new PackageURL("cpan", null, normalized, version, null, null));
+            // Old META.yml files sometimes give the main module name rather than the distribution name
+            return Optional.of(PurlBuilder.forCpan(name.replace("::", "-"), version, pauseId));
         } catch (MalformedPackageURLException e) {
             return Optional.empty();
         }
@@ -254,6 +269,7 @@ public final class CpanPackage implements LanguagePackage {
         result.put("abstract", extractJsonString(json, "abstract"));
         result.put("license", extractJsonArray(json, "license"));
         result.put("author", extractJsonArray(json, "author"));
+        result.put("x_authority", extractJsonString(json, "x_authority"));
         return result;
     }
 
@@ -303,6 +319,8 @@ public final class CpanPackage implements LanguagePackage {
                     if (!license.isEmpty()) {
                         result.put("license", List.of(license));
                     }
+                } else if (line.startsWith("x_authority: ") && !result.containsKey("x_authority")) {
+                    result.put("x_authority", stripYamlQuotes(line.substring(13).trim()));
                 }
             }
         }
@@ -317,7 +335,32 @@ public final class CpanPackage implements LanguagePackage {
         return value;
     }
 
-    private static PackageMetadata parseMetadata(Map<String, Object> meta) {
+    /**
+     * The PAUSE id from a CPAN mirror path such as {@code .../authors/id/E/ET/ETHER/Moose-2.2207.tar.gz}.
+     */
+    static Optional<String> pauseIdFromPath(@Nullable String path) {
+        if (path == null) {
+            return Optional.empty();
+        }
+        Matcher m = MIRROR_PATH.matcher(path);
+        if (m.find() && m.group(3).startsWith(m.group(2)) && PAUSE_ID.matcher(m.group(3)).matches()) {
+            return Optional.of(m.group(3));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * The PAUSE id from a META {@code x_authority} value of the form {@code cpan:ETHER}.
+     */
+    static Optional<String> pauseIdFromAuthority(@Nullable String authority) {
+        if (authority == null || !authority.regionMatches(true, 0, "cpan:", 0, 5)) {
+            return Optional.empty();
+        }
+        String id = authority.substring(5).trim().toUpperCase(Locale.ROOT);
+        return PAUSE_ID.matcher(id).matches() ? Optional.of(id) : Optional.empty();
+    }
+
+    private static PackageMetadata parseMetadata(Map<String, Object> meta, Optional<String> pauseId) {
         String name = getString(meta, "name");
         String version = getString(meta, "version");
 
@@ -329,6 +372,7 @@ public final class CpanPackage implements LanguagePackage {
         Optional<String> license = extractLicense(meta);
 
         Map<String, Object> raw = new HashMap<>();
+        pauseId.ifPresent(id -> raw.put("pauseId", id));
 
         return new PackageMetadata(
             name,

@@ -262,7 +262,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Packagist: Platform dependency filtering
 - Conda: v1 (.tar.bz2) vs v2 (.conda) format
 - CocoaPods: JSON podspec parsing, author extraction
-- CPAN: META.json vs META.yml, `::` namespace conversion
+- CPAN: META.json vs META.yml, PAUSE id namespace from mirror path or `x_authority`
 - Hex: Erlang term format parsing
 - LuaRocks: .rockspec vs .rock format, version revision handling
 

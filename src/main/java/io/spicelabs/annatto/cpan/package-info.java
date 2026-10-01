@@ -30,7 +30,8 @@
  * <p>(pipeline tested by 9 parameterized SoT tests in {@code CpanMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
  * <h2>PURL Format</h2>
- * <p>{@code pkg:cpan/Distribution-Name@version} — no namespace (PAUSE ID unavailable).
+ * <p>{@code pkg:cpan/PAUSEID/Distribution-Name@version} — the PAUSE id comes from a CPAN mirror
+ * path ({@code authors/id/E/ET/ETHER/}) or META {@code x_authority}; with neither, no PURL.
  * (tested by {@code PurlBuilderTest.forCpan_withPauseId})</p>
  *
  * <h2>Key Classes</h2>

@@ -33,10 +33,12 @@ package io.spicelabs.annatto.cpan;
  *       (e.g. {@code Moose::Role}). We use the distribution name as both name and simpleName.
  *       Tested by: {@code extractName_matchesSourceOfTruth}.</li>
  *
- *   <li><b>Q3: PAUSE ID unavailable from tarball</b> — The PAUSE author ID is encoded in
- *       the CPAN upload path but is not present in the distribution metadata itself. We pass
- *       {@link java.util.Optional#empty()} for the PURL namespace.
- *       Tested by: {@code getPurls_noNamespace}.</li>
+ *   <li><b>Q3: PAUSE ID usually unavailable from tarball</b> — The purl spec requires the
+ *       uploader's PAUSE id as the cpan namespace, but it is encoded in the CPAN upload path
+ *       ({@code authors/id/E/ET/ETHER/}) rather than the distribution. We take it from that path
+ *       when the package is read from one, otherwise from META {@code x_authority}
+ *       ({@code cpan:ETHER}); with neither, no PURL is produced rather than one without a namespace.
+ *       Tested by: {@code CpanPackageContractTest.purl*}.</li>
  *
  *   <li><b>Q4: Prereqs = phases x relationships; only "requires" extracted</b> — CPAN prereqs
  *       are organized into phases (runtime, test, build, configure, develop) and relationships
