@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.contract;
 
-import com.github.packageurl.PackageURL;
 import io.spicelabs.annatto.*;
+import io.spicelabs.coordinates.Purl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -142,21 +142,21 @@ public abstract class LanguagePackageContractTest {
     @DisplayName("toPurl() returns valid PURL when metadata complete")
     void toPurlReturnsValidPurl() {
         LanguagePackage pkg = createValidPackage();
-        Optional<PackageURL> purl = pkg.toPurl();
+        Optional<Purl> purl = pkg.toPurl();
 
         assertThat(purl).isPresent();
         // Verify exact PURL matches expected (ecosystem-specific type like "cargo" vs "crates")
-        assertThat(purl.get().toString()).isEqualTo(expectedValidPurl());
+        assertThat(purl.get().toCanonical()).isEqualTo(expectedValidPurl());
     }
 
     @Test
     @DisplayName("toPurl() returns PURL matching purl-spec format")
     void toPurlMatchesPurlSpec() {
         LanguagePackage pkg = createValidPackage();
-        Optional<PackageURL> purl = pkg.toPurl();
+        Optional<Purl> purl = pkg.toPurl();
 
         assertThat(purl).isPresent();
-        String purlStr = purl.get().toString();
+        String purlStr = purl.get().toCanonical();
         // PURL format: pkg:type/namespace/name@version?qualifiers#subpath
         assertThat(purlStr).matches("^pkg:[a-zA-Z][a-zA-Z0-9._-]*/.*");
         assertThat(purlStr).contains("@");
@@ -166,7 +166,7 @@ public abstract class LanguagePackageContractTest {
     @DisplayName("toPurl() returns empty when metadata incomplete")
     void toPurlReturnsEmptyWhenIncomplete() {
         LanguagePackage pkg = createIncompletePackage();
-        Optional<PackageURL> purl = pkg.toPurl();
+        Optional<Purl> purl = pkg.toPurl();
 
         assertThat(purl).isEmpty();
     }
@@ -180,7 +180,16 @@ public abstract class LanguagePackageContractTest {
         assertThat(pkg.name()).isEqualTo(pkg.name());
         assertThat(pkg.version()).isEqualTo(pkg.version());
         assertThat(pkg.metadata()).isEqualTo(pkg.metadata());
-        assertThat(pkg.toPurl()).isEqualTo(pkg.toPurl());
+        assertThat(canonicalPurl(pkg)).isEqualTo(canonicalPurl(pkg));
+    }
+
+    /**
+     * Canonical pURL string of a package, or null when the package has no pURL.
+     * The coordinates Purl type deliberately does not override equals, so equality
+     * comparisons use the canonical string form.
+     */
+    protected static String canonicalPurl(LanguagePackage pkg) {
+        return pkg.toPurl().map(Purl::toCanonical).orElse(null);
     }
 
     @Test
@@ -268,7 +277,7 @@ public abstract class LanguagePackageContractTest {
             assertThat(pkg.mimeType()).isNotNull();
             assertThat(pkg.ecosystem()).isNotNull();
             assertThat(pkg.metadata()).isNotNull();
-            assertThat(pkg.toPurl()).isEqualTo(pkg.toPurl());
+            assertThat(canonicalPurl(pkg)).isEqualTo(canonicalPurl(pkg));
         }
     }
 

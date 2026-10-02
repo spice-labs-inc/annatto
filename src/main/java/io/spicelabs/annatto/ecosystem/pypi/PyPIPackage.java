@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.pypi;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
@@ -159,7 +159,7 @@ public final class PyPIPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -167,14 +167,7 @@ public final class PyPIPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        // Normalize name per PEP 503
-        String normalizedName = normalizeName(name);
-
-        try {
-            return Optional.of(new PackageURL("pypi", null, normalizedName, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        return PurlBuilder.forPypi(name, version);
     }
 
     @Override
@@ -472,10 +465,6 @@ public final class PyPIPackage implements LanguagePackage {
         }
         String versionConstraint = rest.isEmpty() ? "" : rest;
         return Optional.of(new Dependency(name, Optional.of("runtime"), versionConstraint));
-    }
-
-    private static String normalizeName(String name) {
-        return name.toLowerCase().replaceAll("[-_.]+", "-");
     }
 
     private static String basename(Path path) {

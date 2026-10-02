@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.npm;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -103,6 +103,11 @@ class NpmPackageContractTest extends LanguagePackageContractTest {
             JsonObject expected = cases.get(0).loadExpectedJson();
             String name = expected.get("name").getAsString();
             String version = expected.get("version").getAsString();
+            // Scoped names keep the "@" namespace; the canonical string renders it
+            // percent-encoded ("%40scope").
+            if (name.startsWith("@")) {
+                return "pkg:npm/%40" + name.substring(1) + "@" + version;
+            }
             return "pkg:npm/" + name + "@" + version;
         } catch (IOException e) {
             fail("Failed to load expected JSON: " + e.getMessage());
@@ -140,9 +145,9 @@ class NpmPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = npm.toPurl();
+        Optional<Purl> purl = npm.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("npm");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("npm");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -158,18 +163,18 @@ class NpmPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         NpmPackage npm = NpmPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = npm.toPurl();
+        Optional<Purl> purl = npm.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
 
-        // Handle scoped packages: @scope/name becomes scope/name in PURL namespace
-        String purlStr = purl.get().toString();
+        // Handle scoped packages: the namespace keeps the "@" and renders as %40scope
+        String purlStr = purl.get().toCanonical();
         if (expectedName.startsWith("@")) {
-            // Scoped: pkg:npm/scope/name@version
-            String scopeAndName = expectedName.substring(1); // Remove @
+            // Scoped: pkg:npm/%40scope/name@version
+            String scopeAndName = expectedName.substring(1); // scope/name without the @
             assertThat(purlStr)
                 .as("PURL mismatch for scoped package %s", testCase.packageFilename())
-                .isEqualTo("pkg:npm/" + scopeAndName + "@" + expectedVersion);
+                .isEqualTo("pkg:npm/%40" + scopeAndName + "@" + expectedVersion);
         } else {
             assertThat(purlStr)
                 .as("PURL mismatch for %s", testCase.packageFilename())
@@ -189,24 +194,25 @@ class NpmPackageContractTest extends LanguagePackageContractTest {
         String expectedName = expected.get("name").getAsString();
 
         NpmPackage npm = NpmPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = npm.toPurl();
+        Optional<Purl> purl = npm.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
 
         if (expectedName.startsWith("@")) {
-            String scope = expectedName.substring(1, expectedName.indexOf('/'));
+            // The namespace keeps the "@" prefix (canonical purl-spec form)
+            String scope = expectedName.substring(0, expectedName.indexOf('/'));
             String name = expectedName.substring(expectedName.indexOf('/') + 1);
-            assertThat(purl.get().getNamespace())
+            assertThat(purl.get().namespace)
                 .as("PURL namespace for scoped package %s", testCase.packageFilename())
                 .isEqualTo(scope);
-            assertThat(purl.get().getName())
+            assertThat(purl.get().name)
                 .as("PURL name for scoped package %s", testCase.packageFilename())
                 .isEqualTo(name);
         } else {
-            assertThat(purl.get().getNamespace())
+            assertThat(purl.get().namespace)
                 .as("PURL namespace for unscoped package %s", testCase.packageFilename())
                 .isNull();
-            assertThat(purl.get().getName())
+            assertThat(purl.get().name)
                 .as("PURL name for unscoped package %s", testCase.packageFilename())
                 .isEqualTo(expectedName);
         }

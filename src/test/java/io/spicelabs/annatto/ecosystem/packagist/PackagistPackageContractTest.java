@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.packagist;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -163,9 +163,9 @@ class PackagistPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expectedVersion);
 
-        Optional<PackageURL> purl = composer.toPurl();
+        Optional<Purl> purl = composer.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("composer");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("composer");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -183,13 +183,13 @@ class PackagistPackageContractTest extends LanguagePackageContractTest {
             ? null : expected.get("version").getAsString();
 
         PackagistPackage composer = PackagistPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = composer.toPurl();
+        Optional<Purl> purl = composer.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
         String expectedPurl = expectedVersion != null
             ? "pkg:composer/" + expectedName + "@" + expectedVersion
             : "pkg:composer/" + expectedName;
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo(expectedPurl);
     }

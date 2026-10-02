@@ -14,8 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.luarocks;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.ParsedDependency;
 import io.spicelabs.annatto.common.PurlBuilder;
@@ -186,10 +185,9 @@ class LuarocksMetadataExtractorPropertyTest {
      */
     @Property
     void purlName_alwaysLowercase(
-            @ForAll("luarocksNames") String name)
-            throws MalformedPackageURLException {
-        PackageURL purl = PurlBuilder.forLuaRocks(name, "1.0-1");
-        assertThat(purl.getName()).isEqualTo(name.toLowerCase(java.util.Locale.ROOT));
+            @ForAll("luarocksNames") String name) {
+        Purl purl = PurlBuilder.forLuaRocks(name, "1.0-1").orElseThrow();
+        assertThat(purl.name).isEqualTo(name.toLowerCase(java.util.Locale.ROOT));
     }
 
     // --- Version properties ---

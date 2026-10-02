@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.conda;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -159,9 +159,9 @@ class CondaPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = conda.toPurl();
+        Optional<Purl> purl = conda.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("conda");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("conda");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -177,10 +177,10 @@ class CondaPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         CondaPackage conda = CondaPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = conda.toPurl();
+        Optional<Purl> purl = conda.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .startsWith("pkg:conda/" + expectedName + "@" + expectedVersion);
     }

@@ -131,7 +131,9 @@ override def getMetadata(
 1. **No arch/epoch/release**: Language packages don't have system-level concepts
 2. **Optional scope**: Dependencies may have scopes (e.g., `@types/node`, `devDependencies`)
 3. **Raw metadata**: Use `metadata.raw()` for ecosystem-specific fields not in the standard model
-4. **PURL generation**: Call `pkg.toPurl()` for Package URL standard identifiers
+4. **PURL generation**: Call `pkg.toPurl()` for Package URL standard identifiers (returns
+   `Optional<io.spicelabs.coordinates.Purl>`; never throws — malformed metadata logs a WARN and
+   yields an empty Optional)
 
 ---
 
@@ -157,7 +159,10 @@ override def getMetadata(
 
 - **11 ecosystems**: Comprehensive coverage of major package registries
 - **Unified metadata model**: All ecosystems normalize to the same `MetadataResult` structure (name, version, description, license, publisher, dependencies, publication date)
-- **Package URL generation**: Standards-compliant PURLs with ecosystem-specific qualifiers
+- **Package URL generation**: Standards-compliant PURLs built on the
+  [coordinates](https://github.com/spice-labs-inc/coordinates) library with per-type purl-spec
+  validation (malformed pURLs log WARN and return empty — they never throw)
+  (tested by `PurlBuilderTest`)
 - **Auto-detection**: `AnnattoProcessFilter` routes artifacts to the correct handler by file extension
 - **Custom parsers**: Purpose-built Erlang term parser and Lua subset evaluator — no native dependencies
 - **Source-of-truth testing**: Every ecosystem validated against 50 real packages extracted by native tools in Docker

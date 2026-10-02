@@ -62,7 +62,7 @@ public final class SourceOfTruthLoader {
         String packageFilename,
         Path packagePath,
         Path expectedJsonPath,
-        /** Test ID shared with Surveyor's integration tests: {@code <ecosystem>/<name>-<version>},
+        /** Stable test ID: {@code <ecosystem>/<name>-<version>},
          *  the {@code id} field of the expected JSON. */
         String id
     ) {
@@ -190,7 +190,7 @@ public final class SourceOfTruthLoader {
 
     /**
      * Reads the {@code id} of an expected JSON file and checks it is the expected test ID
-     * ({@code <ecosystem>/<name>-<version>}). The id is what Surveyor's integration tests
+     * ({@code <ecosystem>/<name>-<version>}). The id is what external integration tests
      * use to pair their cases with these unit tests, so it must be present and stable.
      */
     static String requireId(Path jsonPath, String expected) {

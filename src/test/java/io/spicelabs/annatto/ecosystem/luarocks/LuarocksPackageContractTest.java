@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.luarocks;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -98,7 +98,9 @@ class LuarocksPackageContractTest extends LanguagePackageContractTest {
             JsonObject expected = cases.get(0).loadExpectedJson();
             String name = expected.get("name").getAsString();
             String version = expected.get("version").getAsString();
-            return "pkg:luarocks/" + name + "@" + version;
+            // purl-spec requires lowercased LuaRocks names; the coordinates library
+            // enforces this during normalize, so the expectation must match.
+            return "pkg:luarocks/" + name.toLowerCase(java.util.Locale.ROOT) + "@" + version;
         } catch (IOException e) {
             fail("Failed to load expected JSON: " + e.getMessage());
             return null;
@@ -135,9 +137,9 @@ class LuarocksPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = rock.toPurl();
+        Optional<Purl> purl = rock.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("luarocks");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("luarocks");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -152,12 +154,16 @@ class LuarocksPackageContractTest extends LanguagePackageContractTest {
         String expectedName = expected.get("name").getAsString();
         String expectedVersion = expected.get("version").getAsString();
 
+        // purl-spec requires lowercased LuaRocks names; the coordinates library
+        // enforces this during normalize, so the expectation must match.
+        String expectedLowerName = expectedName.toLowerCase(java.util.Locale.ROOT);
+
         LuarocksPackage rock = LuarocksPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = rock.toPurl();
+        Optional<Purl> purl = rock.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
-            .isEqualTo("pkg:luarocks/" + expectedName + "@" + expectedVersion);
+            .isEqualTo("pkg:luarocks/" + expectedLowerName + "@" + expectedVersion);
     }
 }

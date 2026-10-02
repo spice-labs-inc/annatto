@@ -218,4 +218,4 @@ assumeThat(Files.exists(pkg)).isTrue();  // JUnit 5 assumption
 ```
 
 
-Tests shared with Surveyor's integration suite: see `AGENTS.md` (ids, `test-fixtures.json`, provenance).
+Tests shared with an external integration suite: see `AGENTS.md` (ids, `test-fixtures.json`, provenance).

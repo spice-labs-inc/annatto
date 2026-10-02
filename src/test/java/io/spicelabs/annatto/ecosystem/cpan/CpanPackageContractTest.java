@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.cpan;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -124,7 +124,9 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
             JsonObject expected = cases.get(0).loadExpectedJson();
             String name = expected.get("name").getAsString();
             String version = expected.get("version").getAsString();
-            return "pkg:cpan/" + name + "@" + version;
+            // The PAUSE author id is not in the tarball (CpanQuirks Q3), so the builder
+            // uses the "unknown" namespace sentinel (purl-spec requires a cpan namespace).
+            return "pkg:cpan/unknown/" + name + "@" + version;
         } catch (IOException e) {
             fail("Failed to load expected JSON: " + e.getMessage());
             return null;
@@ -161,9 +163,9 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = cpan.toPurl();
+        Optional<Purl> purl = cpan.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cpan");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cpan");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -179,12 +181,12 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         CpanPackage cpan = CpanPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = cpan.toPurl();
+        Optional<Purl> purl = cpan.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
-            .isEqualTo("pkg:cpan/" + expectedName + "@" + expectedVersion);
+            .isEqualTo("pkg:cpan/unknown/" + expectedName + "@" + expectedVersion);
     }
 
     @ParameterizedTest(name = "{0}")

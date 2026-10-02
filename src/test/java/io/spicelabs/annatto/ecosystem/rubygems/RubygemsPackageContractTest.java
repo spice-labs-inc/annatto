@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.rubygems;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -166,9 +166,9 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = gem.toPurl();
+        Optional<Purl> purl = gem.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("gem");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("gem");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -184,10 +184,10 @@ class RubygemsPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         RubygemsPackage gem = RubygemsPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = gem.toPurl();
+        Optional<Purl> purl = gem.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo("pkg:gem/" + expectedName + "@" + expectedVersion);
     }

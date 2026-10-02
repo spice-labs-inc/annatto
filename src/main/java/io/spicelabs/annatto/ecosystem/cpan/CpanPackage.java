@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.cpan;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
@@ -152,7 +152,7 @@ public final class CpanPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -160,19 +160,11 @@ public final class CpanPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        try {
-            // CPAN uses double-colon separators, convert to / for namespace
-            String normalized = name.replace("::", "/");
-            int lastSlash = normalized.lastIndexOf('/');
-            if (lastSlash > 0) {
-                String namespace = normalized.substring(0, lastSlash);
-                String pkgName = normalized.substring(lastSlash + 1);
-                return Optional.of(new PackageURL("cpan", namespace, pkgName, version, null, null));
-            }
-            return Optional.of(new PackageURL("cpan", null, normalized, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        // purl-spec: the cpan namespace is the PAUSE author id. It is not present in the
+        // distribution metadata (see CpanQuirks Q3), so the builder substitutes its
+        // "unknown" sentinel rather than dropping the pURL. The name stays the
+        // distribution name — module-style "::" names are rejected (WARN, empty Optional).
+        return PurlBuilder.forCpan(name, version, Optional.empty());
     }
 
     @Override
