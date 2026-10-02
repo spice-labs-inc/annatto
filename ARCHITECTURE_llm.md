@@ -132,7 +132,7 @@ Tests/
 | Packagist | `pkg:composer/vendor/name@version` |
 | Conda | `pkg:conda/name@version?build=...&subdir=...` |
 | CocoaPods | `pkg:cocoapods/Name@version` |
-| CPAN | `pkg:cpan/Namespace/Name@version` |
+| CPAN | `pkg:cpan/PAUSEID/Dist-Name@version` (no purl without a PAUSE id) |
 | Hex | `pkg:hex/name@version` |
 | LuaRocks | `pkg:luarocks/name@version` |
 

@@ -196,8 +196,10 @@ Ecosystem-specific details:
 - **Conda**: `pkg:conda/name@version?build=<build>&subdir=<subdir>`
 - **CocoaPods**: `pkg:cocoapods/Name@version` (case-sensitive)
 - **CPAN**: `pkg:cpan/<pause-id|unknown>/Distribution-Name@version` (namespace required; the
-  PAUSE id is not in the tarball, so the `unknown` sentinel is used,
-  test: `PurlBuilderTest.forCpan_missingPauseIdUsesUnknownNamespace`)
+  PAUSE id comes from the CPAN mirror path or META `x_authority` when derivable, else the
+  `unknown` sentinel is used,
+  tests: `CpanPackageContractTest.purlNamespaceFromXAuthority`,
+  `CpanPackageContractTest.purlUsesUnknownSentinelWithoutPauseId`)
 - **Hex**: `pkg:hex/name@version` (lowercased by the library)
 - **LuaRocks**: `pkg:luarocks/name@version` (lowercased by the library,
   test: `PurlBuilderTest.forLuaRocks_nameLowercased`)
@@ -273,7 +275,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Packagist: Platform dependency filtering
 - Conda: v1 (.tar.bz2) vs v2 (.conda) format
 - CocoaPods: JSON podspec parsing, author extraction
-- CPAN: META.json vs META.yml, `::` namespace conversion
+- CPAN: META.json vs META.yml, PAUSE id namespace from mirror path or `x_authority`, else the `unknown` sentinel
 - Hex: Erlang term format parsing
 - LuaRocks: .rockspec vs .rock format, version revision handling
 
