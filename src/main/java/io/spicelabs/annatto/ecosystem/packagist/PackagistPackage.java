@@ -161,7 +161,7 @@ public final class PackagistPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        // Vendor-less names receive the builder's "unknown" namespace sentinel because
+        // Vendor-less names receive the coordinates "~unknown" namespace sentinel because
         // purl-spec requires a composer namespace.
         return PurlBuilder.forPackagist(name, version);
     }

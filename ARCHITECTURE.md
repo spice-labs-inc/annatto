@@ -188,16 +188,16 @@ Ecosystem-specific details:
   percent-encoded (test: `PurlBuilderTest.forNpm_scopedPackage`)
 - **PyPI**: `pkg:pypi/normalized-name@version` (PEP 503 normalization)
 - **Go**: `pkg:golang/namespace/name@version` (namespace required; single-segment module paths
-  use the `unknown` sentinel, test: `PurlBuilderTest.forGo_singleSegmentUsesUnknownNamespace`)
+  use the coordinates `~unknown` sentinel, test: `PurlBuilderTest.forGo_singleSegmentUsesUnknownNamespace`)
 - **Crates.io**: `pkg:cargo/name@version`
 - **RubyGems**: `pkg:gem/name@version`
 - **Packagist**: `pkg:composer/vendor/name@version` (namespace required; vendor-less names use
-  the `unknown` sentinel, test: `PurlBuilderTest.forPackagist_missingVendorUsesUnknownNamespace`)
+  the coordinates `~unknown` sentinel, test: `PurlBuilderTest.forPackagist_missingVendorUsesUnknownNamespace`)
 - **Conda**: `pkg:conda/name@version?build=<build>&subdir=<subdir>`
 - **CocoaPods**: `pkg:cocoapods/Name@version` (case-sensitive)
-- **CPAN**: `pkg:cpan/<pause-id|unknown>/Distribution-Name@version` (namespace required; the
+- **CPAN**: `pkg:cpan/<pause-id|~unknown>/Distribution-Name@version` (namespace required; the
   PAUSE id comes from the CPAN mirror path or META `x_authority` when derivable, else the
-  `unknown` sentinel is used,
+  coordinates `~unknown` sentinel is used,
   tests: `CpanPackageContractTest.purlNamespaceFromXAuthority`,
   `CpanPackageContractTest.purlUsesUnknownSentinelWithoutPauseId`)
 - **Hex**: `pkg:hex/name@version` (lowercased by the library)
@@ -275,7 +275,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Packagist: Platform dependency filtering
 - Conda: v1 (.tar.bz2) vs v2 (.conda) format
 - CocoaPods: JSON podspec parsing, author extraction
-- CPAN: META.json vs META.yml, PAUSE id namespace from mirror path or `x_authority`, else the `unknown` sentinel
+- CPAN: META.json vs META.yml, PAUSE id namespace from mirror path or `x_authority`, else the `~unknown` sentinel
 - Hex: Erlang term format parsing
 - LuaRocks: .rockspec vs .rock format, version revision handling
 

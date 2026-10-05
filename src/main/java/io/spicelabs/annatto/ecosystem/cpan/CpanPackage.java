@@ -170,8 +170,8 @@ public final class CpanPackage implements LanguagePackage {
     /**
      * The cpan purl, {@code pkg:cpan/PAUSEID/Dist-Name@version}. The purl spec requires the
      * PAUSE id as namespace; it is taken from the CPAN mirror path when the package was read
-     * from one, else from META {@code x_authority}. When neither supplies one, the builder's
-     * {@code "unknown"} sentinel is used — the purl is never dropped.
+     * from one, else from META {@code x_authority}. When neither supplies one, the coordinates
+     * {@code "~unknown"} sentinel is used — the purl is never dropped.
      */
     @Override
     public @NotNull Optional<Purl> toPurl() {
@@ -185,7 +185,7 @@ public final class CpanPackage implements LanguagePackage {
         // Old META.yml files sometimes give the main module name rather than the
         // distribution name; the purl spec names the distribution, so "::" becomes "-".
         // The namespace is the PAUSE id (mirror path, else x_authority); when neither
-        // supplies one, the builder substitutes its "unknown" sentinel — the purl is
+        // supplies one, the builder substitutes the "~unknown" sentinel — the purl is
         // never dropped and never throws (a rejected name logs WARN and yields empty).
         return PurlBuilder.forCpan(name.replace("::", "-"), version, pauseId);
     }

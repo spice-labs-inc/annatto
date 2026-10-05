@@ -104,9 +104,9 @@ class GoPackageContractTest extends LanguagePackageContractTest {
                 String simpleName = name.substring(lastSlash + 1);
                 return "pkg:golang/" + namespace + "/" + simpleName + "@" + version;
             }
-            // Single-segment module paths get the "unknown" namespace sentinel
+            // Single-segment module paths get the coordinates "~unknown" namespace sentinel
             // (purl-spec requires a golang namespace).
-            return "pkg:golang/unknown/" + name + "@" + version;
+            return "pkg:golang/~unknown/" + name + "@" + version;
         } catch (IOException e) {
             fail("Failed to load expected JSON: " + e.getMessage());
             return null;
@@ -172,8 +172,8 @@ class GoPackageContractTest extends LanguagePackageContractTest {
             String simpleName = expectedName.substring(lastSlash + 1);
             expectedPurl = "pkg:golang/" + namespace + "/" + simpleName + "@" + expectedVersion;
         } else {
-            // Single-segment module paths get the "unknown" namespace sentinel
-            expectedPurl = "pkg:golang/unknown/" + expectedName + "@" + expectedVersion;
+            // Single-segment module paths get the coordinates "~unknown" namespace sentinel
+            expectedPurl = "pkg:golang/~unknown/" + expectedName + "@" + expectedVersion;
         }
 
         assertThat(purl.get().toCanonical())
