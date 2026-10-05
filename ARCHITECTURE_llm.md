@@ -132,7 +132,7 @@ Tests/
 | Packagist | `pkg:composer/vendor/name@version` |
 | Conda | `pkg:conda/name@version?build=...&subdir=...` |
 | CocoaPods | `pkg:cocoapods/Name@version` |
-| CPAN | `pkg:cpan/Namespace/Name@version` |
+| CPAN | `pkg:cpan/PAUSEID/Dist-Name@version` (no purl without a PAUSE id) |
 | Hex | `pkg:hex/name@version` |
 | LuaRocks | `pkg:luarocks/name@version` |
 
@@ -218,4 +218,4 @@ assumeThat(Files.exists(pkg)).isTrue();  // JUnit 5 assumption
 ```
 
 
-Tests shared with Surveyor's integration suite: see `AGENTS.md` (ids, `test-fixtures.json`, provenance).
+Tests shared with an external integration suite: see `AGENTS.md` (ids, `test-fixtures.json`, provenance).

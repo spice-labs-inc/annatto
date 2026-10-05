@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -99,15 +99,18 @@ public interface LanguagePackage {
     PackageMetadata metadata();
 
     /**
-     * Generate Package URL (PURL) for this package.
+     * Generate Package URL (PURL) for this package, as a coordinates-library {@link Purl}.
      *
      * <p>Test: LanguagePackageContractTest.toPurlReturnsValidPurl when metadata complete</p>
      * <p>Test: LanguagePackageContractTest.toPurlReturnsEmptyWhenIncomplete when metadata incomplete</p>
      *
-     * @return PURL if name and version are present and valid
+     * <p>Never throws: a package whose name/version cannot produce a spec-conforming pURL
+     * is logged at WARN by the builder and yields an empty Optional.</p>
+     *
+     * @return Purl if name and version are present and valid
      */
     @NotNull
-    Optional<PackageURL> toPurl();
+    Optional<Purl> toPurl();
 
     /**
      * Stream the entries in this package.

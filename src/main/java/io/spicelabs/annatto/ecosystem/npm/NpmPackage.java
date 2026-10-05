@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.npm;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
@@ -164,7 +164,7 @@ public final class NpmPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -172,20 +172,9 @@ public final class NpmPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        try {
-            // Handle scoped packages (@scope/name)
-            if (name.startsWith("@")) {
-                int slashIdx = name.indexOf('/');
-                if (slashIdx > 0) {
-                    String namespace = name.substring(1, slashIdx);
-                    String pkgName = name.substring(slashIdx + 1);
-                    return Optional.of(new PackageURL("npm", namespace, pkgName, version, null, null));
-                }
-            }
-            return Optional.of(new PackageURL("npm", null, name, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        // Scoped names keep the "@scope" namespace — the canonical purl-spec form,
+        // rendered percent-encoded (e.g. pkg:npm/%40angular/core@17.2.0).
+        return PurlBuilder.forNpm(name, version);
     }
 
     @Override

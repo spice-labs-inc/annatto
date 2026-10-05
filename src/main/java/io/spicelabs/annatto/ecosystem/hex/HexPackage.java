@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.hex;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.EntryContentStream;
 import io.spicelabs.annatto.internal.Limits;
@@ -147,7 +147,7 @@ public final class HexPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -155,11 +155,7 @@ public final class HexPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        try {
-            return Optional.of(new PackageURL("hex", null, name, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        return PurlBuilder.forHex(name, version);
     }
 
     @Override

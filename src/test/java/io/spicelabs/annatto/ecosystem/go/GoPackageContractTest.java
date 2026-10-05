@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.go;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -104,7 +104,9 @@ class GoPackageContractTest extends LanguagePackageContractTest {
                 String simpleName = name.substring(lastSlash + 1);
                 return "pkg:golang/" + namespace + "/" + simpleName + "@" + version;
             }
-            return "pkg:golang/" + name + "@" + version;
+            // Single-segment module paths get the "unknown" namespace sentinel
+            // (purl-spec requires a golang namespace).
+            return "pkg:golang/unknown/" + name + "@" + version;
         } catch (IOException e) {
             fail("Failed to load expected JSON: " + e.getMessage());
             return null;
@@ -141,9 +143,9 @@ class GoPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = go.toPurl();
+        Optional<Purl> purl = go.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("golang");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("golang");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -159,7 +161,7 @@ class GoPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         GoPackage go = GoPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = go.toPurl();
+        Optional<Purl> purl = go.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
 
@@ -170,10 +172,11 @@ class GoPackageContractTest extends LanguagePackageContractTest {
             String simpleName = expectedName.substring(lastSlash + 1);
             expectedPurl = "pkg:golang/" + namespace + "/" + simpleName + "@" + expectedVersion;
         } else {
-            expectedPurl = "pkg:golang/" + expectedName + "@" + expectedVersion;
+            // Single-segment module paths get the "unknown" namespace sentinel
+            expectedPurl = "pkg:golang/unknown/" + expectedName + "@" + expectedVersion;
         }
 
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo(expectedPurl);
     }

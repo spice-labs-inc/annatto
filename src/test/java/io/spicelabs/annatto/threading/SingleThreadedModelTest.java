@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.threading;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.ecosystem.npm.NpmPackage;
 import org.junit.jupiter.api.DisplayName;
@@ -98,9 +98,9 @@ class SingleThreadedModelTest {
             assertThat(pkg.metadata().name()).isEqualTo("test-package");
             assertThat(pkg.metadata().version()).isEqualTo("1.0.0");
 
-            Optional<PackageURL> purl = pkg.toPurl();
+            Optional<Purl> purl = pkg.toPurl();
             assertThat(purl).isPresent();
-            assertThat(purl.get().toString()).isEqualTo("pkg:npm/test-package@1.0.0");
+            assertThat(purl.get().toCanonical()).isEqualTo("pkg:npm/test-package@1.0.0");
         }
     }
 

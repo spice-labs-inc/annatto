@@ -45,7 +45,7 @@ class EcosystemIdTest {
 
     /**
      * Goal: Verify each ecosystem has a non-empty PURL type.
-     * Rationale: PURL types are required for PackageURL construction.
+     * Rationale: PURL types are required for Purl construction.
      */
     @Test
     void allEcosystemsHavePurlType() {

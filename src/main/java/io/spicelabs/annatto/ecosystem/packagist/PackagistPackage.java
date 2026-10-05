@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.packagist;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -153,7 +153,7 @@ public final class PackagistPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -161,18 +161,9 @@ public final class PackagistPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        try {
-            // Packagist names are vendor/package
-            int slashIdx = name.indexOf('/');
-            if (slashIdx > 0) {
-                String namespace = name.substring(0, slashIdx);
-                String pkgName = name.substring(slashIdx + 1);
-                return Optional.of(new PackageURL("composer", namespace, pkgName, version, null, null));
-            }
-            return Optional.of(new PackageURL("composer", null, name, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        // Vendor-less names receive the builder's "unknown" namespace sentinel because
+        // purl-spec requires a composer namespace.
+        return PurlBuilder.forPackagist(name, version);
     }
 
     @Override

@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.cocoapods;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -133,9 +133,9 @@ class CocoapodsPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = pod.toPurl();
+        Optional<Purl> purl = pod.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cocoapods");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cocoapods");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -151,10 +151,10 @@ class CocoapodsPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         CocoapodsPackage pod = CocoapodsPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = pod.toPurl();
+        Optional<Purl> purl = pod.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo("pkg:cocoapods/" + expectedName + "@" + expectedVersion);
     }

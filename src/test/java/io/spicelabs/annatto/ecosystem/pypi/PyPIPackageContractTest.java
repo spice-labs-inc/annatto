@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.pypi;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -145,9 +145,9 @@ class PyPIPackageContractTest extends LanguagePackageContractTest {
             .as("version mismatch for %s", testCase.packageFilename())
             .isEqualTo(expected.get("version").getAsString());
 
-        Optional<PackageURL> purl = pypi.toPurl();
+        Optional<Purl> purl = pypi.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("pypi");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("pypi");
     }
 
     @ParameterizedTest(name = "{0}")
@@ -169,10 +169,10 @@ class PyPIPackageContractTest extends LanguagePackageContractTest {
         String normalizedName = expectedName.toLowerCase().replace('_', '-');
 
         PyPIPackage pypi = PyPIPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = pypi.toPurl();
+        Optional<Purl> purl = pypi.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo("pkg:pypi/" + normalizedName + "@" + expectedVersion);
     }
@@ -192,12 +192,12 @@ class PyPIPackageContractTest extends LanguagePackageContractTest {
         String expectedName = expected.get("simpleName").getAsString();
 
         PyPIPackage pypi = PyPIPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = pypi.toPurl();
+        Optional<Purl> purl = pypi.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
         // PEP 503 normalization: underscores become hyphens
         String normalizedName = expectedName.replace('_', '-').toLowerCase();
-        assertThat(purl.get().getName())
+        assertThat(purl.get().name)
             .as("PURL name should be PEP 503 normalized for %s", testCase.packageFilename())
             .isEqualTo(normalizedName);
     }

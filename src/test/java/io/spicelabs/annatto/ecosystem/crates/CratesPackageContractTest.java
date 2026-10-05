@@ -14,7 +14,7 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.crates;
 
-import com.github.packageurl.PackageURL;
+import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonObject;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.contract.LanguagePackageContractTest;
@@ -173,9 +173,9 @@ class CratesPackageContractTest extends LanguagePackageContractTest {
             .isEqualTo(expected.get("version").getAsString());
 
         // Verify PURL matches expected format
-        Optional<PackageURL> purl = crate.toPurl();
+        Optional<Purl> purl = crate.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
-        assertThat(purl.get().getType()).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cargo");
+        assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cargo");
     }
 
     /**
@@ -196,10 +196,10 @@ class CratesPackageContractTest extends LanguagePackageContractTest {
         String expectedVersion = expected.get("version").getAsString();
 
         CratesPackage crate = CratesPackage.fromPath(testCase.packagePath());
-        Optional<PackageURL> purl = crate.toPurl();
+        Optional<Purl> purl = crate.toPurl();
 
         assertThat(purl).as("PURL should be present").isPresent();
-        assertThat(purl.get().toString())
+        assertThat(purl.get().toCanonical())
             .as("PURL mismatch for %s", testCase.packageFilename())
             .isEqualTo("pkg:cargo/" + expectedName + "@" + expectedVersion);
     }

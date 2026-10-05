@@ -14,8 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.go;
 
-import com.github.packageurl.MalformedPackageURLException;
-import com.github.packageurl.PackageURL;
+import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
@@ -154,7 +154,7 @@ public final class GoPackage implements LanguagePackage {
     }
 
     @Override
-    public @NotNull Optional<PackageURL> toPurl() {
+    public @NotNull Optional<Purl> toPurl() {
         String name = metadata.name();
         String version = metadata.version();
 
@@ -162,19 +162,9 @@ public final class GoPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        try {
-            // Go module paths can be complex - use as namespace/name
-            // e.g., github.com/foo/bar -> namespace=github.com/foo, name=bar
-            int lastSlash = name.lastIndexOf('/');
-            if (lastSlash > 0) {
-                String namespace = name.substring(0, lastSlash);
-                String pkgName = name.substring(lastSlash + 1);
-                return Optional.of(new PackageURL("golang", namespace, pkgName, version, null, null));
-            }
-            return Optional.of(new PackageURL("golang", null, name, version, null, null));
-        } catch (MalformedPackageURLException e) {
-            return Optional.empty();
-        }
+        // Single-segment module paths receive the builder's "unknown" namespace sentinel
+        // because purl-spec requires a golang namespace.
+        return PurlBuilder.forGo(name, version);
     }
 
     @Override

@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Every {@code src/test/resources/<ecosystem>/<name>-<version>-expected.json} carries an
  * {@code id} equal to {@code <ecosystem>/<name>-<version>}. The id is the test ID shared with
- * Surveyor's black-box integration tests (surveyor: tests/README.md), which read these files
- * from this repository at the commit the shipped jar was built from; it must be present,
- * derived from the file name, and unique. Needs no corpus download.
+ * external black-box integration tests, which read these files from this repository at the
+ * commit the shipped jar was built from; it must be present, derived from the file name, and
+ * unique. Needs no corpus download.
  */
 class ExpectedJsonIdTest {
 

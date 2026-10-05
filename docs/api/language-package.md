@@ -8,6 +8,7 @@ The `LanguagePackageReader` is the main entry point for extracting metadata from
 
 ```java
 import io.spicelabs.annatto.*;
+import io.spicelabs.coordinates.Purl;
 import java.nio.file.Path;
 
 // Simple usage with auto-detection
@@ -15,8 +16,23 @@ LanguagePackage pkg = LanguagePackageReader.read(Path.of("lodash-4.17.21.tgz"));
 
 System.out.println(pkg.name());      // "lodash"
 System.out.println(pkg.version());   // "4.17.21"
-System.out.println(pkg.toPurl());    // Optional[pkg:npm/lodash@4.17.21]
+System.out.println(pkg.toPurl().map(Purl::toCanonical).orElse("<none>"));
+                                     // "pkg:npm/lodash@4.17.21"
 ```
+
+## Package URLs
+
+`toPurl()` returns `Optional<Purl>` — a [purl-spec](https://github.com/package-url/purl-spec)-conforming
+value from the coordinates library (`io.spicelabs:coordinates`). It **never throws**: a package
+whose name/version cannot produce a conforming pURL is logged at WARN and yields an empty
+Optional, so one malformed package cannot abort metadata discovery (test:
+`LanguagePackageContractTest.toPurlReturnsEmptyWhenIncomplete`).
+
+- Canonical string form: `Purl.toCanonical()` (test: `PurlBuilderTest.forNpm_scopedPackage` —
+  scoped npm names keep the `@` namespace, rendered `%40scope`)
+- Per-type namespace rules are enforced by the library; where a type requires a namespace the
+  package file lacks (cpan, golang, composer), Annatto substitutes the `"unknown"` sentinel
+  (test: `PurlBuilderTest.forCpan_missingPauseIdUsesUnknownNamespace`)
 
 ## Integration with Apache Tika
 
@@ -92,3 +108,5 @@ thread:
 - Stream resources properly released (test: StreamingResourceManagementTest)
 - Single-threaded model honored; sequential repeatability (test: SingleThreadedModelTest)
 - Malicious packages are rejected (test: SecurityLimitsTest)
+- toPurl() never throws; malformed metadata yields empty Optional after a WARN
+  (tests: PurlBuilderTest.forCpan_moduleNameIsRejected, PurlBuilderTest.forNpm_emptyNameIsEmpty)

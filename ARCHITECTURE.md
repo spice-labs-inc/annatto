@@ -28,7 +28,7 @@ public interface LanguagePackage extends AutoCloseable {
     String name();                              // Package name (never null)
     String version();                           // Package version (never null)
     PackageMetadata metadata();                 // Full metadata record
-    Optional<PackageURL> toPurl();             // PURL generation
+    Optional<Purl> toPurl();                   // PURL generation (coordinates library)
     PackageEntryStream streamEntries();        // Stream archive contents
     void close();                               // Release resources
 }
@@ -177,19 +177,32 @@ All ecosystems produce the same `MetadataResult` record with these fields:
 
 ### Package URL Generation
 
-Each ecosystem implements PURL construction in `PurlBuilder` following the [purl-spec](https://github.com/package-url/purl-spec). Ecosystem-specific details:
+PURL construction goes through `PurlBuilder`, which builds values from the coordinates library
+(`io.spicelabs:coordinates`) following the [purl-spec](https://github.com/package-url/purl-spec).
+The library normalizes and validates each type; a violation is downgraded to a WARN log and an
+empty `Optional` — pURL problems never throw and never abort discovery (tests:
+`PurlBuilderTest.forCpan_moduleNameIsRejected`, `PurlBuilderTest.forNpm_emptyNameIsEmpty`).
+Ecosystem-specific details:
 
-- **npm**: `pkg:npm/[@scope/]name@version`
+- **npm**: `pkg:npm/%40scope/name@version` — scoped packages keep the `@` namespace, rendered
+  percent-encoded (test: `PurlBuilderTest.forNpm_scopedPackage`)
 - **PyPI**: `pkg:pypi/normalized-name@version` (PEP 503 normalization)
-- **Go**: `pkg:golang/namespace/name@version`
+- **Go**: `pkg:golang/namespace/name@version` (namespace required; single-segment module paths
+  use the `unknown` sentinel, test: `PurlBuilderTest.forGo_singleSegmentUsesUnknownNamespace`)
 - **Crates.io**: `pkg:cargo/name@version`
 - **RubyGems**: `pkg:gem/name@version`
-- **Packagist**: `pkg:composer/vendor/name@version` (empty when version absent)
+- **Packagist**: `pkg:composer/vendor/name@version` (namespace required; vendor-less names use
+  the `unknown` sentinel, test: `PurlBuilderTest.forPackagist_missingVendorUsesUnknownNamespace`)
 - **Conda**: `pkg:conda/name@version?build=<build>&subdir=<subdir>`
 - **CocoaPods**: `pkg:cocoapods/Name@version` (case-sensitive)
-- **CPAN**: `pkg:cpan/Distribution-Name@version`
-- **Hex**: `pkg:hex/name@version` (lowercased)
-- **LuaRocks**: `pkg:luarocks/name@version` (lowercased)
+- **CPAN**: `pkg:cpan/<pause-id|unknown>/Distribution-Name@version` (namespace required; the
+  PAUSE id comes from the CPAN mirror path or META `x_authority` when derivable, else the
+  `unknown` sentinel is used,
+  tests: `CpanPackageContractTest.purlNamespaceFromXAuthority`,
+  `CpanPackageContractTest.purlUsesUnknownSentinelWithoutPauseId`)
+- **Hex**: `pkg:hex/name@version` (lowercased by the library)
+- **LuaRocks**: `pkg:luarocks/name@version` (lowercased by the library,
+  test: `PurlBuilderTest.forLuaRocks_nameLowercased`)
 
 ## Per-Ecosystem Structure
 
@@ -262,7 +275,7 @@ Each ecosystem extends `LanguagePackageContractTest` and adds format-specific te
 - Packagist: Platform dependency filtering
 - Conda: v1 (.tar.bz2) vs v2 (.conda) format
 - CocoaPods: JSON podspec parsing, author extraction
-- CPAN: META.json vs META.yml, `::` namespace conversion
+- CPAN: META.json vs META.yml, PAUSE id namespace from mirror path or `x_authority`, else the `unknown` sentinel
 - Hex: Erlang term format parsing
 - LuaRocks: .rockspec vs .rock format, version revision handling
 
