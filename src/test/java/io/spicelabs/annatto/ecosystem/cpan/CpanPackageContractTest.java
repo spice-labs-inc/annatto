@@ -190,14 +190,14 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
             .isEqualTo(expected.get("version").getAsString());
 
         // Read from the plain fixture path (not a mirror layout): the namespace is a
-        // PAUSE id when x_authority supplies one, else the "unknown" sentinel — the
+        // PAUSE id when x_authority supplies one, else the "~unknown" sentinel — the
         // purl is always present (never dropped, never throwing).
         Optional<Purl> purl = cpan.toPurl();
         assertThat(purl).as("PURL should be present for %s", testCase.packageFilename()).isPresent();
         assertThat(purl.get().type).as("PURL type for %s", testCase.packageFilename()).isEqualTo("cpan");
         assertThat(purl.get().namespace)
             .as("PURL namespace for %s", testCase.packageFilename())
-            .matches("([A-Z][A-Z0-9-]{1,8})|unknown");
+            .matches("([A-Z][A-Z0-9-]{1,8})|~unknown");
         assertThat(purl.get().name).as("PURL name for %s", testCase.packageFilename())
             .isEqualTo(expected.get("name").getAsString());
     }
@@ -246,19 +246,19 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
     }
 
     @Test
-    @DisplayName("PURL uses the \"unknown\" sentinel namespace when no PAUSE id is derivable")
+    @DisplayName("PURL uses the \"~unknown\" sentinel namespace when no PAUSE id is derivable")
     void purlUsesUnknownSentinelWithoutPauseId() throws IOException {
         byte[] dist = createMinimalCpanDist("App-cpanminus", "1.7047");
         CpanPackage cpan = CpanPackage.fromStream(new ByteArrayInputStream(dist), "App-cpanminus-1.7047.tar.gz");
 
         // Approved policy: a missing PAUSE id never drops the purl — the builder
-        // substitutes its "unknown" namespace sentinel.
+        // substitutes the coordinates "~unknown" namespace sentinel.
         assertThat(cpan.toPurl()).map(Purl::toCanonical)
-            .contains("pkg:cpan/unknown/App-cpanminus@1.7047");
+            .contains("pkg:cpan/~unknown/App-cpanminus@1.7047");
     }
 
     @Test
-    @DisplayName("PURL falls back to the \"unknown\" sentinel from a malformed x_authority or mirror path")
+    @DisplayName("PURL falls back to the \"~unknown\" sentinel from a malformed x_authority or mirror path")
     void purlSentinelWithMalformedPauseId() throws IOException {
         for (String authority : List.of("MIYAGAWA", "cpan:", "cpan:not an id", "github:miyagawa")) {
             byte[] dist = createMinimalCpanDist("App-cpanminus", "1.7047", authority);
@@ -266,9 +266,9 @@ class CpanPackageContractTest extends LanguagePackageContractTest {
                 "/mirror/authors/id/E/EX/ETHER/App-cpanminus-1.7047.tar.gz");
             // The path's check-digit dir (E/EX) is inconsistent with ETHER and the
             // x_authority is malformed, so no real PAUSE id is derivable — the purl
-            // keeps the "unknown" sentinel instead of being dropped.
+            // keeps the "~unknown" sentinel instead of being dropped.
             assertThat(cpan.toPurl()).map(Purl::toCanonical).as("x_authority %s", authority)
-                .contains("pkg:cpan/unknown/App-cpanminus@1.7047");
+                .contains("pkg:cpan/~unknown/App-cpanminus@1.7047");
         }
     }
 

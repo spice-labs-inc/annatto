@@ -31,7 +31,8 @@ Optional, so one malformed package cannot abort metadata discovery (test:
 - Canonical string form: `Purl.toCanonical()` (test: `PurlBuilderTest.forNpm_scopedPackage` —
   scoped npm names keep the `@` namespace, rendered `%40scope`)
 - Per-type namespace rules are enforced by the library; where a type requires a namespace the
-  package file lacks (cpan, golang, composer), Annatto substitutes the `"unknown"` sentinel
+  package file lacks (cpan, golang, composer), the library substitutes its `"~unknown"` sentinel
+  (`Purl.UNKNOWN_NAMESPACE`; recognize it with `Purl.isNamespaceUnknown()`)
   (test: `PurlBuilderTest.forCpan_missingPauseIdUsesUnknownNamespace`)
 
 ## Integration with Apache Tika

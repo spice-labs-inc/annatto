@@ -37,7 +37,7 @@ package io.spicelabs.annatto.cpan;
  *       uploader's PAUSE id as the cpan namespace, but it is encoded in the CPAN upload path
  *       ({@code authors/id/E/ET/ETHER/}) rather than the distribution. We take it from that path
  *       when the package is read from one, otherwise from META {@code x_authority}
- *       ({@code cpan:ETHER}); with neither, the builder's {@code "unknown"} namespace sentinel is
+ *       ({@code cpan:ETHER}); with neither, the coordinates {@code "~unknown"} namespace sentinel is
  *       used — the purl is never dropped for want of a namespace (approved 2026-10-01).
  *       Tested by: {@code CpanPackageContractTest.purl*}, {@code PurlBuilderTest.forCpan_*}.</li>
  *

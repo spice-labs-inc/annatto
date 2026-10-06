@@ -85,7 +85,7 @@ class PurlBuilderTest {
     }
 
     /**
-     * Goal: Verify Go PURL for a single-segment module path uses the "unknown" namespace
+     * Goal: Verify Go PURL for a single-segment module path uses the coordinates "~unknown" namespace
      * sentinel instead of being dropped.
      * Rationale: purl-spec requires a golang namespace; the sentinel keeps the identifier
      * present and recognizable downstream (agreed measure, mirrors the CPAN policy).
@@ -94,9 +94,10 @@ class PurlBuilderTest {
     void forGo_singleSegmentUsesUnknownNamespace() {
         Purl purl = PurlBuilder.forGo("somemodule", "v1.0.0").orElseThrow();
         assertThat(purl.type).isEqualTo("golang");
-        assertThat(purl.namespace).isEqualTo(PurlBuilder.UNKNOWN_NAMESPACE);
+        assertThat(purl.namespace).isEqualTo(Purl.UNKNOWN_NAMESPACE);
+        assertThat(purl.isNamespaceUnknown()).isTrue();
         assertThat(purl.name).isEqualTo("somemodule");
-        assertThat(purl.toCanonical()).isEqualTo("pkg:golang/unknown/somemodule@v1.0.0");
+        assertThat(purl.toCanonical()).isEqualTo("pkg:golang/~unknown/somemodule@v1.0.0");
     }
 
     /**
@@ -138,7 +139,7 @@ class PurlBuilderTest {
     }
 
     /**
-     * Goal: Verify Packagist PURL for a vendor-less name uses the "unknown" namespace
+     * Goal: Verify Packagist PURL for a vendor-less name uses the coordinates "~unknown" namespace
      * sentinel instead of being dropped.
      * Rationale: purl-spec requires a composer namespace; the sentinel keeps the
      * identifier present (agreed measure, mirrors the CPAN policy).
@@ -147,8 +148,9 @@ class PurlBuilderTest {
     void forPackagist_missingVendorUsesUnknownNamespace() {
         Purl purl = PurlBuilder.forPackagist("justapackage", "1.0.0").orElseThrow();
         assertThat(purl.type).isEqualTo("composer");
-        assertThat(purl.namespace).isEqualTo(PurlBuilder.UNKNOWN_NAMESPACE);
-        assertThat(purl.toCanonical()).isEqualTo("pkg:composer/unknown/justapackage@1.0.0");
+        assertThat(purl.namespace).isEqualTo(Purl.UNKNOWN_NAMESPACE);
+        assertThat(purl.isNamespaceUnknown()).isTrue();
+        assertThat(purl.toCanonical()).isEqualTo("pkg:composer/~unknown/justapackage@1.0.0");
     }
 
     /**
@@ -242,7 +244,7 @@ class PurlBuilderTest {
     }
 
     /**
-     * Goal: Verify CPAN PURL without a PAUSE ID uses the "unknown" namespace sentinel.
+     * Goal: Verify CPAN PURL without a PAUSE ID uses the coordinates "~unknown" namespace sentinel.
      * Rationale: purl-spec requires a cpan namespace; the distribution tarball does not
      * carry the PAUSE id (CpanQuirks Q3), so the sentinel keeps the identifier present.
      */
@@ -250,8 +252,9 @@ class PurlBuilderTest {
     void forCpan_missingPauseIdUsesUnknownNamespace() {
         Purl purl = PurlBuilder.forCpan("App-cpanminus", "1.7047", Optional.empty()).orElseThrow();
         assertThat(purl.type).isEqualTo("cpan");
-        assertThat(purl.namespace).isEqualTo(PurlBuilder.UNKNOWN_NAMESPACE);
-        assertThat(purl.toCanonical()).isEqualTo("pkg:cpan/unknown/App-cpanminus@1.7047");
+        assertThat(purl.namespace).isEqualTo(Purl.UNKNOWN_NAMESPACE);
+        assertThat(purl.isNamespaceUnknown()).isTrue();
+        assertThat(purl.toCanonical()).isEqualTo("pkg:cpan/~unknown/App-cpanminus@1.7047");
     }
 
     /**

@@ -162,7 +162,7 @@ public final class GoPackage implements LanguagePackage {
             return Optional.empty();
         }
 
-        // Single-segment module paths receive the builder's "unknown" namespace sentinel
+        // Single-segment module paths receive the coordinates "~unknown" namespace sentinel
         // because purl-spec requires a golang namespace.
         return PurlBuilder.forGo(name, version);
     }

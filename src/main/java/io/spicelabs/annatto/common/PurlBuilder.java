@@ -31,9 +31,10 @@ import java.util.TreeMap;
  * metadata discovery.
  *
  * <p>Namespace policy: purl-spec makes the namespace required for {@code cpan},
- * {@code golang}, and {@code composer}. When a package file carries no namespace we
- * substitute {@link #UNKNOWN_NAMESPACE} rather than dropping the pURL entirely — the
- * identifier stays present and downstream consumers can recognize the sentinel.
+ * {@code golang}, and {@code composer}. When a package file carries no namespace the
+ * coordinates library substitutes its {@link Purl#UNKNOWN_NAMESPACE} sentinel rather than
+ * the pURL being dropped entirely — the identifier stays present and downstream consumers
+ * can recognize the sentinel with {@link Purl#isNamespaceUnknown()}.
  *
  * <p>(tested by {@code PurlBuilderTest} — method-level tests covering all 11 ecosystems
  * plus the malformed-input and sentinel-namespace paths)
@@ -42,25 +43,17 @@ public final class PurlBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(PurlBuilder.class);
 
-    /**
-     * Placeholder namespace used when an ecosystem's purl-spec type requires a namespace
-     * (cpan, golang, composer) but the package file does not carry one.
-     * (tested by {@code PurlBuilderTest.forGo_singleSegmentUsesUnknownNamespace},
-     * {@code PurlBuilderTest.forPackagist_missingVendorUsesUnknownNamespace},
-     * {@code PurlBuilderTest.forCpan_missingPauseIdUsesUnknownNamespace})
-     */
-    public static final String UNKNOWN_NAMESPACE = "unknown";
-
     private PurlBuilder() {
     }
 
     /**
      * The single construction path: normalize/validate through the coordinates library
-     * and downgrade any violation to a WARN log with an empty result. Never throws.
+     * and downgrade any violation to a WARN log with an empty result. A type that requires
+     * a namespace but has none gets {@link Purl#UNKNOWN_NAMESPACE}. Never throws.
      *
      * @param ecosystem human-readable ecosystem label for the log message
      * @param type      the purl-spec type string (e.g., {@code "npm"})
-     * @param namespace the namespace (may be null when the type allows none)
+     * @param namespace the namespace (may be null when unknown or when the type allows none)
      * @param name      the package name
      * @param version   the package version (may be null)
      * @param qualifiers sorted qualifier map (may be null when unused)
@@ -75,7 +68,8 @@ public final class PurlBuilder {
             return Optional.empty();
         }
         try {
-            return Optional.of(Purl.normalize(new Purl(type, namespace, name, version, qualifiers, null)));
+            return Optional.of(Purl.normalize(new Purl(type, namespace, name, version, qualifiers, null),
+                    Purl.MissingNamespace.UNKNOWN));
         } catch (Purl.PurlException e) {
             logger.warn("Failed to build purl for {}: name={}, version={}, reason: {}",
                     ecosystem, name, version, e.getMessage());
@@ -122,7 +116,7 @@ public final class PurlBuilder {
     /**
      * Builds a PURL for a Go module. The last path segment becomes the name; single-segment
      * module paths (which purl-spec rejects without a namespace) receive
-     * {@link #UNKNOWN_NAMESPACE}.
+     * {@link Purl#UNKNOWN_NAMESPACE}.
      * (tested by {@code PurlBuilderTest.forGo_splitsModulePath},
      * {@code PurlBuilderTest.forGo_singleSegmentUsesUnknownNamespace})
      *
@@ -132,7 +126,7 @@ public final class PurlBuilder {
      */
     public static @NotNull Optional<Purl> forGo(@NotNull String modulePath, @NotNull String version) {
         int lastSlash = modulePath.lastIndexOf('/');
-        String namespace = lastSlash > 0 ? modulePath.substring(0, lastSlash) : UNKNOWN_NAMESPACE;
+        String namespace = lastSlash > 0 ? modulePath.substring(0, lastSlash) : null;
         String name = lastSlash > 0 ? modulePath.substring(lastSlash + 1) : modulePath;
         return build("Go", "golang", namespace, name, version, null);
     }
@@ -164,7 +158,7 @@ public final class PurlBuilder {
     /**
      * Builds a PURL for a Packagist (Composer) package from a {@code vendor/package} name.
      * A vendor-less name (purl-spec requires a composer namespace) receives
-     * {@link #UNKNOWN_NAMESPACE}.
+     * {@link Purl#UNKNOWN_NAMESPACE}.
      * (tested by {@code PurlBuilderTest.forPackagist_splitsVendor},
      * {@code PurlBuilderTest.forPackagist_missingVendorUsesUnknownNamespace})
      *
@@ -176,7 +170,7 @@ public final class PurlBuilder {
             @NotNull String version) {
         int slashIdx = vendorAndName.indexOf('/');
         if (slashIdx < 0) {
-            return build("Packagist", "composer", UNKNOWN_NAMESPACE, vendorAndName, version, null);
+            return build("Packagist", "composer", null, vendorAndName, version, null);
         }
         return build("Packagist", "composer", vendorAndName.substring(0, slashIdx),
                 vendorAndName.substring(slashIdx + 1), version, null);
@@ -221,7 +215,7 @@ public final class PurlBuilder {
     /**
      * Builds a PURL for a CPAN distribution. Per purl-spec the namespace is the PAUSE
      * author id; when the distribution metadata carries none (it is not present in the
-     * tarball, see {@code CpanQuirks} Q3) the {@link #UNKNOWN_NAMESPACE} sentinel is used.
+     * tarball, see {@code CpanQuirks} Q3) the {@link Purl#UNKNOWN_NAMESPACE} sentinel is used.
      * The name must be the distribution name — module-style names containing {@code ::}
      * are rejected by the coordinates library and yield empty.
      * (tested by {@code PurlBuilderTest.forCpan_withPauseId},
@@ -235,7 +229,7 @@ public final class PurlBuilder {
      */
     public static @NotNull Optional<Purl> forCpan(@NotNull String name, @NotNull String version,
             @NotNull Optional<String> pauseId) {
-        String namespace = pauseId.filter(id -> !id.isEmpty()).orElse(UNKNOWN_NAMESPACE);
+        String namespace = pauseId.filter(id -> !id.isEmpty()).orElse(null);
         return build("CPAN", "cpan", namespace, name, version, null);
     }
 
