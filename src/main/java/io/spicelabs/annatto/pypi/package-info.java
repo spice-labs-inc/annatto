@@ -39,7 +39,6 @@
  * {@code PypiMetadataExtractorTest.normalizeName_collapsesSpecialCharacters})</p>
  *
  * @see PypiMetadataExtractor
- * @see PypiHandler
  * @see PypiQuirks
  */
 package io.spicelabs.annatto.pypi;

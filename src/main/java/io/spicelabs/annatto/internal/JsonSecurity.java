@@ -29,7 +29,7 @@ import io.spicelabs.annatto.AnnattoException;
  */
 public final class JsonSecurity {
 
-    /** Maximum nesting depth of {@code [} / {@code {} accepted before GSON sees the text. */
+    /** Maximum nesting depth of <code>[</code> / <code>{</code> accepted before GSON sees the text. */
     public static final int MAX_JSON_DEPTH = 512;
 
     private JsonSecurity() {

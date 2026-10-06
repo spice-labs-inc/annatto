@@ -26,7 +26,7 @@ package io.spicelabs.annatto.cocoapods;
  *       Tested by: {@code extractFromJson_validPodspec}.</li>
  *
  *   <li><b>Q2: License polymorphism</b> — The license field can be a plain string ({@code "MIT"})
- *       or an object ({@code {"type": "MIT", "text": "..."}). We extract the "type" key from
+ *       or an object ({@code {"type": "MIT", "text": "..."}}). We extract the "type" key from
  *       objects.
  *       Tested by: {@code extractLicense_stringDirect}, {@code extractLicense_objectType}.</li>
  *

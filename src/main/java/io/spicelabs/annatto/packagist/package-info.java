@@ -43,9 +43,7 @@
  * (tested by {@code PurlBuilderTest.forPackagist_splitsVendor},
  * {@code PackagistMetadataExtractorTest.package_version_absent})</p>
  *
- * @see io.spicelabs.annatto.packagist.PackagistHandler
  * @see io.spicelabs.annatto.packagist.PackagistMetadataExtractor
- * @see io.spicelabs.annatto.packagist.PackagistMemento
  * @see io.spicelabs.annatto.packagist.PackagistQuirks
  * @see <a href="https://getcomposer.org/doc/04-schema.md">Composer Schema Documentation</a>
  */

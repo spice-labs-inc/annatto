@@ -34,7 +34,6 @@
  * </ol>
  * <p>(pipeline tested by 9 parameterized SoT tests in {@code GoMetadataExtractorTest.extract*_matchesSourceOfTruth})</p>
  *
- * @see io.spicelabs.annatto.go.GoHandler
  * @see io.spicelabs.annatto.go.GoMetadataExtractor
  * @see io.spicelabs.annatto.go.GoQuirks
  */

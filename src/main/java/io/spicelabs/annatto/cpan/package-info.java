@@ -38,7 +38,6 @@
  * <h2>Key Classes</h2>
  * <ul>
  *   <li>{@link io.spicelabs.annatto.cpan.CpanMetadataExtractor} — stateless extraction</li>
- *   <li>{@link io.spicelabs.annatto.cpan.CpanHandler} — lifecycle handler</li>
  *   <li>{@link io.spicelabs.annatto.cpan.CpanQuirks} — ecosystem-specific documentation</li>
  * </ul>
  */

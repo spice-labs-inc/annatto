@@ -41,7 +41,6 @@
  * <p>{@code pkg:luarocks/name@version} — name is ASCII lowercased, no namespace.
  * (tested by {@code PurlBuilderTest.forLuaRocks_nameLowercased})</p>
  *
- * @see io.spicelabs.annatto.luarocks.LuarocksHandler
  * @see io.spicelabs.annatto.luarocks.LuarocksMetadataExtractor
  * @see io.spicelabs.annatto.luarocks.LuarocksQuirks
  */

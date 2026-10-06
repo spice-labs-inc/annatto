@@ -5,10 +5,8 @@
  * npm, PyPI, Go Modules, Crates.io, RubyGems, Packagist, Conda, CocoaPods, CPAN, Hex, and LuaRocks.
  * (tested by {@code EcosystemIdTest.allElevenEcosystemsDefined})</p>
  *
- * <p>Integrates with Goat Rodeo via the rodeo-components plugin system using
- * {@link io.spicelabs.annatto.AnnattoComponent} as the entry point.
- * (tested by {@code AnnattoComponentTest.serviceLoaderRegistration_isPresent})</p>
+ * <p>{@link io.spicelabs.annatto.LanguagePackageReader} is the entry point.</p>
  *
- * @see io.spicelabs.annatto.AnnattoComponent
+ * @see io.spicelabs.annatto.LanguagePackageReader
  */
 package io.spicelabs.annatto;
