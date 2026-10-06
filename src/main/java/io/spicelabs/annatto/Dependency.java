@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @param name dependency name (e.g., "lodash", "requests")
  * @param scope optional scope/namespace (e.g., "@types", "dev")
- * @param versionConstraint version constraint string (e.g., "^1.0.0", ">=2.0,<3.0")
+ * @param versionConstraint version constraint string (e.g., {@code "^1.0.0"}, {@code ">=2.0,<3.0"})
  */
 public record Dependency(
         @NotNull String name,

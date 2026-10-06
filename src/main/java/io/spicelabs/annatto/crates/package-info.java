@@ -33,7 +33,6 @@
  * <p>Produces PURLs of the form {@code pkg:cargo/name@version}.
  * (tested by {@code PurlBuilderTest.forCrates_flatNamespace})</p>
  *
- * @see io.spicelabs.annatto.crates.CratesHandler
  * @see io.spicelabs.annatto.crates.CratesMetadataExtractor
  * @see io.spicelabs.annatto.crates.CratesQuirks
  */

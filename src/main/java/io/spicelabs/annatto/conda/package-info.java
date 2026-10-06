@@ -46,7 +46,6 @@
  * (tested by {@code PurlBuilderTest.forConda_noNamespace})</p>
  *
  * @see CondaMetadataExtractor
- * @see CondaHandler
  * @see CondaQuirks
  * @see <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/packages.html">Conda Package Concepts</a>
  */

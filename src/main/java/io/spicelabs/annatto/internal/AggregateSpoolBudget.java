@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * {@link AnnattoException.SecurityException}.
  *
  * <p>This is the single sanctioned mutable-static resource guard in Annatto (ADR-004
- * amendment); it is injectable for tests via {@link #overrideForTesting}.
+ * amendment); it is injectable for tests via {@link Spool#overrideBudgetForTesting}.
  */
 public final class AggregateSpoolBudget {
 

@@ -142,7 +142,7 @@ public final class Spool {
         releaseOnce(spooled.path(), spooled.chargedBytes());
     }
 
-    /** Handle combining an explicit {@link Cleanable} with the cleanup action it runs. */
+    /** Handle combining an explicit {@link Cleaner.Cleanable} with the cleanup action it runs. */
     public record Cleanup(Cleaner.Cleanable cleanable, Runnable action) {
         /** Delete now, idempotent (runs the delete + budget release exactly once). */
         public void run() {

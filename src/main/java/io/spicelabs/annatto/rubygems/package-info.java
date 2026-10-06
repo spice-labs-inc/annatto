@@ -43,7 +43,6 @@
  * (tested by {@code PurlBuilderTest.forRubyGems_simple})</p>
  *
  * @see RubygemsMetadataExtractor
- * @see RubygemsHandler
  * @see RubygemsQuirks
  * @see <a href="https://guides.rubygems.org/specification-reference/">RubyGems Specification Reference</a>
  */

@@ -19,14 +19,14 @@ package io.spicelabs.annatto.pypi;
  * Documents known quirks and edge cases in the PyPI package format.
  * Each quirk is verified by corresponding tests in {@code PypiMetadataExtractorTest}.
  *
- * <h3>Q1: Name Normalization (PEP 503)</h3>
+ * <h2>Q1: Name Normalization (PEP 503)</h2>
  * <p>PyPI package names are case-insensitive and treat hyphens ({@code -}), underscores
  * ({@code _}), and periods ({@code .}) as equivalent. Runs of these characters are collapsed
  * to a single hyphen. For example, {@code Flask-SocketIO}, {@code flask_socketio}, and
  * {@code Flask.SocketIO} all normalize to {@code flask-socketio}.
  * See: {@code PypiMetadataExtractorTest#normalizeName_*}</p>
  *
- * <h3>Q2: Sdist vs Wheel Metadata Locations</h3>
+ * <h2>Q2: Sdist vs Wheel Metadata Locations</h2>
  * <p>Wheel ({@code .whl}) archives are ZIP files containing metadata at
  * {@code <name>-<version>.dist-info/METADATA}. Sdist ({@code .tar.gz}) archives are
  * gzip-compressed tars containing metadata at {@code <name>-<version>/PKG-INFO}.
@@ -34,7 +34,7 @@ package io.spicelabs.annatto.pypi;
  * See: {@code PypiMetadataExtractorTest#isDistInfoMetadata_*},
  * {@code PypiMetadataExtractorTest#isPkgInfo_*}</p>
  *
- * <h3>Q3: pyproject.toml (PEP 621)</h3>
+ * <h2>Q3: pyproject.toml (PEP 621)</h2>
  * <p>Modern projects declare metadata in the {@code [project]} table of {@code pyproject.toml}
  * instead of {@code setup.py}. However, published archives (both wheels and sdists) always
  * include pre-built {@code METADATA} / {@code PKG-INFO} files, so the extractor reads those
@@ -43,32 +43,32 @@ package io.spicelabs.annatto.pypi;
  * {@code PypiMetadataExtractorTest#extractName_matchesSourceOfTruth} etc. —
  * all 50 packages are parsed successfully using only METADATA/PKG-INFO.</p>
  *
- * <h3>Q4: RFC 822 Header Format with Multi-line Continuation</h3>
+ * <h2>Q4: RFC 822 Header Format with Multi-line Continuation</h2>
  * <p>Core metadata files use RFC 822 (email-style) header format. Lines starting with
  * whitespace are continuation lines of the previous header. Headers like
  * {@code Requires-Dist} and {@code Classifier} appear multiple times.
  * See: {@code PypiMetadataExtractorTest#parseRfc822Headers_*}</p>
  *
- * <h3>Q5: License Classifiers as Secondary Source</h3>
+ * <h2>Q5: License Classifiers as Secondary Source</h2>
  * <p>License information has three sources with decreasing priority:
  * {@code License-Expression} header (SPDX), {@code License} header (skip "UNKNOWN"),
  * and {@code Classifier: License :: OSI Approved :: ...} entries (joined with " OR ").
  * See: {@code PypiMetadataExtractorTest#extractLicense_*}</p>
  *
- * <h3>Q6: Author-email Combined "Name &lt;email&gt;" Format</h3>
+ * <h2>Q6: Author-email Combined "Name &lt;email&gt;" Format</h2>
  * <p>The {@code Author-email} header may contain combined name and email in the format
  * {@code "Name <email>"}. When the {@code Author} header is absent or "UNKNOWN",
  * the name part is extracted from this combined format as a fallback.
  * See: {@code PypiMetadataExtractorTest#extractNameFromEmailField_*}</p>
  *
- * <h3>Q7: Requires-Dist with Environment Markers</h3>
+ * <h2>Q7: Requires-Dist with Environment Markers</h2>
  * <p>Dependencies in {@code Requires-Dist} may include environment markers after a
  * semicolon (e.g., {@code foo>=1.0 ; python_version>="3.8"}). Extras may appear in
  * brackets (e.g., {@code requests[security]}). Both are stripped during extraction;
  * all dependencies are scoped as "runtime".
  * See: {@code PypiMetadataExtractorTest#parseRequiresDist_*}</p>
  *
- * <h3>Q8: Minimal Packages</h3>
+ * <h2>Q8: Minimal Packages</h2>
  * <p>Only {@code Metadata-Version}, {@code Name}, and {@code Version} are required
  * in PyPI metadata. All other fields are optional. The extractor returns
  * {@code Optional.empty()} for absent fields. The sentinel value "UNKNOWN" is

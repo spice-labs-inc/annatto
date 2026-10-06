@@ -42,7 +42,6 @@
  * <h2>Key Classes</h2>
  * <ul>
  *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsMetadataExtractor} — stateless extraction</li>
- *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsHandler} — lifecycle handler</li>
  *   <li>{@link io.spicelabs.annatto.cocoapods.CocoapodsQuirks} — ecosystem-specific documentation</li>
  * </ul>
  */

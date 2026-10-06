@@ -40,7 +40,6 @@
  * <h2>Key Classes</h2>
  * <ul>
  *   <li>{@link io.spicelabs.annatto.hex.HexMetadataExtractor} — stateless extraction</li>
- *   <li>{@link io.spicelabs.annatto.hex.HexHandler} — lifecycle handler</li>
  *   <li>{@link io.spicelabs.annatto.hex.ErlangTermTokenizer} — Erlang term tokenizer
  *       (security limits tested by {@code ErlangTermTokenizerTest.tokenize_rejectsOversizedInput},
  *       {@code ErlangTermTokenizerTest.tokenize_rejectsExcessiveTokenCount})</li>
