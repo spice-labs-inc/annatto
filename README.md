@@ -216,19 +216,19 @@ cd annatto
 Build with Maven:
 
 ```bash
-mvn clean install
+./mvnw clean install
 ```
 
 Run tests only:
 
 ```bash
-mvn test
+./mvnw test
 ```
 
 Check test coverage (report in `target/site/jacoco/`):
 
 ```bash
-mvn test jacoco:report
+./mvnw test jacoco:report
 ```
 
 ### Test Corpus
