@@ -29,10 +29,10 @@ jobs:
             test-corpus-v2-
 
       - name: Build (skip tests)
-        run: mvn clean install -DskipTests
+        run: ./mvnw clean install -DskipTests
 
       - name: Run tests with coverage
-        run: mvn verify
+        run: ./mvnw verify
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v6
@@ -73,11 +73,11 @@ jobs:
             test-corpus-v2-
 
       - name: Build (skip tests)
-        run: mvn clean install -DskipTests -q
+        run: ./mvnw clean install -DskipTests -q
 
       - name: Run source-of-truth tests
         # Identical to the main suite: no property gate; these run in every `mvn test`.
-        run: mvn test -Dtest=SourceOfTruthIntegrationTest
+        run: ./mvnw test -Dtest=SourceOfTruthIntegrationTest
 
       - name: Archive SoT test reports
         if: always()
