@@ -15,6 +15,7 @@ limitations under the License. */
 package io.spicelabs.annatto.ecosystem.npm;
 
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.npm.NpmMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
@@ -254,22 +255,11 @@ public final class NpmPackage implements LanguagePackage {
     }
 
     private static PackageMetadata parseMetadata(com.google.gson.JsonObject packageJson) {
-        String name = getString(packageJson, "name").orElse("");
-        String version = getString(packageJson, "version").orElse("");
-        Optional<String> description = getString(packageJson, "description");
-        Optional<String> license = extractLicense(packageJson);
-        Optional<String> publisher = extractAuthor(packageJson);
-
-        List<Dependency> dependencies = extractDependencies(packageJson);
-
         Map<String, Object> raw = new HashMap<>();
         getString(packageJson, "main").ifPresent(v -> raw.put("main", v));
         getString(packageJson, "homepage").ifPresent(v -> raw.put("homepage", v));
 
-        return new PackageMetadata(
-            name, version, description, license, publisher,
-            Optional.empty(), dependencies, raw
-        );
+        return NpmMetadataExtractor.parsePackageJson(packageJson).toPackageMetadata(raw);
     }
 
     private static Optional<String> getString(com.google.gson.JsonObject json, String key) {
@@ -278,109 +268,6 @@ public final class NpmPackage implements LanguagePackage {
             return value.isEmpty() ? Optional.empty() : Optional.of(value);
         }
         return Optional.empty();
-    }
-
-    private static Optional<String> extractLicense(com.google.gson.JsonObject packageJson) {
-        // Modern SPDX string
-        if (packageJson.has("license")) {
-            com.google.gson.JsonElement element = packageJson.get("license");
-            if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-                String value = element.getAsString().trim();
-                if (!value.isEmpty()) {
-                    return Optional.of(value);
-                }
-            }
-            if (element.isJsonObject()) {
-                return getString(element.getAsJsonObject(), "type");
-            }
-        }
-
-        // Legacy licenses array
-        if (packageJson.has("licenses")) {
-            com.google.gson.JsonElement element = packageJson.get("licenses");
-            if (element.isJsonArray()) {
-                com.google.gson.JsonArray array = element.getAsJsonArray();
-                List<String> types = new ArrayList<>();
-                for (com.google.gson.JsonElement le : array) {
-                    if (le.isJsonObject()) {
-                        getString(le.getAsJsonObject(), "type").ifPresent(types::add);
-                    }
-                }
-                if (!types.isEmpty()) {
-                    return Optional.of(String.join(" OR ", types));
-                }
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    private static Optional<String> extractAuthor(com.google.gson.JsonObject packageJson) {
-        if (packageJson.has("author")) {
-            com.google.gson.JsonElement element = packageJson.get("author");
-            Optional<String> result = extractPersonName(element);
-            if (result.isPresent()) {
-                return result;
-            }
-        }
-
-        // Fallback: first maintainer
-        if (packageJson.has("maintainers")) {
-            com.google.gson.JsonElement element = packageJson.get("maintainers");
-            if (element.isJsonArray() && !element.getAsJsonArray().isEmpty()) {
-                Optional<String> result = extractPersonName(element.getAsJsonArray().get(0));
-                if (result.isPresent()) {
-                    return result;
-                }
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    private static Optional<String> extractPersonName(com.google.gson.JsonElement element) {
-        if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
-            String str = element.getAsString().trim();
-            // Parse "Name <email> (url)" format
-            int angleIdx = str.indexOf('<');
-            if (angleIdx > 0) {
-                str = str.substring(0, angleIdx).trim();
-            }
-            int parenIdx = str.indexOf('(');
-            if (parenIdx > 0) {
-                str = str.substring(0, parenIdx).trim();
-            }
-            return str.isEmpty() ? Optional.empty() : Optional.of(str);
-        }
-        if (element.isJsonObject()) {
-            return getString(element.getAsJsonObject(), "name");
-        }
-        return Optional.empty();
-    }
-
-    private static List<Dependency> extractDependencies(com.google.gson.JsonObject packageJson) {
-        List<Dependency> deps = new ArrayList<>();
-        extractDeps(packageJson, "dependencies", "runtime", deps);
-        extractDeps(packageJson, "devDependencies", "dev", deps);
-        extractDeps(packageJson, "peerDependencies", "peer", deps);
-        extractDeps(packageJson, "optionalDependencies", "optional", deps);
-        return deps;
-    }
-
-    private static void extractDeps(com.google.gson.JsonObject json, String field,
-                                     String scope, List<Dependency> target) {
-        if (!json.has(field)) return;
-        com.google.gson.JsonElement element = json.get(field);
-        if (!element.isJsonObject()) return;
-        com.google.gson.JsonObject obj = element.getAsJsonObject();
-        for (Map.Entry<String, com.google.gson.JsonElement> e : obj.entrySet()) {
-            String name = e.getKey();
-            String version = "";
-            if (e.getValue().isJsonPrimitive()) {
-                version = e.getValue().getAsString();
-            }
-            target.add(new Dependency(name, Optional.of(scope), version));
-        }
     }
 
     private static String basename(Path path) {

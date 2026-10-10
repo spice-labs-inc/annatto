@@ -257,6 +257,21 @@ public final class CondaMetadataExtractor {
     }
 
     /**
+     * Builds a {@link MetadataResult} from the raw text of {@code info/index.json} and,
+     * when present, {@code info/about.json}.
+     *
+     * @param indexJson the raw index.json content
+     * @param aboutJson the raw about.json content, or null if absent
+     * @return the normalized metadata result
+     * @throws MetadataExtractionException if index.json cannot be parsed
+     */
+    public static @NotNull MetadataResult buildMetadataResult(
+            @NotNull String indexJson, @Nullable String aboutJson)
+            throws MetadataExtractionException {
+        return buildMetadataResult(new CondaArchiveData(indexJson, aboutJson));
+    }
+
+    /**
      * Builds a {@link MetadataResult} from extracted archive data.
      *
      * @param data the raw JSON data from the archive

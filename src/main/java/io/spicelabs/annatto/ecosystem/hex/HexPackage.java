@@ -14,7 +14,9 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.hex;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.hex.HexMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.EntryContentStream;
@@ -221,90 +223,20 @@ public final class HexPackage implements LanguagePackage {
         return baos.toString(StandardCharsets.UTF_8);
     }
 
-private static PackageMetadata parseMetadata(String config)
+    private static PackageMetadata parseMetadata(String config)
             throws AnnattoException.MalformedPackageException {
-        // metadata.config is Erlang term format
-        // Parse key fields using simple pattern matching
-        Map<String, String> meta = parseErlangConfig(config);
-
-        // Hex metadata.config uses "name" for the package name
-        String name = meta.get("name");
-        String version = meta.get("version");
-
-        if (name == null || name.isEmpty()) {
+        MetadataResult result;
+        try {
+            result = HexMetadataExtractor.buildMetadataResult(config);
+        } catch (AnnattoException.MetadataExtractionException e) {
+            throw new AnnattoException.MalformedPackageException(
+                "Failed to parse metadata.config: " + e.getMessage(), e);
+        }
+        if (result.name().isEmpty()) {
             throw new AnnattoException.MalformedPackageException(
                 "No name in metadata.config");
         }
-
-        Optional<String> description = Optional.ofNullable(meta.get("description"));
-        Optional<String> license = Optional.ofNullable(meta.get("licenses"));
-
-        Map<String, Object> raw = new HashMap<>();
-        if (meta.containsKey("links")) {
-            raw.put("links", meta.get("links"));
-        }
-
-        return new PackageMetadata(
-            name,
-            version != null ? version : "",
-            description,
-            license,
-            Optional.empty(),
-            Optional.empty(),
-            List.of(), // Hex dependencies not extracted here
-            raw
-        );
-    }
-
-    private static Map<String, String> parseErlangConfig(String config) {
-        Map<String, String> result = new HashMap<>();
-
-        // Simple parsing for key-value pairs
-        // Format: {<<"key">>, <<"value">>}. or {<<"key">>, "value"}.
-        // Only match top-level pairs (not inside lists like requirements)
-        String[] lines = config.split("\n");
-        int bracketDepth = 0;
-        for (String line : lines) {
-            line = line.trim();
-
-            // Track depth in nested structures (lists, etc.)
-            for (char c : line.toCharArray()) {
-                if (c == '[') bracketDepth++;
-                else if (c == ']') bracketDepth--;
-            }
-
-            // Only process top-level key-value pairs (depth = 0)
-            if (bracketDepth == 0 && line.startsWith("{") && line.contains(",")) {
-                int commaIdx = line.indexOf(',');
-                String key = line.substring(1, commaIdx).trim();
-                String value = line.substring(commaIdx + 1).trim();
-
-                // Remove trailing }.
-                if (value.endsWith("}.")) {
-                    value = value.substring(0, value.length() - 2).trim();
-                } else if (value.endsWith("}")) {
-                    value = value.substring(0, value.length() - 1).trim();
-                }
-
-                // Extract key from <<"...">> if needed
-                if (key.startsWith("<<\"") && key.endsWith("\">>")) {
-                    key = key.substring(3, key.length() - 3);
-                } else if (key.startsWith("\"") && key.endsWith("\"")) {
-                    key = key.substring(1, key.length() - 1);
-                }
-
-                // Extract value from <<"...">> or "..."
-                if (value.startsWith("<<\"") && value.endsWith("\">>")) {
-                    value = value.substring(3, value.length() - 3);
-                } else if (value.startsWith("\"") && value.endsWith("\"")) {
-                    value = value.substring(1, value.length() - 1);
-                }
-
-                result.put(key, value);
-            }
-        }
-
-        return result;
+        return result.toPackageMetadata(Map.of());
     }
 
         private static String basename(Path path) {

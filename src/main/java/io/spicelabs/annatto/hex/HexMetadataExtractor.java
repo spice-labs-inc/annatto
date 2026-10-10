@@ -91,7 +91,7 @@ public final class HexMetadataExtractor {
      * @return the normalized metadata result
      * @throws MetadataExtractionException if parsing fails
      */
-    static @NotNull MetadataResult buildMetadataResult(@NotNull String rawConfig)
+    public static @NotNull MetadataResult buildMetadataResult(@NotNull String rawConfig)
             throws MetadataExtractionException {
         try {
             List<Token> tokens = new ErlangTermTokenizer(rawConfig).tokenize();

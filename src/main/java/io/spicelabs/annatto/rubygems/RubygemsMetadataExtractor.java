@@ -96,6 +96,19 @@ public final class RubygemsMetadataExtractor {
     }
 
     /**
+     * Builds a {@link MetadataResult} from the decompressed text of a gem's
+     * {@code metadata.gz}.
+     *
+     * @param rawYaml the raw gemspec YAML
+     * @return the normalized metadata result
+     * @throws MetadataExtractionException if YAML parsing fails
+     */
+    public static @NotNull MetadataResult buildMetadataResult(@NotNull String rawYaml)
+            throws MetadataExtractionException {
+        return buildMetadataResult(new GemMetadataData(rawYaml));
+    }
+
+    /**
      * Builds a {@link MetadataResult} from extracted gem metadata YAML.
      * Strips Ruby-specific YAML tags before parsing with SnakeYAML SafeConstructor.
      *
@@ -159,7 +172,7 @@ public final class RubygemsMetadataExtractor {
      * @param rawYaml the raw YAML string from metadata.gz
      * @return the YAML with Ruby tags removed
      */
-    static @NotNull String stripRubyYamlTags(@NotNull String rawYaml) {
+    public static @NotNull String stripRubyYamlTags(@NotNull String rawYaml) {
         return rawYaml.replaceAll("!ruby/\\S+", "");
     }
 

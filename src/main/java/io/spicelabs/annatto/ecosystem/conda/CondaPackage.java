@@ -14,10 +14,13 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.conda;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.conda.CondaMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
+import io.spicelabs.annatto.internal.JsonSecurity;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.Spool;
@@ -114,16 +117,16 @@ public final class CondaPackage implements LanguagePackage {
     private static CondaPackage fromSource(PackageSource source, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
         boolean isV2 = filename.toLowerCase(Locale.ROOT).endsWith(".conda");
-        Map<String, Object> indexInfo;
+        InfoJson info;
         try {
-            indexInfo = isV2
-                ? extractIndexFromV2(source.path(), filename, limits)
-                : extractIndexFromV1(source.path(), filename, limits);
+            info = isV2
+                ? extractInfoFromV2(source.path(), filename, limits)
+                : extractInfoFromV1(source.path(), filename, limits);
         } catch (Exception e) {
             source.releaseResources();
             throw e;
         }
-        PackageMetadata metadata = parseMetadata(indexInfo);
+        PackageMetadata metadata = parseMetadata(info);
         return new CondaPackage(filename, source, metadata, isV2, limits);
     }
 
@@ -200,9 +203,11 @@ public final class CondaPackage implements LanguagePackage {
     // Metadata extraction (streaming / random-access)
     // ================================================================
 
+    /** The raw {@code info/index.json} and (optional) {@code info/about.json} texts. */
+    private record InfoJson(String index, @Nullable String about) {}
+
     /** v2: ZIP containing {@code info-*.tar.zst}; zstd decompression is bounded. */
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractIndexFromV2(Path file, String filename, Limits limits)
+    private static InfoJson extractInfoFromV2(Path file, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
         try (ZipFile zf = Archives.zipFile(file)) {
             int count = 0;
@@ -215,24 +220,31 @@ public final class CondaPackage implements LanguagePackage {
                 }
                 String entryName = entry.getName();
                 if (entryName.startsWith("info-") && entryName.endsWith(".tar.zst")) {
+                    String index = null;
+                    String about = null;
                     try (InputStream zstStream = zf.getInputStream(entry);
                          TarArchiveInputStream tarIn =
                              Archives.zstdTar(zstStream, filename, limits.scanBytes(), () -> { })) {
                         TarArchiveEntry tarEntry;
                         int innerCount = 0;
-                        while ((tarEntry = tarIn.getNextEntry()) != null) {
+                        while ((index == null || about == null)
+                                && (tarEntry = tarIn.getNextEntry()) != null) {
                             if (++innerCount > limits.maxEntries()) {
                                 throw new AnnattoException.SecurityException(
                                     "Archive exceeds metadata scan entry count limit: " + filename);
                             }
                             if (tarEntry.getName().equals("info/index.json")) {
-                                String json = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
-                                return parseJsonToMap(json);
+                                index = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
+                            } else if (tarEntry.getName().equals("info/about.json")) {
+                                about = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
                             }
                         }
                     }
-                    throw new AnnattoException.MalformedPackageException(
-                        "No info/index.json found in info-*.tar.zst for: " + filename);
+                    if (index == null) {
+                        throw new AnnattoException.MalformedPackageException(
+                            "No info/index.json found in info-*.tar.zst for: " + filename);
+                    }
+                    return new InfoJson(index, about);
                 }
             }
             throw new AnnattoException.MalformedPackageException(
@@ -240,26 +252,38 @@ public final class CondaPackage implements LanguagePackage {
         }
     }
 
-    /** v1: bounded bzip2 streaming scan for {@code info/index.json}. */
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractIndexFromV1(Path file, String filename, Limits limits)
+    /**
+     * v1: bounded bzip2 streaming scan for {@code info/index.json} and {@code info/about.json}.
+     * The {@code info/} entries are written together at the start of the archive, so the scan
+     * stops at the first entry outside {@code info/} once index.json has been seen.
+     */
+    private static InfoJson extractInfoFromV1(Path file, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
+        String index = null;
+        String about = null;
         try (TarArchiveInputStream tarIn = Archives.bzip2Tar(file, filename, limits.scanBytes(), () -> { })) {
             int count = 0;
             TarArchiveEntry entry;
-            while ((entry = tarIn.getNextEntry()) != null) {
+            while ((index == null || about == null) && (entry = tarIn.getNextEntry()) != null) {
                 if (++count > limits.maxEntries()) {
                     throw new AnnattoException.SecurityException(
                         "Archive exceeds metadata scan entry count limit: " + filename);
                 }
-                if (entry.getName().equals("info/index.json")) {
-                    String json = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
-                    return parseJsonToMap(json);
+                String entryName = entry.getName();
+                if (entryName.equals("info/index.json")) {
+                    index = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
+                } else if (entryName.equals("info/about.json")) {
+                    about = readBounded(tarIn, Math.min(MAX_INDEX_JSON_SIZE, limits.entryBytes()), filename);
+                } else if (index != null && !entryName.startsWith("info/")) {
+                    break;
                 }
             }
+        }
+        if (index == null) {
             throw new AnnattoException.MalformedPackageException(
                 "No info/index.json found in conda v1 package: " + filename);
         }
+        return new InfoJson(index, about);
     }
 
     private static String readBounded(InputStream stream, long cap, String filename) throws IOException {
@@ -271,63 +295,43 @@ public final class CondaPackage implements LanguagePackage {
             totalRead += read;
             if (totalRead > cap) {
                 throw new AnnattoException.SecurityException(
-                    "info/index.json exceeds size limit: " + filename);
+                    "Conda info file exceeds size limit: " + filename);
             }
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> parseJsonToMap(String json) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("name", extractJsonString(json, "name"));
-        result.put("version", extractJsonString(json, "version"));
-        result.put("license", extractJsonString(json, "license"));
-        result.put("summary", extractJsonString(json, "summary"));
-        result.put("subdir", extractJsonString(json, "subdir"));
-        return result;
+    private static PackageMetadata parseMetadata(InfoJson info) throws IOException {
+        // Depth guard (catalog §8 analog): GSON recursion is unbounded.
+        JsonSecurity.checkDepth(info.index());
+        String about = info.about();
+        if (about != null) {
+            try {
+                JsonSecurity.checkDepth(about);
+            } catch (AnnattoException.MalformedPackageException e) {
+                about = null; // about.json is optional; treat an over-deep one as absent
+            }
+        }
+        MetadataResult result;
+        try {
+            result = CondaMetadataExtractor.buildMetadataResult(info.index(), about);
+        } catch (AnnattoException.MetadataExtractionException e) {
+            throw new AnnattoException.MalformedPackageException(
+                "Failed to parse info/index.json: " + e.getMessage(), e);
+        }
+
+        Map<String, Object> raw = new HashMap<>();
+        raw.put("subdir", extractSubdir(info.index()));
+
+        return result.toPackageMetadata(raw);
     }
 
     @Nullable
-    private static String extractJsonString(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*\"([^\"]+)\"";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern);
-        java.util.regex.Matcher m = p.matcher(json);
-        if (m.find()) {
-            return m.group(1);
-        }
-        return null;
-    }
-
-    private static PackageMetadata parseMetadata(Map<String, Object> indexInfo) {
-        String name = getString(indexInfo, "name");
-        String version = getString(indexInfo, "version");
-
-        Optional<String> description = Optional.ofNullable(getString(indexInfo, "summary"));
-        Optional<String> license = Optional.ofNullable(getString(indexInfo, "license"));
-
-        Map<String, Object> raw = new HashMap<>();
-        raw.put("subdir", getString(indexInfo, "subdir"));
-
-        return new PackageMetadata(
-            name != null ? name : "",
-            version != null ? version : "",
-            description,
-            license,
-            Optional.empty(),
-            Optional.empty(),
-            List.of(), // Conda dependencies not extracted here
-            raw
-        );
-    }
-
-    private static String getString(Map<String, Object> map, String key) {
-        Object value = map.get(key);
-        if (value instanceof String) {
-            return (String) value;
-        }
-        return null;
+    private static String extractSubdir(String indexJson) {
+        com.google.gson.JsonElement subdir =
+            com.google.gson.JsonParser.parseString(indexJson).getAsJsonObject().get("subdir");
+        return subdir != null && subdir.isJsonPrimitive() ? subdir.getAsString() : null;
     }
 
     private static String basename(Path path) {

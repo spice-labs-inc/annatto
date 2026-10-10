@@ -14,9 +14,12 @@ limitations under the License. */
 
 package io.spicelabs.annatto.common;
 
+import io.spicelabs.annatto.Dependency;
+import io.spicelabs.annatto.PackageMetadata;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -52,5 +55,29 @@ public record MetadataResult(
      */
     public MetadataResult {
         dependencies = List.copyOf(dependencies);
+    }
+
+    /**
+     * Converts this result to the {@link PackageMetadata} exposed by the
+     * {@link io.spicelabs.annatto.LanguagePackage} API, so that both APIs report the same
+     * values (issue #14). An absent name or version becomes the empty string.
+     *
+     * @param raw ecosystem-specific raw values to carry alongside the normalized fields
+     * @return the equivalent package metadata
+     */
+    public @NotNull PackageMetadata toPackageMetadata(@NotNull Map<String, Object> raw) {
+        List<Dependency> deps = dependencies.stream()
+                .map(dep -> new Dependency(dep.name(), dep.scope(), dep.versionConstraint().orElse("")))
+                .toList();
+        return new PackageMetadata(
+                name.orElse(""),
+                version.orElse(""),
+                description,
+                license,
+                publisher,
+                Optional.empty(),
+                deps,
+                raw
+        );
     }
 }

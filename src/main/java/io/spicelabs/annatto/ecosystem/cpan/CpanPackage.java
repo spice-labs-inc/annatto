@@ -14,11 +14,15 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.cpan;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.cpan.CpanMetadataExtractor;
+import io.spicelabs.annatto.cpan.CpanMetadataExtractor.MetaFormat;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
 import io.spicelabs.annatto.internal.EntryContentStream;
+import io.spicelabs.annatto.internal.JsonSecurity;
 import io.spicelabs.annatto.internal.Limits;
 import io.spicelabs.annatto.internal.PackageSource;
 import io.spicelabs.annatto.internal.Spool;
@@ -118,18 +122,28 @@ public final class CpanPackage implements LanguagePackage {
     private static CpanPackage fromSource(PackageSource source, String filename,
             Optional<String> pathPauseId, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
-        Map<String, Object> meta;
+        PackageMetadata metadata;
+        Optional<String> pauseId;
         try {
-            meta = extractMetadata(source.path(), filename, limits);
+            MetaFile meta = extractMetadata(source.path(), filename, limits);
+            if (meta.format() == MetaFormat.JSON) {
+                // Depth guard (catalog §8 analog): GSON recursion is unbounded.
+                JsonSecurity.checkDepth(meta.text());
+            }
+            // The mirror path names the uploader; x_authority names the owner, so the path wins.
+            pauseId = pathPauseId.isPresent()
+                ? pathPauseId
+                : pauseIdFromAuthority(CpanMetadataExtractor.extractAuthority(meta.text(), meta.format())
+                    .orElse(null));
+            metadata = parseMetadata(meta, pauseId);
+        } catch (AnnattoException.MetadataExtractionException e) {
+            source.releaseResources();
+            throw new AnnattoException.MalformedPackageException(
+                "Failed to parse CPAN metadata in " + filename + ": " + e.getMessage(), e);
         } catch (Exception e) {
             source.releaseResources();
             throw e;
         }
-        // The mirror path names the uploader; x_authority names the owner, so the path wins.
-        Optional<String> pauseId = pathPauseId.isPresent()
-            ? pathPauseId
-            : pauseIdFromAuthority(getString(meta, "x_authority"));
-        PackageMetadata metadata = parseMetadata(meta, pauseId);
         return new CpanPackage(filename, source, metadata, pauseId, limits);
     }
 
@@ -213,12 +227,17 @@ public final class CpanPackage implements LanguagePackage {
         streamOpen.set(false);
     }
 
+    /** The raw text of a META.json or META.yml file. */
+    private record MetaFile(String text, MetaFormat format) {}
+
     /**
      * Streaming single-pass scan for the top-level META.json/META.yml (no whole-tar byte[]).
+     * META.json is preferred: META.yml is the older v1 spec, which is only used when the
+     * distribution has no META.json.
      */
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractMetadata(Path file, String filename, Limits limits)
+    private static MetaFile extractMetadata(Path file, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
+        String metaYml = null;
         try (TarArchiveInputStream tarIn = Archives.gzipTar(file, filename, limits.scanBytes(), () -> { })) {
             int count = 0;
             TarArchiveEntry entry;
@@ -234,15 +253,24 @@ public final class CpanPackage implements LanguagePackage {
                 if (MetaMarker.isMetaFile(entryName)) {
                     String content = readStreamToString(tarIn, filename, Math.min(limits.entryBytes(), MAX_METADATA_SIZE));
                     if (entryName.endsWith(".json")) {
-                        return parseJsonMetadata(content);
-                    } else {
-                        return parseYamlMetadata(content);
+                        return new MetaFile(content, MetaFormat.JSON);
+                    } else if (metaYml == null) {
+                        metaYml = content;
                     }
                 }
             }
-            throw new AnnattoException.MalformedPackageException(
-                "No META.json or META.yml found in CPAN distribution: " + filename);
+        } catch (AnnattoException.SecurityException e) {
+            // A scan limit hit while looking for a META.json that may not exist must not
+            // discard a META.yml that has already been read.
+            if (metaYml == null) {
+                throw e;
+            }
         }
+        if (metaYml != null) {
+            return new MetaFile(metaYml, MetaFormat.YAML);
+        }
+        throw new AnnattoException.MalformedPackageException(
+            "No META.json or META.yml found in CPAN distribution: " + filename);
     }
 
     private static String readStreamToString(InputStream stream, String filename, long cap) throws IOException {
@@ -259,80 +287,6 @@ public final class CpanPackage implements LanguagePackage {
             baos.write(buffer, 0, read);
         }
         return baos.toString(StandardCharsets.UTF_8);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> parseJsonMetadata(String json) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("name", extractJsonString(json, "name"));
-        result.put("version", extractJsonString(json, "version"));
-        result.put("abstract", extractJsonString(json, "abstract"));
-        result.put("license", extractJsonArray(json, "license"));
-        result.put("author", extractJsonArray(json, "author"));
-        result.put("x_authority", extractJsonString(json, "x_authority"));
-        return result;
-    }
-
-    @Nullable
-    private static String extractJsonString(String json, String key) {
-        String pattern = "^\\s{1,4}\"" + key + "\"\\s*:\\s*\"([^\"]+)\"";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern, java.util.regex.Pattern.MULTILINE);
-        java.util.regex.Matcher m = p.matcher(json);
-        if (m.find()) {
-            return m.group(1);
-        }
-        return null;
-    }
-
-    @Nullable
-    private static List<String> extractJsonArray(String json, String key) {
-        String pattern = "\"" + key + "\"\\s*:\\s*\\[([^\\]]*)\\]";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern);
-        java.util.regex.Matcher m = p.matcher(json);
-        if (m.find()) {
-            String content = m.group(1);
-            List<String> result = new ArrayList<>();
-            java.util.regex.Pattern itemPattern = java.util.regex.Pattern.compile("\"([^\"]+)\"");
-            java.util.regex.Matcher itemMatcher = itemPattern.matcher(content);
-            while (itemMatcher.find()) {
-                result.add(itemMatcher.group(1));
-            }
-            return result.isEmpty() ? null : result;
-        }
-        return null;
-    }
-
-    private static Map<String, Object> parseYamlMetadata(String yaml) {
-        Map<String, Object> result = new HashMap<>();
-        String[] lines = yaml.split("\n");
-
-        for (String line : lines) {
-            if (!line.isEmpty() && !line.startsWith(" ") && !line.startsWith("\t")) {
-                if (line.startsWith("name: ") && !result.containsKey("name")) {
-                    result.put("name", stripYamlQuotes(line.substring(6).trim()));
-                } else if (line.startsWith("version: ") && !result.containsKey("version")) {
-                    result.put("version", stripYamlQuotes(line.substring(9).trim()));
-                } else if (line.startsWith("abstract: ") && !result.containsKey("abstract")) {
-                    result.put("abstract", stripYamlQuotes(line.substring(10).trim()));
-                } else if (line.startsWith("license: ") && !result.containsKey("license")) {
-                    String license = stripYamlQuotes(line.substring(9).trim());
-                    if (!license.isEmpty()) {
-                        result.put("license", List.of(license));
-                    }
-                } else if (line.startsWith("x_authority: ") && !result.containsKey("x_authority")) {
-                    result.put("x_authority", stripYamlQuotes(line.substring(13).trim()));
-                }
-            }
-        }
-        return result;
-    }
-
-    private static String stripYamlQuotes(String value) {
-        if ((value.startsWith("'") && value.endsWith("'")) ||
-            (value.startsWith("\"") && value.endsWith("\""))) {
-            return value.substring(1, value.length() - 1);
-        }
-        return value;
     }
 
     /**
@@ -360,50 +314,14 @@ public final class CpanPackage implements LanguagePackage {
         return PAUSE_ID.matcher(id).matches() ? Optional.of(id) : Optional.empty();
     }
 
-    private static PackageMetadata parseMetadata(Map<String, Object> meta, Optional<String> pauseId) {
-        String name = getString(meta, "name");
-        String version = getString(meta, "version");
-
-        if (name == null || name.isEmpty()) {
-            name = "";
-        }
-
-        Optional<String> description = Optional.ofNullable(getString(meta, "abstract"));
-        Optional<String> license = extractLicense(meta);
+    private static PackageMetadata parseMetadata(MetaFile meta, Optional<String> pauseId)
+            throws AnnattoException.MetadataExtractionException {
+        MetadataResult result = CpanMetadataExtractor.buildMetadataResult(meta.text(), meta.format());
 
         Map<String, Object> raw = new HashMap<>();
         pauseId.ifPresent(id -> raw.put("pauseId", id));
 
-        return new PackageMetadata(
-            name,
-            version != null ? version : "",
-            description,
-            license,
-            Optional.empty(),
-            Optional.empty(),
-            List.of(), // CPAN dependencies not extracted here
-            raw
-        );
-    }
-
-    private static String getString(Map<String, Object> map, String key) {
-        Object value = map.get(key);
-        if (value instanceof String) {
-            return (String) value;
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Optional<String> extractLicense(Map<String, Object> meta) {
-        Object license = meta.get("license");
-        if (license instanceof List && !((List<?>) license).isEmpty()) {
-            Object first = ((List<?>) license).get(0);
-            if (first instanceof String) {
-                return Optional.of((String) first);
-            }
-        }
-        return Optional.empty();
+        return result.toPackageMetadata(raw);
     }
 
     private static String basename(Path path) {

@@ -14,7 +14,9 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.rubygems;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.rubygems.RubygemsMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.BoundedInflateStream;
@@ -108,7 +110,7 @@ public final class RubygemsPackage implements LanguagePackage {
 
     private static RubygemsPackage fromSource(PackageSource source, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
-        Map<String, Object> gemSpec;
+        String gemSpec;
         try {
             gemSpec = extractMetadata(source.path(), filename, limits);
         } catch (Exception e) {
@@ -186,8 +188,7 @@ public final class RubygemsPackage implements LanguagePackage {
         streamOpen.set(false);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> extractMetadata(Path file, String filename, Limits limits)
+    private static String extractMetadata(Path file, String filename, Limits limits)
             throws IOException, AnnattoException.MalformedPackageException {
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(
                 new BufferedInputStream(new FileInputStream(file.toFile()), 8192), StandardCharsets.UTF_8.name())) {
@@ -209,7 +210,7 @@ public final class RubygemsPackage implements LanguagePackage {
                             "metadata.gz exceeds size limit");
                     }
                     // Nested member decompression is bounded (Phase 8).
-                    return readAndParseMetadataGz(tarIn, filename, Math.min(limits.scanBytes(), MAX_METADATA_SIZE));
+                    return readMetadataGz(tarIn, filename, Math.min(limits.scanBytes(), MAX_METADATA_SIZE));
                 }
             }
             throw new AnnattoException.MalformedPackageException(
@@ -217,8 +218,7 @@ public final class RubygemsPackage implements LanguagePackage {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> readAndParseMetadataGz(InputStream gzSource, String filename, long cap)
+    private static String readMetadataGz(InputStream gzSource, String filename, long cap)
             throws IOException {
         // Bound the DECOMPRESSED member bytes: the bounded inflate wrapper sits between the
         // nested GZIPInputStream and the YAML read, so over-limit members fail closed.
@@ -231,133 +231,30 @@ public final class RubygemsPackage implements LanguagePackage {
             while ((read = bounded.read(buffer)) != -1) {
                 baos.write(buffer, 0, read);
             }
-
-            String yaml = baos.toString(StandardCharsets.UTF_8);
-            // Strip Ruby-specific YAML tags that SafeConstructor cannot handle
-            yaml = yaml.replaceAll("!ruby/object:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/regexp:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/range:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/class:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/module:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/exception:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/struct:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/sym:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/array:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/hash:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/set:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/omap:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/pairs:[^\\s\\n]*", "");
-            yaml = yaml.replaceAll("!ruby/timestamp:[^\\s\\n]*", "");
-            LoaderOptions loaderOptions = new LoaderOptions();
-            Yaml yamlParser = new Yaml(new SafeConstructor(loaderOptions));
-            return yamlParser.load(yaml);
+            return baos.toString(StandardCharsets.UTF_8);
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static PackageMetadata parseMetadata(Map<String, Object> gemSpec) {
-        String name = getString(gemSpec, "name");
-        String version = "";
-
-        Object versionObj = gemSpec.get("version");
-        if (versionObj instanceof String) {
-            version = (String) versionObj;
-        } else if (versionObj instanceof Map) {
-            version = getString((Map<String, Object>) versionObj, "version");
+    private static PackageMetadata parseMetadata(String yaml)
+            throws AnnattoException.MalformedPackageException {
+        MetadataResult result;
+        Map<String, Object> gemSpec;
+        try {
+            result = RubygemsMetadataExtractor.buildMetadataResult(yaml);
+            gemSpec = new Yaml(new SafeConstructor(new LoaderOptions()))
+                .load(RubygemsMetadataExtractor.stripRubyYamlTags(yaml));
+        } catch (AnnattoException.MetadataExtractionException | RuntimeException e) {
+            throw new AnnattoException.MalformedPackageException(
+                "Failed to parse gem metadata: " + e.getMessage(), e);
         }
-
-        Optional<String> description = Optional.ofNullable(getString(gemSpec, "summary"));
-        Optional<String> license = extractLicense(gemSpec);
-
-        List<Dependency> dependencies = parseDependencies(gemSpec);
 
         Map<String, Object> raw = new HashMap<>();
         raw.put("homepage", gemSpec.get("homepage"));
         raw.put("authors", gemSpec.get("authors"));
 
-        return new PackageMetadata(
-            name != null ? name : "",
-            version != null ? version : "",
-            description,
-            license,
-            extractPublisher(gemSpec),
-            Optional.empty(),
-            dependencies,
-            raw
-        );
+        return result.toPackageMetadata(raw);
     }
 
-    private static String getString(Map<String, Object> map, String key) {
-        Object value = map.get(key);
-        if (value instanceof String) {
-            return (String) value;
-        }
-        return null;
-    }
-
-    private static Optional<String> extractPublisher(Map<String, Object> gemSpec) {
-        Object authors = gemSpec.get("authors");
-        if (authors instanceof List && !((List<?>) authors).isEmpty()) {
-            Object first = ((List<?>) authors).get(0);
-            if (first instanceof String) {
-                return Optional.of((String) first);
-            }
-        }
-        Object author = gemSpec.get("author");
-        if (author instanceof String) {
-            return Optional.of((String) author);
-        }
-        return Optional.empty();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Optional<String> extractLicense(Map<String, Object> gemSpec) {
-        Object licenses = gemSpec.get("licenses");
-        if (licenses instanceof List && !((List<?>) licenses).isEmpty()) {
-            Object first = ((List<?>) licenses).get(0);
-            if (first instanceof String) {
-                return Optional.of((String) first);
-            }
-        }
-        String license = getString(gemSpec, "license");
-        if (license != null && !license.isEmpty()) {
-            return Optional.of(license);
-        }
-        return Optional.empty();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static List<Dependency> parseDependencies(Map<String, Object> gemSpec) {
-        List<Dependency> deps = new ArrayList<>();
-
-        Object dependencies = gemSpec.get("dependencies");
-        if (dependencies instanceof List) {
-            for (Object depObj : (List<?>) dependencies) {
-                if (depObj instanceof Map) {
-                    Map<String, Object> dep = (Map<String, Object>) depObj;
-                    String name = getString(dep, "name");
-                    String versionReq = "";
-                    Object requirement = dep.get("requirement");
-                    if (requirement instanceof Map) {
-                        versionReq = getString((Map<String, Object>) requirement, "requirements");
-                        if (versionReq == null) versionReq = "";
-                    }
-                    String type = getString(dep, "type");
-                    String scope = type != null ? type : "runtime";
-
-                    if (name != null && !name.isEmpty()) {
-                        deps.add(new Dependency(name, Optional.of(scope), versionReq));
-                    }
-                }
-            }
-        }
-
-        return deps;
-    }
-
-    /**
-     * Entry stream implementation for RubyGems packages.
-     */
     private static String basename(Path path) {
         return path.getFileName().toString();
     }

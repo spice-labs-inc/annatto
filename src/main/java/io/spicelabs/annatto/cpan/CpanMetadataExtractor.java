@@ -171,6 +171,35 @@ public final class CpanMetadataExtractor {
     }
 
     /**
+     * Builds a MetadataResult from the raw text of a META.json or META.yml file.
+     *
+     * @param rawText the raw meta text
+     * @param format  the format of {@code rawText}
+     * @return the normalized metadata result
+     * @throws MetadataExtractionException if parsing fails
+     */
+    public static @NotNull MetadataResult buildMetadataResult(
+            @NotNull String rawText, @NotNull MetaFormat format)
+            throws MetadataExtractionException {
+        return buildMetadataResult(new CpanArchiveData(rawText, format));
+    }
+
+    /**
+     * Extracts the {@code x_authority} field (e.g. {@code cpan:ETHER}) from the raw text of
+     * a META.json or META.yml file.
+     *
+     * @param rawText the raw meta text
+     * @param format  the format of {@code rawText}
+     * @return the x_authority value, or empty if absent
+     * @throws MetadataExtractionException if parsing fails
+     */
+    public static @NotNull Optional<String> extractAuthority(
+            @NotNull String rawText, @NotNull MetaFormat format)
+            throws MetadataExtractionException {
+        return getOptionalString(parseToJsonObject(new CpanArchiveData(rawText, format)), "x_authority");
+    }
+
+    /**
      * Builds a MetadataResult from extracted archive data.
      *
      * @param data the raw meta text and format
@@ -509,7 +538,7 @@ public final class CpanMetadataExtractor {
     }
 
     /** Detected meta format. */
-    enum MetaFormat {
+    public enum MetaFormat {
         JSON,
         YAML
     }
