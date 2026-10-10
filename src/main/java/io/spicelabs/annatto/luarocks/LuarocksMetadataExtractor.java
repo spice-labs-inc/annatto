@@ -144,6 +144,20 @@ public final class LuarocksMetadataExtractor {
     }
 
     /**
+     * Evaluates the raw text of a rockspec and builds a normalized {@link MetadataResult}.
+     *
+     * @param rawText  the rockspec Lua source code
+     * @param filename the artifact filename, for error reporting
+     * @return the normalized metadata result
+     * @throws MetadataExtractionException if Lua evaluation fails
+     */
+    public static @NotNull MetadataResult buildMetadataResult(
+            @NotNull String rawText, @NotNull String filename)
+            throws MetadataExtractionException {
+        return buildMetadataResult(new RockspecData(rawText, filename));
+    }
+
+    /**
      * Evaluates the rockspec Lua text and builds a normalized {@link MetadataResult}.
      *
      * @param data the rockspec data containing raw Lua text

@@ -73,6 +73,19 @@ public final class PackagistMetadataExtractor {
     }
 
     /**
+     * Builds a {@link MetadataResult} from the raw text of a {@code composer.json}.
+     *
+     * @param rawJson  the raw composer.json content
+     * @param filename the artifact filename, used for the version when composer.json has none
+     * @return the normalized metadata result
+     * @throws MetadataExtractionException if JSON parsing fails
+     */
+    public static @NotNull MetadataResult buildMetadataResult(@NotNull String rawJson, @NotNull String filename)
+            throws MetadataExtractionException {
+        return buildMetadataResult(new ComposerJsonData(rawJson), filename);
+    }
+
+    /**
      * Builds a {@link MetadataResult} from extracted composer.json data.
      * Parses the JSON text and maps fields to the normalized metadata model.
      *

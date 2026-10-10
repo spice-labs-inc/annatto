@@ -14,7 +14,9 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.packagist;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.packagist.PackagistMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -237,6 +239,7 @@ public final class PackagistPackage implements LanguagePackage {
     private static PackageMetadata parseMetadata(String composerJson, String filename)
             throws AnnattoException.MalformedPackageException {
         JsonObject json;
+        MetadataResult result;
         try {
             // Depth guard (catalog §8 analog): GSON recursion is unbounded.
             io.spicelabs.annatto.internal.JsonSecurity.checkDepth(composerJson);
@@ -245,38 +248,16 @@ public final class PackagistPackage implements LanguagePackage {
                 throw new AnnattoException.MalformedPackageException("composer.json is not a JSON object");
             }
             json = element.getAsJsonObject();
+            result = PackagistMetadataExtractor.buildMetadataResult(composerJson, filename);
         } catch (Exception e) {
             throw new AnnattoException.MalformedPackageException("Failed to parse composer.json: " + e.getMessage(), e);
         }
-
-        String name = getString(json, "name");
-        String version = getString(json, "version");
-
-        // If version not in composer.json, extract from filename
-        // Filename format: symfony-console-v6.4.2.zip or package-name-1.0.0.zip
-        if (version == null || version.isEmpty()) {
-            version = extractVersionFromFilename(filename);
-        }
-
-        Optional<String> description = Optional.ofNullable(getString(json, "description"));
-        Optional<String> license = extractLicense(json);
-
-        List<Dependency> dependencies = parseDependencies(json);
 
         Map<String, Object> raw = new HashMap<>();
         raw.put("type", getString(json, "type"));
         raw.put("homepage", getString(json, "homepage"));
 
-        return new PackageMetadata(
-            name != null ? name : "",
-            version,
-            description,
-            license,
-            extractPublisher(json),
-            Optional.empty(),
-            dependencies,
-            raw
-        );
+        return result.toPackageMetadata(raw);
     }
 
     private static String getString(JsonObject json, String key) {
@@ -285,89 +266,6 @@ public final class PackagistPackage implements LanguagePackage {
             return value.isEmpty() ? null : value;
         }
         return null;
-    }
-
-    private static Optional<String> extractPublisher(JsonObject json) {
-        if (json.has("authors") && json.get("authors").isJsonArray()) {
-            for (JsonElement author : json.get("authors").getAsJsonArray()) {
-                if (author.isJsonObject()) {
-                    String name = getString(author.getAsJsonObject(), "name");
-                    if (name != null && !name.isEmpty()) {
-                        return Optional.of(name);
-                    }
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    private static Optional<String> extractLicense(JsonObject json) {
-        if (json.has("license")) {
-            JsonElement license = json.get("license");
-            if (license.isJsonPrimitive()) {
-                return Optional.of(license.getAsString());
-            } else if (license.isJsonArray() && !license.getAsJsonArray().isEmpty()) {
-                JsonElement first = license.getAsJsonArray().get(0);
-                if (first.isJsonPrimitive()) {
-                    return Optional.of(first.getAsString());
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    private static List<Dependency> parseDependencies(JsonObject json) {
-        List<Dependency> deps = new ArrayList<>();
-
-        // require section (runtime dependencies)
-        if (json.has("require") && json.get("require").isJsonObject()) {
-            JsonObject require = json.get("require").getAsJsonObject();
-            for (Entry<String, JsonElement> entry : require.entrySet()) {
-                String name = entry.getKey();
-                // Skip PHP version requirements
-                if (name.equals("php") || name.startsWith("ext-")) {
-                    continue;
-                }
-                String version = entry.getValue().isJsonPrimitive()
-                    ? entry.getValue().getAsString()
-                    : "";
-                deps.add(new Dependency(name, Optional.of("runtime"), version));
-            }
-        }
-
-        // require-dev section (dev dependencies)
-        if (json.has("require-dev") && json.get("require-dev").isJsonObject()) {
-            JsonObject requireDev = json.get("require-dev").getAsJsonObject();
-            for (Entry<String, JsonElement> entry : requireDev.entrySet()) {
-                String name = entry.getKey();
-                String version = entry.getValue().isJsonPrimitive()
-                    ? entry.getValue().getAsString()
-                    : "";
-                deps.add(new Dependency(name, Optional.of("dev"), version));
-            }
-        }
-
-        return deps;
-    }
-
-    private static String extractVersionFromFilename(String filename) {
-        // Extract version from filename like "symfony-console-v6.4.2.zip"
-        // Pattern: look for -vX.Y.Z or -X.Y.Z before .zip
-        if (filename == null || filename.isEmpty()) {
-            return "";
-        }
-        // Remove .zip extension
-        String nameWithoutExt = filename;
-        if (filename.endsWith(".zip")) {
-            nameWithoutExt = filename.substring(0, filename.length() - 4);
-        }
-        // Try to find version pattern: -v followed by digits, or - followed by version
-        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("-v?([0-9]+\\.[0-9]+.*)");
-        java.util.regex.Matcher matcher = pattern.matcher(nameWithoutExt);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return "";
     }
 
         private static String basename(Path path) {

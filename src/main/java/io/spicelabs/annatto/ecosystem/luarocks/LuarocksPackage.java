@@ -14,7 +14,9 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.luarocks;
 
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
+import io.spicelabs.annatto.luarocks.LuarocksMetadataExtractor;
 import io.spicelabs.coordinates.Purl;
 import io.spicelabs.annatto.*;
 import io.spicelabs.annatto.internal.Archives;
@@ -246,25 +248,23 @@ public final class LuarocksPackage implements LanguagePackage {
         }
     }
 
-private static PackageMetadata parseMetadata(String rockspec, String filename)
+    private static PackageMetadata parseMetadata(String rockspec, String filename)
             throws AnnattoException.MalformedPackageException {
-        // Parse Lua rockspec
-        String packageName = extractLuaString(rockspec, "package");
-        String version = extractLuaString(rockspec, "version");
-
-        if (packageName == null || packageName.isEmpty()) {
-            // Try to extract from filename
-            packageName = extractNameFromFilename(filename);
+        MetadataResult result;
+        try {
+            result = LuarocksMetadataExtractor.buildMetadataResult(rockspec, filename);
+        } catch (AnnattoException.MetadataExtractionException e) {
+            throw new AnnattoException.MalformedPackageException(
+                "Failed to evaluate rockspec: " + e.getMessage(), e);
         }
 
-        if (version == null || version.isEmpty()) {
-            version = extractVersionFromFilename(filename);
+        // Fall back to the filename when the rockspec omits package or version
+        if (result.name().isEmpty() || result.version().isEmpty()) {
+            Optional<String> name = result.name().or(() -> Optional.ofNullable(extractNameFromFilename(filename)));
+            Optional<String> version = result.version().or(() -> Optional.ofNullable(extractVersionFromFilename(filename)));
+            result = new MetadataResult(result.ecosystem(), name, name, version, result.description(),
+                result.license(), result.publisher(), result.publishedAt(), result.dependencies());
         }
-
-        Optional<String> description = Optional.ofNullable(extractLuaString(rockspec, "summary"));
-        Optional<String> license = Optional.ofNullable(extractLuaString(rockspec, "license"));
-
-        List<Dependency> dependencies = parseDependencies(rockspec);
 
         Map<String, Object> raw = new HashMap<>();
         String homepage = extractLuaString(rockspec, "homepage");
@@ -272,16 +272,7 @@ private static PackageMetadata parseMetadata(String rockspec, String filename)
             raw.put("homepage", homepage);
         }
 
-        return new PackageMetadata(
-                packageName != null ? packageName : "",
-                version != null ? version : "",
-                description,
-                license,
-                Optional.empty(),
-                Optional.empty(),
-                dependencies,
-                raw
-        );
+        return result.toPackageMetadata(raw);
     }
 
     private static String extractLuaString(String rockspec, String key) {
@@ -363,42 +354,7 @@ private static PackageMetadata parseMetadata(String rockspec, String filename)
         return "";
     }
 
-    private static List<Dependency> parseDependencies(String rockspec) {
-        List<Dependency> deps = new ArrayList<>();
-
-        // dependencies table
-        Pattern depTablePattern = Pattern.compile(
-            "dependencies\\s*=\\s*\\{([^}]+)\\}", Pattern.DOTALL);
-        Matcher tableMatcher = depTablePattern.matcher(rockspec);
-        if (tableMatcher.find()) {
-            String depsContent = tableMatcher.group(1);
-            // Parse individual deps
-            Pattern depPattern = Pattern.compile("([\"'])([^\"']+)\\1");
-            Matcher depMatcher = depPattern.matcher(depsContent);
-            while (depMatcher.find()) {
-                String dep = depMatcher.group(2);
-                // Parse version constraint if present (e.g., "name >= 1.0")
-                int spaceIdx = dep.indexOf(' ');
-                String name;
-                String version;
-                if (spaceIdx > 0) {
-                    name = dep.substring(0, spaceIdx);
-                    version = dep.substring(spaceIdx + 1).trim();
-                } else {
-                    name = dep;
-                    version = "";
-                }
-                // Filter out platform dependencies (lua runtime)
-                if (!name.equals("lua")) {
-                    deps.add(new Dependency(name, Optional.of("runtime"), version));
-                }
-            }
-        }
-
-        return deps;
-    }
-
-private static String basename(Path path) {
+    private static String basename(Path path) {
         return path.getFileName().toString();
     }
 

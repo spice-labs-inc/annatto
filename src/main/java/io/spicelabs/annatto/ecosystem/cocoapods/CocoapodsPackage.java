@@ -14,6 +14,8 @@ limitations under the License. */
 
 package io.spicelabs.annatto.ecosystem.cocoapods;
 
+import io.spicelabs.annatto.cocoapods.CocoapodsMetadataExtractor;
+import io.spicelabs.annatto.common.MetadataResult;
 import io.spicelabs.annatto.common.PurlBuilder;
 import io.spicelabs.coordinates.Purl;
 import com.google.gson.*;
@@ -242,9 +244,10 @@ public final class CocoapodsPackage implements LanguagePackage {
         }
     }
 
-private static PackageMetadata parseMetadata(String podspecJson)
+    private static PackageMetadata parseMetadata(String podspecJson)
             throws AnnattoException.MalformedPackageException {
         JsonObject json;
+        MetadataResult result;
         try {
             // Depth guard (catalog §8 analog): GSON recursion is unbounded.
             io.spicelabs.annatto.internal.JsonSecurity.checkDepth(podspecJson);
@@ -253,36 +256,20 @@ private static PackageMetadata parseMetadata(String podspecJson)
                 throw new AnnattoException.MalformedPackageException("podspec.json is not a JSON object");
             }
             json = element.getAsJsonObject();
+            result = CocoapodsMetadataExtractor.buildMetadataResult(podspecJson);
         } catch (Exception e) {
             throw new AnnattoException.MalformedPackageException("Failed to parse podspec.json: " + e.getMessage(), e);
         }
 
-        String name = getString(json, "name");
-        String version = getString(json, "version");
-
-        if (name == null || name.isEmpty()) {
+        if (result.name().isEmpty()) {
             throw new AnnattoException.MalformedPackageException("No name in podspec.json");
         }
-
-        Optional<String> description = Optional.ofNullable(getString(json, "summary"));
-        Optional<String> license = extractLicense(json);
-
-        List<Dependency> dependencies = parseDependencies(json);
 
         Map<String, Object> raw = new HashMap<>();
         raw.put("homepage", getString(json, "homepage"));
         raw.put("source", json.get("source"));
 
-        return new PackageMetadata(
-                name,
-                version != null ? version : "",
-                description,
-                license,
-                extractPublisher(json),
-                Optional.empty(),
-                dependencies,
-                raw
-        );
+        return result.toPackageMetadata(raw);
     }
 
     private static String getString(JsonObject json, String key) {
@@ -291,54 +278,6 @@ private static PackageMetadata parseMetadata(String podspecJson)
             return value.isEmpty() ? null : value;
         }
         return null;
-    }
-
-    private static Optional<String> extractPublisher(JsonObject json) {
-        if (json.has("authors") && json.get("authors").isJsonObject()) {
-            JsonObject authors = json.get("authors").getAsJsonObject();
-            if (!authors.entrySet().isEmpty()) {
-                Entry<String, JsonElement> first = authors.entrySet().iterator().next();
-                return Optional.of(first.getKey());
-            }
-        }
-        if (json.has("authors") && json.get("authors").isJsonArray()) {
-            for (JsonElement author : json.get("authors").getAsJsonArray()) {
-                if (author.isJsonPrimitive()) {
-                    return Optional.of(author.getAsString());
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-    private static Optional<String> extractLicense(JsonObject json) {
-        if (json.has("license")) {
-            JsonElement license = json.get("license");
-            if (license.isJsonPrimitive()) {
-                return Optional.of(license.getAsString());
-            } else if (license.isJsonObject() && license.getAsJsonObject().has("type")) {
-                return Optional.of(license.getAsJsonObject().get("type").getAsString());
-            }
-        }
-        return Optional.empty();
-    }
-
-    private static List<Dependency> parseDependencies(JsonObject json) {
-        List<Dependency> deps = new ArrayList<>();
-
-        // dependencies section
-        if (json.has("dependencies") && json.get("dependencies").isJsonArray()) {
-            for (JsonElement dep : json.get("dependencies").getAsJsonArray()) {
-                if (dep.isJsonArray() && dep.getAsJsonArray().size() >= 1) {
-                    JsonArray arr = dep.getAsJsonArray();
-                    String name = arr.get(0).getAsString();
-                    String version = arr.size() > 1 ? arr.get(1).getAsString() : "";
-                    deps.add(new Dependency(name, Optional.of("runtime"), version));
-                }
-            }
-        }
-
-        return deps;
     }
 
         private static String basename(Path path) {
