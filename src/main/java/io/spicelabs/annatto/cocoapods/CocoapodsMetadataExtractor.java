@@ -89,7 +89,7 @@ public final class CocoapodsMetadataExtractor {
      * @return the normalized metadata result
      * @throws MetadataExtractionException if parsing fails
      */
-    public static @NotNull MetadataResult buildMetadataResult(@NotNull String rawJson)
+    static @NotNull MetadataResult buildMetadataResult(@NotNull String rawJson)
             throws MetadataExtractionException {
         try {
             JsonObject root = GSON.fromJson(rawJson, JsonObject.class);
