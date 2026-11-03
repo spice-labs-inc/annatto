@@ -10,6 +10,9 @@ target/
 
 # Claude Code
 .claude*/
+CLAUDE.md
+AGENTS.md
+workspace/
 
 # OS files
 .DS_Store
@@ -26,7 +29,7 @@ dependency-reduced-pom.xml
 # Logs
 *.log
 
-# Test corpus packages (downloaded from public-test-data.spice-labs.dev)
+# Test corpus packages (downloaded from https://test-data.goatrodeo.org/)
 test-corpus/
 
 # Test output

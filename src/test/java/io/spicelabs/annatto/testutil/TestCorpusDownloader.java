@@ -43,7 +43,7 @@ import java.util.zip.GZIPInputStream;
  * into the {@code test-corpus/} directory at the project root.
  *
  * <p>The corpus is a single {@code annatto-test-corpus.tar.gz} hosted at
- * {@code https://public-test-data.spice-labs.dev/annatto/annatto-test-corpus.tar.gz}.
+ * {@code https://test-data.goatrodeo.org/annatto/annatto-test-corpus.tar.gz}.
  * It contains per-ecosystem subdirectories (e.g., {@code npm/}, {@code pypi/}) with
  * the actual package files used for testing.</p>
  *
@@ -70,7 +70,7 @@ public final class TestCorpusDownloader {
 
     private static final Logger logger = LoggerFactory.getLogger(TestCorpusDownloader.class);
     private static final String CORPUS_URL =
-            "https://public-test-data.spice-labs.dev/annatto/annatto-test-corpus.tar.gz";
+            "https://test-data.goatrodeo.org/annatto/annatto-test-corpus.tar.gz";
 
     // Allow overriding for tests via reflection or package-private setter
     private static Path CORPUS_DIR = Path.of("test-corpus");
