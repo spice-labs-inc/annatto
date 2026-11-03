@@ -29,7 +29,7 @@
   ],
   "downloads": [
     {
-      "url": "https://public-test-data.spice-labs.dev/annatto/annatto-test-corpus.tar.gz",
+      "url": "https://test-data.goatrodeo.org/annatto/annatto-test-corpus.tar.gz",
       "dest": "test-corpus.tar.gz",
       "tier": 1,
       "extract": {

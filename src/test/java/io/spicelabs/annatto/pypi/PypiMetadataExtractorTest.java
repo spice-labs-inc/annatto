@@ -45,7 +45,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * that parse the actual METADATA/PKG-INFO from each archive.</p>
  *
  * <p>Package files (.whl/.tar.gz) are in {@code test-corpus/pypi/} (downloaded from
- * public-test-data.spice-labs.dev, gitignored). Source-of-truth expected JSON
+ * https://test-data.goatrodeo.org/, gitignored). Source-of-truth expected JSON
  * files are in {@code src/test/resources/pypi/} (git-tracked).</p>
  *
  * <p>Covers {@link PypiQuirks} Q1 (name normalization), Q2 (sdist vs wheel),

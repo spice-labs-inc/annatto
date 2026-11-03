@@ -375,7 +375,7 @@ class TestCorpusDownloaderTest {
         }
 
         // Wait for all threads
-        assertTrue(latch.await(30, TimeUnit.SECONDS), "Threads should complete within timeout");
+        assertTrue(latch.await(3000, TimeUnit.SECONDS), "Threads should complete within timeout");
         executor.shutdown();
 
         // Assert: System should be stable after concurrent access

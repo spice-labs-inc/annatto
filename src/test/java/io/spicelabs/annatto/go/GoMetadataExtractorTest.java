@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * that parse the actual go.mod from each archive.</p>
  *
  * <p>Package files (.zip) are in {@code test-corpus/go/} (downloaded from
- * public-test-data.spice-labs.dev, gitignored). Source-of-truth expected JSON
+ * https://test-data.goatrodeo.org/, gitignored). Source-of-truth expected JSON
  * files are in {@code src/test/resources/go/} (git-tracked).</p>
  *
  * <p>Covers {@link GoQuirks} Q1 (URL-like module paths), Q2 (+incompatible),

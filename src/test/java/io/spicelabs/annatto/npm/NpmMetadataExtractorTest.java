@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * that parse the actual package.json from each .tgz archive.</p>
  *
  * <p>Package files (.tgz) are in {@code test-corpus/npm/} (downloaded from
- * public-test-data.spice-labs.dev, gitignored). Source-of-truth expected JSON
+ * https://test-data.goatrodeo.org/, gitignored). Source-of-truth expected JSON
  * files are in {@code src/test/resources/npm/} (git-tracked).</p>
  *
  * <p>Covers {@link NpmQuirks} Q1 (scoped packages), Q2 (author formats),

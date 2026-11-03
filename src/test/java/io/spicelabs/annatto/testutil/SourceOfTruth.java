@@ -30,7 +30,7 @@ import java.util.Optional;
  *
  * <p>Expected JSON files live in {@code src/test/resources/<ecosystem>/} (git-tracked).
  * Package files live in {@code test-corpus/<ecosystem>/} (downloaded from
- * {@code public-test-data.spice-labs.dev}).</p>
+ * {@code https://test-data.goatrodeo.org/}).</p>
  *
  * <p>Expected file naming convention: {@code <package-basename>-expected.json}</p>
  */
